@@ -1,0 +1,297 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro ingredient API
+  version: 1.0.0
+  description: The API for the Menu-Maestro ingredients
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /ingredients:
+    get:
+      operationId: searchIngredients
+      tags:
+        - Ingredients
+      summary: 'Get all ingredients, or all matching the given filters. Supports pagination and search.'
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sortParam'
+        - name: 'name'
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: false
+          required: false
+        - name: token
+          in: query
+          required: false
+          description: Optional token to be used by anonymous users
+          schema:
+            type: string
+            default: ""
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientListPaginatedDto'
+    post:
+      operationId: suggestIngredient
+      tags:
+        - Ingredients
+      summary: 'Suggest a new ingredient.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIngredientDto'
+      responses:
+        '201':
+          description: Ingredient suggested successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientDto'
+        '422':
+          description: Too many open requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientDto'
+  /ingredients/{ingredientId}:
+    patch:
+      operationId: replaceIngredient
+      tags:
+        - Ingredients
+      summary: 'Replace an existing ingredient.'
+      parameters:
+        - name: ingredientId
+          in: path
+          required: true
+          description: ID of the ingredient to replace
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredientId:
+                  description: ID of the ingredient that replaces
+                  type: integer
+                  format: int64
+              required:
+                - ingredientId
+      responses:
+        '200':
+          description: Ingredient replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientDto'
+    delete:
+      operationId: deleteIngredient
+      tags:
+        - Ingredients
+      summary: 'Delete an existing ingredient.'
+      parameters:
+        - name: ingredientId
+          in: path
+          required: true
+          description: ID of the ingredient to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Ingredient deleted successfully
+
+    post:
+      operationId: approveIngredient
+      tags:
+        - Ingredients
+      summary: 'Approve a suggested ingredient.'
+      parameters:
+        - name: ingredientId
+          in: path
+          required: true
+          description: ID of the suggested ingredient to approve
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Ingredient approved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientDto'
+  /ingredientSuggestions:
+    get:
+      operationId: ingredientSuggestions
+      tags:
+        - Ingredients
+      summary: 'Get all suggested ingredients.'
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sortParam'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientWithCategoryListPaginatedDto'
+
+components:
+  schemas:
+    IngredientUnitDto:
+      description: "The different units by which to measure amounts."
+      type: string
+      enum:
+        - LITRES
+        - MILLILITRES
+        - KILOGRAMS
+        - GRAMS
+        - OUNCES
+        - CUPS
+        - TABLESPOONS
+        - TEASPOONS
+        - PIECE
+
+    IngredientCategory:
+      description: "Enum representing the categories of ingredients"
+      type: string
+      enum:
+        - FRESH_PRODUCE
+        - RED_MEATS_AND_POULTRY
+        - FISH
+        - DAIRY_AND_EGGS
+        - BAKERY
+        - PANTRY_STAPLES
+        - FROZEN_FOODS
+        - BEVERAGES
+        - SNACKS
+        - OTHER
+
+    IngredientUseCreateEditDto:
+      description: "Defines an ingredient by id and amount and unit."
+      type: object
+      properties:
+        id:
+          description: "Unique id of the ingredient used in the meal/recipe."
+          type: integer
+          format: int64
+        unit:
+          $ref: '#/components/schemas/IngredientUnitDto'
+        amount:
+          description: "Amount of the ingredient used in regard to the unit."
+          type: number
+          format: float
+      required:
+        - id
+        - unit
+        - amount
+
+    IngredientUseDto:
+      description: "Defines an ingredient by id and amount, unit and name."
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/IngredientUseCreateEditDto'
+        - type: object
+          properties:
+            name:
+              description: "Name of the used ingredient."
+              type: string
+          required:
+            - name
+
+    IngredientDto:
+      description: "DTO containing all ingredient information."
+      type: object
+      properties:
+        id:
+          description: "Unique id of the ingredient."
+          type: integer
+          format: int64
+        name:
+          description: "Name of the ingredient."
+          type: string
+        defaultUnit:
+          $ref: '#/components/schemas/IngredientUnitDto'
+      required:
+        - id
+        - name
+        - defaultUnit
+
+    IngredientListPaginatedDto:
+      description: "Paginated list containing ingredient dtos."
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/IngredientDto'
+              default: [ ]
+    CreateIngredientDto:
+      type: object
+      properties:
+        name:
+          type: string
+        defaultUnit:
+          $ref: '#/components/schemas/IngredientUnitDto'
+        category:
+          $ref: '#/components/schemas/IngredientCategory'
+      required:
+        - name
+        - defaultUnit
+        - category
+
+    IngredientDtoWithCategory:
+      description: "DTO containing all ingredient information, also the IngredientCategory."
+      type: object
+      properties:
+        id:
+          description: "Unique id of the ingredient."
+          type: integer
+          format: int64
+        name:
+          description: "Name of the ingredient."
+          type: string
+        username:
+          description: "Name of the user who created the ingredient."
+          type: string
+        defaultUnit:
+          $ref: '#/components/schemas/IngredientUnitDto'
+        category:
+          $ref: '#/components/schemas/IngredientCategory'
+      required:
+        - id
+        - name
+        - username
+        - defaultUnit
+        - category
+
+    IngredientWithCategoryListPaginatedDto:
+      description: "Paginated list containing ingredient dtos+ category."
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/IngredientDtoWithCategory'
+              default: [ ]

@@ -1,0 +1,82 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Generated sources
+src/generated
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# from other file
+tests/cases/rwc/*
+tests/cases/perf/*tests/baselines/local/*
+tests/baselines/local.old/*
+tests/services/baselines/local/*
+tests/baselines/prototyping/local/*
+tests/baselines/rwc/*
+tests/baselines/reference/projectOutput/*
+tests/baselines/local/projectOutput/*
+tests/baselines/reference/testresults.tap
+tests/baselines/symlinks/*
+tests/services/baselines/prototyping/local/*
+tests/services/browser/typescriptServices.js
+src/harness/*.js
+src/compiler/diagnosticInformationMap.generated.ts
+src/compiler/diagnosticMessages.generated.json
+src/parser/diagnosticInformationMap.generated.ts
+src/parser/diagnosticMessages.generated.json
+rwc-report.html
+*.swp
+*.actual
+tests/webTestServer.js
+tests/webTestServer.js.map
+tests/webhost/*.d.ts
+tests/webhost/webtsc.js
+tests/cases/**/*.js
+tests/cases/**/*.js.map
+*.config
+scripts/eslint/built/
+scripts/debug.bat
+scripts/run.bat
+scripts/**/*.js
+scripts/**/*.js.map
+coverage/
+internal/
+TEST-results.xml

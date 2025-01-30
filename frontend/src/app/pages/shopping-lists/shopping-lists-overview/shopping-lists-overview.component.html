@@ -1,0 +1,96 @@
+<page-layout>
+  <h1 class="mb-8 text-3xl">Shopping Lists</h1>
+
+  <!-- Search | Filters -->
+  <div class="items-end mt-4 mb-4">
+    <!-- Search & Filters -->
+    <form class="flex flex-col lg:flex-row space-y-4 lg:space-x-2 items-left lg:items-end">
+      <!-- Shopping List Name Search -->
+      <div class="lg:flex-grow">
+        <search-input
+          [options]="shoppingListSearchSuggestions"
+          (selectedOption)="onShoppingListSearch($event)"
+          [handleSearch]="onShoppingListSearch.bind(this)"
+          [searchTerm]="shoppingListSearchTerm"
+          [label]="'Shopping List'"
+          placeholder="e.g. Sommer Camp: Day 1"
+        ></search-input>
+      </div>
+
+      <!-- Menu Name Search -->
+      <div class="lg:flex-grow">
+        <search-input
+          [options]="menuSearchSuggestions"
+          (selectedOption)="onMenuSelected($event)"
+          [handleSearch]="onMenuSearch.bind(this)"
+          [searchTerm]="menuSearchTerm"
+          [label]="'Menu'"
+          placeholder="e.g. Sommer Camp"
+        ></search-input>
+      </div>
+
+      <div class="flex flex-row items-end justify-between lg:justify-end space-x-2">
+        <!-- Shopping List Status -->
+        <input-field
+          [label]="'Status'"
+          [type]="InputType.select"
+          [options]="shoppingListStatusOptions"
+          [ariaLabel]="'Shopping List status selection'"
+          [(value)]="selectedShoppingListStatus"
+          [id]="'shopping list status'"
+          [name]="'shopping list status'"
+          (valueChange)="onShoppingListStatusChange()"
+        >
+        </input-field>
+        <simple-button (click)="createShoppingList()" [variant]="ButtonVariant.primary">
+          <span class="icon-[material-symbols--add] mr-1 -ml-1"></span> Shopping List
+        </simple-button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="this.shoppingLists.length != 0">
+    <!-- Shopping List Cards -->
+    <div class="border-t border-b border-gray-200 p-2 lg:p-4">
+      <div class="mb-4"></div>
+      <div
+        *ngFor="let shoppingList of shoppingLists"
+        class="mb-4 rounded-md hover:shadow-[rgba(0,0,0,0.1)_0px_0px_7px_7px] hover:ease-in-out duration-200 hover:cursor-pointer"
+        [routerLink]="['/shopping-lists', shoppingList.id]"
+      >
+        <simple-card [title]="shoppingList.name" class="rounded-md text-sm">
+          <div class="flex items-center space-x-2 text-sm text-neutral-500">
+            <span
+              class="icon-[material-symbols--shopping-cart-outline] bg-neutral-500 w-5 h-5 flex items-center justify-center rounded-full"
+            ></span>
+            <span
+              >{{ shoppingList.ingredients.length }}
+              {{ shoppingList.ingredients.length === 1 ? 'item' : 'items' }}</span
+            >
+            <span
+              class="text-sm px-3 py-1 rounded-full font-medium inline-block"
+              [ngClass]="{
+                'bg-gray-200': shoppingList.status === ShoppingListStatus.Closed,
+                border: shoppingList.status === ShoppingListStatus.Open
+              }"
+            >
+              {{ formatStatus(shoppingList.status) }}
+            </span>
+          </div>
+        </simple-card>
+      </div>
+    </div>
+  </div>
+  <pagination-controls
+    [data]="shoppingListsPaginated"
+    [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)"
+  ></pagination-controls>
+  <div
+    *ngIf="this.shoppingLists.length == 0 && !isLoading"
+    class="text-center text-xl text-gray-600 col-span-full my-8"
+  >
+    <p>No shopping lists found.</p>
+  </div>
+  <loading-spinner [isLoading]="isLoading"></loading-spinner>
+</page-layout>

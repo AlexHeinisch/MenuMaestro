@@ -1,0 +1,177 @@
+<page-layout styleNames="bg-white" *ngIf="!isAddItemView">
+  <div *ngIf="!loadingShoppingList && shoppingListDto; else shoppingListNotFound">
+    <div class="flex justify-between">
+      <h1 class="text-3xl">{{ shoppingListDto.name }}</h1>
+
+      <div>
+        <simple-button
+          (click)="openCreateShareTokenModalModal()"
+          [hidden]="
+            !hasAtLeastShopperPermission() || shareToken || shoppingListDto.status === ShoppingListStatus.Closed
+          "
+          [variant]="ButtonVariant.borderOnly"
+        >
+          <span class="icon-[material-symbols--qr-code] mr-2"></span>
+          Access
+        </simple-button>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center my-6">
+      <span
+        class="text-sm px-3 py-1 rounded-full font-medium inline-block"
+        [ngClass]="{
+          'bg-gray-200': shoppingListDto.status === ShoppingListStatus.Closed,
+          border: shoppingListDto.status === ShoppingListStatus.Open
+        }"
+      >
+        {{ formatStringInput(shoppingListDto.status) }}
+      </span>
+      <simple-button [variant]="ButtonVariant.borderOnly" [className]="'border-0'" (click)="openLegendModal()">
+        <span class="icon-[material-symbols--info-outline]"></span>
+      </simple-button>
+    </div>
+
+    <div class="mb-4" *ngFor="let category of getCategories(groupedIngredientsOfShoppingList)">
+      <h2 class="text-xl mb-2 underline">{{ formatStringInput(category) }}</h2>
+
+      <form #form="ngForm">
+        <div *ngFor="let shoppingListIngredient of groupedIngredientsOfShoppingList[category]">
+          <input-field
+            [label]="
+              shoppingListIngredient.ingredient.name +
+              ' (' +
+              prepareAmountForDisplay(
+                shoppingListIngredient.ingredient.amount,
+                shoppingListIngredient.ingredient.unit
+              ) +
+              ')'
+            "
+            [type]="InputType.checkbox"
+            [ariaLabel]="shoppingListIngredient.ingredient.name"
+            [(value)]="shoppingListIngredient.isChecked"
+            [id]="'ingredient-' + shoppingListIngredient.ingredient.name"
+            [name]="'ingredient-' + shoppingListIngredient.ingredient.name"
+            [marginBottom]="'mb-2'"
+            [disabled]="!hasAtLeastShopperPermission() || shoppingListDto.status === ShoppingListStatus.Closed"
+            [className]="
+              (this.shareToken && shoppingListIngredient.checkedBy === anonymousUserName) ||
+              getLoggedInUserName() === shoppingListIngredient.checkedBy
+                ? 'accent-primary-light'
+                : 'accent-secondary-light'
+            "
+            [labelStyling]="
+              (this.shareToken && shoppingListIngredient.checkedBy === anonymousUserName) ||
+              getLoggedInUserName() === shoppingListIngredient.checkedBy
+                ? 'text-primary-light line-through'
+                : 'text-secondary-light line-through'
+            "
+            [form]="form"
+            (valueChange)="onValueChangeOfCheckbox(shoppingListIngredient)"
+          ></input-field>
+        </div>
+      </form>
+    </div>
+    <simple-button
+      [type]="ButtonVariant.primary"
+      (click)="setIsAddItemView(true)"
+      [hidden]="!hasAtLeastShopperPermission() || shoppingListDto.status === ShoppingListStatus.Closed"
+    >
+      <span class="icon-[material-symbols--add] mr-1 -ml-1"></span> Item
+    </simple-button>
+
+    <div class="flex justify-end">
+      <simple-button
+        (click)="openCloseShoppingListModal()"
+        [variant]="ButtonVariant.danger2"
+        [hidden]="!hasAtLeastShopperPermission() || shareToken || shoppingListDto.status === ShoppingListStatus.Closed"
+      >
+        Close List
+      </simple-button>
+    </div>
+  </div>
+
+  <!-- Fallback message if shopping list is not found -->
+  <ng-template #shoppingListNotFound>
+    <div class="text-center py-16" *ngIf="!loadingShoppingList">
+      <h2 class="text-2xl font-semibold">Oops, this shopping list doesn't exist.</h2>
+    </div>
+  </ng-template>
+
+  <loading-spinner [isLoading]="loadingShoppingList"></loading-spinner>
+
+  <simple-modal
+    [title]="'Shopping List Items Legend'"
+    [show]="isLegendModalOpen"
+    [submitBtnTitle]="'Back'"
+    (setShow)="isLegendModalOpen = $event"
+  >
+    <form #formLegend="ngForm">
+      <input-field
+        [label]="itemYourCartLegendChecked ? 'Item in your cart' : 'Item not in cart yet'"
+        [type]="InputType.checkbox"
+        [(value)]="itemYourCartLegendChecked"
+        [id]="'ingredient-legend-your-cart'"
+        [name]="'ingredient-legend-your-cart'"
+        [marginBottom]="'mb-2'"
+        [className]="'accent-primary-light'"
+        [labelStyling]="'text-primary-light line-through'"
+        [form]="formLegend"
+      ></input-field>
+      <input-field
+        [label]="itemNotYourCartLegendChecked ? 'Item in someone else\'s cart' : 'Item not in cart yet'"
+        [type]="InputType.checkbox"
+        [(value)]="itemNotYourCartLegendChecked"
+        [id]="'ingredient-legend-not-your-cart'"
+        [name]="'ingredient-legend-not-your-cart'"
+        [marginBottom]="'mb-2'"
+        [className]="'accent-secondary-light'"
+        [labelStyling]="'text-secondary-light line-through'"
+        [form]="formLegend"
+      ></input-field>
+    </form>
+  </simple-modal>
+  <simple-modal
+    [title]="'Are you sure you want to close this shopping list?'"
+    [show]="isCloseShoppingListModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isCloseShoppingListModalOpen = $event"
+    (onSubmit)="closethisShoppingList()"
+  >
+    <p>{{ closeShoppingModalText }}</p>
+  </simple-modal>
+  <simple-modal
+    [title]="'Your Shopping List QR Code'"
+    [show]="isCreateShareTokenModalOpen"
+    [submitBtnTitle]="'Back'"
+    (setShow)="isCreateShareTokenModalOpen = $event"
+  >
+    <div class="flex justify-center">
+      <loading-spinner [isLoading]="loadingShareToken"></loading-spinner>
+      <a *ngIf="!loadingShareToken && this.token" [href]="getShareTokenWithLink()">
+        <qrcode
+          [elementType]="'url'"
+          [qrdata]="getShareTokenWithLink()"
+          [width]="256"
+          [errorCorrectionLevel]="'M'"
+        ></qrcode>
+      </a>
+    </div>
+    <div *ngIf="!loadingShareToken && this.token" class="flex justify-center">
+      <span
+        >Let a fellow shopper scan this QR code to given them access to the shopping list even without an account!</span
+      >
+    </div>
+    <div *ngIf="!loadingShareToken && !this.token" class="flex justify-center">
+      <span>Could not generate QR code! Please try again!</span>
+    </div>
+  </simple-modal>
+</page-layout>
+
+<app-shopping-list-add-item
+  *ngIf="isAddItemView"
+  [shareToken]="shareToken"
+  [shoppingListId]="shoppingListId"
+  (closeView)="handleCloseView($event)"
+></app-shopping-list-add-item>

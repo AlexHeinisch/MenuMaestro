@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: menumaestro-environment
+  namespace: 24ws-ase-pr-qse-05
+spec:
+  selector:
+    matchLabels:
+      app: menumaestro-environment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: menumaestro-environment
+    spec:
+      containers:
+        - name: 24ws-ase-pr-qse-05-frontend-container-environment
+          image: registry.reset.inso-w.at/2024ws-ase-pr-group/24ws-ase-pr-qse-05/frontend:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+              ephemeral-storage: "100Mi"
+            limits:
+              memory: "1224Mi"
+              cpu: "200m"
+              ephemeral-storage: "100Mi"
+          ports:
+            - containerPort: 4200
+        - name: 24ws-ase-pr-qse-05-backend-container-environment
+          image: registry.reset.inso-w.at/2024ws-ase-pr-group/24ws-ase-pr-qse-05/backend:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+              ephemeral-storage: "100Mi"
+            limits:
+              memory: "1224Mi"
+              cpu: "200m"
+              ephemeral-storage: "100Mi"
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: secret-dockercfg

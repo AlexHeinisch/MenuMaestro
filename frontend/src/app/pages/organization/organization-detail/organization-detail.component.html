@@ -1,0 +1,88 @@
+<page-layout>
+  <div class="flex flex-col h-screen">
+    <div class="flex flex-row items-center justify-between mb-8" *ngIf="organization && !isLoading">
+      <h1 class="text-3xl">{{ organization.name }}</h1>
+      <div class="space-x-2">
+        <a class="inline-block" [routerLink]="'/stashes/' + organization.stashId">
+          <simple-button [variant]="ButtonVariant.primary"> View Stash </simple-button>
+        </a>
+        <simple-button *ngIf="isAdminOrOwner()" (click)="openEditModal()" [variant]="ButtonVariant.borderOnly">
+          <span>Edit</span>
+        </simple-button>
+      </div>
+    </div>
+    <!-- Loading State -->
+    <div *ngIf="!organization && !isLoading" class="text-center text-xl text-gray-600 col-span-full my-8">
+      <p class="text-red-600">Failed to load organization details.</p>
+    </div>
+    <loading-spinner [isLoading]="isLoading"></loading-spinner>
+
+    <p>{{ organization?.description }}</p>
+    <div class="mt-16">
+      <app-organization-members [organization]="organization"></app-organization-members>
+    </div>
+    <div class="flex justify-end items-end mt-5">
+      <simple-button
+        *ngIf="organization && !isLoading && isAdminOrOwner()"
+        (click)="openDeleteModal()"
+        [variant]="ButtonVariant.danger2"
+        [hidden]="!isOrganizationOwner()"
+      >
+        <span>Delete Organization</span>
+      </simple-button>
+    </div>
+  </div>
+
+  <simple-modal
+    [title]="'Edit Organization'"
+    [show]="isEditModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isEditModalOpen = $event"
+    (onCancel)="handleEditModalCancel()"
+    (onSubmit)="handleEditModalSubmit()"
+  >
+    <form #form="ngForm">
+      <div class="flex flex-col space-y-8">
+        <input-field
+          [label]="'Organization Display Name'"
+          [type]="inputType.text"
+          [ariaLabel]="'Organization Name'"
+          [placeholder]="'Enter Organization Name'"
+          [(value)]="orgEditDto.name"
+          [id]="'orgEditName'"
+          [name]="'orgEditName'"
+          [form]="form"
+          [className]="'w-full'"
+        ></input-field>
+        <input-field
+          [label]="'Description'"
+          [type]="inputType.text"
+          [(value)]="orgEditDto.description"
+          [placeholder]="'Enter Description'"
+          [id]="'orgEditDescription'"
+          [name]="'orgEditDescription'"
+          [form]="form"
+          [className]="'w-full'"
+        ></input-field>
+      </div>
+    </form>
+  </simple-modal>
+
+  <!-- Delete Confirmation Modal -->
+  <simple-modal
+    [title]="organizationDeleteModalTitle"
+    [show]="isDeleteOrganizationModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Delete'"
+    (setShow)="isDeleteOrganizationModalOpen = $event"
+    (onSubmit)="handleDeleteOrganizationModalSubmit()"
+  >
+    <p>This organization will be deleted immediately. You can't undo this action.</p>
+    <br />
+    <p>
+      All members will be kicked from the organization and all menus linked to this organization will be deleted as
+      well.
+    </p>
+  </simple-modal>
+</page-layout>

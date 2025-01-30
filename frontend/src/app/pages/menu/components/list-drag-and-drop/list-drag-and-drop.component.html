@@ -1,0 +1,75 @@
+<div cdkDropListGroup class="p-8 text-neutral-700">
+  <div class="flex items-center gap-2 mb-6">
+    <input
+      type="text"
+      [(ngModel)]="newListName"
+      placeholder="New list name"
+      class="border border-gray-300 rounded px-2 py-1 text-sm"
+    />
+    <simple-button (click)="addNewList()" [variant]="ButtonVariant.primary">
+      <span class="icon-[material-symbols--add] mr-1"></span> Add List
+    </simple-button>
+  </div>
+
+  <!-- Iterate over each list to create drag-and-drop functionality for each one -->
+  <div
+    *ngFor="let list of lists; let i = index"
+    cdkDropList
+    [cdkDropListData]="list.items"
+    (cdkDropListDropped)="drop($event, i)"
+  >
+    <div class="flex items-center gap-4 mb-2">
+      <simple-button (click)="toggleCollapse(list)" [variant]="ButtonVariant.borderOnly" [className]="'border-0'">
+        <span class="icon-[lets-icons--expand-right]" *ngIf="list.collapsed"></span>
+        <span class="icon-[lets-icons--expand-down]" *ngIf="!list.collapsed"></span>
+      </simple-button>
+      <h2 class="text-xl text-primary font-semibold">{{ list.name }}</h2>
+      <simple-button
+        (click)="moveAllItemsToNextList(i)"
+        [variant]="ButtonVariant.borderOnly"
+        [className]="'border-0'"
+        *ngIf="i < lists.length - 1"
+      >
+        <span class="icon-[material-symbols--move-group]"></span>
+      </simple-button>
+    </div>
+
+    <div *ngIf="!list.collapsed" class="mb-6 bg-white overflow-hidden">
+      <div
+        *ngFor="let item of list.items"
+        cdkDrag
+        class="flex justify-between items-center px-4 py-2 border border-gray-300 rounded min-h-[50px] bg-white cursor-move text-sm shadow"
+      >
+        <span>{{ item.name }}</span>
+        <div class="flex space-x-2">
+          <!-- Edit Button -->
+          <simple-button (click)="onEdit(item, list)" [variant]="ButtonVariant.borderOnly">
+            <span class="icon-[material-symbols--edit]"></span>
+          </simple-button>
+          <!-- Details Button -->
+          <simple-button (click)="onDetails(item, list)" [variant]="ButtonVariant.borderOnly">
+            <span class="icon-[material-symbols--info]"></span>
+          </simple-button>
+          <!-- Delete Button -->
+          <simple-button (click)="onDelete(item, list)" [variant]="ButtonVariant.borderOnly">
+            <span class="icon-[material-symbols--delete]"></span>
+          </simple-button>
+        </div>
+      </div>
+      <div *ngIf="list.name === 'Shop For' && !isEmpty(list)" class="flex items-center gap-2 mt-4">
+        <input
+          type="text"
+          [(ngModel)]="newShoppingListItem"
+          placeholder="Shopping List Name"
+          class="border border-gray-300 rounded px-2 py-1 text-sm"
+        />
+        <simple-button (click)="generateShoppingList(list)" [variant]="ButtonVariant.secondary">
+          Create List
+        </simple-button>
+      </div>
+      <div *ngIf="isEmpty(list)" class="text-sm text-neutral-700">
+        List is empty. You can drag & drop elements here.
+      </div>
+    </div>
+  </div>
+</div>
