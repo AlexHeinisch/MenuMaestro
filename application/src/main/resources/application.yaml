@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Template Project
+  docker:
+    compose:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none # since we have flyway
+    show-sql: true
+
+  datasource:
+    database-name: postgres
+    url: jdbc:postgresql://localhost:5432/${spring.datasource.database-name}
+    username: myuser
+    password: secret
+
+  flyway:
+    locations: classpath:db/migrations
