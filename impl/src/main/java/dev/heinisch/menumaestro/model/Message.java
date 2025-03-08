@@ -1,4 +1,4 @@
-package dev.heinisch.template.model;
+package dev.heinisch.menumaestro.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

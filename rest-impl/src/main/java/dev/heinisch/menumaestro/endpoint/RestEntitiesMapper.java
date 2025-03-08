@@ -1,6 +1,6 @@
-package dev.heinisch.template.endpoint;
+package dev.heinisch.menumaestro.endpoint;
 
-import dev.heinisch.template.api.dto.MessageDto;
+import dev.heinisch.menumaestro.api.dto.MessageDto;
 import org.mapstruct.Mapper;
 import org.openapitools.model.MessageResponse;
 import org.openapitools.model.PaginatedMessageResponse;

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for Menu Maestro" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+        </processorPath>
+        <module name="menumaestro-rest-impl" />
+        <module name="menumaestro-integration-tests" />
+        <module name="menumaestro-configuration" />
+        <module name="menumaestro-rest-api" />
+        <module name="menumaestro-impl" />
+        <module name="menumaestro-api" />
+        <module name="menumaestro-application" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="menumaestro-api" options="-parameters" />
+      <module name="menumaestro-application" options="-parameters" />
+      <module name="menumaestro-configuration" options="-parameters" />
+      <module name="menumaestro-impl" options="-parameters" />
+      <module name="menumaestro-integration-tests" options="-parameters" />
+      <module name="menumaestro-parents" options="-parameters" />
+      <module name="menumaestro-parents-api" options="-parameters" />
+      <module name="menumaestro-parents-impl" options="-parameters" />
+      <module name="menumaestro-parents-rest-api" options="-parameters" />
+      <module name="menumaestro-parents-rest-impl" options="-parameters" />
+      <module name="menumaestro-rest-api" options="-parameters" />
+      <module name="menumaestro-rest-impl" options="-parameters" />
+    </option>
+  </component>
+</project>

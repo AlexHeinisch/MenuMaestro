@@ -1,6 +1,6 @@
-package dev.heinisch.template.endpoint;
+package dev.heinisch.menumaestro.endpoint;
 
-import dev.heinisch.template.api.service.MessageService;
+import dev.heinisch.menumaestro.api.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.api.MessagesApi;

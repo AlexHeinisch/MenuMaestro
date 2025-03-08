@@ -1,4 +1,4 @@
-package dev.heinisch.template;
+package dev.heinisch.menumaestro;
 
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.MessageCreateRequest;

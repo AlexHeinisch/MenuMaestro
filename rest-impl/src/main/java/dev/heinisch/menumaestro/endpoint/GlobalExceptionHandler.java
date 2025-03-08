@@ -1,4 +1,4 @@
-package dev.heinisch.template.endpoint;
+package dev.heinisch.menumaestro.endpoint;
 
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpHeaders;

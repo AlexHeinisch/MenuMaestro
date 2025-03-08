@@ -1,10 +1,10 @@
-package dev.heinisch.template.service;
+package dev.heinisch.menumaestro.service;
 
-import dev.heinisch.template.MessageMapper;
-import dev.heinisch.template.model.Message;
-import dev.heinisch.template.repository.MessageRepository;
-import dev.heinisch.template.api.dto.MessageDto;
-import dev.heinisch.template.api.service.MessageService;
+import dev.heinisch.menumaestro.MessageMapper;
+import dev.heinisch.menumaestro.model.Message;
+import dev.heinisch.menumaestro.repository.MessageRepository;
+import dev.heinisch.menumaestro.api.dto.MessageDto;
+import dev.heinisch.menumaestro.api.service.MessageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

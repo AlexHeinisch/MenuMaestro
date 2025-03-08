@@ -1,4 +1,4 @@
-package dev.heinisch.template.api.dto;
+package dev.heinisch.menumaestro.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

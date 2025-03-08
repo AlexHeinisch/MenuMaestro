@@ -1,6 +1,6 @@
-package dev.heinisch.template.api.service;
+package dev.heinisch.menumaestro.api.service;
 
-import dev.heinisch.template.api.dto.MessageDto;
+import dev.heinisch.menumaestro.api.dto.MessageDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,4 +1,4 @@
-package dev.heinisch.template;
+package dev.heinisch.menumaestro;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

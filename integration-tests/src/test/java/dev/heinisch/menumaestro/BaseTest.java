@@ -1,4 +1,4 @@
-package dev.heinisch.template;
+package dev.heinisch.menumaestro;
 
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
