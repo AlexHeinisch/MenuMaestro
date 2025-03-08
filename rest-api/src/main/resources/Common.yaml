@@ -22,24 +22,42 @@ components:
         minimum: 0
         default: 0
     sizeParam:
-        name: size
-        in: query
-        description: Size of the requested page
-        required: false
-        schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-            default: 20
+      name: size
+      in: query
+      description: Size of the requested page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
     sortParam:
-        name: sort
-        in: query
-        description: "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
+      name: sort
+      in: query
+      description: "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    usernamePathParam:
+      name: username
+      in: path
+      required: true
+      description: "The username of the account."
+      schema:
+        type: string
+      allowEmptyValue: false
+    idPathParam:
+      name: id
+      in: path
+      required: true
+      description: "The ID of the resource"
+      schema:
+        type: integer
+        format: int64
+      allowEmptyValue: false
+
   schemas:
     PaginationResponse:
       type: object

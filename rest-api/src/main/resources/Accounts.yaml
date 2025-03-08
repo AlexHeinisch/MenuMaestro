@@ -26,7 +26,6 @@ paths:
           description: "The search query to filter accounts by username, firstname or lastname."
           schema:
             type: string
-            default: ""
         - name: excluding-organization
           in: query
           required: false
@@ -107,7 +106,7 @@ paths:
       summary: "Get an account by username"
       description: "Returns the account with the given username."
       parameters:
-        - $ref: '#/components/parameters/usernameParam'
+        - $ref: 'Common.yaml#/components/parameters/usernamePathParam'
       responses:
         200:
           description: "Success - returns the account."
@@ -140,7 +139,7 @@ paths:
       summary: "Edit an account"
       description: "Edits the account with the given information."
       parameters:
-        - $ref: '#/components/parameters/usernameParam'
+        - $ref: 'Common.yaml#/components/parameters/usernamePathParam'
       requestBody:
         content:
           application/json:
@@ -184,7 +183,7 @@ paths:
       summary: "Delete an account"
       description: "Deletes the account with the given username. This action is irreversible."
       parameters:
-        - $ref: '#/components/parameters/usernameParam'
+        - $ref: 'Common.yaml#/components/parameters/usernamePathParam'
       responses:
         204:
           description: "No content - Account was successfully deleted."
@@ -215,7 +214,7 @@ paths:
       summary: "Initiate password reset"
       description: "Initiates the password reset process for the account with the given username. An email will be sent to the account's email address with a reset token."
       parameters:
-        - $ref: '#/components/parameters/usernameParam'
+        - $ref: 'Common.yaml#/components/parameters/usernamePathParam'
       responses:
         204:
           description: "No Content - Password reset process was initiated successfully."
@@ -240,7 +239,7 @@ paths:
       summary: "Commit password reset"
       description: "Commits the password reset process for the account with the given username and token. The new password will be set."
       parameters:
-        - $ref: '#/components/parameters/usernameParam'
+        - $ref: 'Common.yaml#/components/parameters/usernamePathParam'
         - name: token
           description: "Password reset token sent via email by the application."
           in: path
@@ -381,13 +380,3 @@ components:
           description: "New password to be set."
       required:
         - password
-
-  parameters:
-    usernameParam:
-      name: username
-      in: path
-      required: true
-      description: "The username of the account."
-      schema:
-        type: string
-      allowEmptyValue: false
