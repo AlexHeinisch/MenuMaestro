@@ -1,9 +1,0 @@
-spring:
-  jpa:
-    database: h2
-  datasource:
-    url: jdbc:h2:mem:testDb
-    driverClassName: org.h2.Driver
-  h2:
-    console:
-      enabled: true
