@@ -19,11 +19,64 @@
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>messages</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Messages.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>${project.basedir}/target/generated-sources</output>
+                            <typeMappings>
+                                <typeMapping>object+pageable=Pageable</typeMapping>
+                                <typeMapping>object+sort=Sort</typeMapping>
+                            </typeMappings>
+                            <schemaMappings>
+                                <schemaMapping>Pageable=org.springframework.data.domain.Pageable</schemaMapping>
+                                <schemaMapping>Sort=org.springframework.data.domain.Sort</schemaMapping>
+                            </schemaMappings>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useJakartaEe>true</useJakartaEe>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <useTags>true</useTags>
+                                <useBeanValidation>true</useBeanValidation>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>accounts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/Accounts.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>${project.basedir}/target/generated-sources</output>
+                            <typeMappings>
+                                <typeMapping>object+pageable=Pageable</typeMapping>
+                                <typeMapping>object+sort=Sort</typeMapping>
+                            </typeMappings>
+                            <schemaMappings>
+                                <schemaMapping>Pageable=org.springframework.data.domain.Pageable</schemaMapping>
+                                <schemaMapping>Sort=org.springframework.data.domain.Sort</schemaMapping>
+                            </schemaMappings>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useJakartaEe>true</useJakartaEe>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <useTags>true</useTags>
+                                <useBeanValidation>true</useBeanValidation>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>auth</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/Auth.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/target/generated-sources</output>
                             <typeMappings>

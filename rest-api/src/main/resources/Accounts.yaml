@@ -1,0 +1,393 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro account API"
+  version: 1.0.0
+  description: "The REST-API for the Menu-Maestro account resource"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /accounts:
+    get:
+      operationId: getAccounts
+      tags:
+        - accounts
+      x-spring-paginated: true
+      summary: "Get accounts by various search criteria."
+      description: "Returns a list of accounts that match the search criteria."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: name
+          in: query
+          required: false
+          description: "The search query to filter accounts by username, firstname or lastname."
+          schema:
+            type: string
+            default: ""
+        - name: excluding-organization
+          in: query
+          required: false
+          description: "The search query to filter accounts that are not in a given organization. The organization is identified by its id."
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Success - returns a list of accounts."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedAccountSummaryResponse"
+        401:
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    post:
+      operationId: registerAccount
+      tags:
+        - accounts
+      summary: "Register a new account"
+      description: "Creates a new account with the given information."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreateRequest'
+      responses:
+        201:
+          description: "Success - Account was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoResponse'
+        409:
+          description: "Conflict - Email or username already in use."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "Common.yaml#/components/schemas/ErrorResponse"
+
+  /accounts/self:
+    get:
+      operationId: getAccountSelf
+      tags:
+        - accounts
+      summary: "Get own account information"
+      description: "Returns the account information of the currently logged in user."
+      responses:
+        200:
+          description: "Get own account info"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoResponse'
+        401:
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /accounts/{username}:
+    get:
+      operationId: getAccountByUsername
+      tags:
+        - accounts
+      summary: "Get an account by username"
+      description: "Returns the account with the given username."
+      parameters:
+        - $ref: '#/components/parameters/usernameParam'
+      responses:
+        200:
+          description: "Success - returns the account."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoResponse'
+        401:
+          description: "Unauthorized - Not logged in."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - Not enough permissions to view account."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - Account does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    put:
+      operationId: editAccount
+      tags:
+        - accounts
+      summary: "Edit an account"
+      description: "Edits the account with the given information."
+      parameters:
+        - $ref: '#/components/parameters/usernameParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountEditRequest'
+      responses:
+        200:
+          description: "Success - Account was successfully updated."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoResponse'
+        401:
+          description: "Unauthorized - Not logged in."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - Not enough permissions to update account."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - Email or username already in use."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "Common.yaml#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteAccount
+      tags:
+        - accounts
+      summary: "Delete an account"
+      description: "Deletes the account with the given username. This action is irreversible."
+      parameters:
+        - $ref: '#/components/parameters/usernameParam'
+      responses:
+        204:
+          description: "No content - Account was successfully deleted."
+        401:
+          description: "Unauthorized - Not logged in."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - Not enough permissions to delete account."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not found - Account does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /accounts/{username}/reset-password:
+    post:
+      operationId: initiatePasswordReset
+      tags:
+        - accounts
+      summary: "Initiate password reset"
+      description: "Initiates the password reset process for the account with the given username. An email will be sent to the account's email address with a reset token."
+      parameters:
+        - $ref: '#/components/parameters/usernameParam'
+      responses:
+        204:
+          description: "No Content - Password reset process was initiated successfully."
+        401:
+          description: "Unauthorized - Not logged in."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - Not enough permissions to reset that account."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /accounts/{username}/reset-password/{token}:
+    put:
+      operationId: commitPasswordReset
+      tags:
+        - accounts
+      summary: "Commit password reset"
+      description: "Commits the password reset process for the account with the given username and token. The new password will be set."
+      parameters:
+        - $ref: '#/components/parameters/usernameParam'
+        - name: token
+          description: "Password reset token sent via email by the application."
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCommitRequest'
+      responses:
+        204:
+          description: "No Content - Password reset was successful."
+        409:
+          description: "Conflict - Password reset token is invalid or expired."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    AccountSummaryResponse:
+      type: object
+      description: "A summary of an account."
+      properties:
+        username:
+          type: string
+          description: "Username of the account."
+        firstName:
+          type: string
+          description: "First name of the user that owns this account."
+        lastName:
+          type: string
+          description: "Last name of the user that owns this account."
+      required:
+        - username
+        - firstName
+        - lastName
+
+    PaginatedAccountSummaryResponse:
+      type: object
+      description: "A paginated list of account summaries."
+      allOf:
+        - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountSummaryResponse'
+              default: [ ]
+          required:
+            - content
+
+    AccountInfoResponse:
+      type: object
+      description: "Detailed information about an account."
+      properties:
+        username:
+          type: string
+          description: "Username of the account."
+        email:
+          type: string
+          format: email
+          description: "Email of the account."
+        firstName:
+          type: string
+          description: "First name of the user that owns this account."
+        lastName:
+          type: string
+          description: "Last name of the user that owns this account."
+        isGlobalAdmin:
+          type: boolean
+          description: "Whether the account is a global admin."
+      required:
+        - username
+        - email
+        - lastName
+        - firstName
+        - isGlobalAdmin
+
+    AccountCreateRequest:
+      type: object
+      description: "Contains information that is needed to create an account."
+      properties:
+        username:
+          type: string
+          description: "Username of the account to be created."
+        email:
+          type: string
+          format: email
+          description: "Email of the account to be created."
+        firstName:
+          type: string
+          description: "First name of the user that creates this account."
+        lastName:
+          type: string
+          description: "Last name of the user that creates this account."
+        password:
+          type: string
+          description: "Password of the account to be created."
+      required:
+        - username
+        - email
+        - lastName
+        - firstName
+        - password
+
+    AccountEditRequest:
+      type: object
+      description: "Contains information that is needed to edit an account."
+      properties:
+        email:
+          type: string
+          description: "New email for specified account."
+        firstName:
+          type: string
+          description: "New first name for specified account."
+        lastName:
+          type: string
+          description: "New last name for specified account."
+        newPassword:
+          type: string
+          description: "New password for specified account."
+        oldPassword:
+          type: string
+          description: "Current password to confirm password and email changes."
+
+    ResetPasswordCommitRequest:
+      type: object
+      description: "Contains information to commit a password reset."
+      properties:
+        password:
+          type: string
+          description: "New password to be set."
+      required:
+        - password
+
+  parameters:
+    usernameParam:
+      name: username
+      in: path
+      required: true
+      description: "The username of the account."
+      schema:
+        type: string
+      allowEmptyValue: false

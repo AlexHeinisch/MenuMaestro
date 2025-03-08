@@ -72,7 +72,6 @@ components:
         - numberOfElements
         - size
         - empty
-
     Sort:
       type: object
       format: sort
@@ -87,3 +86,18 @@ components:
         - sorted
         - unsorted
         - empty
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+      required:
+        - status
+        - message

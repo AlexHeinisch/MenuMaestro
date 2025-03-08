@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro auth API"
+  version: 1.0.0
+  description: "The REST-API for the Menu-Maestro authentication interface."
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /auth/login:
+    post:
+      operationId: login
+      tags:
+        - auth
+      summary: "Login with username and password"
+      description: "Logs in a user with a username and password. Returns an access token in JWT format."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        201:
+          description: "Created - Successful login"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        403:
+          description: "Forbidden - Invalid login credentials"
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /auth/refresh-roles:
+    post:
+      operationId: refreshTokenRoles
+      tags:
+        - auth
+      summary: "Refresh token roles"
+      description: "Returns a token with same expiry as the current login token but refreshed permissions"
+      parameters: # necessary??
+        - name: authorization
+          in: header
+          required: false # preauth check
+          schema:
+            type: string
+      responses:
+        201:
+          description: "Created - Successful token refresh"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        403:
+          description: "Forbidden - Invalid login token"
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    LoginResponse:
+      type: object
+      description: "Authentication material received on successful login."
+      properties:
+        accessToken:
+          $ref: '#/components/schemas/AccessTokenResponse'
+      required:
+        - accessToken
+
+    AccessTokenResponse:
+      type: object
+      description: "Contains all information on an access token."
+      properties:
+        token:
+          description: "Base64 encoded access token."
+          type: string
+        expiryDate:
+          description: "Expiry datetime of the access token."
+          type: string
+          format: date-time
+      required:
+        - token
+        - expiryDate
+
+    LoginRequest:
+      type: object
+      description: "Contains all information to attempt logging in."
+      properties:
+        username:
+          description: "Username of the account."
+          type: string
+        password:
+          description: "Password of the account."
+          type: string
+      required:
+        - email
+        - password
