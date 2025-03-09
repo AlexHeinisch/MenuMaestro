@@ -524,7 +524,7 @@ components:
         - role
 
     OrganizationRoleEnum:
-      description: Defines the possible roles of an organization member.
+      description: "Defines the possible roles of an organization member."
       type: string
       enum:
         - member

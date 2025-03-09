@@ -1,0 +1,304 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro ingredient API"
+  version: 1.0.0
+  description: "The API for the Menu-Maestro ingredients"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /ingredients:
+    get:
+      operationId: getIngredients
+      tags:
+        - ingredients
+      summary: "Get all ingredients, or all matching the given filters."
+      description: "Get all ingredients, or all matching the given filters. Supports pagination and search."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: name
+          in: query
+          description: "Name of the ingredient to search for. Substring search."
+          schema:
+            type: string
+          allowEmptyValue: false
+          required: false
+        - name: status
+          in: query
+          description: "Status of the ingredient. Can be 'REQUESTED' or 'PUBLIC' or 'ALL'."
+          schema:
+            type: string
+            enum:
+              - REQUESTED
+              - PUBLIC
+              - ALL
+            default: "ALL"
+          allowEmptyValue: false
+          required: false
+      responses:
+        200:
+          description: "Success - Returns a paginated list of ingredients."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIngredientResponse'
+    post:
+      operationId: requestNewIngredient
+      tags:
+        - ingredients
+      summary: "Request a new ingredient to be added."
+      description: "Request a new ingredient to be added. The ingredient will be made public after approval."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngredientCreateRequest'
+      responses:
+        201:
+          description: "Created - Ingredient request received."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to request an ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - Ingredient with the same name already exists or too many unapproved ingredient requests open."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /ingredients/{id}:
+    patch:
+      operationId: replaceRequestedIngredient
+      tags:
+        - ingredients
+      summary: "Replace an existing ingredient with a new one."
+      description: "Replace an existing ingredient with a new one. This happens if a requested ingredients is replaced with an existing one."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceRequestedIngredientRequest'
+      responses:
+        200:
+          description: "Success - Requested ingredient successfully replaced with an existing one."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to replace an ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have permission to replace the ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - Ingredient with the given ID does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - Ingredient is already accepted / published or the target ingredient does not exist or has not been published."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteRequestedIngredient
+      tags:
+        - ingredients
+      summary: "Delete a requested ingredient."
+      description: "Delete a requested ingredient. This is only possible if the ingredient is requested."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        204:
+          description: "No Content - Ingredient deleted successfully."
+        401:
+          description: "Unauthorized - User needs to be logged in to delete an ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have permission to delete the ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - Ingredient with the given ID does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - Ingredient is already accepted / published."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    post:
+      operationId: approveRequestedIngredient
+      tags:
+        - ingredients
+      summary: "Approve a requested ingredient."
+      description: "Approve a requested ingredient. This will make the ingredient public."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        204:
+          description: "No Content - Ingredient approved successfully."
+        401:
+          description: "Unauthorized - User needs to be logged in to delete an ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have permission to delete the ingredient."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - Ingredient with the given ID does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - Ingredient is already accepted / published."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    IngredientUnitEnum:
+      description: "The different units by which to measure amounts."
+      type: string
+      enum:
+        - LITRES
+        - MILLILITRES
+        - KILOGRAMS
+        - GRAMS
+        - OUNCES
+        - CUPS
+        - TABLESPOONS
+        - TEASPOONS
+        - PIECE
+
+    IngredientCategoryEnum:
+      description: "Enum representing the categories of ingredients"
+      type: string
+      enum:
+        - FRESH_PRODUCE
+        - RED_MEATS_AND_POULTRY
+        - FISH
+        - DAIRY_AND_EGGS
+        - BAKERY
+        - PANTRY_STAPLES
+        - FROZEN_FOODS
+        - BEVERAGES
+        - SNACKS
+        - OTHER
+
+    IngredientInUseResponse:
+      type: object
+      description: "Defines an ingredient that is used with a stash, meal or recipe."
+      properties:
+        id:
+          description: "Unique id of the ingredient used in the meal/recipe."
+          type: integer
+          format: int64
+        unit:
+          $ref: '#/components/schemas/IngredientUnitEnum'
+        category:
+          $ref: '#/components/schemas/IngredientCategoryEnum'
+        amount:
+          description: "Amount of the ingredient used in regard to the unit."
+          type: number
+          format: float
+      required:
+        - id
+        - unit
+        - category
+        - amount
+
+    IngredientResponse:
+      description: "DTO containing all ingredient information."
+      type: object
+      properties:
+        id:
+          description: "Unique id of the ingredient."
+          type: integer
+          format: int64
+        name:
+          description: "Name of the ingredient."
+          type: string
+        defaultUnit:
+          $ref: '#/components/schemas/IngredientUnitEnum'
+        category:
+          $ref: '#/components/schemas/IngredientCategoryEnum'
+      required:
+        - id
+        - name
+        - defaultUnit
+
+    PaginatedIngredientResponse:
+      type: object
+      description: "Paginated list of ingredients."
+      allOf:
+        - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/IngredientResponse'
+              default: [ ]
+
+    IngredientCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        defaultUnit:
+          $ref: '#/components/schemas/IngredientUnitEnum'
+        category:
+          $ref: '#/components/schemas/IngredientCategoryEnum'
+      required:
+        - name
+        - defaultUnit
+        - category
+
+    ReplaceRequestedIngredientRequest:
+      type: object
+      description: "Request to replace a requested ingredient with an existing one."
+      properties:
+        ingredientId:
+          description: "ID of the ingredient that replaces a requested one"
+          type: integer
+          format: int64
+      required:
+        - ingredientId

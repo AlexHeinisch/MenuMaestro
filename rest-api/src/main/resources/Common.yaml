@@ -57,6 +57,13 @@ components:
         type: integer
         format: int64
       allowEmptyValue: false
+    shareTokenPathParam:
+      name: token
+      in: path
+      required: false
+      description: "Token of guest users using shared tokens."
+      schema:
+        type: string
 
   schemas:
     PaginationResponse:

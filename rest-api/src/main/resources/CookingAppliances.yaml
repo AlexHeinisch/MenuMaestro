@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro cooking appliances API"
+  version: 1.0.0
+  description: "The API for the Menu-Maestro cooking appliances"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /cooking-appliances:
+    get:
+      operationId: getCookingAppliances
+      tags:
+        - cooking-appliances
+      summary: "Get all cooking appliances, or all matching the given filters. Supports pagination and search."
+      description: "Returns a paginated list of all cooking appliances, or all matching the given filters. Supports pagination and search."
+      x-spring-paginated: true
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: 'name'
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: false
+          required: false
+          description: "Filter by name. Case-insensitive, supports partial matches."
+      responses:
+        200:
+          description: "Success - returns a paginated list of cooking appliances."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCookingApplianceResponse'
+
+components:
+  schemas:
+    CookingApplianceInUseCreateEditResponse:
+      type: object
+      description: "Defines a cooking appliance in use by id and amount. Used for create and edit operations."
+      properties:
+        id:
+          description: "Unique id of the cooking appliance used in a meal/recipe."
+          type: integer
+          format: int64
+        amount:
+          description: "Amount of cooking appliances used."
+          type: integer
+      required:
+        - id
+        - amount
+
+    CookingApplianceInUseResponse:
+      description: "Defines a cooking appliance in use by id, amount and name."
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CookingApplianceInUseCreateEditResponse'
+        - type: object
+          properties:
+            name:
+              type: string
+              description: "Name of the cooking appliance used."
+          required:
+            - name
+
+    CookingApplianceResponse:
+      type: object
+      description: "Defines a cooking appliance by id and name."
+      properties:
+        id:
+          type: integer
+          description: "Unique id of a cooking appliance."
+          format: int64
+        name:
+          type: string
+          description: "Name of the cooking appliance."
+      required:
+        - id
+        - name
+
+    PaginatedCookingApplianceResponse:
+      type: object
+      description: "Defines a paginated list of cooking appliances."
+      allOf:
+        - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/CookingApplianceResponse'
+              default: []
+          required:
+            - content
