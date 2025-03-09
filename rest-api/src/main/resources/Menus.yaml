@@ -1,0 +1,580 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro menu API"
+  version: 1.0.0
+  description: "The API for the Menu-Maestro menus"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /menus:
+    get:
+      operationId: getMenus
+      tags:
+        - menus
+      summary: "Search menus by specified criteria"
+      description: "Returns a paginated list of all menus, or all matching the given filters. Supports pagination and search."
+      x-spring-paginated: true
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: name
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+          description: "Search for menus with a name containing this string. Substring search."
+        - name: organization-id
+          in: query
+          schema:
+            type: integer
+            format: int64
+          allowEmptyValue: true
+          required: false
+          description: "Search for menus of the organization with the specified id."
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/MenuStatusEnum'
+          required: false
+          description: "Search for menus with the specified status."
+      responses:
+        200:
+          description: "Success - Returns a paginated list of all menus, or all matching the given filters. Supports pagination and search."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMenuSummaryResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    post:
+      operationId: createMenu
+      tags:
+        - menus
+      summary: "Create a new menu"
+      description: "Creates a new menu with the given data"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuCreateRequest'
+      responses:
+        201:
+          description: "Created - Returns the created menu"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuSummaryResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - A menu with the same name already exists."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+  /menus/{id}:
+    get:
+      operationId: getMenuById
+      tags:
+        - menus
+      summary: "Get a single menu by its id"
+      description: "Returns the menu with the given id"
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        200:
+          description: "Success - Returns the menu with the given id."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuDetailResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A menu with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    post:
+      operationId: closeMenuById
+      tags:
+        - menus
+      summary: "Close a menu, which makes it unchangeable and transfers its stash to the organization"
+      description: "Closes the menu with the given id. The menu becomes unchangeable and its stash is transferred to the organization."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        204:
+          description: "Success - Menu was closed successfully."
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A menu with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - The menu is already closed."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteMenuById
+      tags:
+        - menus
+      summary: "Delete a menu by its id"
+      description: "Deletes the menu with the given id"
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        204:
+          description: "No Content - The menu was deleted successfully."
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A menu with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /menus/{id}/meals:
+    post:
+      operationId: addMealToMenu
+      tags:
+        - Menus
+      summary: "Add a new meal to a menu"
+      description: "Adds a new meal to the menu with the given id"
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuAddMealRequest'
+      responses:
+        204:
+          description: "No Content - Recipe was successfully added as a meal to the menu."
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to add meal."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - Could not find specified menu or specified recipe."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /menus/{id}/snapshots:
+    post:
+      operationId: addSnapshotToMenu
+      tags:
+        - menus
+      summary: "Add a new snapshot to a menu"
+      description: "Adds a new snapshot to the menu with the given id"
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuAddSnapshotRequest'
+      responses:
+        204:
+          description: "No Content - Snapshot was successfully added to the menu."
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to add snapshot."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - Could not find specified menu."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - A snapshot with the same name already exists in the menu."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /menus/{id}/snapshots/{snapshotId}:
+    delete:
+      operationId: removeSnapshotFromMenu
+      tags:
+        - menus
+      summary: "Removes a snapshot from a menu"
+      description: "Removes the snapshot with the given id from the menu with the given id"
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+        - name: snapshotId
+          description: "Id of the snapshot to be removed"
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        204:
+          description: "No Content - Snapshot was successfully removed from the menu."
+        401:
+          description: "Unauthorized - User needs to be logged in to perform this action."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User has no permission to remove snapshot."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Specified menu or specified snapshot in specified menu not found"
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /menus/{menuId}/existsShoppingListForMenu:
+    get:
+      operationId: existsShoppingListForMenu
+      tags:
+        - Menus
+      summary: "Returns true if a Shopping list for the corresponding Menu exists, false otherwise"
+      parameters:
+        - name: menuId
+          description: Id of the menu
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: Success - Returns true if a Shopping list for the corresponding Menu exists, false otherwise
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+
+  /menus/{id}/items/order:
+    put:
+      operationId: changeMenuItemOrder
+      tags:
+        - Menus
+      summary: "Reorder the menu-items (snapshots and meals) by giving a reordered list of their ids"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        required: true
+        description: "Reordered list with the menu-item ids"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+      responses:
+        204:
+          description: "Success Response"
+
+components:
+  schemas:
+    MenuSummaryResponse:
+      type: object
+      description: "Summary of a menu"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Menu Identifier"
+        name:
+          type: string
+          description: "Name of the menu"
+        organization:
+          $ref: 'Organizations.yaml#/components/schemas/OrganizationResponse'
+        status:
+          $ref: '#/components/schemas/MenuStatusEnum'
+      required:
+        - id
+        - name
+        - organization
+        - status
+
+    PaginatedMenuSummaryResponse:
+      type: object
+      description: "Paginated response for a list of menus"
+      allOf:
+        - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/MenuSummaryResponse'
+              default: [ ]
+          required:
+            - content
+
+    MenuDetailResponse:
+      type: object
+      description: "Detailed information about a menu"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Menu Identifier"
+        name:
+          type: string
+          description: "Name of the menu"
+        status:
+          $ref: '#/components/schemas/MenuStatusEnum'
+        stashId:
+          type: integer
+          format: int64
+          description: "Id of the corresponding stash"
+        description:
+          type: string
+          description: "Description of the menu"
+        numberOfPeople:
+          type: integer
+          description: "Number of people that are having the menu"
+          minimum: 1
+        organization:
+          $ref: 'Organizations.yaml#/components/schemas/OrganizationResponse'
+        meals:
+          type: array
+          description: "Meals included within the menu"
+          items:
+            $ref: '#/components/schemas/MealInMenuResponse'
+        snapshots:
+          type: array
+          description: "Snapshot included within the menu"
+          items:
+            $ref: '#/components/schemas/SnapshotInMenuResponse'
+      required:
+        - id
+        - name
+        - status
+        - description
+        - numberOfPeople
+        - organization
+        - meals
+        - snapshots
+        - stashId
+
+    MealInMenuResponse:
+      type: object
+      description: "Representation of a meal within a menu"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Menu Item Identifier"
+        name:
+          type: string
+          description: "Name of the meal"
+        status:
+          $ref: 'Meals.yaml#/components/schemas/MealStatusEnum'
+        numberOfPeople:
+          type: integer
+          description: "Number of people that are having this meal"
+        position:
+          type: integer
+          description: "Position of the meal within the menu"
+      required:
+        - name
+        - id
+        - status
+        - numberOfPeople
+        - position
+
+    SnapshotInMenuResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Menu Item Identifier"
+        name:
+          type: string
+          description: "Name of the snapshot"
+        numberOfMealsIncluded:
+          type: integer
+          description: "Number of meals included in the snapshot"
+          minimum: 0
+        numberOfTotalIngredients:
+          type: integer
+          description: "Number of total ingredients across all included meals"
+          minimum: 0
+        numberOfAvailableIngredients:
+          type: integer
+          description: "Number of ingredients that are available in the stash"
+          minimum: 0
+        position:
+          type: integer
+          description: "Position of the snapshot within the menu"
+          minimum: 0
+      required:
+        - id
+        - name
+        - numberOfMealsIncluded
+        - numberOfAvailableIngredients
+        - numberOfTotalIngredients
+        - position
+
+    MenuAddSnapshotRequest:
+      type: object
+      description: "Request object for adding a snapshot to a menu"
+      properties:
+        name:
+          type: string
+          description: "Name of the snapshot"
+        position:
+          description: "Position of the snapshot within the menu"
+          type: integer
+      required:
+        - name
+        - position
+
+    MenuAddMealRequest:
+      type: object
+      description: "Request object for adding a meal to a menu"
+      properties:
+        recipeId:
+          type: integer
+          format: int64
+          description: "Id of the recipe to be added as meal"
+      required:
+        - recipeId
+
+    MenuCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 5
+          description: "Name of the menu"
+          example: "Football Summer Camp 2024"
+        description:
+          type: string
+          description: "Description of the menu"
+          example: "Summer camp of FC Max Musterhausen from 7.6.-20.6."
+        organizationId:
+          type: integer
+          format: int64
+          description: "Organization for which the menu is planned"
+        numberOfPeople:
+          type: integer
+          minimum: 1
+          example: 50
+          description: "Number of people that have the menu"
+      required:
+        - name
+        - organizationId
+        - numberOfPeople
+
+    MenuStatusEnum:
+      type: string
+      description: "Status of a menu"
+      enum:
+        - ALL
+        - CLOSED
+        - SERVING
+      default: "SERVING"
