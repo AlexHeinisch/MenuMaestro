@@ -455,6 +455,7 @@ components:
 
     PaginatedOrganizationResponse:
       type: object
+      description: "A paginated list of organizations."
       allOf:
         - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
         - type: object
@@ -469,6 +470,7 @@ components:
 
     PaginatedOrganizationMembersResponse:
       type: object
+      description: "A paginated list of organization members."
       allOf:
         - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
         - type: object
@@ -482,8 +484,8 @@ components:
             - content
 
     OrganizationCreateRequest:
-      description: "The data required to create a new organization."
       type: object
+      description: "The data required to create a new organization."
       properties:
         name:
           type: string
@@ -495,8 +497,8 @@ components:
         - name
 
     InviteMemberRequest:
-      description: "The data required to invite a user to an organization."
       type: object
+      description: "The data required to invite a user to an organization."
       properties:
         username:
           type: string
@@ -505,8 +507,8 @@ components:
         - username
 
     ResponseInvitationRequest:
-      description: "The data required to respond to an invitation."
       type: object
+      description: "The data required to respond to an invitation."
       properties:
         accept:
           type: boolean
@@ -515,8 +517,8 @@ components:
         - accept
 
     ChangeOrganizationMemberRoleRequest:
-      description: "The data required to change the role of a member in an organization."
       type: object
+      description: "The data required to change the role of a member in an organization."
       properties:
         role:
           $ref: "#/components/schemas/OrganizationRoleEnum"
@@ -524,8 +526,8 @@ components:
         - role
 
     OrganizationRoleEnum:
-      description: "Defines the possible roles of an organization member."
       type: string
+      description: "Defines the possible roles of an organization member."
       enum:
         - member
         - admin
@@ -535,8 +537,8 @@ components:
         - invited
 
     OrganizationMemberResponse:
-      description: "Represents a member of an organization."
       type: object
+      description: "Represents a member of an organization."
       properties:
         userId:
           type: integer
@@ -553,8 +555,8 @@ components:
         - email
 
     OrganizationEditRequest:
-      description: "The data required to edit an organization's details."
       type: object
+      description: "The data required to edit an organization's details."
       properties:
         name:
           type: string

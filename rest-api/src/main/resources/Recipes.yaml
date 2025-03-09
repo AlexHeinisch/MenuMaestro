@@ -1,0 +1,276 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro recipes API"
+  version: 1.0.0
+  description: "The API for the Menu-Maestro recipes"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /recipes:
+    get:
+      operationId: getRecipes
+      tags:
+        - recipes
+      summary: 'Get a list of all Recipes matching the search query.'
+      description: 'Returns a paginated list of all recipes, or all matching the given filters. Supports pagination and search.'
+      x-spring-paginated: true
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: name
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+          description: "Search for recipes with a name containing this string."
+        - name: description
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+          description: "Search for recipes with a description containing this string."
+        - name: author
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+          description: "Search for recipes with an author containing this string in their name."
+        - name: ingredients
+          in: query
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+          required: false
+          description: "Ingredients (set of ids). If set, ingredients are required to be in the recipe."
+        - name: required-cooking-appliances
+          in: query
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+          required: false
+          description: "Cooking appliances (set of ids). If set, cooking appliances are required to be in the recipe."
+        - name: visibility
+          in: query
+          schema:
+            $ref: '#/components/schemas/RecipeVisibilityEnum'
+          required: false
+          description: "Visibility of the recipe."
+      responses:
+        200:
+          description: "Success - returns a paginated list of recipes."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeResponse'
+    post:
+      operationId: createRecipe
+      tags:
+        - recipes
+      summary: "Create a new recipe"
+      description: "Create a new recipe with the given data."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreateEditRequest'
+      responses:
+        201:
+          description: "Created - returns the created recipe."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeResponse'
+        409:
+          description: "Conflict - a recipe with the same name already exists."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /recipes/{id}:
+    get:
+      operationId: getRecipeById
+      tags:
+        - recipes
+      summary: "Get a recipe by its ID."
+      description: "Returns the recipe with the given ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        200:
+          description: "Success - returns the recipe with the given ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeResponse'
+        404:
+          description: "Not Found - a recipe with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteRecipeById
+      tags:
+        - recipes
+      summary: "Delete a recipe by its ID."
+      description: "Deletes the recipe with the given ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        204:
+          description: "No Content - the recipe was deleted."
+        404:
+          description: "Not Found - a recipe with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    put:
+      operationId: editRecipeById
+      tags:
+        - recipes
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      summary: "Edit a recipe by its ID."
+      description: "Edit the recipe with the given ID."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreateEditRequest'
+      responses:
+        200:
+          description: "Success - returns the edited recipe."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeResponse'
+        404:
+          description: "Not Found - a recipe with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - a recipe with the same name already exists."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    RecipeVisibilityEnum:
+      type: string
+      description: "Visibility of a recipe."
+      enum:
+        - PUBLIC
+        - PRIVATE
+        - ORGANIZATION
+
+    BaseRecipeValues:
+      type: object
+      description: "Representation of a recipe's content"
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        author:
+          type: string
+        servings:
+          type: integer
+        imageId:
+          type: string
+      required:
+        - name
+        - description
+        - author
+        - servings
+
+    RecipeResponse:
+      type: object
+      description: "Representation of a recipe with all its details."
+      allOf:
+        - $ref: '#/components/schemas/BaseRecipeValues'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            visibility:
+              $ref: '#/components/schemas/RecipeVisibilityEnum'
+            ingredients:
+              type: array
+              items:
+                $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseResponse'
+            cookingAppliances:
+              type: array
+              items:
+                $ref: 'CookingAppliances.yaml#/components/schemas/CookingApplianceInUseResponse'
+            imageLink:
+              type: string
+          required:
+            - id
+            - visibility
+            - ingredients
+            - cookingAppliances
+
+    RecipeCreateEditRequest:
+      type: object
+      description: "Request object for creating or editing a recipe."
+      allOf:
+        - $ref: '#/components/schemas/BaseRecipeValues'
+        - type: object
+          properties:
+            visibility:
+              $ref: '#/components/schemas/RecipeVisibilityEnum'
+            ingredients:
+              type: array
+              items:
+                $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseCreateEditRequest'
+            cookingAppliances:
+              type: array
+              items:
+                $ref: 'CookingAppliances.yaml#/components/schemas/CookingApplianceInUseCreateEditResponse'
+          required:
+            - visibility
+            - ingredients
+            - cookingAppliances
+
+    PaginatedRecipeResponse:
+      type: object
+      description: "Paginated list containing recipe dtos"
+      allOf:
+        - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecipeResponse'
+          required:
+            - content

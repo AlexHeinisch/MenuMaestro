@@ -223,9 +223,9 @@ components:
         - SNACKS
         - OTHER
 
-    IngredientInUseResponse:
+    IngredientInUseCreateEditRequest:
+      description: "Defines an ingredient by id and amount and unit. Used for creation and editing."
       type: object
-      description: "Defines an ingredient that is used with a stash, meal or recipe."
       properties:
         id:
           description: "Unique id of the ingredient used in the meal/recipe."
@@ -233,8 +233,6 @@ components:
           format: int64
         unit:
           $ref: '#/components/schemas/IngredientUnitEnum'
-        category:
-          $ref: '#/components/schemas/IngredientCategoryEnum'
         amount:
           description: "Amount of the ingredient used in regard to the unit."
           type: number
@@ -242,8 +240,20 @@ components:
       required:
         - id
         - unit
-        - category
         - amount
+
+    IngredientInUseResponse:
+        description: "Defines an ingredient by id and amount, unit and name."
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/IngredientInUseCreateEditRequest'
+          - type: object
+            properties:
+              name:
+                description: "Name of the used ingredient."
+                type: string
+            required:
+              - name
 
     IngredientResponse:
       description: "DTO containing all ingredient information."
