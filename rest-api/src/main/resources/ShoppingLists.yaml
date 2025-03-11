@@ -1,0 +1,517 @@
+openapi: 3.0.0
+info:
+  title: "Shopping List API"
+  version: 1.0.0
+  description: "API for managing shopping lists and items."
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /shopping-lists:
+    get:
+      operationId: getShoppingLists
+      tags:
+        - shopping-lists
+      summary: "Search for shopping lists by name and completion status"
+      description: "Returns a paginated list of shopping lists matching the given query parameters."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: name
+          in: query
+          description: "The name of the shopping list (supports partial match)"
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "Filter by shopping list status"
+          required: false
+          schema:
+            $ref: '#/components/schemas/ShoppingListStatusEnum'
+        - name: menuId
+          in: query
+          description: "Filter by associated menuId of shopping list"
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Success - Returns a paginated list of shopping lists."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedShoppingListResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    post:
+      operationId: createShoppingList
+      tags:
+        - shopping-lists
+      summary: "Create a new shopping list"
+      description: "Creates a new shopping list with the given name and associated menuId."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListCreateRequest'
+      responses:
+        201:
+          description: "Created - Shopping list was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /shopping-lists/{id}:
+    get:
+      operationId: getShoppingListById
+      tags:
+        - shopping-lists
+      summary: "Get a shopping list by ID"
+      description: "Returns a shopping list by its ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+        - $ref: 'Common.yaml#/components/parameters/shareTokenQueryParam'
+      responses:
+        200:
+          description: "Success - Returns the shopping list with the specified ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource or have a valid share token."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A shopping list with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+    patch:
+      operationId: editShoppingList
+      tags:
+        - shopping-lists
+      summary: "Edit a shopping list (used for updating the checkedBy property and status)"
+      description: "Edits a shopping list with the given ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+        - $ref: 'Common.yaml#/components/parameters/shareTokenQueryParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListEditRequest'
+      responses:
+        200:
+          description: "Success - Shopping list was successfully edited"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource or have a valid share token."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A shopping list with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - The shopping list is already closed."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /shopping-lists/{id}/token:
+    post:
+      operationId: createShoppingListToken
+      tags:
+        - shopping-lists
+      summary: "Used to create a share token for anonymous users to see and use the shopping list."
+      description: "Creates a token for the shopping list with the given ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        201:
+          description: "Created - Token was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListTokenResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A shopping list with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /shopping-lists/{id}/items:
+    post:
+      operationId: addItemToShoppingList
+      tags:
+        - shopping-lists
+      summary: "Add a new item (existing ingredient or custom one) to a shopping list"
+      description: "Adds a new item to the shopping list with the given ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+        - $ref: 'Common.yaml#/components/parameters/shareTokenQueryParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShoppingListAddIngredientRequest"
+      responses:
+        201:
+          description: "Created - Item was successfully added to the shopping list."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource or have a valid share token."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A shopping list with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - Either an existing ingredient ID or a custom ingredient name must be provided, but not both."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /shopping-lists/{id}/close:
+    post:
+      operationId: closeShoppingList
+      tags:
+        - shopping-lists
+      summary: "Manually close a shopping list and mark it as CLOSED"
+      description: "Closes the shopping list with the given ID."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        200:
+          description: "Success - Shopping list was successfully closed. Returns the stash ID where the content was added."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingListCloseResponse"
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A shopping list with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        409:
+          description: "Conflict - The shopping list is already closed."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /shopping-lists/used-ingredient-preview:
+    post:
+      operationId: getShoppingListPreview
+      tags:
+        - shopping-lists
+      summary: "perform same computations as for the shopping list but preview which ingredients will be used."
+      description: "Returns a list of ingredients and the amount taken from the stash."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingListCreateRequest'
+      responses:
+        200:
+          description: "Success Status, list of ingredients and amount taken from stash"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShoppingListPreviewEntryResponse'
+
+components:
+  schemas:
+    ShoppingListTokenResponse:
+      type: object
+      description: "Response object containing the issued share token"
+      properties:
+        token:
+          type: string
+          description: "Issued share token to use in shopping lists"
+
+    ShoppingListCreateRequest:
+      type: object
+      description: "Request object for creating a new shopping list"
+      properties:
+        name:
+          type: string
+          description: "Name of the shopping list"
+          minLength: 5
+          maxLength: 50
+        menuId:
+          type: integer
+          format: int64
+          description: "ID of the menu the shopping list is created from"
+        organizationId:
+          type: integer
+          format: int64
+          description: "ID of the organization managing the shopping list"
+        snapshotIds:
+          type: array
+          description: "A list of snapshot IDs associated with the shopping list"
+          items:
+            type: integer
+            format: int64
+          minItems: 1
+      required:
+        - name
+        - menuId
+        - organizationId
+        - snapshotIds
+
+    ShoppingListStatusEnum:
+      type: string
+      description: "The status of the shopping list, indicating whether it is open or completed."
+      enum:
+        - OPEN
+        - CLOSED
+
+    ShoppingListIngredientResponse:
+      type: object
+      description: "Response object for a single shopping list ingredient"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Unique identifier of the ingredient"
+        ingredient:
+          $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseResponse'
+        isChecked:
+          type: boolean
+          description: "Indicates if an ingredient has been checked in the shopping list"
+        checkedBy:
+          type: string
+          description: "The person who checked the ingredient"
+        category:
+          $ref: 'Ingredients.yaml#/components/schemas/IngredientCategoryEnum'
+      required:
+        - id
+        - ingredient
+        - isChecked
+        - checkedBy
+        - category
+
+    ShoppingListAddIngredientRequest:
+      type: object
+      description: "Request object for adding an ingredient to a shopping list"
+      properties:
+        existingIngredientId:
+          description: "Unique id of the ingredient to be added. Used only when we add an ingredient existing in the database to the shopping list."
+          type: integer
+          format: int64
+        customIngredientName:
+          type: string
+          description: "Name of the ingredient to be added. Used only when we add a ingredient not existing in the database to the shopping list. "
+          minLength: 1
+          maxLength: 50
+        unit:
+          $ref: 'Ingredients.yaml#/components/schemas/IngredientUnitEnum'
+        amount:
+          type: number
+          format: double
+          description: "Amount of the ingredient used in regard to the unit."
+          minimum: 0.0
+      required:
+        - unit
+        - amount
+
+    ShoppingListEditIngredientRequest:
+      type: object
+      description: "Request object for editing an ingredient in a shopping list"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Unique identifier of the ingredient"
+        checked:
+          type: boolean
+          description: "If the ingredient is checked off on the shopping list"
+      required:
+        - id
+        - checked
+
+    ShoppingListCloseResponse:
+      type: object
+      description: "Response object for closing a shopping list"
+      properties:
+        stashId:
+          type: integer
+          format: int64
+          description: "ID of the stash where the shopping list content was added"
+        shoppingListDto:
+          $ref: '#/components/schemas/ShoppingListResponse'
+      required:
+        - stashId
+        - shoppingListDto
+
+    ShoppingListResponse:
+      type: object
+      description: "Response object for a shopping list"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "Unique identifier of the shopping list"
+        name:
+          type: string
+          description: "Name of the shopping list"
+        status:
+          $ref: '#/components/schemas/ShoppingListStatusEnum'
+        organizationId:
+          type: integer
+          description: "ID of the organization managing the shopping list"
+        menuId:
+          type: integer
+          format: int64
+          description: "ID of the menu the shopping list was created from"
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShoppingListIngredientResponse'
+          description: "List of ingredients included in the shopping list"
+      required:
+        - id
+        - name
+        - status
+        - organizationId
+        - ingredients
+
+    PaginatedShoppingListResponse:
+      type: object
+      description: "Response object for a paginated list of shopping lists"
+      allOf:
+        - $ref: 'Common.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShoppingListResponse'
+          required:
+            - content
+
+    ShoppingListEditRequest:
+      type: object
+      description: "Request object for editing a shopping list"
+      properties:
+        status:
+          $ref: '#/components/schemas/ShoppingListStatusEnum'
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShoppingListEditIngredientRequest'
+          description: "List of ingredients that are already in the shopping list, but need their checkedBy property updated"
+
+    ShoppingListPreviewEntryResponse:
+      type: object
+      allOf:
+        - $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseResponse'
+        - type: object
+          properties:
+            totalAmount:
+              type: number
+              format: float
+          required:
+            - totalAmount

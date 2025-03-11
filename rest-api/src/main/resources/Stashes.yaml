@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: "Menu Maestro Stashes API"
+  version: 1.0.0
+  description: "The API for the Menu-Maestro Stashes Feature"
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /stash:
+    get:
+      operationId: getStashes
+      tags:
+        - stashes
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/pageParam'
+        - $ref: 'Common.yaml#/components/parameters/sizeParam'
+        - $ref: 'Common.yaml#/components/parameters/sortParam'
+        - name: name
+          schema:
+            type: string
+          in: query
+          required: false
+          description: "Search for stashes with a name containing this string."
+      responses:
+        200:
+          description: "Success - Returns a paginated list of all stashes, or all matching the given filters."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StashSummaryResponse'
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /stash/{id}:
+    get:
+      operationId: getStashById
+      tags:
+        - stashes
+      summary: "Get a single stash by its id"
+      description: "Returns a single stash by its id."
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+      responses:
+        200:
+          description: "Success - Returns the stash with the specified ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StashResponse'
+          headers:
+            ETag:
+              description: Version tag of the stash
+              schema:
+                type: string
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        404:
+          description: "Not Found - A stash with the specified ID was not found."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+    patch:
+      operationId: updateStashIngredients
+      tags:
+        - stashes
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+        - name: If-Match
+          description: "ETag of the stash to be modified. If the stash has been modified since the given ETag, the operation will fail."
+          schema:
+            type: string
+          in: header
+          required: false
+      requestBody:
+        description: "List of ingredients to modify. Use amount 0 to delete, nonzero amount to add"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseCreateEditRequest'
+        required: true
+      responses:
+        200:
+          description: "Success - Returns the updated stash."
+          headers:
+            ETag:
+              description: "New version tag of the stash"
+              schema:
+                type: string
+              required: true
+        401:
+          description: "Unauthorized - User needs to be logged in to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        403:
+          description: "Forbidden - User does not have the necessary permissions to access this resource."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        412:
+          description: "The stash has been modified since the given ETag."
+          content:
+              application/json:
+                schema:
+                  $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+        422:
+          description: "Unprocessable Entity - Validation errors occurred."
+          content:
+            application/json:
+              schema:
+                $ref: 'Common.yaml#/components/schemas/ErrorResponse'
+
+  /stash/{id}/move-ingredients:
+    post:
+      operationId: moveStashIngredients
+      tags:
+        - stashes
+      description: "Moves the selected ingredient amounts from one stash to another."
+      summary: "Move ingredients from one stash to another"
+      parameters:
+        - $ref: 'Common.yaml#/components/parameters/idPathParam'
+        - name: otherStashId
+          schema:
+            type: integer
+            format: int64
+          in: query
+          required: true
+      requestBody:
+        required: true
+        description: "List of ingredients to move. Use amount 0 to delete, nonzero amount to add"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseCreateEditRequest'
+      responses:
+        204:
+          description: "No Content - the ingredients were moved successfully."
+          headers:
+            ETag:
+              description: "New version tag of the stash"
+              schema:
+                type: string
+
+components:
+  schemas:
+    StashResponse:
+      type: object
+      description: "Full info of stash and its ingredients"
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "ID of the stash"
+        name:
+          type: string
+          description: "Name of the stash"
+        versionNumber:
+          type: string
+          description: "Version tag of the stash"
+        ingredients:
+          type: array
+          items:
+            $ref: 'Ingredients.yaml#/components/schemas/IngredientInUseResponse'
+        correspondingOrganizationId:
+          type: integer
+          format: int64
+          description: "ID of the organization that owns the stash"
+      required:
+        - id
+        - name
+        - ingredients
+        - versionNumber
+        - correspondingOrganizationId
+    StashSummaryResponse:
+      type: object
+      description: "Short info of stash"
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+        - id
+        - name

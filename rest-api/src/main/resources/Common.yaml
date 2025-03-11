@@ -57,9 +57,9 @@ components:
         type: integer
         format: int64
       allowEmptyValue: false
-    shareTokenPathParam:
+    shareTokenQueryParam:
       name: token
-      in: path
+      in: query
       required: false
       description: "Token of guest users using shared tokens."
       schema:
