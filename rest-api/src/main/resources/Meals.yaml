@@ -179,7 +179,7 @@ components:
           $ref: '#/components/schemas/MealStatusEnum'
         numberOfPeople:
           type: integer
-          minLength: 1
+          minimum: 1
           description: "Number of people the meal is intended for."
         organizationId:
           type: integer
