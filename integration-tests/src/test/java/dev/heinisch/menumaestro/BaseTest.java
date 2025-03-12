@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 public class BaseTest {
 
     @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.2");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.4");
 
     @LocalServerPort
     private int port;
