@@ -202,7 +202,7 @@ components:
           description: "Name of the meal"
         numberOfPeople:
           type: integer
-          minLength: 1
+          minimum: 1
           description: "Number of people the meal is intended for."
         recipe:
           $ref: 'Recipes.yaml#/components/schemas/RecipeCreateEditRequest'
