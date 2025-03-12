@@ -310,7 +310,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/Stash.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/Stashes.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/target/generated-sources</output>
                             <typeMappings>
