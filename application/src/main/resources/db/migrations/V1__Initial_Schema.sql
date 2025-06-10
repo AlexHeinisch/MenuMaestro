@@ -1,8 +1,0 @@
-CREATE SEQUENCE IF NOT EXISTS message_seq START WITH 1 INCREMENT BY 50;
-
-CREATE TABLE message
-(
-    id   BIGINT NOT NULL,
-    text VARCHAR(255),
-    CONSTRAINT pk_message PRIMARY KEY (id)
-);
