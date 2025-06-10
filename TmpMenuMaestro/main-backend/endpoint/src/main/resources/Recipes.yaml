@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro recipes API
+  version: 1.0.0
+  description: The API for the Menu-Maestro recipes
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /recipes:
+    post:
+      operationId: createRecipe
+      tags:
+        - Recipes
+      summary: "Create a new persistent recipe"
+      requestBody:
+        description: data for the recipe
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreateEditDto'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        '422':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    get:
+      operationId: getRecipes
+      tags:
+        - Recipes
+      x-spring-paginated: true
+      summary: 'Get a list of all Recipes matching the search query.'
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - name: 'name'
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+        - name: description
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+        - name: author
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+        - name: ingredients
+          in: query
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+        - name: required_cooking_appliances
+          in: query
+          description: "Cooking appliances (set of ids). If set, no recipe using any other appliance is returned."
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+          required: false
+        - name: visibility
+          in: query
+          schema:
+            $ref: '#/components/schemas/RecipeVisibility'
+          required: false
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeListPaginatedDto'
+
+  /recipes/{id}:
+    get:
+      operationId: getRecipeById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the recipe
+      tags:
+        - Recipes
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeDto'
+        '400':
+          $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/BadRequest'
+    delete:
+      operationId: deleteRecipeById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the recipe
+      tags:
+        - Recipes
+      responses:
+        '204':
+          description: The resource was deleted successfully.
+        '404':
+          description: A recipe with the specified ID was not found.
+    put:
+      operationId: editRecipeById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the recipe
+      tags:
+        - Recipes
+      summary: 'Edit an already existing recipe.'
+      requestBody:
+        description: data for the recipe
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreateEditDto'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeDto'
+        '404':
+          description: A recipe with the specified ID was not found.
+        '422':
+          $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/ValidationError'
+
+
+components:
+  schemas:
+    RecipeVisibility:
+      description: Visibility of a recipe.
+      type: string
+      enum:
+        - PUBLIC
+        - PRIVATE
+        - ORGANIZATION
+    BaseRecipeValueDto:
+      description: Representation of a recipe's content
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        author:
+          type: string
+        servings:
+          type: integer
+        imageId:
+          type: string
+      required:
+        - name
+        - description
+        - author
+        - servings
+
+    RecipeDto:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseRecipeValueDto'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            visibility:
+              $ref: '#/components/schemas/RecipeVisibility'
+            ingredients:
+              type: array
+              items:
+                $ref: 'Ingredients.yaml#/components/schemas/IngredientUseDto'
+            cookingAppliances:
+              type: array
+              items:
+                $ref: 'CookingAppliances.yaml#/components/schemas/CookingApplianceUseDto'
+            imageLink:
+              type: string
+          required:
+            - id
+            - visibility
+            - ingredients
+            - cookingAppliances
+
+    RecipeCreateEditDto:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseRecipeValueDto'
+        - type: object
+          properties:
+            visibility:
+              $ref: '#/components/schemas/RecipeVisibility'
+            ingredients:
+              type: array
+              items:
+                $ref: 'Ingredients.yaml#/components/schemas/IngredientUseCreateEditDto'
+            cookingAppliances:
+              type: array
+              items:
+                $ref: 'CookingAppliances.yaml#/components/schemas/CookingApplianceUseCreateEditDto'
+          required:
+            - visibility
+            - ingredients
+            - cookingAppliances
+
+    RecipeListPaginatedDto:
+      description: "Paginated list containing recipe dtos"
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecipeDto'
+          required:
+            - content

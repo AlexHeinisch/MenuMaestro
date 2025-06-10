@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro meal API
+  version: 1.0.0
+  description: The API for the Menu-Maestro meal
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /meals/{id}:
+    get:
+      operationId: getMealById
+      tags:
+        - Meals
+      summary: "Get a single meal by its id"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealDto'
+        404:
+          $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/NotFound'
+    delete:
+      operationId: deleteMealById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the meal
+      tags:
+        - Meals
+      responses:
+        '204':
+          description: The resource was deleted successfully.
+        '404':
+          description: A meal with the specified ID was not found.
+    patch:
+      operationId: editMealById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the meal
+      tags:
+        - Meals
+      summary: 'Edit an already existing meal.'
+      requestBody:
+        description: data for the fields of the meal to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealEditDto'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealDto'
+        '404':
+          description: A meal with the specified ID was not found.
+        '422':
+          $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/ValidationError'
+
+  /meals/{id}/complete:
+    put:
+      operationId: MarkCompleted
+      tags:
+        - Meals
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the meal
+        - name: done
+          in: query
+          schema:
+            type: boolean
+          allowEmptyValue: false
+          required: true
+        - name: deleteFromStash
+          in: query
+          schema:
+            type: boolean
+          allowEmptyValue: false
+          required: true
+      responses:
+        '204':
+          description: The resource was marked successfully as done.
+        '404':
+          description: A meal with the specified ID was not found
+
+components:
+  schemas:
+    MealStatus:
+      description: Status of meal in a menu indicating if it is done or if ingredients are missing.
+      type: string
+      enum:
+        - DONE
+        - ALL_INGREDIENTS_MISSING
+        - SOME_INGREDIENTS_MISSING
+        - ALL_INGREDIENTS_PRESENT
+        - CLOSED
+    MealDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          description: "Name of the meal"
+          type: string
+        status:
+          $ref: '#/components/schemas/MealStatus'
+        numberOfPeople:
+          type: integer
+        organizationId:
+          type: integer
+          format: int64
+        recipe:
+          $ref: 'Recipes.yaml#/components/schemas/RecipeDto'
+      required:
+        - id
+        - name
+        - status
+        - numberOfPeople
+        - recipe
+    MealEditDto:
+      type: object
+      properties:
+        name:
+          description: "Name of the meal"
+          type: string
+        numberOfPeople:
+          type: integer
+        recipe:
+          $ref: 'Recipes.yaml#/components/schemas/RecipeCreateEditDto'
+      required:
+        - name
+        - numberOfPeople

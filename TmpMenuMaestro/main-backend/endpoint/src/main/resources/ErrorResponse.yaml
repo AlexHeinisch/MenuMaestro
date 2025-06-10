@@ -1,0 +1,22 @@
+# errors.yaml
+components:
+  responses:
+    ErrorResponse:
+      description: "An error occurred"
+      type: object
+      properties:
+        status:
+          description: "Http status code of the error"
+          type: integer
+        message:
+          description: "Simple message of the error"
+          type: string
+        details:
+          description: "Detailed messages that describes the error further"
+          type: array
+          items:
+            type: string
+      required:
+        - status
+        - message
+# TODO yaml validation fails

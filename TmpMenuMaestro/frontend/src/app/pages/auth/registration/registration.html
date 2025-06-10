@@ -1,0 +1,115 @@
+<page-layout>
+  <h1 class="mb-8 text-center text-3xl" *ngIf="!isLoading">Sign up to MenuMaestro</h1>
+  <div class="flex flex-col" *ngIf="!isLoading">
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div class="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)" (keydown.enter)="onSubmit(form)">
+          <!-- First Name -->
+          <div>
+            <input-field
+              name="firstName"
+              [label]="'First Name*'"
+              [type]="InputType.text"
+              [(value)]="accountCreate.firstName"
+              [id]="'first-name'"
+              [form]="form"
+              [required]="true"
+            >
+            </input-field>
+          </div>
+
+          <!-- Last Name -->
+          <div class="mt-6">
+            <input-field
+              name="lastName"
+              [label]="'Last Name*'"
+              [type]="InputType.text"
+              [(value)]="accountCreate.lastName"
+              [id]="'last-name'"
+              [form]="form"
+              [required]="true"
+            >
+            </input-field>
+          </div>
+
+          <!-- Username -->
+          <div class="mt-6">
+            <input-field
+              name="username"
+              [label]="'Username*'"
+              [type]="InputType.text"
+              [(value)]="accountCreate.username"
+              [id]="'username'"
+              [form]="form"
+              [required]="true"
+            >
+            </input-field>
+          </div>
+
+          <!-- Email -->
+          <div class="mt-6">
+            <input-field
+              name="email"
+              [label]="'Email*'"
+              [type]="InputType.email"
+              [(value)]="accountCreate.email"
+              [id]="'email'"
+              [form]="form"
+              [required]="true"
+            >
+            </input-field>
+          </div>
+
+          <!-- Password -->
+          <div class="mt-6">
+            <input-field
+              name="password"
+              [label]="'Password*'"
+              [type]="InputType.password"
+              [(value)]="accountCreate.password"
+              [id]="'password'"
+              [form]="form"
+              [required]="true"
+            >
+            </input-field>
+            <p
+              class="text-xs text-red-600 -mt-1 h-3"
+              *ngIf="accountCreate.password && accountCreate.password.length < 6"
+            >
+              Your password must be at least 6 characters long!
+            </p>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mt-6">
+            <input-field
+              name="confirmPassword"
+              [label]="'Confirm Password*'"
+              [type]="InputType.password"
+              [(value)]="confirmPassword"
+              [id]="'confirm-password'"
+              [form]="form"
+              [required]="true"
+            >
+            </input-field>
+            <div class=",t-1 h-5">
+              <div *ngIf="accountCreate.password !== confirmPassword && confirmPassword">
+                <p class="text-red-600 text-xs">Passwords do not match.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-6">
+            <span class="block items-center rounded-md shadow-sm">
+              <simple-button [variant]="ButtonVariant.primary" [type]="'submit'" [className]="'w-full'">
+                Sign up
+              </simple-button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <loading-spinner [isLoading]="isLoading"></loading-spinner>
+</page-layout>

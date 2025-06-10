@@ -1,0 +1,56 @@
+<page-layout>
+  <div class="flex justify-center flex-1" *ngIf="!isLoading">
+    <div>
+      <h1 class="text-3xl text-center mb-8">Log in to MenuMaestro</h1>
+      <form class="w-full mt-16" #form="ngForm" (ngSubmit)="loginUser()" (keydown.enter)="loginUser()">
+        <div class="flex flex-col mb-4">
+          <input-field
+            name="username"
+            [label]="'Username'"
+            class="col-span-2"
+            [className]="'w-full col-span-2'"
+            [type]="InputType.text"
+            [(value)]="loginRequestDto.username"
+            [form]="form"
+          ></input-field>
+          <div class="h-5">
+            <div *ngIf="submitted && !loginRequestDto.username" class="text-xs text-red-600 mt-1">
+              <p>Your Username is required!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-6">
+          <input-field
+            name="password"
+            [label]="'Password'"
+            class="col-span-2"
+            [className]="'w-full col-span-2'"
+            [type]="InputType.password"
+            [(value)]="loginRequestDto.password"
+            [form]="form"
+          ></input-field>
+          <div class="h-5">
+            <div class="text-xs text-red-600 mt-1 h-3">
+              <p *ngIf="submitted && !loginRequestDto.password">Your password is required!</p>
+              <p *ngIf="submitted && (!loginRequestDto.password || loginRequestDto.password.length < 6)">
+                This password is too short!
+              </p>
+            </div>
+          </div>
+        </div>
+        <simple-button className="w-full py-3 mt-2 font-semibold text-white rounded-lg" (click)="loginUser()">
+          Log In
+        </simple-button>
+        <div class="flex justify-center mt-3">
+          <a class="text-sm mr-1" [routerLink]="['/register']">New here?</a
+          ><a class="text-sm text-primary underline hover:text-primary-light" [routerLink]="['/register']">
+            Create an Account.</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <loading-spinner [isLoading]="isLoading"></loading-spinner>
+</page-layout>

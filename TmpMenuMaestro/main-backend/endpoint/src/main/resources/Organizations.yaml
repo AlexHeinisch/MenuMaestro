@@ -1,0 +1,549 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro organization API
+  version: 1.0.0
+  description: The API for the Menu-Maestro organizations
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /organizations/invitations:
+    get:
+      operationId: getInvitations
+      tags:
+        - Organizations
+      parameters:
+          - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+          - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+      responses:
+        200:
+          description: "Get all organization invitations of logged in user."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationSummaryListPaginatedDto"
+        403:
+          description: "Need to be logged in to query organization invitations."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /organizations:
+    get:
+      operationId: getOrganizations
+      tags:
+        - Organizations
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - name: name
+          in: query
+          required: false
+          description: "Name of an organisation"
+          schema:
+            type: string
+            default: ""
+      responses:
+        200:
+          description: "Get all organizations. Users get the organizations they are part in, admins get all."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationSummaryListPaginatedDto"
+        403:
+          description: "Need to be logged in to query organizations"
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    post:
+      operationId: createOrganization
+      tags:
+        - Organizations
+      requestBody:
+        description: "Organization data to be created."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrganizationCreateDto"
+      responses:
+        201:
+          description: "Organization successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationSummaryDto"
+        403:
+          description: "Need to be logged in to create an organization"
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "Organization name is already taken."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: "Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+  /organizations/{id}:
+    get:
+      operationId: getOrganizationById
+      tags:
+        - Organizations
+      summary: "Get organization details by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Successfully retrieved organization details"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSummaryDto'
+        403:
+          description: "No permission to view this organization."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    put:
+      operationId: editOrganization
+      tags:
+        - Organizations
+      summary: "Edit organization information"
+      description: "Allows updating the organization's name and description."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "The edited organization data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationEditDto'
+      responses:
+        200:
+          description: "Organization information was successfully edited"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationSummaryDto'
+        403:
+          description: "Forbidden. No permission to edit organization."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified organization not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "Organization name already taken."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: "Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    delete:
+      operationId: deleteOrganization
+      tags:
+        - Organizations
+      summary: "Delete an organization by ID"
+      description: "Delete the specified organization from the system."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization to delete"
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: "Organization successfully deleted."
+        404:
+          description: "Specified organization not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        403:
+          description: "Forbidden. User is not authorized to delete this organization."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "Organization contains open menus and can't be deleted."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+
+  /organizations/{id}/members:
+    post:
+      operationId: inviteMember
+      tags:
+        - Organizations
+      summary: "Invite a user to an organization"
+      description: "Invite a user to an organization by specifying their unique username."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "User details to invite to the organization"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: "The unique username of the user to invite"
+              required:
+                - username
+      responses:
+        201:
+          description: "Invitation successfully sent."
+        403:
+          description: "No permission to invite users."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified organization or user not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "User already invited or already a member."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: "Validation error."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    put:
+      operationId: respondToInvitation
+      tags:
+        - Organizations
+      summary: "Respond to an invitation to join an organization"
+      description: "Endpoint to allow a user to accept or decline an invitation to join an organization."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "Response to the invitation"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accept:
+                  type: boolean
+                  description: "Set to `true` to accept the invitation, or `false` to decline it."
+              required:
+                - accept
+      responses:
+        204:
+          description: "Invitation was successfully responded to."
+        403:
+          description: "No permission to accept/decline request."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified organization not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "No pending invitation for the specific user in the specified organization present."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    get:
+      operationId: getOrganizationMembers
+      tags:
+        - Organizations
+      summary: "Get all members of an organization"
+      description: "Retrieve a list of all members of a specified organization."
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successfully retrieved organization members
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationMemberListPaginatedDto"
+        403:
+          description: "No permission to query organization members."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified organization not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+  /organizations/{id}/members/{username}:
+    delete:
+      operationId: removeMember
+      tags:
+        - Organizations
+      summary: "Remove a member from an organization"
+      description: "Remove a specific member from the organization by their username. If the user is in the organization this represents a kick-action. If the user is invited this represents revoking the invitation. Only admins can perform this action."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+        - name: username
+          in: path
+          required: true
+          description: "The username of the member to remove"
+          schema:
+            type: string
+      responses:
+        204:
+          description: "Member successfully removed"
+        403:
+          description: "Forbidden. No permission to remove organization member."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified user or organization not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "Specified user not part of the specified organization."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+  /organizations/{id}/members/{username}/role:
+    put:
+      operationId: changeMemberRole
+      tags:
+        - Organizations
+      summary: "Change the role of a member in an organization"
+      description: "Update the role of a specific member. Only admins/owners can perform this action."
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The ID of the organization"
+          schema:
+            type: integer
+            format: int64
+        - name: username
+          in: path
+          required: true
+          description: "The username of the account whose role is being changed"
+          schema:
+            type: string
+      requestBody:
+        description: "The new role to assign to the member"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  $ref: '#/components/schemas/OrganizationRoleEnum'
+              required:
+                - role
+      responses:
+        204:
+          description: "Member role successfully updated"
+        403:
+          description: "Forbidden. No permission to change organization member role."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified organization or user not found."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "Conflict. Specified user not part of the organization or user is trying to change own role."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+components:
+  schemas:
+    OrganizationSummaryDto:
+      description: The organization entity.
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - stashId
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        stashId:
+          description: "The id of the corresponding organization stash"
+          type: integer
+          format: int64
+    OrganizationSummaryListPaginatedDto:
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationSummaryDto'
+              default: [ ]
+          required:
+            - content
+    OrganizationMemberListPaginatedDto:
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrganizationMemberDto'
+              default: [ ]
+          required:
+            - content
+    OrganizationCreateDto:
+      description: The data required to create a new organization.
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    OrganizationRoleEnum:
+      description: Defines the possible roles of an organization member.
+      type: string
+      enum:
+        - member
+        - admin
+        - owner
+        - planner
+        - shopper
+        - invited
+    OrganizationMemberDto:
+      description: Represents a member of an organization.
+      type: object
+      required:
+        - username
+        - role
+        - email
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        role:
+          $ref: "#/components/schemas/OrganizationRoleEnum"
+        email:
+          type: string
+    OrganizationEditDto:
+      description: The data required to edit an organization's details.
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - description

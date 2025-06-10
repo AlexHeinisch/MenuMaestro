@@ -1,0 +1,193 @@
+[
+  {
+    "name": "Jahresherbstfest '24",
+    "description": "Ein mehrtägiges großes Fest für Groß und Klein!",
+    "organizationName": "FC Umhausen",
+    "numberOfPeople": 30,
+    "meals": [
+      {
+        "name": "frühstück Tag 1",
+        "recipeName": "Caprese Salad",
+        "position": 1,
+        "numberOfPeople": null,
+        "isDone": true
+      },
+      {
+        "name": "Mittag Tag 1",
+        "recipeName": "Spinach and Feta Quiche",
+        "position": 3,
+        "numberOfPeople": null,
+        "isDone": false
+      },
+      {
+        "name": "Abend Tag 1",
+        "recipeName": "Tomato Bruschetta",
+        "position": 4,
+        "numberOfPeople": null,
+        "isDone": false
+      },
+      {
+        "name": "Brunch - Tag 2",
+        "recipeName": "Vegetable Frittata",
+        "position": 5,
+        "numberOfPeople": null,
+        "isDone": false
+      },
+      {
+        "name": "Brunch - Tag 3",
+        "recipeName": "Eggplant Parmesan",
+        "position": 5,
+        "numberOfPeople": null,
+        "isDone": false
+      },
+      {
+        "name": "Abschlussessen",
+        "recipeName": "Chili Con Carne",
+        "position": 7,
+        "numberOfPeople": 20,
+        "isDone": false
+      }
+    ],
+    "snapshots": [
+      {
+        "name": "Einkauf Vormittag",
+        "position": 3
+      },
+      {
+        "name": "Einkauf Rest",
+        "position": 8
+      }
+    ]
+  },
+  {
+    "name": "Summer-Football-Camp: 2024 alpha",
+    "description": "Summer-Football-Camp: 2024 is an exciting program designed for football enthusiasts, taking place in Germany from 24th June to 28th June 2024.",
+    "numberOfPeople": 20,
+    "organizationName": "FC Umhausen",
+    "meals": [
+      {
+        "name": "Good ol' Breakfast",
+        "isDone": true,
+        "position": 0,
+        "recipeName": "Eggplant Parmesan"
+      },
+      {
+        "name": "Insert Meal Name Here",
+        "isDone": false,
+        "numberOfPeople": 10,
+        "position": 1,
+        "recipeName": "Chili Con Carne"
+      },
+      {
+        "name": "Stuffed Bell Peppers Mediterranean (Lunch)",
+        "isDone": false,
+        "position": 2,
+        "recipeName": "Stuffed Bell Peppers Mediterranean"
+      },
+      {
+        "name": "Leftovers from Lunch (Supper)",
+        "isDone": false,
+        "position": 3,
+        "recipeName": "Stuffed Bell Peppers Mediterranean"
+      }
+    ],
+    "snapshots": [
+      {
+        "name": "First shopping trip",
+        "position": 4
+      }
+    ]
+  },
+  {
+    "name": "Mountain-Trek-Adventure: 2024",
+    "description": "Mountain-Trek-Adventure: 2024 is a thrilling hiking program in the Swiss Alps, scheduled from 15th July to 20th July 2024.",
+    "numberOfPeople": 25,
+    "organizationName": "FC Umhausen",
+    "meals": [
+      {
+        "name": "Breakfast: Alpine Start",
+        "isDone": true,
+        "numberOfPeople": 25,
+        "position": 0,
+        "recipeName": "Swiss Muesli"
+      },
+      {
+        "name": "Lunch: Trail Wraps",
+        "isDone": false,
+        "position": 1,
+        "recipeName": "Hiker's Veggie Wraps"
+      },
+      {
+        "name": "Dinner: Campfire Feast",
+        "isDone": false,
+        "position": 2,
+        "recipeName": "Campfire BBQ"
+      },
+      {
+        "name": "Dessert: Chocolate Cookies",
+        "isDone": false,
+        "position": 3,
+        "recipeName": "Chocolate Chip Cookies"
+      }
+    ],
+    "snapshots": [
+      {
+        "name": "Morning Trail Stuff",
+        "position": 1
+      },
+      {
+        "name": "Evening Campfire",
+        "position": 4
+      }
+    ]
+  },
+  {
+    "name": "Art-and-Culture-Retreat: 2024 gamma",
+    "description": "Art-and-Culture-Retreat: 2024 offers a cultural immersion experience in Italy, from 1st September to 7th September 2024.",
+    "numberOfPeople": 15,
+    "organizationName": "FC Umhausen",
+    "meals": [
+      {
+        "name": "Breakfast: Italian Style",
+        "isDone": true,
+        "numberOfPeople": 15,
+        "position": 0,
+        "recipeName": "Espresso and Ciabatta"
+      },
+      {
+        "name": "Lunch: Piazza Picnic",
+        "isDone": false,
+        "position": 1,
+        "recipeName": "Caprese Salad"
+      },
+      {
+        "name": "Dinner: Tuscan Feast",
+        "isDone": false,
+        "position": 2,
+        "recipeName": "Chicken Alfredo Pasta"
+      },
+      {
+        "name": "Dessert: Gelato Treat",
+        "isDone": false,
+        "position": 3,
+        "recipeName": "Gelato Mix With Berries"
+      },
+      {
+        "name": "Evening Supper: Late Night Bites",
+        "isDone": false,
+        "position": 4,
+        "recipeName": "Tomato Bruschetta"
+      }
+    ],
+    "snapshots": [
+      {
+        "name": "Lunch Picnic Snapshot",
+        "position": 2
+      },
+      {
+        "name": "Evening Gelato Snapshot",
+        "position": 4
+      }
+    ]
+  }
+]

@@ -1,0 +1,200 @@
+<page-layout styleNames="bg-transparent">
+  <h1 class="mb-8 text-3xl flex">Create Recipe</h1>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <!-- Recipe Name and Servings Row -->
+    <div class="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4 mb-4 lg:items-center">
+      <div class="flex-1">
+        <input-field
+          [label]="'Recipe Name*'"
+          [type]="InputType.text"
+          [placeholder]="'Enter recipe name'"
+          [ariaLabel]="'Recipe Name input field'"
+          [required]="true"
+          [(value)]="recipeCreate.name"
+          [id]="'recipeName'"
+          [name]="'recipeName'"
+          [form]="form"
+        ></input-field>
+      </div>
+
+      <div class="flex-1 flex flex-row space-x-4">
+        <div class="flex-1">
+          <input-field
+            [label]="'Number of Servings*'"
+            [type]="InputType.number"
+            [placeholder]="'Enter servings number'"
+            [ariaLabel]="'Number of servings input field'"
+            [required]="true"
+            [(value)]="recipeCreate.servings"
+            [id]="'servings'"
+            [name]="'servings'"
+            [form]="form"
+          ></input-field>
+        </div>
+
+        <div class="flex-1">
+          <input-field
+            [label]="'Visibility*'"
+            [type]="InputType.select"
+            [options]="visibilityTypes"
+            [ariaLabel]="'Visibility'"
+            [(value)]="recipeCreate.visibility"
+            [id]="'visibility'"
+            [name]="'visibility'"
+          ></input-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12 flex justify-start">
+      <app-file-upload
+        #fileUpload
+        (fileUploaded)="handleImageUploaded($event)"
+        (fileRemoved)="handleImageRemoved($event)"
+      ></app-file-upload>
+    </div>
+
+    <!-- Cooking Appliances Section -->
+    <div class="mb-12">
+      <span class="text-base text-primary font-bold block mb-4">Required Cooking Appliances</span>
+
+      <div
+        *ngFor="let cookingApp of cookingAppList; let i = index"
+        class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 lg:items-center mb-10 lg:mb-4"
+      >
+        <div class="flex-1">
+          <search-input
+            [id]="'cookingApp' + i"
+            [label]="'Cooking Appliance'"
+            [placeholder]="'Search for cooking appliance'"
+            [handleSearch]="searchCookingApp.bind(this)"
+            [options]="cookingAppOptionsNames"
+            (selectedOption)="onCookingAppSelected($event, i)"
+          ></search-input>
+        </div>
+
+        <div class="flex-1">
+          <input-field
+            [label]="'Amount'"
+            [type]="InputType.number"
+            [placeholder]="'Enter amount'"
+            [(value)]="cookingApp.amount"
+            [id]="'amount' + i"
+            [name]="'amount' + i"
+            [form]="form"
+          ></input-field>
+        </div>
+
+        <div class="flex justify-center">
+          <simple-button (click)="removeCookingApp(i)" [variant]="ButtonVariant.borderOnly" className="lg:mt-7">
+            <span class="icon-[material-symbols--delete]"></span>
+          </simple-button>
+        </div>
+      </div>
+
+      <div class="flex">
+        <simple-button (click)="addCookingApp()" [variant]="ButtonVariant.primary" class="flex">
+          <span class="icon-[material-symbols--add] mr-1"></span> Cooking Appliance
+        </simple-button>
+      </div>
+    </div>
+
+    <!-- Ingredients Section -->
+    <div class="mb-12">
+      <span class="text-base text-primary font-bold block mb-4">Ingredients*</span>
+
+      <div
+        *ngFor="let ingredient of ingredientsList; let i = index"
+        class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 lg:items-center mb-10 lg:mb-4"
+      >
+        <div class="flex-1">
+          <search-input
+            [id]="'ingredient' + i"
+            [label]="'Ingredient'"
+            [placeholder]="'Search for ingredient'"
+            [handleSearch]="searchIngredient.bind(this)"
+            [options]="ingredientsOptionsNames"
+            [supportsAddCustom]="true"
+            (selectedOption)="onIngredientSelected($event, i)"
+            (selectedAddCustom)="onRequestIngredientSelected($event, i)"
+            #ingredientSearchInput
+          ></search-input>
+        </div>
+
+        <div class="flex flex-row space-x-4">
+          <div class="flex-1">
+            <input-field
+              [label]="'Quantity'"
+              [type]="InputType.number"
+              [(value)]="ingredient.amount"
+              [placeholder]="'Enter quantity'"
+              [id]="'quantity' + i"
+              [name]="'quantity' + i"
+              [form]="form"
+            ></input-field>
+          </div>
+          <div class="flex-1">
+            <input-field
+              [label]="'Unit'"
+              [type]="InputType.select"
+              [options]="measurementUnits"
+              [(value)]="ingredient.unit"
+              [id]="'unit' + i"
+              [name]="'unit' + i"
+              [form]="form"
+            ></input-field>
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          <simple-button (click)="removeIngredient(i)" [variant]="ButtonVariant.borderOnly" className="lg:mt-7">
+            <span class="icon-[material-symbols--delete]"></span>
+          </simple-button>
+        </div>
+      </div>
+
+      <div class="flex">
+        <simple-button (click)="addIngredient()" [variant]="ButtonVariant.primary" class="flex">
+          <span class="icon-[material-symbols--add] mr-1"></span> Ingredient
+        </simple-button>
+      </div>
+    </div>
+
+    <!-- Directions Row -->
+    <div class="mb-12">
+      <input-field
+        [label]="'Directions*'"
+        [type]="InputType.textarea"
+        [placeholder]="'Enter recipe directions'"
+        [ariaLabel]="'Directions input field'"
+        [(value)]="recipeCreate.description"
+        [id]="'directions'"
+        [name]="'directions'"
+        [required]="true"
+        [form]="form"
+      ></input-field>
+    </div>
+
+    <div class="flex justify-end space-x-4">
+      <simple-button [variant]="ButtonVariant.borderOnly" (click)="onCancel()">Cancel</simple-button>
+      <simple-button [variant]="ButtonVariant.primary" [type]="'submit'" [disabled]="!!form.invalid">
+        Submit
+      </simple-button>
+    </div>
+  </form>
+
+  <simple-modal
+    [title]="requestedIngredientModalTitle"
+    [show]="isRequestIngredientModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="newIngredientBtnText"
+    (setShow)="isRequestIngredientModalOpen = $event"
+    (onSubmit)="handleRequestedIngredientModalSubmit()"
+    (onCancel)="handleRequestedIngredientModalCancel()"
+  >
+    <app-request-ingredient-modal
+      [ingredientName]="requestedIngredientName"
+      #requestIngredientModalComponent
+    ></app-request-ingredient-modal>
+  </simple-modal>
+</page-layout>

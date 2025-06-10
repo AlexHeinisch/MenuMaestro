@@ -1,0 +1,418 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro account API
+  version: 1.0.0
+  description: The API for the Menu-Maestro account
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /accounts/self:
+    get:
+      operationId: getAccountInfo
+      tags:
+        - Accounts
+      responses:
+        "200":
+          description: "Account info"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoDto'
+  /auth/login:
+    post:
+      operationId: login
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+      responses:
+        201:
+          description: "Successful login"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponseDto'
+        403:
+          description: "Invalid login credentials"
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+  /auth/refresh-roles:
+    post:
+      description: "Returns a token with same expiry as the current login token but refreshed permissions"
+      operationId: refreshRoles
+      tags:
+        - Auth
+      parameters:
+        - name: authorization
+          in: header
+          required: false # preauth check
+          schema:
+            type: string
+      responses:
+        201:
+          description: "Successful login"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponseDto'
+        403:
+          description: "Invalid login credentials"
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /accounts:
+    get:
+      operationId: searchAccounts
+      tags:
+        - Accounts
+      summary: Search accounts by username
+      description: Get a list of accounts matching the search query.
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - name: name
+          in: query
+          required: false
+          description: The search query to filter accounts by username, firstname or lastname.
+          schema:
+            type: string
+            default: ""
+        - name: excludingOrganization
+          in: query
+          required: false
+          description: The search query to filter accounts by not in organization.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountSummaryListPaginatedDto"
+        403:
+          description: "No permission to search for accounts"
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    post:
+      operationId: createAccount
+      tags:
+        - Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreateRequestDto'
+      responses:
+        201:
+          description: "Account was successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoDto'
+        409:
+          description: "Email or username already in use."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: "Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /accounts/{username}:
+    put:
+      operationId: editAccount
+      tags:
+        - Accounts
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountEditRequestDto'
+      responses:
+        200:
+          description: "Account was successfully updated."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoDto'
+        403:
+          description: "Not enough permissions to update account."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoDto'
+        409:
+          description: "Email or username already in use."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: "Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    delete:
+      operationId: deleteAccount
+      tags:
+        - Accounts
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          description: "The username of the account to be deleted."
+      responses:
+        204:
+          description: "Account was successfully deleted."
+        403:
+          description: "Not enough permissions to delete the account."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified account does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /accounts/{username}/reset-password:
+    post:
+      operationId: resetPasswordInitiate
+      tags:
+        - Accounts
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+      responses:
+        204:
+          description: "Password reset process was initiated successfully."
+        403:
+          description: "Not enough permissions to reset that account."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Specified account does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /accounts/{username}/reset-password/{token}:
+    put:
+      operationId: resetPasswordCommit
+      tags:
+        - Accounts
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+        - name: token
+          description: "Password reset token sent via email by the application."
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordCommitRequestDto'
+      responses:
+        204:
+          description: "Password was successfully changed."
+        409:
+          description: "Password change failed."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+components:
+  schemas:
+    AccountSummaryDto:
+      description: "Basic information on an account"
+      type: object
+      required:
+        - username
+        - firstName
+        - lastName
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    AccountSummaryListPaginatedDto:
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountSummaryDto'
+              default: [ ]
+          required:
+            - content
+    AccountInfoDto:
+      description: "All information of a specific account"
+      type: object
+      properties:
+        username:
+          type: string
+          description: "Username of the account to be created."
+        email:
+          type: string
+          format: email
+          description: "Email of the account to be created."
+        firstName:
+          type: string
+          description: "First name of the user that creates this account."
+        lastName:
+          type: string
+          description: Last name of the user that creates this account."
+        isGlobalAdmin:
+          type: boolean
+          description: "Indicates if the account is an admin."
+      required:
+        - username
+        - email
+        - lastName
+        - firstName
+        - isGlobalAdmin
+
+    TokenResponseDto:
+      description: "Authentication material received on successful login."
+      type: object
+      properties:
+        accessToken:
+          $ref: '#/components/schemas/AccessTokenDto'
+      required:
+        - accessToken
+
+    AccessTokenDto:
+      description: "Contains all information on an access token."
+      type: object
+      properties:
+        token:
+          description: "Base64 encoded access token."
+          type: string
+        expiryDate:
+          description: "Expiry datetime of the access token."
+          type: string
+          format: date-time
+      required:
+        - token
+        - expiryDate
+
+    LoginRequestDto:
+      description: "Contains all information to attempt logging in."
+      type: object
+      properties:
+        username:
+          description: "Username of the account."
+          type: string
+        password:
+          description: "Password of the account."
+          type: string
+      required:
+        - email
+        - password
+
+    AccountCreateRequestDto:
+      description: "Contains information that is needed to create an account."
+      type: object
+      properties:
+        username:
+          type: string
+          description: "Username of the account to be created."
+        email:
+          type: string
+          # format: email - let internal validation do this
+          description: "Email of the account to be created."
+        firstName:
+          type: string
+          description: "First name of the user that creates this account."
+        lastName:
+          type: string
+          description: "Last name of the user that creates this account."
+        password:
+          type: string
+          description: "Password of the account to be created."
+      required:
+        - username
+        - email
+        - lastName
+        - firstName
+        - password
+
+    AccountEditRequestDto:
+      description: "Data of an account that needs to be changed."
+      type: object
+      properties:
+        email:
+          type: string
+          description: "New email for specified account."
+        firstName:
+          type: string
+          description: "New first name for specified account."
+        lastName:
+          type: string
+          description: "New last name for specified account."
+        newPassword:
+          type: string
+          description: "New password for specified account."
+        oldPassword:
+          type: string
+          description: "Current password to confirm password and email changes."
+
+    ResetPasswordCommitRequestDto:
+      description: "Contains information that is needed to create an account."
+      type: object
+      properties:
+        password:
+          type: string
+          description: "New password to be set."
+      required:
+        - password

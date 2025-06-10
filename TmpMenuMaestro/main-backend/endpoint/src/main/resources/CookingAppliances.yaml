@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro cooking appliances API
+  version: 1.0.0
+  description: The API for the Menu-Maestro cooking appliances
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /cooking-appliances:
+    get:
+      operationId: getCookingAppliances
+      x-spring-paginated: true
+      tags:
+        - CookingAppliances
+      summary: 'Get all cooking appliances, or all matching the given filters. Supports pagination and search.'
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sortParam'
+        - name: 'name'
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: false
+          required: false
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CookingApplianceListPaginatedDto'
+
+components:
+  schemas:
+    CookingApplianceUseCreateEditDto:
+      description: "Defines a cooking appliance in use by id and amount."
+      type: object
+      properties:
+        id:
+          description: "Unique id of the cooking appliance used in a meal/recipe."
+          type: integer
+          format: int64
+        amount:
+          description: "Amount of cooking appliances used."
+          type: integer
+      required:
+        - id
+        - amount
+
+    CookingApplianceUseDto:
+      description: "Defines a cooking appliance in use by id, amount and name."
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CookingApplianceUseCreateEditDto'
+        - type: object
+          properties:
+            name:
+              type: string
+              description: "Name of the cooking appliance used."
+          required:
+            - name
+
+    CookingApplianceDto:
+      description: "DTO containing all information on a cooking appliance."
+      type: object
+      properties:
+        id:
+          description: "Unique id of a cooking appliance."
+          type: integer
+          format: int64
+        name:
+          description: "Name of a cooking appliance."
+          type: string
+      required:
+        - id
+        - name
+
+    CookingApplianceListPaginatedDto:
+      description: "Paginated list of cooking appliances."
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/CookingApplianceDto'
+              default: []
+          required:
+            - content
+# TODO deal with PaginationResponse

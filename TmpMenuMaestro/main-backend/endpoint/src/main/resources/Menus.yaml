@@ -1,0 +1,504 @@
+openapi: 3.0.0
+info:
+  title: Menu Maestro menu API
+  version: 1.0.0
+  description: The API for the Menu-Maestro menus
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /menus:
+    get:
+      operationId: getMenus
+      tags:
+        - Menus
+      summary: "Search menus by specified criteria"
+      x-spring-paginated: true
+      parameters:
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
+        - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sortParam'
+        - name: name
+          in: query
+          schema:
+            type: string
+          allowEmptyValue: true
+          required: false
+        - name: organization_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+          allowEmptyValue: true
+          required: false
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/MenuStatus'
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuSummaryListPaginatedDto'
+    post:
+      operationId: createMenu
+      tags:
+        - Menus
+      summary: "Create a new menu"
+      requestBody:
+        description: Data for the new menu
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuCreateDto'
+      responses:
+        201:
+          description: Menu created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuSummaryDto'
+        422:
+          $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/ValidationError'
+
+  /menus/{id}/meals:
+    post:
+      operationId: addMealToMenu
+      tags:
+        - Menus
+      summary: "Add a new meal to a menu"
+      parameters:
+        - name: id
+          description: Id of the menu to add a meal to
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        description: Data to create a new meal in a menu
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipeId:
+                  description: Id of the recipe to be added as meal
+                  type: integer
+                  format: int64
+              required:
+                - recipeId
+      responses:
+        204:
+          description: Success - Recipe was successfully added as a meal to the menu
+        403:
+          description: Forbidden, user has no permission to add snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: Provided menu or recipe were not found.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: Validation error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /menus/{id}/snapshots:
+    post:
+      operationId: addSnapshotToMenu
+      tags:
+        - Menus
+      summary: "Add a new snapshot to a menu"
+      parameters:
+        - name: id
+          description: Id of the menu to add a snapshot to
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        description: Data to add a new snapshot to a menu
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SnapshotCreateDto'
+      responses:
+        204:
+          description: Success - Snapshot was successfully added to the menu
+        403:
+          description: Forbidden, user has no permission to add snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: Could not find specified menu.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: Conflict occurred (Snapshot with specified name already exists)
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        422:
+          description: Validation error occurred (invalid name, position, ...)
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /menus/{menuId}/snapshots/{snapshotId}:
+    delete:
+      operationId: removeSnapshotFromMenu
+      tags:
+        - Menus
+      summary: "Removes a snapshot from a menu"
+      parameters:
+        - name: menuId
+          description: Id of the menu to remove a snapshot from
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+        - name: snapshotId
+          description: Id of the snapshot to be removed
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        204:
+          description: Success - Snapshot was successfully removed from a menu
+        404:
+          description: "Specified menu or specified snapshot in specified menu not found"
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+  /menus/{menuId}/existsShoppingListForMenu:
+    get:
+      operationId: existsShoppingListForMenu
+      tags:
+        - Menus
+      summary: "Returns true if a Shopping list for the corresponding Menu exists, false otherwise"
+      parameters:
+        - name: menuId
+          description: Id of the menu
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: Success - Returns true if a Shopping list for the corresponding Menu exists, false otherwise
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+  /menus/{id}:
+    get:
+      operationId: getMenuById
+      tags:
+        - Menus
+      summary: "Get a single menu by its id"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuDetailDto'
+        404:
+          $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/NotFound'
+    post:
+      operationId: closeMenuById
+      tags:
+        - Menus
+      summary: "Close a menu, which makes it unchangeable and transfers its stash to the organization"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        204:
+          description: The menu was closed successfully.
+        403:
+          description: Forbidden. No permission to close menu.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: The menu was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+    delete:
+      operationId: deleteMenuById
+      tags:
+        - Menus
+      summary: "Delete a menu by its id"
+      parameters:
+        - name: id
+          in: path
+          description: "Id of the menu to delete"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: The menu was deleted successfully.
+        403:
+          description: Forbidden. No permission to delete menu.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: The menu was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+  /menus/{id}/items/order:
+    put:
+      operationId: changeMenuItemOrder
+      tags:
+        - Menus
+      summary: "Reorder the menu-items (snapshots and meals) by giving a reordered list of their ids"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        required: true
+        description: "Reordered list with the menu-item ids"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+      responses:
+        204:
+          description: "Success Response"
+
+components:
+  schemas:
+    MenuSummaryDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: "Name of the menu"
+        organization:
+          $ref: 'Organizations.yaml#/components/schemas/OrganizationSummaryDto'
+        status:
+          $ref: '#/components/schemas/MenuStatus'
+      required:
+        - id
+        - name
+        - organization
+        - status
+
+    MenuSummaryListPaginatedDto:
+      type: object
+      allOf:
+        - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/MenuSummaryDto'
+              default: [ ]
+          required:
+            - content
+
+    MenuDetailDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: "Name of the menu"
+        status:
+          $ref: '#/components/schemas/MenuStatus'
+        stashId:
+          description: "Id of the corresponding stash"
+          type: integer
+          format: int64
+        description:
+          type: string
+          description: "Description of the menu"
+        numberOfPeople:
+          type: integer
+          description: "Number of people that are having the menu"
+        organization:
+          $ref: 'Organizations.yaml#/components/schemas/OrganizationSummaryDto'
+        meals:
+          description: "Meals included within the menu"
+          type: array
+          items:
+            $ref: '#/components/schemas/MealInMenuDto'
+        snapshots:
+          description: "Snapshot included within the menu"
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotInMenuDto'
+      required:
+        - id
+        - name
+        - status
+        - description
+        - numberOfPeople
+        - organization
+        - meals
+        - snapshots
+        - stashId
+
+    MealInMenuDto:
+      type: object
+      properties:
+        id:
+          description: "Menu Item Identifier"
+          type: integer
+          format: int64
+        name:
+          description: "Name of the meal"
+          type: string
+        status:
+          $ref: 'Meals.yaml#/components/schemas/MealStatus'
+        numberOfPeople:
+          description: "Number of people that are having this meal"
+          type: integer
+        position:
+          description: "Position of the meal within the menu"
+          type: integer
+      required:
+        - name
+        - id
+        - status
+        - numberOfPeople
+        - position
+
+    SnapshotInMenuDto:
+      type: object
+      properties:
+        id:
+          description: "Menu Item Identifier"
+          type: integer
+          format: int64
+        name:
+          description: "Name of the snapshot"
+          type: string
+        numberOfMealsIncluded:
+          description: "Number of meals included in the snapshot"
+          type: integer
+        numberOfTotalIngredients:
+          description: "Number of total ingredients across all included meals"
+          type: integer
+        numberOfAvailableIngredients:
+          description: "Number of ingredients that are available in the stash"
+          type: integer
+        position:
+          description: "Position of the snapshot within the menu"
+          type: integer
+      required:
+        - id
+        - name
+        - numberOfMealsIncluded
+        - numberOfAvailableIngredients
+        - numberOfTotalIngredients
+        - position
+
+    SnapshotCreateDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Name of the snapshot"
+        position:
+          description: "Position of the snapshot within the menu"
+          type: integer
+      required:
+        - name
+        - position
+
+    MenuCreateDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          description: "Name of the menu"
+          example: "Football Summer Camp 2024"
+        description:
+          type: string
+          description: "Description of the menu"
+          example: "Summer camp of FC Max Musterhausen from 7.6.-20.6."
+        organizationId:
+          type: integer
+          format: int64
+          description: "Organization for which the menu is planned"
+          example: 123123
+        numberOfPeople:
+          type: integer
+          minimum: 1
+          description: "Number of people that have the menu"
+          example: 50
+      required:
+        - name
+        - description
+        - organizationId
+        - numberOfPeople
+    MenuStatus:
+      type: string
+      enum:
+        - ALL
+        - CLOSED
+        - SERVING
+      default: "SERVING"

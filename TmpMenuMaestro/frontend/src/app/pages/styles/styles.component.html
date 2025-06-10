@@ -1,0 +1,242 @@
+<page-layout styleNames="bg-gray-100">
+  <!-- Header -->
+  <h1 class="mb-8 text-3xl">Frontend UI Components</h1>
+
+  <!-- Alert Section -->
+  <section class="mb-8">
+    <div class="rounded border border-red-500 bg-red-100 p-4 text-red-700">
+      <p class="text-sm font-semibold">Error: Something went wrong! Please try again.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <section class="mb-8">
+      <h2 class="mb-2 text-xl text-neutral-700">Text Styles</h2>
+      <p class="mb-4 text-sm">Running text styled with <code>text-sm</code> for readability.</p>
+    </section>
+
+    <!-- Form Section -->
+    <section class="mb-8">
+      <h2 class="text-xl mb-2 text-neutral-700">Form Example</h2>
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="w-[15rem] mb-4">
+          <search-input
+            [options]="['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry']"
+            (selectedOption)="onFruitSelected($event)"
+            [handleSearch]="handleSearch"
+          >
+          </search-input>
+        </div>
+        <input-field
+          [label]="'Name'"
+          [type]="InputType.text"
+          [placeholder]="'Enter your name'"
+          [ariaLabel]="'Name input field'"
+          [(value)]="name"
+          [id]="'name'"
+          [name]="'name'"
+        ></input-field>
+
+        <input-field
+          [label]="'Input field with default value'"
+          [type]="InputType.text"
+          [placeholder]="'Enter your name'"
+          [ariaLabel]="'Default value input field'"
+          [(value)]="defaultName"
+          [id]="'defaultName'"
+          [name]="'defaultName'"
+        ></input-field>
+
+        <input-field
+          [label]="'Email'"
+          [type]="InputType.email"
+          [placeholder]="'max@mustermann.com'"
+          [ariaLabel]="'Email input field'"
+          [(value)]="email"
+          [id]="'email'"
+          [name]="'email'"
+        ></input-field>
+
+        <input-field
+          [type]="InputType.text"
+          [placeholder]="'no label input'"
+          [ariaLabel]="'No label input field'"
+          [(value)]="noLabel"
+          [id]="'noLabel'"
+          [name]="'noLabel'"
+          [className]="'border-primary'"
+        ></input-field>
+
+        <input-field
+          [label]="'Password'"
+          [type]="InputType.password"
+          [ariaLabel]="'Password input field'"
+          [(value)]="password"
+          [id]="'password'"
+          [name]="'password'"
+        ></input-field>
+
+        <input-field
+          [label]="'Quantity'"
+          [type]="InputType.number"
+          [placeholder]="'Enter quantity'"
+          [ariaLabel]="'Quantity input field'"
+          [(value)]="quantity"
+          [id]="'quantity'"
+          [name]="'quantity'"
+        ></input-field>
+
+        <input-field
+          [label]="'Unit'"
+          [type]="InputType.select"
+          [options]="measurementUnits"
+          [ariaLabel]="'Measurement unit selection'"
+          [(value)]="selectedUnit"
+          [id]="'unit'"
+          [name]="'unit'"
+        ></input-field>
+
+        <input-field
+          [label]="'Event Date'"
+          [type]="InputType.date"
+          [ariaLabel]="'Event date input field'"
+          [(value)]="eventDate"
+          [id]="'event-date'"
+          [name]="'event-date'"
+        ></input-field>
+
+        <input-field
+          [label]="'Checkbox'"
+          [type]="InputType.checkbox"
+          [ariaLabel]="'Checkbox'"
+          [(value)]="checkboxVal"
+          [id]="'checkbox'"
+          [name]="'checkbox'"
+          [marginBottom]="'mb-2'"
+          [className]="'accent-primary-light'"
+          [labelStyling]="'text-primary-light'"
+        ></input-field>
+
+        <input-field
+          [label]="'Checkbox2'"
+          [type]="InputType.checkbox"
+          [ariaLabel]="'Checkbox2'"
+          [(value)]="checkboxVal2"
+          [id]="'checkbox2'"
+          [name]="'checkbox2'"
+          [marginBottom]="'mb-2'"
+          [className]="'accent-secondary-light'"
+          [labelStyling]="'text-secondary-light'"
+        ></input-field>
+
+        <!-- Error Message for Form Field -->
+        <p class="mb-8 text-sm text-red-600">Error: Please enter a valid email address.</p>
+        <div class="md:space-x-4">
+          <simple-button [variant]="ButtonVariant.primary" [type]="'submit'"> Submit </simple-button>
+          <simple-button [variant]="ButtonVariant.primary" [disabled]="true"> Submit (disabled) </simple-button>
+        </div>
+      </form>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="mb-2 text-xl text-neutral-700">Buttons</h2>
+      <div class="flex flex-col sm:space-y-2 md:flex-row md:space-y-0 md:space-x-4">
+        <!-- Regular Primary Button -->
+        <simple-button [variant]="ButtonVariant.primary"> Primary </simple-button>
+
+        <!-- Secondary Button -->
+        <simple-button [variant]="ButtonVariant.secondary"> Secondary </simple-button>
+      </div>
+    </section>
+
+    <!-- Card Section -->
+    <section class="mb-8">
+      <h2 class="mb-2 text-xl text-neutral-700">Cards</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <simple-card title="Simple Card">
+          <p>This is a simple card component using the neutral color palette and medium font size.</p>
+        </simple-card>
+        <simple-card title="Simple Customized Card" class="bg-blue-500 h-full">
+          <p>This is the body text.</p>
+        </simple-card>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-2 text-xl text-neutral-700">Info Messages</h2>
+      <div class="grid grid-cols-4 gap-4">
+        <!-- Info Message Section -->
+        <info-message
+          [message]="'This is a success message!'"
+          [type]="InfoMessageType.success"
+          (onClose)="handleClose()"
+        ></info-message>
+
+        <info-message
+          [message]="'This is a failure message!'"
+          [type]="InfoMessageType.failure"
+          (onClose)="handleClose()"
+        ></info-message>
+        <info-message
+          [message]="'This is a failure message!'"
+          [type]="InfoMessageType.neutral"
+          (onClose)="handleClose()"
+        ></info-message>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2 class="mb-2 text-xl text-neutral-700">Modals</h2>
+
+      <div class="flex flex-row">
+        <!-- Button to open Simple Modal -->
+        <!-- Button to open Simple Modal -->
+        <simple-button
+          [variant]="ButtonVariant.primary"
+          (click)="openModal('Simple Modal Title', 'This is the body of the simple modal. Do you want to continue?')"
+          class="rounded px-4 py-2 text-white"
+        >
+          Open Simple Modal
+        </simple-button>
+
+        <!-- Button to open Complex Modal -->
+        <simple-button
+          [variant]="ButtonVariant.secondary"
+          (click)="openComplexModal('Complex Modal Title', 'This is the body of the complex modal. Choose an action.')"
+          class="ml-4 rounded px-4 py-2 text-white"
+        >
+          Open Complex Modal
+        </simple-button>
+      </div>
+    </section>
+
+    <!-- Simple Modal Component -->
+    <simple-modal
+      [title]="modalTitle"
+      [show]="isModalOpen"
+      [cancelBtnTitle]="'Cancel'"
+      [submitBtnTitle]="'Confirm'"
+      (setShow)="isModalOpen = $event"
+      (onCancel)="handleModalCancel()"
+      (onSubmit)="handleModalSubmit()"
+    >
+      {{ modalBody }}
+    </simple-modal>
+
+    <!-- Complex Modal Component with Third Button -->
+    <complex-modal
+      [title]="complexModalTitle"
+      [show]="isComplexModalOpen"
+      [firstBtnTitle]="'Cancel'"
+      [secondBtnTitle]="'Keep Private'"
+      [thirdBtnTitle]="'Publish'"
+      (setShow)="isComplexModalOpen = $event"
+      (onCancel)="handleComplexModalCancel()"
+      (onSubmit)="handleComplexModalSubmit()"
+      (onThirdAction)="handleComplexModalThirdAction()"
+    >
+      {{ complexModalBody }}
+    </complex-modal>
+  </main>
+</page-layout>

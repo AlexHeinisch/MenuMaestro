@@ -1,0 +1,2632 @@
+[
+  {
+    "name": "Spaghetti Bolognese",
+    "description": "Boil spaghetti until al dente. In a saucepan, cook ground beef with tomato sauce, garlic, and onion. Combine and garnish with parmesan cheese.",
+    "author": "Chef Anna",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Spaghetti",
+        "unit": "GRAMS",
+        "amount": 400
+      },
+      {
+        "name": "Ground Beef",
+        "unit": "KILOGRAMS",
+        "amount": 0.5
+      },
+      {
+        "name": "Tomato",
+        "unit": "PIECE",
+        "amount": 3
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Parmesan",
+        "unit": "GRAMS",
+        "amount": 50
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 2
+      },
+      {
+        "name": "Large Pot",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Vegetable Stir-fry",
+    "description": "Chop vegetables. Heat oil in a wok, stir-fry vegetables with soy sauce and garlic until crisp-tender. Serve over steamed rice.",
+    "author": "Chef Li",
+    "servings": 3,
+    "ingredients": [
+      {
+        "name": "Bell Pepper",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Carrot",
+        "unit": "PIECE",
+        "amount": 3
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Olive Oil",
+        "unit": "LITRES",
+        "amount": 0.05
+      },
+      {
+        "name": "Soy Sauce",
+        "unit": "GRAMS",
+        "amount": 30
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Creamy Mushroom Pasta",
+    "description": "Cook pasta until al dente. In a skillet, saut\u00e9 mushrooms with garlic and cream. Toss with cooked pasta and serve.",
+    "author": "Chef Marco",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Spaghetti",
+        "unit": "GRAMS",
+        "amount": 400
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Cream",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Mushroom",
+        "unit": "GRAMS",
+        "amount": 300
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Large Pot",
+        "amount": 1
+      },
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Grilled Chicken Caesar Salad",
+    "description": "Grill chicken breasts, slice, and toss with romaine lettuce, croutons, and Caesar dressing. Top with grated parmesan.",
+    "author": "Chef Bella",
+    "servings": 2,
+    "ingredients": [
+      {
+        "name": "Chicken Breast",
+        "unit": "KILOGRAMS",
+        "amount": 0.3
+      },
+      {
+        "name": "Romaine Lettuce",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Parmesan",
+        "unit": "GRAMS",
+        "amount": 20
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Grill",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Tomato Basil Soup",
+    "description": "Simmer fresh tomatoes with basil, onion, and garlic. Blend until smooth and serve with a drizzle of cream.",
+    "author": "Chef Mia",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Tomato",
+        "unit": "PIECE",
+        "amount": 6
+      },
+      {
+        "name": "Onion",
+        "unit": "PIECE",
+        "amount": 1
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Cream",
+        "unit": "GRAMS",
+        "amount": 50
+      },
+      {
+        "name": "Basil",
+        "unit": "GRAMS",
+        "amount": 10
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Garlic Butter Shrimp",
+    "description": "Saut\u00e9 shrimp in a skillet with garlic and butter. Garnish with parsley and serve with crusty bread.",
+    "author": "Chef Leo",
+    "servings": 3,
+    "ingredients": [
+      {
+        "name": "Shrimp",
+        "unit": "KILOGRAMS",
+        "amount": 0.5
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 3
+      },
+      {
+        "name": "Butter",
+        "unit": "GRAMS",
+        "amount": 50
+      },
+      {
+        "name": "Parsley",
+        "unit": "GRAMS",
+        "amount": 5
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Vegetable Curry",
+    "description": "Cook diced vegetables with curry spices, coconut milk, and a touch of tomato paste. Serve with rice or naan bread.",
+    "author": "Chef Priya",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Carrot",
+        "unit": "PIECE",
+        "amount": 3
+      },
+      {
+        "name": "Potato",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Tomato",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Coconut Milk",
+        "unit": "LITRES",
+        "amount": 0.3
+      },
+      {
+        "name": "Curry Powder",
+        "unit": "GRAMS",
+        "amount": 15
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Classic Pancakes",
+    "description": "Mix batter from flour, eggs, milk, and a pinch of sugar. Cook in a skillet and serve with syrup or fruit.",
+    "author": "Chef Betty",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Flour",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Eggs",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Milk",
+        "unit": "LITRES",
+        "amount": 0.2
+      },
+      {
+        "name": "Sugar",
+        "unit": "GRAMS",
+        "amount": 20
+      },
+      {
+        "name": "Butter",
+        "unit": "GRAMS",
+        "amount": 30
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Roasted Vegetable Medley",
+    "description": "Chop vegetables, toss in olive oil and herbs, and roast until caramelized. Serve as a side or main dish.",
+    "author": "Chef Ian",
+    "servings": 3,
+    "ingredients": [
+      {
+        "name": "Bell Pepper",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Carrot",
+        "unit": "PIECE",
+        "amount": 3
+      },
+      {
+        "name": "Potato",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Olive Oil",
+        "unit": "LITRES",
+        "amount": 0.05
+      },
+      {
+        "name": "Salt",
+        "unit": "GRAMS",
+        "amount": 10
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Grilled Cheese Sandwich",
+    "description": "Butter bread, layer with cheddar cheese, and grill in a pan until golden and melty. Serve with soup.",
+    "author": "Chef Lily",
+    "servings": 2,
+    "ingredients": [
+      {
+        "name": "Bread",
+        "unit": "PIECE",
+        "amount": 4
+      },
+      {
+        "name": "Cheddar Cheese",
+        "unit": "GRAMS",
+        "amount": 100
+      },
+      {
+        "name": "Butter",
+        "unit": "GRAMS",
+        "amount": 20
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Grill",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Homemade Pizza",
+    "description": "Spread pizza dough with tomato sauce, top with mozzarella and toppings of choice, then bake until crispy.",
+    "author": "Chef Antonio",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Pizza Dough",
+        "unit": "GRAMS",
+        "amount": 500
+      },
+      {
+        "name": "Tomato",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Mozzarella",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Olive Oil",
+        "unit": "LITRES",
+        "amount": 0.02
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Stove",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Chicken Fried Rice",
+    "description": "Stir-fry cooked rice with diced chicken, frozen peas, eggs, and soy sauce for a quick meal.",
+    "author": "Chef Ken",
+    "servings": 3,
+    "ingredients": [
+      {
+        "name": "Rice",
+        "unit": "GRAMS",
+        "amount": 300
+      },
+      {
+        "name": "Chicken Breast",
+        "unit": "KILOGRAMS",
+        "amount": 0.2
+      },
+      {
+        "name": "Eggs",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Frozen Peas",
+        "unit": "GRAMS",
+        "amount": 100
+      },
+      {
+        "name": "Soy Sauce",
+        "unit": "GRAMS",
+        "amount": 30
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Saucepan",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Beef Stroganoff",
+    "description": "Cook beef strips with mushrooms and onions in a creamy sauce. Serve over egg noodles.",
+    "author": "Chef Mark",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Beef",
+        "unit": "KILOGRAMS",
+        "amount": 0.5
+      },
+      {
+        "name": "Mushroom",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Onion",
+        "unit": "PIECE",
+        "amount": 1
+      },
+      {
+        "name": "Cream",
+        "unit": "MILLILITRES",
+        "amount": 200
+      },
+      {
+        "name": "Egg Noodles",
+        "unit": "GRAMS",
+        "amount": 300
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Large Pot",
+        "amount": 1
+      },
+      {
+        "name": "Skillet",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Vegetable Lasagna",
+    "description": "Layer lasagna sheets with marinara sauce, ricotta cheese, and mixed vegetables. Bake until golden.",
+    "author": "Chef Maria",
+    "servings": 6,
+    "ingredients": [
+      {
+        "name": "Lasagna Sheets",
+        "unit": "PIECE",
+        "amount": 12
+      },
+      {
+        "name": "Ricotta",
+        "unit": "GRAMS",
+        "amount": 250
+      },
+      {
+        "name": "Mixed Vegetables",
+        "unit": "GRAMS",
+        "amount": 300
+      },
+      {
+        "name": "Mozzarella",
+        "unit": "GRAMS",
+        "amount": 150
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Oven",
+        "amount": 1
+      },
+      {
+        "name": "Casserole Dish",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Chicken Alfredo",
+    "description": "Cook Spaghetti and toss with a creamy alfredo sauce and grilled chicken.",
+    "author": "Chef Laura",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Spaghetti",
+        "unit": "GRAMS",
+        "amount": 400
+      },
+      {
+        "name": "Chicken Breast",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Cream",
+        "unit": "MILLILITRES",
+        "amount": 200
+      },
+      {
+        "name": "Parmesan",
+        "unit": "GRAMS",
+        "amount": 100
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 2
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Skillet",
+        "amount": 1
+      },
+      {
+        "name": "Large Pot",
+        "amount": 1
+      },
+      {
+        "name": "Stove-Tops",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "name": "Shepherd's Pie",
+    "description": "Layer seasoned ground lamb and vegetables with mashed potatoes. Bake until golden.",
+    "author": "Chef Richard",
+    "servings": 6,
+    "ingredients": [
+      {
+        "name": "Ground Lamb",
+        "unit": "KILOGRAMS",
+        "amount": 0.5
+      },
+      {
+        "name": "Carrot",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Peas",
+        "unit": "GRAMS",
+        "amount": 150
+      },
+      {
+        "name": "Potato",
+        "unit": "KILOGRAMS",
+        "amount": 1
+      },
+      {
+        "name": "Butter",
+        "unit": "GRAMS",
+        "amount": 50
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Oven",
+        "amount": 1
+      },
+      {
+        "name": "Casserole Dish",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Fish Tacos",
+    "description": "Fill tortillas with grilled fish, cabbage slaw, and a tangy sauce.",
+    "author": "Chef Diego",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Fish Fillet",
+        "unit": "GRAMS",
+        "amount": 400
+      },
+      {
+        "name": "Tortillas",
+        "unit": "PIECE",
+        "amount": 8
+      },
+      {
+        "name": "Cabbage",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Mayonnaise",
+        "unit": "GRAMS",
+        "amount": 100
+      },
+      {
+        "name": "Lime",
+        "unit": "PIECE",
+        "amount": 2
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Grill",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Stuffed Bell Peppers with Meat",
+    "description": "Stuff bell peppers with a mixture of rice, ground beef, and vegetables. Bake until tender.",
+    "author": "Chef Clara",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Bell Pepper",
+        "unit": "PIECE",
+        "amount": 4
+      },
+      {
+        "name": "Ground Beef",
+        "unit": "GRAMS",
+        "amount": 300
+      },
+      {
+        "name": "Rice",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Onion",
+        "unit": "PIECE",
+        "amount": 1
+      },
+      {
+        "name": "Tomato",
+        "unit": "PIECE",
+        "amount": 2
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Oven",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Beetroot Hummus",
+    "description": "Blend cooked beetroot with chickpeas, tahini, garlic, and lemon juice. Serve as a dip.",
+    "author": "Chef Lily",
+    "servings": 6,
+    "ingredients": [
+      {
+        "name": "Beetroot",
+        "unit": "PIECE",
+        "amount": 2
+      },
+      {
+        "name": "Chickpeas",
+        "unit": "GRAMS",
+        "amount": 400
+      },
+      {
+        "name": "Garlic",
+        "unit": "PIECE",
+        "amount": 1
+      },
+      {
+        "name": "Lemon",
+        "unit": "PIECE",
+        "amount": 1
+      }
+    ],
+    "cookingAppliances": [
+      {
+        "name": "Blender",
+        "amount": 1
+      }
+    ]
+  },
+  {
+    "name": "Caprese Salad",
+    "description": "Layer tomato slices with mozzarella and basil. Drizzle with olive oil and balsamic vinegar.",
+    "author": "Chef Elena",
+    "servings": 4,
+    "ingredients": [
+      {
+        "name": "Tomato",
+        "unit": "PIECE",
+        "amount": 3
+      },
+      {
+        "name": "Mozzarella",
+        "unit": "GRAMS",
+        "amount": 200
+      },
+      {
+        "name": "Basil",
+        "unit": "GRAMS",
+        "amount": 20
+      },
+      {
+        "name": "Olive Oil",
+        "unit": "MILLILITRES",
+        "amount": 50
+      },
+      {
+        "name": "Balsamic Vinegar",
+        "unit": "MILLILITRES",
+        "amount": 30
+      }
+    ],
+    "cookingAppliances": [
+    ]
+  },
+  {
+    "name": "Pumpkin Soup",
+    "description": "Simmer pumpkin with onion, garlic, and vegetable stock. Blend until smooth and serve warm.",
+    "author": "Chef Emma",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pumpkin", "unit": "KILOGRAMS", "amount": 1 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 1000 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Blender", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Eggplant Parmesan",
+    "description": "Layer breaded eggplant slices with marinara sauce and mozzarella. Bake until golden.",
+    "author": "Chef Luigi",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 2 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 200 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 300 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Veggie Quesadillas",
+    "description": "Fill tortillas with sautéed vegetables and cheese. Cook on a griddle until crispy.",
+    "author": "Chef Carlos",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Tortillas", "unit": "PIECE", "amount": 8 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 2 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 200 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Griddle", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Margherita Pizza",
+    "description": "Top pizza dough with tomato sauce, mozzarella, and fresh basil. Bake until crust is golden.",
+    "author": "Chef Antonio",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pizza Dough", "unit": "GRAMS", "amount": 500 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 250 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 20 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Tray", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Beef Tacos",
+    "description": "Fill taco shells with seasoned ground beef, lettuce, and shredded cheese.",
+    "author": "Chef Miguel",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Taco Shells", "unit": "PIECE", "amount": 12 },
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 500 },
+      { "name": "Lettuce", "unit": "GRAMS", "amount": 200 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 150 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 }]
+  },
+  {
+    "name": "Chicken Noodle Soup",
+    "description": "Simmer chicken, noodles, and vegetables in a flavorful broth.",
+    "author": "Chef Sophie",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "PIECE", "amount": 2 },
+      { "name": "Egg Noodles", "unit": "GRAMS", "amount": 300 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Celery", "unit": "PIECE", "amount": 2 },
+      { "name": "Chicken Stock", "unit": "MILLILITRES", "amount": 1500 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 2 }
+    ]
+  },
+  {
+    "name": "Avocado Toast",
+    "description": "Spread mashed avocado on toasted bread and sprinkle with salt and pepper.",
+    "author": "Chef Mia",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Avocado", "unit": "PIECE", "amount": 1 },
+      { "name": "Bread", "unit": "PIECE", "amount": 4 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Toaster", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shrimp Tacos",
+    "description": "Fill tortillas with grilled shrimp, cabbage slaw, and a tangy lime sauce.",
+    "author": "Chef Elena",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Shrimp", "unit": "GRAMS", "amount": 400 },
+      { "name": "Tortillas", "unit": "PIECE", "amount": 8 },
+      { "name": "Cabbage", "unit": "GRAMS", "amount": 200 },
+      { "name": "Mayonnaise", "unit": "GRAMS", "amount": 50 },
+      { "name": "Lime", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chili Con Carne",
+    "description": "Simmer ground beef, beans, and tomatoes with chili spices. Serve with rice.",
+    "author": "Frank Herbert",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 500 },
+      { "name": "Kidney Beans", "unit": "GRAMS", "amount": 400 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Chili Powder", "unit": "TEASPOONS", "amount": 2 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 300 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 2 }
+    ]
+  },
+  {
+    "name": "Spinach and Feta Quiche",
+    "description": "Bake a flaky crust filled with spinach, feta cheese, and eggs.",
+    "author": "Chef Olivia",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Pie Crust", "unit": "PIECE", "amount": 1 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 200 },
+      { "name": "Feta Cheese", "unit": "GRAMS", "amount": 150 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 4 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 200 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Thai Green Curry",
+    "description": "Simmer chicken and vegetables in a fragrant green curry sauce served with rice.",
+    "author": "Chef Aisha",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "PIECE", "amount": 2 },
+      { "name": "Coconut Milk", "unit": "MILLILITRES", "amount": 400 },
+      { "name": "Green Curry Paste", "unit": "GRAMS", "amount": 50 },
+      { "name": "Mixed Vegetables", "unit": "GRAMS", "amount": 300 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 300 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 2 }
+    ]
+  },
+  {
+    "name": "Vegetable Soup",
+    "description": "Simmer a medley of vegetables in a seasoned broth. Serve warm.",
+    "author": "Chef Emma",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Potato", "unit": "PIECE", "amount": 2 },
+      { "name": "Celery", "unit": "PIECE", "amount": 2 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 1000 },
+      { "name": "Parsley", "unit": "GRAMS", "amount": 10 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Blender", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Greek Salad",
+    "description": "Mix tomatoes, cucumbers, olives, and feta cheese. Drizzle with olive oil.",
+    "author": "Chef Dimitri",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Cucumber", "unit": "PIECE", "amount": 1 },
+      { "name": "Feta Cheese", "unit": "GRAMS", "amount": 150 },
+      { "name": "Black Olives", "unit": "GRAMS", "amount": 100 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+    ]
+  },
+  {
+    "name": "Beef and Broccoli Stir-Fry",
+    "description": "Sauté beef and broccoli in a savory soy sauce. Serve with rice.",
+    "author": "Chef Angela",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Beef", "unit": "GRAMS", "amount": 400 },
+      { "name": "Broccoli", "unit": "GRAMS", "amount": 300 },
+      { "name": "Soy Sauce", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 300 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 2 }
+    ]
+  },
+  {
+    "name": "Gelato Mix With Berries",
+    "description": "",
+    "author": "Chef Angela",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Ice Cream", "unit": "GRAMS", "amount": 400 },
+      { "name": "Frozen Berries", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+    ]
+  },
+  {
+    "name": "Apple Pie",
+    "description": "Fill a pie crust with spiced apple slices and bake until golden.",
+    "author": "Chef Ella",
+    "servings": 8,
+    "ingredients": [
+      { "name": "Pie Crust", "unit": "PIECE", "amount": 2 },
+      { "name": "Apple", "unit": "PIECE", "amount": 5 },
+      { "name": "Sugar", "unit": "GRAMS", "amount": 150 },
+      { "name": "Cinnamon", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chocolate Brownies",
+    "description": "Mix cocoa, sugar, and eggs into a batter and bake until fudgy.",
+    "author": "Chef Lily",
+    "servings": 12,
+    "ingredients": [
+      { "name": "Cocoa Powder", "unit": "GRAMS", "amount": 100 },
+      { "name": "Sugar", "unit": "GRAMS", "amount": 200 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 150 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 3 },
+      { "name": "Flour", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Caprese Sandwich",
+    "description": "Layer fresh mozzarella, tomato, and basil on ciabatta bread. Drizzle with balsamic glaze.",
+    "author": "Chef Marco",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Ciabatta Bread", "unit": "PIECE", "amount": 2 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 20 },
+      { "name": "Balsamic Vinegar", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+    ]
+  },
+  {
+    "name": "Ratatouille",
+    "description": "Bake a colorful mix of sliced vegetables with herbs and olive oil.",
+    "author": "Chef Remy",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 1 },
+      { "name": "Zucchini", "unit": "PIECE", "amount": 1 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 2 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Tray", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Blueberry Muffins",
+    "description": "Bake a batter with blueberries into fluffy muffins.",
+    "author": "Chef Nina",
+    "servings": 12,
+    "ingredients": [
+      { "name": "Blueberries", "unit": "GRAMS", "amount": 150 },
+      { "name": "Flour", "unit": "GRAMS", "amount": 250 },
+      { "name": "Sugar", "unit": "GRAMS", "amount": 150 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 100 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 4}
+    ],
+    "cookingAppliances": []
+  },
+  {
+    "name": "Stuffed Bell Peppers Mediterranean",
+    "description": "Bake bell peppers stuffed with a mixture of rice, ground beef, and tomatoes.",
+    "author": "Chef Luis",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 4 },
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 300 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 200 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Eggplant Parmesan",
+    "description": "Layer breaded eggplant slices with marinara sauce and mozzarella cheese. Bake until bubbly.",
+    "author": "Chef Maria",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 2 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 150 },
+      { "name": "Marinara Sauce", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Lemon Garlic Salmon",
+    "description": "Bake salmon fillets seasoned with lemon, garlic, and herbs.",
+    "author": "Chef Henry",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Salmon", "unit": "GRAMS", "amount": 400 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Lemon", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 },
+      { "name": "Parsley", "unit": "GRAMS", "amount": 10 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Sheet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Tacos",
+    "description": "Fill soft tortillas with spiced chicken, lettuce, and salsa.",
+    "author": "Chef Miguel",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "PIECE", "amount": 2 },
+      { "name": "Tortillas", "unit": "PIECE", "amount": 8 },
+      { "name": "Lettuce", "unit": "GRAMS", "amount": 100 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Salsa", "unit": "MILLILITRES", "amount": 200 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Quesadilla",
+    "description": "Cook a mixture of vegetables and cheese between two tortillas.",
+    "author": "Chef Rosa",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Tortillas", "unit": "PIECE", "amount": 4 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shrimp Scampi",
+    "description": "Sauté shrimp in garlic butter sauce and serve with spaghetti.",
+    "author": "Chef Anton",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Shrimp", "unit": "GRAMS", "amount": 400 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 3 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 100 },
+      { "name": "Spaghetti", "unit": "GRAMS", "amount": 400 },
+      { "name": "Parsley", "unit": "GRAMS", "amount": 10 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Skillet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Avocado Toast",
+    "description": "Spread mashed avocado on toasted bread and season with salt and pepper.",
+    "author": "Chef Fiona",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Avocado", "unit": "PIECE", "amount": 2 },
+      { "name": "Bread", "unit": "PIECE", "amount": 4 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 },
+      { "name": "Pepper", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Toaster", "amount": 1 },
+      { "name": "Knife", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Margarita Pizza",
+    "description": "Top pizza dough with tomato sauce, fresh mozzarella, and basil. Bake until crust is golden.",
+    "author": "Chef Giovanni",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pizza Dough", "unit": "PIECE", "amount": 1 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Sheet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "French Toast",
+    "description": "Dip bread slices in an egg mixture and cook on a griddle until golden.",
+    "author": "Chef Eliza",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Bread", "unit": "PIECE", "amount": 8 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 3 },
+      { "name": "Milk", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Cinnamon", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Sugar", "unit": "TABLESPOONS", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Griddle", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Cauliflower Fried Rice",
+    "description": "Cook cauliflower rice with vegetables, soy sauce, and scrambled eggs.",
+    "author": "Chef Ethan",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Cauliflower", "unit": "GRAMS", "amount": 300 },
+      { "name": "Mixed Vegetables", "unit": "GRAMS", "amount": 200 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 },
+      { "name": "Soy Sauce", "unit": "TABLESPOONS", "amount": 3 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Beef Stroganoff",
+    "description": "Cook beef strips with mushrooms in a creamy sauce and serve over egg noodles.",
+    "author": "Chef Olga",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Beef", "unit": "GRAMS", "amount": 400 },
+      { "name": "Mushroom", "unit": "GRAMS", "amount": 200 },
+      { "name": "Sour Cream", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Egg Noodles", "unit": "GRAMS", "amount": 300 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Butternut Squash Soup",
+    "description": "Blend roasted butternut squash with stock and cream for a smooth soup.",
+    "author": "Chef Clara",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Butternut Squash", "unit": "GRAMS", "amount": 800 },
+      { "name": "Chicken Stock", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 100 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Blender", "amount": 1 },
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Oven", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shepherd's Pie",
+    "description": "Layer ground lamb and vegetables with mashed potatoes and bake.",
+    "author": "Chef William",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Ground Lamb", "unit": "GRAMS", "amount": 500 },
+      { "name": "Potato", "unit": "GRAMS", "amount": 600 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Peas", "unit": "GRAMS", "amount": 100 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Stuffed Zucchini Boats",
+    "description": "Fill zucchini halves with a mixture of quinoa, tomatoes, and cheese.",
+    "author": "Chef Nora",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Zucchini", "unit": "PIECE", "amount": 4 },
+      { "name": "Quinoa", "unit": "GRAMS", "amount": 200 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Alfredo Pasta",
+    "description": "Toss fettuccine with creamy alfredo sauce and grilled chicken slices.",
+    "author": "Chef Elena",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Fettuccine", "unit": "GRAMS", "amount": 400 },
+      { "name": "Chicken Breast", "unit": "PIECE", "amount": 2 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 100 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Spinach and Feta Omelette",
+    "description": "Cook eggs folded around spinach and crumbled feta cheese.",
+    "author": "Chef Lucas",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Eggs", "unit": "PIECE", "amount": 4 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 100 },
+      { "name": "Feta Cheese", "unit": "GRAMS", "amount": 50 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 20 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Teriyaki Chicken",
+    "description": "Cook chicken in teriyaki sauce and serve with steamed rice.",
+    "author": "Chef Hiro",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Thigh", "unit": "PIECE", "amount": 4 },
+      { "name": "Teriyaki Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 300 },
+      { "name": "Spring Onion", "unit": "PIECE", "amount": 2 },
+      { "name": "Sesame Seeds", "unit": "GRAMS", "amount": 10 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 2 }
+    ]
+  },
+  {
+    "name": "Greek Salad",
+    "description": "Toss cucumber, tomato, onion, olives, and feta cheese with olive oil and oregano.",
+    "author": "Chef Sophia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Cucumber", "unit": "PIECE", "amount": 1 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Feta Cheese", "unit": "GRAMS", "amount": 150 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Mixing Bowl", "amount": 1 },
+      { "name": "Knife", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Lasagna",
+    "description": "Layer lasagna sheets with ricotta, spinach, and marinara sauce. Bake until bubbly.",
+    "author": "Chef Maria",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Lasagna Sheets", "unit": "PIECE", "amount": 12 },
+      { "name": "Ricotta Cheese", "unit": "GRAMS", "amount": 300 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 200 },
+      { "name": "Marinara Sauce", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Tuna Casserole",
+    "description": "Bake pasta, tuna, and peas in a creamy sauce topped with breadcrumbs.",
+    "author": "Chef Dylan",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Pasta", "unit": "GRAMS", "amount": 300 },
+      { "name": "Tuna", "unit": "GRAMS", "amount": 200 },
+      { "name": "Peas", "unit": "GRAMS", "amount": 100 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Beef Tacos",
+    "description": "Fill taco shells with seasoned ground beef, lettuce, tomato, and cheese.",
+    "author": "Chef Carlos",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Taco Shells", "unit": "PIECE", "amount": 8 },
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 400 },
+      { "name": "Lettuce", "unit": "GRAMS", "amount": 100 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Quesadillas",
+    "description": "Grill tortillas filled with chicken, cheese, and bell peppers.",
+    "author": "Chef Elena",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Tortillas", "unit": "PIECE", "amount": 4 },
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 300 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 200 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Griddle", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Eggplant Parmesan",
+    "description": "Layer breaded eggplant slices with marinara sauce and mozzarella cheese. Bake until golden.",
+    "author": "Chef Isabella",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 2 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 100 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Marinara Sauce", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shrimp Scampi",
+    "description": "Cook shrimp in a garlic butter sauce and serve over linguine.",
+    "author": "Chef Sophia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Shrimp", "unit": "GRAMS", "amount": 400 },
+      { "name": "Linguine", "unit": "GRAMS", "amount": 300 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 3 },
+      { "name": "Lemon", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Frittata",
+    "description": "Bake eggs mixed with vegetables and cheese until set.",
+    "author": "Chef Julian",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Eggs", "unit": "PIECE", "amount": 6 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 100 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Thai Green Curry",
+    "description": "Simmer chicken and vegetables in a green curry coconut milk sauce. Serve with rice.",
+    "author": "Chef Mei",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 400 },
+      { "name": "Coconut Milk", "unit": "MILLILITRES", "amount": 400 },
+      { "name": "Green Curry Paste", "unit": "TABLESPOON", "amount": 2 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 300 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Rice Cooker", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Baked Salmon",
+    "description": "Bake salmon fillets with lemon slices and dill.",
+    "author": "Chef Irene",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Salmon Fillet", "unit": "GRAMS", "amount": 500 },
+      { "name": "Lemon", "unit": "PIECE", "amount": 2 },
+      { "name": "Dill", "unit": "GRAMS", "amount": 10 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Tray", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chickpea Stew",
+    "description": "Simmer chickpeas with tomatoes, spinach, and spices for a hearty stew.",
+    "author": "Chef Lena",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chickpeas", "unit": "GRAMS", "amount": 400 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 150 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Cumin", "unit": "TEASPOONS", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Caprese Salad",
+    "description": "Layer tomato slices with mozzarella and basil. Drizzle with olive oil and balsamic vinegar.",
+    "author": "Chef Bella",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 150 },
+      { "name": "Basil", "unit": "LEAF", "amount": 12 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 },
+      { "name": "Balsamic Vinegar", "unit": "MILLILITRES", "amount": 10 }
+    ],
+    "cookingAppliances": [
+      { "name": "Knife", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Stuffed Bell Peppers Vegetarian",
+    "description": "Bake bell peppers stuffed with rice, ground beef, and tomato sauce.",
+    "author": "Chef Mario",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 4 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 200 },
+      { "name": "Mixed Vegetables", "unit": "GRAMS", "amount": 300 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 400 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Beef Tacos",
+    "description": "Fill taco shells with seasoned ground beef, lettuce, tomato, and cheese.",
+    "author": "Chef Carlos",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Taco Shells", "unit": "PIECE", "amount": 8 },
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 400 },
+      { "name": "Lettuce", "unit": "GRAMS", "amount": 100 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Quesadillas",
+    "description": "Grill tortillas filled with chicken, cheese, and bell peppers.",
+    "author": "Chef Elena",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Tortillas", "unit": "PIECE", "amount": 4 },
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 300 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 200 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Griddle", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Eggplant Parmesan",
+    "description": "Layer breaded eggplant slices with marinara sauce and mozzarella cheese. Bake until golden.",
+    "author": "Chef Isabella",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 2 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 100 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Marinara Sauce", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shrimp Scampi",
+    "description": "Cook shrimp in a garlic butter sauce and serve over linguine.",
+    "author": "Chef Sophia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Shrimp", "unit": "GRAMS", "amount": 400 },
+      { "name": "Linguine", "unit": "GRAMS", "amount": 300 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 3 },
+      { "name": "Lemon", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Frittata",
+    "description": "Bake eggs mixed with vegetables and cheese until set.",
+    "author": "Chef Julian",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Eggs", "unit": "PIECE", "amount": 6 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 100 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 2 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Thai Green Curry",
+    "description": "Simmer chicken and vegetables in a green curry coconut milk sauce. Serve with rice.",
+    "author": "Chef Mei",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 400 },
+      { "name": "Coconut Milk", "unit": "MILLILITRES", "amount": 400 },
+      { "name": "Green Curry Paste", "unit": "TABLESPOON", "amount": 2 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 300 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Rice Cooker", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Baked Salmon",
+    "description": "Bake salmon fillets with lemon slices and dill.",
+    "author": "Chef Irene",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Salmon Fillet", "unit": "GRAMS", "amount": 500 },
+      { "name": "Lemon", "unit": "PIECE", "amount": 2 },
+      { "name": "Dill", "unit": "GRAMS", "amount": 10 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Tray", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chickpea Stew",
+    "description": "Simmer chickpeas with tomatoes, spinach, and spices for a hearty stew.",
+    "author": "Chef Lena",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chickpeas", "unit": "GRAMS", "amount": 400 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 150 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Cumin", "unit": "TEASPOONS", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Caprese Salad",
+    "description": "Layer tomato slices with mozzarella and basil. Drizzle with olive oil and balsamic vinegar.",
+    "author": "Chef Bella",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 150 },
+      { "name": "Basil", "unit": "LEAF", "amount": 12 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 20 },
+      { "name": "Balsamic Vinegar", "unit": "MILLILITRES", "amount": 10 }
+    ],
+    "cookingAppliances": [
+      { "name": "Knife", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Stuffed Bell Peppers",
+    "description": "Bake bell peppers stuffed with rice, ground beef, and tomato sauce.",
+    "author": "Chef Mario",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 4 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 200 },
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 300 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 400 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Alfredo",
+    "description": "Cook fettuccine and mix with creamy Alfredo sauce and grilled chicken.",
+    "author": "Chef Lucas",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Fettuccine", "unit": "GRAMS", "amount": 400 },
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 300 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 300 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 100 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Lasagna",
+    "description": "Layer lasagna sheets with ricotta, spinach, and marinara sauce. Bake until bubbly.",
+    "author": "Chef Mia",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Lasagna Sheets", "unit": "PIECE", "amount": 12 },
+      { "name": "Ricotta Cheese", "unit": "GRAMS", "amount": 300 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 200 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Marinara Sauce", "unit": "MILLILITRES", "amount": 500 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Lentil Soup",
+    "description": "Simmer lentils with vegetables and broth for a hearty soup.",
+    "author": "Chef Ella",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Lentils", "unit": "GRAMS", "amount": 300 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 1000 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Swiss Muesli",
+    "description": "a standard chocoalte-oats muesli",
+    "author": "Sir Robin the Brave",
+    "servings": 1,
+    "ingredients": [
+      {"name":  "Oats", "unit":  "GRAMS", "amount": 160},
+      {"name":  "Apple", "unit":  "PIECE", "amount": 1},
+      {"name":  "Chocolate", "unit":  "GRAMS", "amount": 30}
+    ],
+    "cookingAppliances": []
+  },
+  {
+    "name": "Campfire BBQ",
+    "description": "Classic Barbeque with sausages and bread. Campfire recommended!",
+    "author": "Outdoor professionals",
+    "servings": 3,
+    "ingredients": [
+      { "name": "Sausage Variation", "unit": "GRAMS", "amount": 1000 },
+      { "name": "Barbecue Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Bread", "unit": "PIECE", "amount": 6 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Espresso and Ciabatta",
+    "description": "Classic Barbeque with sausages and bread. Campfire recommended!",
+    "author": "Outdoor professionals",
+    "servings": 3,
+    "ingredients": [
+      { "name": "Ciabatta Bread", "unit": "PIECE", "amount": 6 }
+    ],
+    "cookingAppliances": [
+      { "name": "Coffee Can", "amount": 1 }
+    ]
+  },
+  {
+    "name": "BBQ Pulled Pork Sandwich",
+    "description": "Slow-cook pork and serve on buns with barbecue sauce and coleslaw.",
+    "author": "Chef Noah",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Pork Shoulder", "unit": "GRAMS", "amount": 1000 },
+      { "name": "Barbecue Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Burger Buns", "unit": "PIECE", "amount": 6 },
+      { "name": "Coleslaw", "unit": "GRAMS", "amount": 200 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Slow Cooker", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Zucchini Noodles with Pesto",
+    "description": "Toss spiralized zucchini with homemade basil pesto.",
+    "author": "Chef Olivia",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Zucchini", "unit": "PIECE", "amount": 2 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 50 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 50 },
+      { "name": "Pine Nuts", "unit": "GRAMS", "amount": 30 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Blender", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Baked Mac and Cheese",
+    "description": "Bake macaroni in a creamy cheese sauce topped with breadcrumbs.",
+    "author": "Chef Liam",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Macaroni", "unit": "GRAMS", "amount": 300 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 200 },
+      { "name": "Milk", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 50 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetarian Chili",
+    "description": "Simmer beans with tomatoes, peppers, and spices for a hearty chili.",
+    "author": "Chef Ava",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Kidney Beans", "unit": "GRAMS", "amount": 400 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Chili Powder", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Cumin", "unit": "TEASPOONS", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chocolate Chip Cookies",
+    "description": "Bake soft cookies with chocolate chips.",
+    "author": "Chef Sophie",
+    "servings": 12,
+    "ingredients": [
+      { "name": "Flour", "unit": "GRAMS", "amount": 250 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 100 },
+      { "name": "Sugar", "unit": "GRAMS", "amount": 150 },
+      { "name": "Chocolate Chips", "unit": "GRAMS", "amount": 200 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Sweet Potato Fries",
+    "description": "Bake sweet potato sticks seasoned with salt and pepper.",
+    "author": "Chef Nathan",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Sweet Potato", "unit": "PIECE", "amount": 3 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Tray", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Avocado Toast",
+    "description": "Spread mashed avocado on toasted bread and top with a poached egg.",
+    "author": "Chef Emma",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Bread", "unit": "PIECE", "amount": 2 },
+      { "name": "Avocado", "unit": "PIECE", "amount": 1 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.25 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 0.25 }
+    ],
+    "cookingAppliances": [
+      { "name": "Toaster", "amount": 1 },
+      { "name": "Skillet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Alfredo",
+    "description": "Cook fettuccine and mix with creamy Alfredo sauce and grilled chicken.",
+    "author": "Chef Lucas",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Fettuccine", "unit": "GRAMS", "amount": 400 },
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 300 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 300 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 100 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Lasagna",
+    "description": "Layer lasagna sheets with ricotta, spinach, and marinara sauce. Bake until bubbly.",
+    "author": "Chef Mia",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Lasagna Sheets", "unit": "PIECE", "amount": 12 },
+      { "name": "Ricotta Cheese", "unit": "GRAMS", "amount": 300 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 200 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 200 },
+      { "name": "Marinara Sauce", "unit": "MILLILITRES", "amount": 500 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Lentil Soup",
+    "description": "Simmer lentils with vegetables and broth for a hearty soup.",
+    "author": "Chef Ella",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Lentils", "unit": "GRAMS", "amount": 300 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 1000 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "BBQ Pulled Pork Sandwich",
+    "description": "Slow-cook pork and serve on buns with barbecue sauce and coleslaw.",
+    "author": "Chef Noah",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Pork Shoulder", "unit": "GRAMS", "amount": 1000 },
+      { "name": "Barbecue Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Burger Buns", "unit": "PIECE", "amount": 6 },
+      { "name": "Coleslaw", "unit": "GRAMS", "amount": 200 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Slow Cooker", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Zucchini Noodles with Pesto",
+    "description": "Toss spiralized zucchini with homemade basil pesto.",
+    "author": "Chef Olivia",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Zucchini", "unit": "PIECE", "amount": 2 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 50 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 50 },
+      { "name": "Pine Nuts", "unit": "GRAMS", "amount": 30 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Blender", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Baked Mac and Cheese",
+    "description": "Bake macaroni in a creamy cheese sauce topped with breadcrumbs.",
+    "author": "Chef Liam",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Macaroni", "unit": "GRAMS", "amount": 300 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 200 },
+      { "name": "Milk", "unit": "MILLILITRES", "amount": 500 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 50 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetarian Chili",
+    "description": "Simmer beans with tomatoes, peppers, and spices for a hearty chili.",
+    "author": "Chef Ava",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Kidney Beans", "unit": "GRAMS", "amount": 400 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Chili Powder", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Cumin", "unit": "TEASPOONS", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chocolate Chip Cookies",
+    "description": "Bake soft cookies with chocolate chips.",
+    "author": "Chef Sophie",
+    "servings": 12,
+    "ingredients": [
+      { "name": "Flour", "unit": "GRAMS", "amount": 250 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 100 },
+      { "name": "Sugar", "unit": "GRAMS", "amount": 150 },
+      { "name": "Chocolate Chips", "unit": "GRAMS", "amount": 200 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Sweet Potato Fries",
+    "description": "Bake sweet potato sticks seasoned with salt and pepper.",
+    "author": "Chef Nathan",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Sweet Potato", "unit": "PIECE", "amount": 3 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Tray", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Avocado Toast",
+    "description": "Spread mashed avocado on toasted bread and top with a poached egg.",
+    "author": "Chef Emma",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Bread", "unit": "PIECE", "amount": 2 },
+      { "name": "Avocado", "unit": "PIECE", "amount": 1 },
+      { "name": "Eggs", "unit": "PIECE", "amount": 2 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.25 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 0.25 }
+    ],
+    "cookingAppliances": [
+      { "name": "Toaster", "amount": 1 },
+      { "name": "Skillet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Quinoa Salad",
+    "description": "Mix cooked quinoa with cherry tomatoes, cucumber, and a lemon vinaigrette.",
+    "author": "Chef Mia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Quinoa", "unit": "GRAMS", "amount": 200 },
+      { "name": "Cherry Tomatoes", "unit": "PIECE", "amount": 10 },
+      { "name": "Cucumber", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Lemon Juice", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Mixing Bowl", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shepherd’s Pie",
+    "description": "Layer cooked ground lamb with mashed potatoes and bake until golden.",
+    "author": "Chef Liam",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Ground Lamb", "unit": "GRAMS", "amount": 500 },
+      { "name": "Potato", "unit": "PIECE", "amount": 4 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Omelette",
+    "description": "Whisk eggs and cook with diced vegetables in a skillet.",
+    "author": "Chef Ava",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Eggs", "unit": "PIECE", "amount": 4 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 50 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 50 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Shrimp Scampi",
+    "description": "Sauté shrimp in garlic butter sauce and serve over linguine.",
+    "author": "Chef Sophie",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Shrimp", "unit": "GRAMS", "amount": 300 },
+      { "name": "Linguine", "unit": "GRAMS", "amount": 400 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 },
+      { "name": "Lemon Juice", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Tomato Bruschetta",
+    "description": "Top toasted baguette slices with a mix of diced tomatoes, basil, and olive oil.",
+    "author": "Chef Olivia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Baguette", "unit": "PIECE", "amount": 1 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 4 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 20 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Toaster", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Tuna Salad",
+    "description": "Mix canned tuna with mayo, celery, and lemon juice for a refreshing salad.",
+    "author": "Chef Nathan",
+    "servings": 2,
+    "ingredients": [
+      { "name": "Canned Tuna", "unit": "GRAMS", "amount": 150 },
+      { "name": "Mayonnaise", "unit": "GRAMS", "amount": 50 },
+      { "name": "Celery", "unit": "PIECE", "amount": 1 },
+      { "name": "Lemon Juice", "unit": "MILLILITRES", "amount": 10 },
+      { "name": "Salt", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Pumpkin Soup",
+    "description": "Blend cooked pumpkin with broth and cream for a silky soup.",
+    "author": "Chef Ella",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pumpkin", "unit": "GRAMS", "amount": 500 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 800 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 100 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Blender", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Pasta Primavera",
+    "description": "Toss cooked pasta with sautéed vegetables, garlic, and olive oil.",
+    "author": "Chef Zoe",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pasta", "unit": "GRAMS", "amount": 400 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Zucchini", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Stove-Tops", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Alfredo",
+    "description": "Creamy Alfredo sauce served with grilled chicken and pasta.",
+    "author": "Chef Emma",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 400 },
+      { "name": "Pasta", "unit": "GRAMS", "amount": 400 },
+      { "name": "Butter", "unit": "GRAMS", "amount": 50 },
+      { "name": "Cream", "unit": "MILLILITRES", "amount": 150 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Caesar Salad",
+    "description": "A fresh salad with romaine lettuce, croutons, and Caesar dressing.",
+    "author": "Chef Mark",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Romaine Lettuce", "unit": "PIECE", "amount": 1 },
+      { "name": "Croutons", "unit": "GRAMS", "amount": 50 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Vinegar", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 30 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Frittata",
+    "description": "An egg-based dish filled with sautéed vegetables and cheese.",
+    "author": "Chef Olivia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Eggs", "unit": "PIECE", "amount": 6 },
+      { "name": "Spinach", "unit": "GRAMS", "amount": 50 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Feta Cheese", "unit": "GRAMS", "amount": 50 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Skillet", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Beef Stew",
+    "description": "Slow-cooked beef with potatoes, carrots, and onions in a hearty broth.",
+    "author": "Chef Lucas",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Beef", "unit": "GRAMS", "amount": 500 },
+      { "name": "Potato", "unit": "PIECE", "amount": 4 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 3 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 800 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "BBQ Ribs",
+    "description": "Slow-cooked pork ribs with barbecue sauce.",
+    "author": "Chef Ethan",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pork Ribs", "unit": "PIECE", "amount": 1 },
+      { "name": "Barbecue Sauce", "unit": "MILLILITRES", "amount": 150 },
+      { "name": "Garlic Powder", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Onion Powder", "unit": "TEASPOONS", "amount": 1 },
+      { "name": "Black Pepper", "unit": "TEASPOONS", "amount": 0.5 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Lentil Soup",
+    "description": "A hearty soup made with lentils, carrots, celery, and tomatoes.",
+    "author": "Chef Mia",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Lentils", "unit": "GRAMS", "amount": 200 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Celery", "unit": "PIECE", "amount": 2 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Vegetable Broth", "unit": "MILLILITRES", "amount": 800 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Eggplant Parmesan",
+    "description": "Breaded eggplant slices topped with marinara sauce and mozzarella cheese.",
+    "author": "Chef Ella",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 2 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 100 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 150 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 300 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Skillet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Pulled Pork Sandwiches",
+    "description": "Slow-cooked pork shoulder served on a bun with coleslaw.",
+    "author": "Chef Noah",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pork Shoulder", "unit": "GRAMS", "amount": 800 },
+      { "name": "Barbecue Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Burger Buns", "unit": "PIECE", "amount": 4 },
+      { "name": "Coleslaw", "unit": "GRAMS", "amount": 150 }
+    ],
+    "cookingAppliances": [
+      { "name": "Slow Cooker", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Samosas",
+    "description": "Pastry pockets filled with spiced potatoes, peas, and carrots.",
+    "author": "Chef Indira",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Phyllo Dough", "unit": "PIECE", "amount": 8 },
+      { "name": "Potato", "unit": "PIECE", "amount": 3 },
+      { "name": "Frozen Peas", "unit": "GRAMS", "amount": 100 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 1 },
+      { "name": "Curry Powder", "unit": "TEASPOONS", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Baking Sheet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Shawarma",
+    "description": "Marinated chicken served in pita with garlic sauce and pickles.",
+    "author": "Chef Sara",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Thigh", "unit": "GRAMS", "amount": 500 },
+      { "name": "Pita Bread", "unit": "PIECE", "amount": 4 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 3 },
+      { "name": "Tahini", "unit": "GRAMS", "amount": 50 },
+      { "name": "Pickles", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Grilled Salmon",
+    "description": "Marinate salmon with lemon and herbs, then grill until cooked through.",
+    "author": "Chef James",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Salmon", "unit": "GRAMS", "amount": 500 },
+      { "name": "Lemon", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 30 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 },
+      { "name": "Parsley", "unit": "GRAMS", "amount": 20 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Vegetable Lasagna",
+    "description": "Layer pasta, ricotta cheese, vegetables, and marinara sauce. Bake until golden.",
+    "author": "Chef Sofia",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Lasagna Noodles", "unit": "GRAMS", "amount": 300 },
+      { "name": "Ricotta Cheese", "unit": "GRAMS", "amount": 250 },
+      { "name": "Zucchini", "unit": "PIECE", "amount": 2 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 400 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 150 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken Caesar Wrap",
+    "description": "Grill chicken and wrap it with romaine lettuce, Caesar dressing, and parmesan cheese.",
+    "author": "Chef Ava",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 400 },
+      { "name": "Romaine Lettuce", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Vinegar", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 40 },
+      { "name": "Wraps", "unit": "PIECE", "amount": 4 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Hiker's Veggie Wraps",
+    "description": "Cut ingredients, wrap them.",
+    "author": "The Hiker",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Romaine Lettuce", "unit": "PIECE", "amount": 1 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Vinegar", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 40 },
+      { "name": "Wraps", "unit": "PIECE", "amount": 4 }
+    ],
+    "cookingAppliances": [
+      { "name": "Grill", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Beef Stir-fry",
+    "description": "Stir-fry beef with vegetables and soy sauce for a quick, savory dish.",
+    "author": "Chef Daniel",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Ground Beef", "unit": "GRAMS", "amount": 400 },
+      { "name": "Bell Pepper", "unit": "PIECE", "amount": 1 },
+      { "name": "Soy Sauce", "unit": "MILLILITRES", "amount": 30 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 },
+      { "name": "Garlic", "unit": "PIECE", "amount": 2 }
+    ],
+    "cookingAppliances": [
+      { "name": "Saucepan", "amount": 1 },
+      { "name": "Stove-Tops", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Tomato Pesto Pasta",
+    "description": "Cook pasta and toss with a fresh tomato pesto sauce.",
+    "author": "Chef Lily",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Pasta", "unit": "GRAMS", "amount": 300 },
+      { "name": "Tomato", "unit": "PIECE", "amount": 3 },
+      { "name": "Basil", "unit": "GRAMS", "amount": 20 },
+      { "name": "Olive Oil", "unit": "MILLILITRES", "amount": 50 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 30 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 },
+      { "name": "Blender", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Eggplant Parmesan",
+    "description": "Layer fried eggplant with marinara sauce and mozzarella cheese, then bake.",
+    "author": "Chef Grace",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Eggplant", "unit": "PIECE", "amount": 2 },
+      { "name": "Mozzarella", "unit": "GRAMS", "amount": 150 },
+      { "name": "Tomato Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Parmesan", "unit": "GRAMS", "amount": 50 },
+      { "name": "Breadcrumbs", "unit": "GRAMS", "amount": 100 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Skillet", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Chicken and Rice Casserole",
+    "description": "Layer cooked chicken and rice with creamy sauce and bake until bubbly.",
+    "author": "Chef Emma",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Chicken Breast", "unit": "GRAMS", "amount": 400 },
+      { "name": "Rice", "unit": "GRAMS", "amount": 200 },
+      { "name": "Chicken Stock", "unit": "KILOGRAMS", "amount": 0.5 },
+      { "name": "Cheddar Cheese", "unit": "GRAMS", "amount": 100 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Oven", "amount": 1 },
+      { "name": "Casserole Dish", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Pulled Pork Sandwiches",
+    "description": "Slow-cook pork shoulder and serve on buns with coleslaw.",
+    "author": "Chef Oliver",
+    "servings": 6,
+    "ingredients": [
+      { "name": "Pork Shoulder", "unit": "KILOGRAMS", "amount": 1 },
+      { "name": "BBQ Sauce", "unit": "MILLILITRES", "amount": 200 },
+      { "name": "Burger Buns", "unit": "PIECE", "amount": 6 },
+      { "name": "Coleslaw", "unit": "GRAMS", "amount": 200 },
+      { "name": "Pickles", "unit": "GRAMS", "amount": 50 }
+    ],
+    "cookingAppliances": [
+      { "name": "Slow Cooker", "amount": 1 },
+      { "name": "Mixing Bowl", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Lentil Soup",
+    "description": "Cook lentils with vegetables and broth for a hearty, healthy soup.",
+    "author": "Chef Ava",
+    "servings": 4,
+    "ingredients": [
+      { "name": "Lentils", "unit": "GRAMS", "amount": 200 },
+      { "name": "Carrot", "unit": "PIECE", "amount": 2 },
+      { "name": "Celery", "unit": "PIECE", "amount": 2 },
+      { "name": "Vegetable Stock", "unit": "MILLILITRES", "amount": 800 },
+      { "name": "Onion", "unit": "PIECE", "amount": 1 }
+    ],
+    "cookingAppliances": [
+      { "name": "Large Pot", "amount": 1 }
+    ]
+  }
+]
