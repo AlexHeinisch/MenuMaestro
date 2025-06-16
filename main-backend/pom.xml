@@ -9,12 +9,11 @@
 		<version>3.3.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>at.codemaestro</groupId>
-	<artifactId>backend</artifactId>
+	<groupId>dev.heinisch.menumaestro</groupId>
+	<artifactId>root</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>backend</name>
-	<description>main backend for ASE</description>
+	<name>Menu Maestro Application</name>
 	<url />
 	<licenses>
 		<license />
