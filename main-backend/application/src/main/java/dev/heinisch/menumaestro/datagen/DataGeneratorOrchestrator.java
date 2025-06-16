@@ -16,20 +16,12 @@ public class DataGeneratorOrchestrator {
 
     private final IngredientDataGenerator ingredientDataGenerator;
     private final CookingAppliancesDataGenerator cookingAppliancesDataGenerator;
-    private final OrganizationDataGenerator organizationDataGenerator;
-    private final RecipeDataGenerator recipeDataGenerator;
-    private final MenuDataGenerator menuDataGenerator;
-    private final StashDatagenerator stashDatagenerator;
 
     @PostConstruct
     public void runDataGenerator() throws IOException {
         log.info("Running data generator in AUTO mode...");
-        organizationDataGenerator.generateOrganizations();
         ingredientDataGenerator.generateIngredients(null);
-        stashDatagenerator.generateStashEntries();
         cookingAppliancesDataGenerator.generateCookingAppliances();
-        recipeDataGenerator.generateRecipes();
-        menuDataGenerator.generateMenus(null);
         log.info("Data generator finished.");
     }
 }

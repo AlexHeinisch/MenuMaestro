@@ -3,7 +3,6 @@ package dev.heinisch.menumaestro.integration_test.account;
 import dev.heinisch.menumaestro.domain.account.Account;
 import dev.heinisch.menumaestro.integration_test.BaseWebIntegrationTest;
 import dev.heinisch.menumaestro.integration_test.utils.ErrorResponseAssert;
-import dev.heinisch.menumaestro.service.EmailService;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.openapitools.model.ErrorResponse;
 import org.openapitools.model.ResetPasswordCommitRequestDto;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
@@ -31,9 +29,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 public class PasswordResetAccountWebIntegrationTest extends BaseWebIntegrationTest {
-
-    @MockBean
-    private EmailService emailService;
 
     @Override
     protected String getBasePath() {

@@ -16,16 +16,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
-import org.mockito.Mockito;
 import org.openapitools.model.*;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 
 import static dev.heinisch.menumaestro.integration_test.utils.test_constants.DefaultIngredientTestData.*;
-import static org.mockito.Mockito.doNothing;
 
 @ActiveProfiles({"datagen-off", "test"})
 public class CustomIngredientsWebIntegrationTest extends BaseWebIntegrationTest{
@@ -33,14 +30,8 @@ public class CustomIngredientsWebIntegrationTest extends BaseWebIntegrationTest{
     private Ingredient ingredient3;
     private Ingredient ingredient4;
 
-    @MockBean
-    private EmailService emailService;
-
     @BeforeEach
     public void setup() {
-        doNothing().when(emailService).ingredientAcceptNotification(Mockito.anyString(), Mockito.anyString());
-        doNothing().when(emailService).sendIngredientRejectNotification(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
-
         accountRepository.saveAndFlush(DefaultAccountTestData.defaultAccount());
         accountRepository.saveAndFlush(DefaultAccountTestData.defaultAccount2());
         ingredient3 = defaultIngredient3();

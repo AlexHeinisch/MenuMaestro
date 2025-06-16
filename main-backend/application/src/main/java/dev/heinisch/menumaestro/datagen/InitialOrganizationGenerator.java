@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@Profile("!datagen-off")
 @DependsOn(value = "initialAccountGenerator")
 public class InitialOrganizationGenerator {
 
@@ -30,12 +29,19 @@ public class InitialOrganizationGenerator {
     @PostConstruct
     @Transactional
     public void generateOrganizations() {
+        if (!initialOrganizationProperties.isEnabled()) {
+            log.info("Initial organization creation disabled!");
+            return;
+        }
         if (initialOrganizationProperties.getOrganizations().isEmpty()) {
             log.info("No initial organizations found!");
             return;
         }
         log.info("Generating initial organizations...");
-        initialOrganizationProperties.getOrganizations().forEach(org -> {
+        for (var org :  initialOrganizationProperties.getOrganizations()) {
+            if (organizationRepository.findByName(org.getName()).isPresent()) {
+                continue;
+            }
             Organization entity = Organization.builder()
                     .name(org.getName())
                     .description(org.getDescription())
@@ -43,13 +49,13 @@ public class InitialOrganizationGenerator {
             organizationRepository.save(entity);
             org.getMembers().forEach(member -> {
                 organizationAccountRelationRepository.save(OrganizationAccountRelation.builder()
-                    .organization(entity)
-                    .account(accountRepository.findById(member.getUsername()).orElseThrow())
-                    .role(OrganizationRole.valueOf(member.getRole()))
-                    .build()
+                        .organization(entity)
+                        .account(accountRepository.findById(member.getUsername()).orElseThrow())
+                        .role(OrganizationRole.valueOf(member.getRole()))
+                        .build()
                 );
             });
-        });
+        }
         log.info("Finished generating initial organizations...");
     }
 }

@@ -90,6 +90,7 @@ initial-accounts:
       first-name: InOther
       last-name: Organization
       is-global-admin: false
+  enabled: true
 initial-organizations:
   organizations:
     - name: CoolOrg
@@ -110,6 +111,7 @@ initial-organizations:
           role: OWNER
         - username: user3
           role: PLANNER
+  enabled: true
 
 websocket:
   allowed-cross-origin-patterns:

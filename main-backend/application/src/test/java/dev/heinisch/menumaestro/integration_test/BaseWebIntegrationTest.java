@@ -14,6 +14,7 @@ import dev.heinisch.menumaestro.persistence.ShoppingListRepository;
 import dev.heinisch.menumaestro.persistence.StashRepository;
 import dev.heinisch.menumaestro.properties.JwtProperties;
 import dev.heinisch.menumaestro.service.AccountService;
+import dev.heinisch.menumaestro.service.EmailService;
 import dev.heinisch.menumaestro.service.JwtService;
 import dev.heinisch.menumaestro.service.MealService;
 import dev.heinisch.menumaestro.service.MenuService;
@@ -24,6 +25,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.parsing.Parser;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +34,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.Date;
@@ -42,7 +45,7 @@ import java.util.List;
 @Nested
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(DatabaseCleanerExtension.class)
-public class BaseWebIntegrationTest {
+public abstract class BaseWebIntegrationTest {
 
     protected static String URI;
 
@@ -77,6 +80,9 @@ public class BaseWebIntegrationTest {
 
     @Autowired
     protected IngredientRepository ingredientRepository;
+
+    @MockitoBean
+    protected EmailService emailService;
 
     @Autowired
     protected IngredientMapper ingredientMapper;

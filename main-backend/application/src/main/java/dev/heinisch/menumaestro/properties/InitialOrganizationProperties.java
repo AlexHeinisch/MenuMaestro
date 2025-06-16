@@ -18,6 +18,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "initial-organizations")
 public class InitialOrganizationProperties {
 
+    private boolean enabled;
+
     private List<@Valid SingleOrganization> organizations;
 
     @Getter

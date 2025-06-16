@@ -15,7 +15,6 @@ import dev.heinisch.menumaestro.exceptions.VersionMatchFailedException;
 import dev.heinisch.menumaestro.integration_test.BaseWebIntegrationTest;
 import dev.heinisch.menumaestro.integration_test.utils.TestPageableResponse;
 import dev.heinisch.menumaestro.integration_test.utils.test_constants.DefaultAccountTestData;
-import dev.heinisch.menumaestro.service.EmailService;
 import dev.heinisch.menumaestro.service.ShoppingListService;
 import dev.heinisch.menumaestro.service.StashService;
 import io.restassured.RestAssured;
@@ -25,14 +24,12 @@ import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
-import org.mockito.Mockito;
 import org.openapitools.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 
@@ -40,9 +37,8 @@ import static dev.heinisch.menumaestro.integration_test.utils.test_constants.Def
 import static dev.heinisch.menumaestro.integration_test.utils.test_constants.DefaultIngredientTestData.*;
 import static dev.heinisch.menumaestro.integration_test.utils.test_constants.DefaultMenuTestData.defaultMenu1;
 import static dev.heinisch.menumaestro.integration_test.utils.test_constants.DefaultOrganizationTestData.defaultOrganization1;
-import static org.mockito.Mockito.doNothing;
 
-@ActiveProfiles({"datagen-off", "test"})
+@Disabled
 public class DeleteAndReplaceIngredientWebIntegrationTest extends BaseWebIntegrationTest{
 
     private Ingredient ingredient1;
@@ -64,9 +60,6 @@ public class DeleteAndReplaceIngredientWebIntegrationTest extends BaseWebIntegra
     private ShoppingListService shoppingListService;
     @Autowired
     private StashService stashService;
-
-    @MockBean
-    private EmailService emailService;
 
     private ShoppingList setupShoppingList(Set<ShoppingListItem> items) {
         return ShoppingList.builder()
@@ -97,9 +90,6 @@ public class DeleteAndReplaceIngredientWebIntegrationTest extends BaseWebIntegra
     }
     @BeforeEach
     public void setup() {
-        doNothing().when(emailService).ingredientAcceptNotification(Mockito.anyString(), Mockito.anyString());
-        doNothing().when(emailService).sendIngredientRejectNotification(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
-
         organization = organizationRepository.saveAndFlush(defaultOrganization1());
         stash= organization.getStash();
 

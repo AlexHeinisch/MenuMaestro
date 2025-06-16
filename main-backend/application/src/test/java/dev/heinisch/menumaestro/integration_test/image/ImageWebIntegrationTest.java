@@ -15,9 +15,11 @@ import org.openapitools.model.ErrorResponse;
 import org.openapitools.model.ImageUploadResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+@ActiveProfiles({"datagen-off", "test"})
 public class ImageWebIntegrationTest extends BaseWebIntegrationTest {
     private Header authHeader;
 

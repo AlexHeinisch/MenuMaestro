@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@Profile("!datagen-off")
 public class InitialAccountGenerator {
 
     private final InitialAccountProperties initialAccountProperties;
@@ -24,24 +23,31 @@ public class InitialAccountGenerator {
     @PostConstruct
     @Transactional
     public void generateAccounts() {
+        if (!initialAccountProperties.isEnabled()) {
+            log.info("Initial account creation disabled!");
+            return;
+        }
         if (initialAccountProperties.getAccounts().isEmpty()) {
             log.info("No initial accounts found!");
             return;
         }
         log.info("Generating initial accounts...");
-        initialAccountProperties.getAccounts().forEach(account -> {
+        for (var account : initialAccountProperties.getAccounts()) {
+            if (accountRepository.findByEmail(account.getEmail()).isPresent()) {
+                continue;
+            }
             accountRepository.save(new Account(
-                account.getUsername(),
-                account.getEmail(),
-                account.getFirstName(),
-                account.getLastName(),
-                passwordEncoder.encode(account.getPassword()),
-                account.getIsGlobalAdmin(),
-                null,
-                null
-                )
+                            account.getUsername(),
+                            account.getEmail(),
+                            account.getFirstName(),
+                            account.getLastName(),
+                            passwordEncoder.encode(account.getPassword()),
+                            account.getIsGlobalAdmin(),
+                            null,
+                            null
+                    )
             );
-        });
+        }
         log.info("Finished generating initial accounts...");
     }
 }

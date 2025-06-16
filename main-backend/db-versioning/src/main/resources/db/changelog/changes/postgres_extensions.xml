@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="alex" dbms="postgresql">
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE EXTENSION IF NOT EXISTS fuzzystrmatch
+        </sql>
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE EXTENSION IF NOT EXISTS pg_trgm
+        </sql>
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE INDEX ingredient_name_trgm_idx ON Ingredient USING gin (name gin_trgm_ops)
+        </sql>
+    </changeSet>
+</databaseChangeLog>

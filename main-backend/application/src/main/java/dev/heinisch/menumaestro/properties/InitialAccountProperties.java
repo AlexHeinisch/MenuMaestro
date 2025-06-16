@@ -19,6 +19,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "initial-accounts")
 public class InitialAccountProperties {
 
+    private boolean enabled;
+
     private List<@Valid SingleAccount> accounts;
 
     @Getter
