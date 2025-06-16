@@ -2,7 +2,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: false
   datasource:
     url: jdbc:postgresql://localhost:5432/dev
@@ -16,7 +16,7 @@ spring:
         enabled: true
   liquibase:
     change-log: "classpath:db/changelog/db.changelog-master.xml"
-    enabled: false
+    enabled: true
   application:
     name: MenuMaestro
     uri: http://localhost:8080
