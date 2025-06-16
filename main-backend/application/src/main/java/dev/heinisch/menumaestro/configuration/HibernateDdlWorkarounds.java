@@ -24,7 +24,6 @@ import java.util.Objects;
  * Hibernate ddl mode: this class tries to recognize if it should execute based on hibernate ddl mode.
  */
 @Slf4j
-@Component
 public class HibernateDdlWorkarounds {
 
     public static final String[] CUSTOM_DDL = new String[]{
