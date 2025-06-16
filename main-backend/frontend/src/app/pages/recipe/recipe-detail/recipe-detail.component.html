@@ -1,0 +1,118 @@
+<page-layout styleNames="bg-white">
+  <div *ngIf="recipeDto; else recipeNotFound">
+    <!-- Top Half (Recipe Name, Image, Info, Description) -->
+    <div class="grid grid-cols-1 mb-4 md:grid-cols-[2fr_3fr] gap-0 md:gap-4 lg:gap-6">
+      <!-- Left Column: Recipe Name and Author -->
+      <div class="space-y-4 flex flex-col justify-center pb-4">
+        <!-- Recipe Name -->
+        <h1 class="text-3xl">{{ recipeDto.name || 'Unknown Recipe' }}</h1>
+        <div class="bg-white rounded-lg flex flex-row justify-between items-center gap-4">
+          <!-- Author's Name -->
+          <p class="text-sm font-semibold">
+            By <span>{{ recipeDto.author || 'Unknown Author' }}</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: Recipe Image -->
+      <div class="space-y-4 md:pt-0 md:pb-0">
+        <div class="overflow-hidden bg-white rounded-lg">
+          <img
+            [src]="recipeDto.imageLink || 'default-recipe.png'"
+            alt="Recipe Image"
+            class="w-full h-[250px] lg:h-80 object-cover"
+          />
+        </div>
+        <div class="flex justify-end space-x-2 mt-0">
+          <!-- Add meal to menu button -->
+          <div>
+            <app-add-meal-to-menu-modal [recipeId]="recipeId"> </app-add-meal-to-menu-modal>
+          </div>
+          <!-- Edit Button -->
+          <simple-button
+            *ngIf="tokenService.isAdmin() || isAuthor()"
+            (click)="onEdit()"
+            [variant]="ButtonVariant.borderOnly"
+          >
+            <span>Edit</span>
+          </simple-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Left Column: Servings and Cooking Appliances -->
+    <div class="space-y-4 border-t pt-4 flex items-top items-left md:pt-6 md:pb-0">
+      <div class="bg-white rounded-lg">
+        <h2 class="text-xl font-semibold pb-4">Description</h2>
+        <p class="pb-[30px]" [ngStyle]="{ 'white-space': 'pre-line' }">
+          {{ recipeDto.description || 'No description available' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-6">
+      <!-- Ingredients -->
+      <div class="space-y-4 border-t-4 border-black">
+        <div class="bg-white rounded-lg">
+          <h2 class="text-xl font-semibold pb-4">Ingredients</h2>
+          <ul>
+            <li class="pb-4 text-sm">
+              <a class="font-semibold">Yield:</a> {{ recipeDto.servings || 'Unknown' }} servings
+            </li>
+            <li *ngFor="let ingredient of recipeDto.ingredients || []" class="py-1">
+              <span class="text-sm"
+                >{{ ingredient.amount }}{{ prepareUnit(ingredient.unit) }} of {{ ingredient.name }}</span
+              >
+            </li>
+          </ul>
+          <span class="italic" *ngIf="recipeDto.ingredients.length === 0">
+            No ingredients. All used ingredients have been rejected by the admin.
+          </span>
+        </div>
+      </div>
+
+      <!-- Cooking Appliances -->
+      <div class="space-y-4 border-t-4 border-black">
+        <div class="bg-white rounded-lg">
+          <h2 class="text-xl font-semibold pb-2">Cooking Appliances</h2>
+          <ul>
+            <li *ngFor="let appliance of recipeDto.cookingAppliances || []" class="py-1">
+              <span class="text-sm">{{ appliance.amount }} x {{ appliance.name }}</span>
+            </li>
+          </ul>
+          <span class="italic" *ngIf="recipeDto.cookingAppliances.length === 0"> No cooking appliances needed. </span>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <!-- Delete Button -->
+      <simple-button
+        *ngIf="tokenService.isAdmin() || isAuthor()"
+        (click)="openDeleteModal()"
+        [variant]="ButtonVariant.danger2"
+      >
+        <span>Delete Recipe</span>
+      </simple-button>
+    </div>
+  </div>
+
+  <!-- Fallback message if recipe is not found -->
+  <ng-template #recipeNotFound>
+    <div class="text-center py-16" *ngIf="!loadingRecipe">
+      <h2 class="text-2xl font-semibold">Oops, this recipe doesn't exist.</h2>
+    </div>
+  </ng-template>
+
+  <loading-spinner [isLoading]="loadingRecipe"></loading-spinner>
+</page-layout>
+
+<simple-modal
+  [title]="deleteModalTitle"
+  [show]="isDeleteModalOpen"
+  [cancelBtnTitle]="'Cancel'"
+  [submitBtnTitle]="'Confirm'"
+  (setShow)="isDeleteModalOpen = $event"
+  (onSubmit)="onDelete()"
+>
+  <p>This recipe will be deleted immediately. You can't undo this action.</p>
+</simple-modal>

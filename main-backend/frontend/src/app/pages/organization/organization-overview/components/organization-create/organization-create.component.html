@@ -1,0 +1,41 @@
+<simple-button (click)="isCreateOrganizationModalOpen = true" [variant]="ButtonVariant.primary">
+  <span class="icon-[material-symbols--add] mr-1 -ml-1"></span> Organization
+</simple-button>
+
+<!-- Create Organization Modal -->
+<simple-modal
+  [title]="'Create New Organization'"
+  [show]="isCreateOrganizationModalOpen"
+  [cancelBtnTitle]="'Cancel'"
+  [submitBtnTitle]="'Submit'"
+  (setShow)="isCreateOrganizationModalOpen = $event"
+  (onCancel)="handleCreateOrganizationModalCancel()"
+  (onSubmit)="handleCreateOrganizationModalSubmit()"
+  [isSubmitEnabled]="formIsValid()"
+>
+  <form #form="ngForm">
+    <div class="grid grid-rows-auto grid-cols-2 gap-4 rounded-lg">
+      <input-field
+        name="menu-name"
+        [label]="'Name*'"
+        [type]="InputType.text"
+        [(value)]="organization.name"
+        placeholder="e.g. TU Wien"
+        [form]="form"
+        class="col-span-2"
+        [className]="'w-full col-span-2'"
+        [required]="true"
+      ></input-field>
+      <input-field
+        name="menu-description"
+        [label]="'Description'"
+        class="col-span-2"
+        [className]="'w-full col-span-2'"
+        [type]="InputType.textarea"
+        [(value)]="organization.description"
+        [form]="form"
+        placeholder="e.g. Some description about the organization"
+      ></input-field>
+    </div>
+  </form>
+</simple-modal>

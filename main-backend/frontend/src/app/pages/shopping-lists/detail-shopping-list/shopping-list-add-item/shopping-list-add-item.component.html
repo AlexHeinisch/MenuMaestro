@@ -1,0 +1,59 @@
+<div class="mt-2">
+  <simple-button [variant]="ButtonVariant.borderOnly" [className]="'border-0'">
+    <span class="icon-[mdi--arrow-back] w-6 h-6" (click)="handleClick()"></span>
+  </simple-button>
+</div>
+
+<page-layout>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="mb-8">
+      <search-input
+        [id]="'item'"
+        [label]="'Item Name'"
+        [placeholder]="'e.g. Apple Juice'"
+        [handleSearch]="searchIngredient.bind(this)"
+        [options]="ingredientsOptionsNames"
+        [supportsAddCustom]="true"
+        (selectedOption)="onIngredientSelected($event)"
+        (selectedAddCustom)="onAddCustomSelected($event)"
+      ></search-input>
+    </div>
+
+    <div *ngIf="showRemainingFields" class="flex space-x-4 mb-8">
+      <div class="flex items-end">
+        <span class="icon-[material-symbols--weight-outline] mb-2"></span>
+      </div>
+      <div class="flex space-x-4 items-center">
+        <div class="flex-1">
+          <input-field
+            [label]="'Quantity'"
+            [type]="InputType.number"
+            [(value)]="shoppingListIngredientAddDto.amount"
+            [placeholder]="'Enter quantity'"
+            [id]="'quantity'"
+            [name]="'quantity'"
+            [form]="form"
+          ></input-field>
+        </div>
+
+        <div class="flex-1">
+          <input-field
+            [label]="'Unit'"
+            [type]="InputType.select"
+            [options]="measurementUnits"
+            [(value)]="shoppingListIngredientAddDto.unit"
+            [id]="'unit'"
+            [name]="'unit'"
+            [form]="form"
+          ></input-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end" *ngIf="showRemainingFields">
+      <simple-button [variant]="ButtonVariant.primary" [type]="'submit'" [disabled]="!!form.invalid">
+        Add
+      </simple-button>
+    </div>
+  </form>
+</page-layout>

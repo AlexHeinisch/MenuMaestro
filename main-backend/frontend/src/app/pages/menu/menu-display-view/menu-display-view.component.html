@@ -1,0 +1,133 @@
+<page-layout styleNames="bg-transparent">
+  <div class="px-4 lg:px-0" *ngIf="!loadingMenu && errorNoMenuFound.length === 0">
+    <div class="flex items-center justify-between flex-col md:flex-row">
+      <!-- Menu Name and People Info -->
+      <div class="flex items-center space-x-6 flex-col md:flex-row md:w-auto w-full">
+        <!-- Menu Name -->
+        <h1 class="text-3xl">{{ menuDetail.name }}</h1>
+
+        <!-- People Info -->
+        <div class="flex items-center space-x-2">
+          <span class="icon-[mdi--people] bg-primary w-6 h-6 flex items-center justify-center rounded-full"></span>
+          <span class="text-lg">
+            {{ menuDetail.numberOfPeople }} {{ menuDetail.numberOfPeople === 1 ? 'Person' : 'People' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="my-4">
+      <!-- Short description (fits within max length) -->
+      <p *ngIf="menuDetail.description!.length <= maxFullDescriptionLength">
+        {{ menuDetail.description }}
+      </p>
+
+      <!-- Full description with "View Less" -->
+      <p *ngIf="showFullDescription">
+        {{ menuDetail.description }}
+        <a class="text-primary inline-flex items-center" (click)="toggleDescription()">
+          View Less <span class="icon-[lets-icons--expand-up]"></span>
+        </a>
+      </p>
+
+      <!-- Shortened description with "View More" -->
+      <p *ngIf="menuDetail.description!.length > maxFullDescriptionLength && !showFullDescription">
+        {{ menuDetail.description | slice: 0 : maxFullDescriptionLength }}...
+        <a class="text-primary inline-flex items-center" (click)="toggleDescription()">
+          View More <span class="icon-[lets-icons--expand-down]"></span>
+        </a>
+      </p>
+    </div>
+    <div class="mb-4 flex items-center">
+      <span class="text-sm px-3 py-1 rounded-full font-medium inline-block border-2 border-solid">
+        {{ formatStatus(menuDetail.status) }}
+      </span>
+    </div>
+
+    <div class="flex items-center flex-col">
+      <!-- Meals and Snapshots -->
+      <div class="w-full">
+        <div class="space-y-2 bg-transparent overflow-hidden">
+          <div
+            *ngFor="let item of combinedMealsAndSnapshots; let i = index"
+            id="menu-item-{{ i }}"
+            [ngClass]="{
+              'flex flex-col rounded justify-between py-3 items-center min-h-[50px] text-sm': true,
+              '!flex-row hover:bg-white border border-gray-300 px-4 shadow bg-gray-50': !isSnapshot(item)
+            }"
+          >
+            <ng-container *ngIf="!isSnapshot(item)">
+              <div class="flex flex-col items-start flex-1 hover:cursor-pointer" (click)="onDetails(item)">
+                <!-- Name -->
+                <span class="font-bold" (click)="onDetails(item)">{{ item.name }}</span>
+
+                <!-- Number of People and Meal Status-->
+                <div class="flex items-center space-x-2 mt-2 text-sm text-neutral-500">
+                  <span
+                    class="icon-[mdi--people] bg-neutral-500 w-5 h-5 flex items-center justify-center rounded-full"
+                  ></span>
+                  <span>{{ item.numberOfPeople ? item.numberOfPeople : menuDetail.numberOfPeople }}</span>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="isSnapshot(item)">
+              <div class="w-full flex items-center pt-2 pb-8">
+                <!-- Center-aligned bar with name on the top-left -->
+                <div class="flex items-center flex-grow flex-col relative text-base">
+                  <!-- Name on the top-left, positioned higher -->
+                  <div
+                    class="absolute flex flex-row justify-between w-full top-0 left-0 text-base text-primary -translate-y-2"
+                  >
+                    <div class="flex flex-col lg:flex-row lg:gap-2">
+                      <div class="font-bold">
+                        <span>{{ item.name }}</span>
+                      </div>
+                      <div class="text-neutral-700">
+                        <span class="text-xs">
+                          ({{ item.numberOfMealsIncluded }} {{ item.numberOfMealsIncluded === 1 ? 'meal' : 'meals' }}
+                        </span>
+                        <span class="text-xs">)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <span class="mt-4"></span>
+
+                  <!-- Full-width line -->
+                  <div class="w-full border-t-2 border-primary"></div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end mt-8" *ngIf="hasAtLeastPlannerPermission()">
+      <simple-button (click)="openMenuDeleteModal()" [variant]="ButtonVariant.danger2">
+        <span>Delete Menu</span>
+      </simple-button>
+    </div>
+  </div>
+
+  <loading-spinner [isLoading]="loadingMenu"></loading-spinner>
+
+  <info-message
+    *ngIf="errorNoMenuFound.length > 0"
+    [message]="errorNoMenuFound"
+    [type]="InfoMessageType.failure"
+  ></info-message>
+
+  <simple-modal
+    [title]="menuDeleteModalTitle"
+    [show]="isMenuDeleteModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isMenuDeleteModalOpen = $event"
+    (onSubmit)="handleMenuDeleteModalSubmit()"
+  >
+    <p>This menu including all of its meals will be deleted immediately. You can't undo this action.</p>
+  </simple-modal>
+</page-layout>

@@ -51,7 +51,7 @@ public class BaseWebIntegrationTest {
 
     @PostConstruct
     void init() {
-        URI = "http://localhost:" + port + getBasePath();
+        URI = "http://localhost:" + port + "/api/v1" + getBasePath();
     }
 
     @BeforeAll

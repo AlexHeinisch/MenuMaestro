@@ -27,6 +27,7 @@
 		<module>mappers</module>
 		<module>endpoint</module>
 		<module>db-versioning</module>
+		<module>frontend</module>
 	</modules>
 	<scm>
 		<connection />
@@ -236,6 +237,7 @@
                     <resultsDirectory>../application/allure-results</resultsDirectory>
                 </configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>

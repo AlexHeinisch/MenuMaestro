@@ -5,7 +5,7 @@ info:
   description: A basic file-storage API integrated into Menu Maestro
 
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080/api/v1
 
 paths:
   /images:

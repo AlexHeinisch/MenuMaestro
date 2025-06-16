@@ -1,0 +1,566 @@
+<page-layout>
+  <div class="px-4 lg:px-0" *ngIf="!loadingMenu && errorNoMenuFound.length === 0">
+    <div class="flex items-center justify-between flex-col md:flex-row">
+      <!-- Menu Name and People Info -->
+      <div class="flex items-center space-x-6 flex-col md:flex-row md:w-auto w-full">
+        <!-- Menu Name -->
+        <h1 class="text-3xl">{{ menuDetail.name }}</h1>
+
+        <!-- People Info -->
+        <div class="flex items-center space-x-2">
+          <span class="icon-[mdi--people] bg-primary w-6 h-6 flex items-center justify-center rounded-full"></span>
+          <span class="text-lg">
+            {{ menuDetail.numberOfPeople }} {{ menuDetail.numberOfPeople === 1 ? 'Person' : 'People' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col lg:flex-row justify-between my-2 lg:items-center mb-8">
+      <div class="lg:w-3/4 mb-4 lg:mb-0">
+        <!-- Short description (fits within max length) -->
+        <p *ngIf="menuDetail.description!.length <= maxFullDescriptionLength">
+          {{ menuDetail.description }}
+        </p>
+
+        <!-- Full description with "View Less" -->
+        <p *ngIf="showFullDescription">
+          {{ menuDetail.description }}
+          <a class="text-primary hover:underline cursor-pointer inline-flex items-center" (click)="toggleDescription()">
+            View Less <span class="icon-[lets-icons--expand-up]"></span>
+          </a>
+        </p>
+
+        <!-- Shortened description with "View More" -->
+        <p *ngIf="menuDetail.description!.length > maxFullDescriptionLength && !showFullDescription">
+          {{ menuDetail.description | slice: 0 : maxFullDescriptionLength }}...
+          <a class="text-primary hover:underline cursor-pointer inline-flex items-center" (click)="toggleDescription()">
+            View More <span class="icon-[lets-icons--expand-down]"></span>
+          </a>
+        </p>
+      </div>
+      <div class="flex flex-row items-center justify-between space-x-1">
+        <a class="inline-block" [routerLink]="'/stashes/' + menuDetail.stashId">
+          <simple-button
+            *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+            [variant]="ButtonVariant.primary"
+            >View Stash</simple-button
+          >
+        </a>
+        <simple-button
+          class="block md:hidden"
+          [variant]="ButtonVariant.borderOnly"
+          [className]="'border-0'"
+          (click)="openLegendModal()"
+          *ngIf="combinedMealsAndSnapshots.length !== 0"
+        >
+          <span class="icon-[material-symbols--info-outline]"></span>
+        </simple-button>
+      </div>
+    </div>
+
+    <div class="flex items-center flex-col">
+      <!-- Meals and Snapshots -->
+      <div
+        cdkDropList
+        [cdkDropListData]="combinedMealsAndSnapshots"
+        (cdkDropListDropped)="drop($event)"
+        class="w-full"
+        [cdkDropListDisabled]="!isAtLeastPlanner"
+      >
+        <div class="space-y-2 bg-transparent overflow-hidden">
+          <div
+            *ngFor="let item of combinedMealsAndSnapshots; let i = index"
+            cdkDrag
+            id="menu-item-{{ i }}"
+            [ngClass]="{
+              'flex flex-col rounded justify-between py-3 items-center hover:cursor-pointer min-h-[50px] cursor-move text-sm': true,
+              '!flex-row border hover:bg-gray-50 border-gray-300 px-4 shadow bg-white': !isSnapshot(item)
+            }"
+          >
+            <ng-container *ngIf="!isSnapshot(item)">
+              <div class="flex flex-col items-start flex-1" (click)="onDetails(item)">
+                <!-- Name -->
+                <span class="font-bold hover:underline" (click)="onDetails(item)">{{ item.name }}</span>
+
+                <!-- Number of People and Meal Status-->
+                <div class="flex items-center space-x-2 mt-2 text-sm text-neutral-500">
+                  <span
+                    class="icon-[mdi--people] bg-neutral-500 w-5 h-5 flex items-center justify-center rounded-full"
+                  ></span>
+                  <span>{{ item.numberOfPeople ? item.numberOfPeople : menuDetail.numberOfPeople }}</span>
+                  <span
+                    class="block md:hidden w-3 h-3 rounded-full"
+                    *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                    [ngClass]="{
+                      'bg-gray-200': item.status === MealStatus.Done,
+                      'bg-green-100': item.status === MealStatus.AllIngredientsPresent,
+                      'bg-yellow-100': item.status === MealStatus.SomeIngredientsMissing,
+                      'bg-red-100': item.status === MealStatus.AllIngredientsMissing
+                    }"
+                  >
+                  </span>
+                  <span
+                    class="hidden md:inline text-sm px-3 py-1 rounded-full font-medium"
+                    *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                    [ngClass]="{
+                      'bg-gray-200': item.status === MealStatus.Done,
+                      'bg-green-100': item.status === MealStatus.AllIngredientsPresent,
+                      'bg-yellow-100': item.status === MealStatus.SomeIngredientsMissing,
+                      'bg-red-100': item.status === MealStatus.AllIngredientsMissing
+                    }"
+                  >
+                    <span> {{ formatStatus(item.status) }}</span>
+                  </span>
+                </div>
+              </div>
+              <div class="flex flex-col" *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)">
+                <div class="flex space-x-2 justify-end">
+                  <!-- Complete/incomplete Button -->
+                  <simple-button
+                    *ngIf="item.status === MealStatus.Done"
+                    (click)="callonMark(item, i, false)"
+                    [variant]="ButtonVariant.borderOnly"
+                  >
+                    <span class="icon-[dashicons--no]"></span>
+                  </simple-button>
+                  <simple-button
+                    *ngIf="item.status !== MealStatus.Done"
+                    (click)="openCloseMealModal(item, i, true)"
+                    [variant]="ButtonVariant.borderOnly"
+                  >
+                    <span class="icon-[dashicons--yes]"></span>
+                  </simple-button>
+                  <!-- Delete Button -->
+                  <simple-button (click)="openMealDeleteModal(item)" [variant]="ButtonVariant.borderOnly">
+                    <span class="icon-[material-symbols--delete]"></span>
+                  </simple-button>
+                </div>
+                <div class="flex justify-end">
+                  <simple-button
+                    [variant]="ButtonVariant.borderOnly"
+                    [type]="'submit'"
+                    [className]="'border-0 !px-0 pt-1 pb-0'"
+                    (click)="openMealGroupModal(item.position)"
+                  >
+                    <div
+                      *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                      class="flex flex-row items-center"
+                    >
+                      <span class="icon-[gg--insert-after-r] mr-1 text-xs mt-1"></span>
+                      <p class="text-xs lg:hidden">Separator</p>
+                      <p class="text-xs hidden lg:block">Meals Separator</p>
+                    </div>
+                  </simple-button>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="isSnapshot(item)">
+              <div
+                class="w-full flex items-center pt-2 pb-8"
+                [ngClass]="{ 'cursor-pointer': isAtLeastPlanner, 'cursor-default': !isAtLeastPlanner }"
+              >
+                <!-- Center-aligned bar with name on the top-left -->
+                <div class="flex items-center flex-grow flex-col relative text-base">
+                  <!-- Name on the top-left, positioned higher -->
+                  <div
+                    class="absolute flex flex-row justify-between w-full top-0 left-0 text-base text-primary -translate-y-2"
+                  >
+                    <div class="flex flex-col lg:flex-row lg:gap-2">
+                      <div class="font-bold">
+                        <span>{{ item.name }}</span>
+                      </div>
+                      <div
+                        class="text-neutral-700"
+                        *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                      >
+                        <span class="text-xs">
+                          ({{ item.numberOfMealsIncluded }} {{ item.numberOfMealsIncluded === 1 ? 'meal' : 'meals' }}
+                        </span>
+                        <span class="text-xs"> |</span>
+                        <span class="text-xs">
+                          {{ item.numberOfAvailableIngredients }}/{{ item.numberOfTotalIngredients }}
+                          {{ item.numberOfTotalIngredients === 1 ? 'ingredient' : 'ingredients' }})
+                        </span>
+                      </div>
+                    </div>
+                    <div class="space-x-12 lg:space-x-8 mt-8 lg:mt-0">
+                      <span
+                        *ngIf="
+                          item.numberOfAvailableIngredients !== item.numberOfTotalIngredients &&
+                          tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)
+                        "
+                        (click)="createShoppingListFromSnapshot(item, false)"
+                        class="icon-[fluent-mdl2--add-to-shopping-list] hover:cursor-pointer hover:text-primary-200 px-2 py-1 text-sm"
+                      ></span>
+                      <span
+                        (click)="openSnapshotDeleteModal(item)"
+                        class="icon-[material-symbols--delete] hover:cursor-pointer hover:text-primary-200 px-2 py-1 text-sm"
+                        *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                      ></span>
+                    </div>
+                  </div>
+
+                  <!-- Top arrow -->
+                  <span
+                    class="icon-[lets-icons--expand-up]"
+                    [ngClass]="{ 'bg-primary': isAtLeastPlanner, 'bg-white': !isAtLeastPlanner }"
+                  ></span>
+
+                  <!-- Full-width line -->
+                  <div class="w-full border-t-2 border-primary"></div>
+
+                  <!-- Bottom arrow -->
+                  <span
+                    *ngIf="i < combinedMealsAndSnapshots.length - 1"
+                    class="icon-[lets-icons--expand-down]"
+                    [ngClass]="{ 'bg-primary': isAtLeastPlanner, 'bg-white': !isAtLeastPlanner }"
+                  ></span>
+                </div>
+              </div>
+
+              <!-- Drag preview hidden -->
+              <div *cdkDragPreview class="hidden"></div>
+
+              <!-- Placeholder -->
+              <div *cdkDragPlaceholder>
+                <div class="w-full flex items-center pt-5 pb-5">
+                  <!-- Center-aligned bar with name on the top-left -->
+                  <div class="flex justify-center items-center flex-grow text-base flex-col relative mb-6">
+                    <!-- Name on the top-left, positioned higher -->
+                    <div
+                      class="absolute flex flex-row justify-between w-full top-0 left-0 font-bold text-primary -translate-y-2"
+                    >
+                      <div>
+                        <span>{{ item.name }}</span>
+                      </div>
+                      <div class="space-x-12 mt-12 lg:space-x-8 mt-8 lg:mt-0">
+                        <span
+                          class="icon-[fluent-mdl2--add-to-shopping-list] hover:cursor-pointer hover:text-primary-200 px-2 py-1 text-sm"
+                          *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                        ></span>
+                        <span
+                          class="icon-[material-symbols--delete] hover:cursor-pointer hover:text-red-600 px-2 py-1 text-sm"
+                          *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+                        ></span>
+                      </div>
+                    </div>
+
+                    <!-- Top arrow -->
+                    <span class="icon-[lets-icons--expand-up] bg-primary"></span>
+
+                    <!-- Full-width line -->
+                    <div class="w-full border-t-2 border-primary"></div>
+
+                    <!-- Bottom arrow -->
+                    <span
+                      *ngIf="i < combinedMealsAndSnapshots.length - 1"
+                      class="icon-[lets-icons--expand-down] bg-primary"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="combinedMealsAndSnapshots.length === 0">
+      <div
+        class="flex items-items justify-center max-[1140px]:flex-col gap-y-6 gap-x-3 max-w-screen-lg mx-auto px-4 mt-4"
+      >
+        <div class="overflow-hidden min-w-[250px] pr-[35px] cursor-pointer" (click)="browseRecipes()">
+          <div
+            class="bg-primary h-[70px] py-2.5 px-6 rounded-md relative after:bg-primary after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm"
+          >
+            <div class="relative z-10">
+              <h4 class="text-sm font-semibold text-white">1. Browse Recipes</h4>
+              <p class="text-xs text-gray-300">Search for recipes or create your own.</p>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-hidden min-w-[250px] pr-[35px]">
+          <div
+            class="bg-gray-300 h-[70px] py-2.5 px-6 rounded-md relative after:bg-gray-300 after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm"
+          >
+            <div class="relative z-10">
+              <h4 class="text-sm font-semibold text-gray-500">2. Add Meals To Menu</h4>
+              <p class="text-xs text-gray-500">Select a recipe and add it as a meal in this menu.</p>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-hidden min-w-[250px] pr-[35px]">
+          <div
+            class="bg-gray-300 h-[70px] py-2.5 px-6 rounded-md relative after:bg-gray-300 after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm"
+          >
+            <div class="relative z-10">
+              <h4 class="text-sm font-semibold text-gray-500">3. Use This Menu Planner</h4>
+              <p class="text-xs text-gray-500">Organize and adapt your meals here. Create shopping lists.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-end mt-8 space-x-2"
+      *ngIf="tokenService.isAdminOrOwnerOrPlanner(this.menuDetail.organization.id)"
+    >
+      <simple-button (click)="openMenuDeleteModal()" [variant]="ButtonVariant.danger2">
+        <span>Delete Menu</span>
+      </simple-button>
+      <a class="inline-block" *ngIf="menuDetail.meals.length > 0">
+        <simple-button (click)="openMenuCloseModal()" [variant]="ButtonVariant.danger2">Close Menu</simple-button>
+      </a>
+    </div>
+  </div>
+
+  <loading-spinner [isLoading]="loadingMenu"></loading-spinner>
+
+  <info-message
+    *ngIf="errorNoMenuFound.length > 0"
+    [message]="errorNoMenuFound"
+    [type]="InfoMessageType.failure"
+  ></info-message>
+
+  <simple-modal
+    [title]="'Meal Status Legend'"
+    [show]="isLegendModalOpen"
+    [submitBtnTitle]="'Back'"
+    (setShow)="isLegendModalOpen = $event"
+  >
+    <div>
+      <ul class="space-y-2">
+        <li class="flex items-center">
+          <span class="w-4 h-4 rounded-full bg-gray-200 inline-block mr-2"></span>
+          <span>Done</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-4 h-4 rounded-full bg-green-100 inline-block mr-2"></span>
+          <span>All Ingredients Present</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-4 h-4 rounded-full bg-yellow-100 inline-block mr-2"></span>
+          <span>Some Ingredients Missing</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-4 h-4 rounded-full bg-red-100 inline-block mr-2"></span>
+          <span>All Ingredients Missing</span>
+        </li>
+      </ul>
+    </div>
+  </simple-modal>
+
+  <simple-modal
+    [title]="shoppingListModalTitle"
+    [show]="isShoppingListModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Next'"
+    (setShow)="isShoppingListModalOpen = $event"
+    (onSubmit)="handleShoppingListModalStep1Next()"
+    [isSubmitEnabled]="isShoppingListModalSubmitEnabled()"
+  >
+    <form #form="ngForm">
+      <input-field
+        [label]="'Name shopping list*'"
+        [type]="InputType.text"
+        [placeholder]="'Enter shopping list name'"
+        [ariaLabel]="'Shopping List Name input field'"
+        [required]="true"
+        [(value)]="shoppingListName"
+        [id]="'shoppingListName'"
+        [name]="'shoppingListName'"
+        [form]="form"
+      ></input-field>
+
+      <p class="text-primary text-base mt-2 mb-2">Select meal groups to include in shopping list</p>
+      <!-- Select All Option -->
+      <div class="flex justify-end">
+        <input-field
+          [label]="'Select All'"
+          [type]="InputType.checkbox"
+          [ariaLabel]="'Select All Checkbox'"
+          [(value)]="selectAll"
+          [id]="'selectAll'"
+          [name]="'selectAll'"
+          [className]="'accent-primary-light'"
+          (change)="toggleSelectAll($event)"
+        ></input-field>
+      </div>
+
+      <div class="flex items-center">
+        <hr class="flex-1 border-gray-300" />
+        <span class="text-sm text-gray-500 px-4 whitespace-nowrap">Meal Groups</span>
+        <hr class="flex-1 border-gray-300" />
+      </div>
+
+      <!-- Dynamically Generated Checkboxes -->
+      <div *ngFor="let checkbox of checkboxList; let i = index">
+        <input-field
+          [label]="checkbox.name"
+          [type]="InputType.checkbox"
+          [ariaLabel]="'Checkbox for ' + checkbox.name"
+          [(value)]="checkbox.isChecked"
+          [id]="'checkbox-' + i"
+          [name]="'checkbox-' + i"
+          [marginBottom]="'mb-2'"
+          [className]="'accent-primary-light'"
+          [labelStyling]="'text-primary-light'"
+          (change)="updateSelectAllState()"
+        ></input-field>
+      </div>
+      <div class="h-3">
+        <div *ngIf="!shoppingListCreateHasAtLeastOneMealGroupChecked()">
+          <p class="text-xs text-red-500">You have to select at least one meal group.</p>
+        </div>
+      </div>
+    </form>
+  </simple-modal>
+
+  <!-- Shopping list preview modal -->
+  <simple-modal
+    [title]="shoppingListModalTitle"
+    [show]="isShoppingListModalStep2Open"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Submit'"
+    (setShow)="isShoppingListModalStep2Open = $event"
+    (onSubmit)="handleShoppingListModalSubmit()"
+  >
+    <div class="max-h-[55vh] sm:max-h-[60vh] overflow-hidden flex flex-col">
+      <p *ngIf="shoppingListIngredientsPreview" class="text-sm mb-2">
+        {{
+          shoppingListIngredientsPreview.length !== 0
+            ? 'The following ingredients from the stash will be used. This reduces the missing ingredients.'
+            : 'No suitable stash ingredients were found, the shopping list will have all ingredients of the selected meals.'
+        }}
+      </p>
+      <div class="overflow-auto flex-grow">
+        <table
+          *ngIf="shoppingListIngredientsPreview && shoppingListIngredientsPreview.length !== 0"
+          class="min-w-full table-auto"
+        >
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ingredient</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let ingredient of shoppingListIngredientsPreview">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+                {{ ingredient.name }}
+                {{ ingredientComputationService.roundAmountForDisplayString(ingredient.amount, $any(ingredient.unit)) }}
+                /
+                {{
+                  ingredientComputationService.roundAmountForDisplayString(
+                    ingredient.totalAmount,
+                    $any(ingredient.unit)
+                  )
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </simple-modal>
+
+  <simple-modal
+    [title]="'Create a Meal Group'"
+    [show]="isMealGroupModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isMealGroupModalOpen = $event"
+    (onCancel)="handleMealGroupModalCancel()"
+    (onSubmit)="handleMealGroupModalSubmit()"
+    [isSubmitEnabled]="!!mealSeparatorName"
+  >
+    <form #form="ngForm">
+      <input-field
+        [label]="'Name*'"
+        [type]="InputType.text"
+        [placeholder]="'e.g. Day 1'"
+        [ariaLabel]="'Meal Separator Name'"
+        [(value)]="mealSeparatorName"
+        [id]="'mealSeparatorName'"
+        [name]="'mealSeparatorName'"
+        [form]="form"
+        [required]="true"
+      ></input-field>
+    </form>
+  </simple-modal>
+  <simple-modal
+    [title]="mealDeleteModalTitle"
+    [show]="isMealDeleteModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isMealDeleteModalOpen = $event"
+    (onSubmit)="handleMealDeleteModalSubmit()"
+  >
+    <p>This meal will be deleted immediately. You can't undo this action.</p>
+  </simple-modal>
+  <simple-modal
+    [title]="menuDeleteModalTitle"
+    [show]="isMenuDeleteModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isMenuDeleteModalOpen = $event"
+    (onSubmit)="handleMenuDeleteModalSubmit()"
+  >
+    <p>This menu including all of its meals will be deleted immediately. You can't undo this action.</p>
+  </simple-modal>
+
+  <simple-modal
+    [title]="snapshotDeleteModalTitle"
+    [show]="isSnapshotDeleteModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isSnapshotDeleteModalOpen = $event"
+    (onSubmit)="handleSnapshotDeleteModalSubmit()"
+  >
+    <p>This meals separator will be deleted immediately. You can't undo this action.</p>
+  </simple-modal>
+  <complex-modal
+    [title]="'Mark Meal as Done'"
+    [show]="isCloseMealModalOpen"
+    [firstBtnTitle]="'Cancel'"
+    [secondBtnTitle]="'Keep stash ingredients'"
+    [thirdBtnTitle]="'Remove stash ingredients'"
+    (setShow)="isCloseMealModalOpen = $event"
+    (onSubmit)="onMark(false)"
+    (onThirdAction)="onMark(true)"
+  >
+    <p>
+      Meals marked as done will be excluded from future shopping lists. You can either remove the ingredients used in
+      the meal from the menu stash (if present) or don't remove them.
+    </p>
+  </complex-modal>
+
+  <simple-modal
+    [title]="menuCloseModalTitle"
+    [show]="isMenuCloseModalOpen"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="isMenuCloseModalOpen = $event"
+    (onSubmit)="handleMenuCloseModalSubmit()"
+  >
+    <p>
+      This menu will be closed and its inventory will be transferred to your organization. All shopping lists based on
+      this menu will be closed and you will no longer be able to change them or create new shopping lists. You can't
+      undo this action.
+    </p>
+  </simple-modal>
+
+  <simple-modal
+    [title]="'May Cause Inconsistency'"
+    [show]="handleMultipleShoppingListsModal"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Proceed'"
+    (setShow)="handleMultipleShoppingListsModal = $event"
+    (onSubmit)="createShoppingListFromSnapshot(clickedSnapshot, true)"
+  >
+    <span class="icon-[material-symbols--warning-outline] mr-2"></span>
+    <span
+      >There is already an open shopping list for this menu. Proceeding may cause consistency issues with the
+      stash.</span
+    >
+  </simple-modal>
+</page-layout>

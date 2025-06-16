@@ -1,0 +1,244 @@
+<page-layout styleNames="bg-white">
+  <div *ngIf="stash && checkableEntries">
+    <h1 class="text-3xl">{{ stash.name }}</h1>
+    <br />
+    <form #selectForm="ngForm">
+      <div [hidden]="!hasEditPermission() || checkableEntries!.length === 0">
+        <div class="flex items-center justify-end mb-4">
+          <div class="flex items-end space-x-2">
+            <simple-button
+              (click)="bulkMoveModalOpen = true"
+              [variant]="ButtonVariant.primary"
+              [disabled]="!selectionNotEmpty"
+            >
+              Move Selected
+            </simple-button>
+            <simple-button
+              (click)="bulkDeleteModalOpen = true"
+              [variant]="ButtonVariant.danger2"
+              [disabled]="!selectionNotEmpty"
+            >
+              Delete Selected
+            </simple-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end mr-4" *ngIf="checkableEntries!.length !== 0">
+        <input-field
+          [form]="selectForm"
+          [label]="'Select All'"
+          [type]="InputType.checkbox"
+          [ariaLabel]="'select all'"
+          [id]="'selectAll'"
+          [name]="'selectAll'"
+          [(value)]="selectAll"
+          (valueChange)="onSelectAll($event)"
+          [className]="'accent-primary-light'"
+        ></input-field>
+      </div>
+      <div class="bg-white w-full shadow rounded-lg border">
+        <div class="overflow-x-auto">
+          <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+            <table class="min-w-full table-auto">
+              <thead>
+                <tr class="bg-gray-50">
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ingredient
+                  </th>
+                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngIf="checkableEntries!.length === 0">
+                  <td class="p-4 text-center text-gray-500" colspan="3">This stash is empty.</td>
+                </tr>
+                <tr *ngFor="let entry of checkableEntries">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+                    <input-field
+                      [form]="selectForm"
+                      [label]="
+                        entry.ingredient.name +
+                        ' (' +
+                        prepareAmountAndUnit(entry.ingredient.amount, entry.ingredient.unit) +
+                        ')'
+                      "
+                      [type]="InputType.checkbox"
+                      [ariaLabel]="'Select Ingredient'"
+                      [id]="'selectIngredient' + entry.ingredient.id + entry.ingredient.unit"
+                      [name]="'select' + entry.ingredient.id + entry.ingredient.unit"
+                      [(value)]="entry.checked"
+                      (valueChange)="onSelectionChange()"
+                      [marginBottom]="'mb-2'"
+                      [className]="'accent-primary-light'"
+                      [labelStyling]="'text-primary-light'"
+                      [disabled]="!hasEditPermission()"
+                    ></input-field>
+                  </td>
+                  <td
+                    [hidden]="!hasEditPermission()"
+                    class="px-6 py-4 whitespace-nowrap text-right flex justify-end space-x-2"
+                  >
+                    <simple-button (click)="openEditModal(entry.ingredient)" [variant]="ButtonVariant.borderOnly">
+                      <span class="icon-[material-symbols--edit]"></span>
+                    </simple-button>
+                    <simple-button
+                      (click)="deleteModalIngredient = entry.ingredient"
+                      [variant]="ButtonVariant.borderOnly"
+                    >
+                      <span class="icon-[material-symbols--delete]"></span>
+                    </simple-button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <simple-button
+        [hidden]="!hasEditPermission()"
+        className="float-right mt-4"
+        (click)="setShowAddIngredientModal(true)"
+        [variant]="ButtonVariant.primary"
+        ><span class="icon-[material-symbols--add] mr-1 -ml-1"></span> Ingredient
+      </simple-button>
+    </form>
+  </div>
+
+  <simple-modal
+    *ngIf="checkableEntries"
+    [show]="bulkMoveModalOpen"
+    [title]="'Move ' + selectedEntriesCount() + ' Selected Ingredients to Another Stash'"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Move'"
+    (setShow)="bulkMoveModalOpen = $event"
+    (onSubmit)="onMoveIngredientsSubmit()"
+    (onCancel)="resetModals()"
+    [isSubmitEnabled]="moveToStashId !== null"
+  >
+    <search-input
+      [id]="'stashSearch'"
+      [label]="'Search for an Organization or Menu Stash'"
+      [searchTerm]="moveStashSearchTerm"
+      [handleSearch]="handleStashSearch.bind(this)"
+      [options]="stashSearchOptions"
+      (selectedOption)="onStashSelectedForMoving($event)"
+    >
+    </search-input>
+  </simple-modal>
+
+  <simple-modal
+    [title]="'Edit Stash Ingredient: ' + this.editStashEntry?.name"
+    [show]="editStashEntry !== null"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Confirm'"
+    (setShow)="onEditModalShow($event)"
+    (onCancel)="resetModals()"
+    (onSubmit)="onEditSubmit()"
+  >
+    <form #editForm="ngForm">
+      <div *ngIf="editStashEntry !== null" class="grid gap-4 sm:grid-cols-2 sm:items-center">
+        <!-- Amount Input -->
+        <input-field
+          [label]="'Amount'"
+          [type]="InputType.number"
+          [id]="'ingredientAmount'"
+          [name]="'ingredientAmount'"
+          [form]="editForm"
+          [(value)]="editStashEntry.amount"
+          class="col-span-2 sm:col-span-1"
+        ></input-field>
+
+        <!-- Unit Input -->
+        <input-field
+          [label]="'Unit'"
+          [type]="InputType.select"
+          [options]="measurementUnits"
+          [(value)]="editStashEntry.unit"
+          [id]="'unit'"
+          [name]="'unit'"
+          [form]="editForm"
+          class="col-span-2 sm:col-span-1"
+        ></input-field>
+      </div>
+    </form>
+  </simple-modal>
+
+  <simple-modal
+    [title]="'Are you sure you want to remove ' + selectedEntriesCount() + ' ingredients?'"
+    [cancelBtnTitle]="'Cancel'"
+    submitBtnTitle="Delete"
+    [show]="bulkDeleteModalOpen"
+    (setShow)="bulkDeleteModalOpen = $event"
+    (onSubmit)="onBulkDeleteSelected()"
+    (onCancel)="resetModals()"
+  >
+    <p>These ingredients will be removed from your stash immediately. You can't undo this action.</p>
+  </simple-modal>
+
+  <simple-modal
+    [title]="'Are you sure you want to remove this ingredient?'"
+    [cancelBtnTitle]="'Cancel'"
+    submitBtnTitle="Delete"
+    [show]="deleteModalIngredient !== null"
+    (onSubmit)="onDeleteSingleEntry()"
+    (onCancel)="resetModals()"
+  >
+    <p>This ingredient will be removed from your stash immediately. You can't undo this action.</p>
+  </simple-modal>
+
+  <simple-modal
+    [show]="ingredientToAdd !== null"
+    [title]="'Add an Ingredient'"
+    [cancelBtnTitle]="'Cancel'"
+    [submitBtnTitle]="'Submit'"
+    [isSubmitEnabled]="ingredientToAddSelected"
+    (setShow)="setShowAddIngredientModal($event)"
+    (onSubmit)="onAddIngredientSubmit()"
+    (onCancel)="resetModals()"
+  >
+    <form #addForm="ngForm">
+      <div *ngIf="ingredientToAdd !== null" class="flex-1 flex flex-col space-y-6">
+        <search-input
+          [id]="'ingredientAdd'"
+          [label]="'Ingredient'"
+          [placeholder]="'e.g. Flour'"
+          [handleSearch]="searchIngredient.bind(this)"
+          [options]="ingredientsOptionsNames"
+          [searchTerm]="ingredientToAdd!.name"
+          (selectedOption)="onIngredientSelectedToAdd($event)"
+        ></search-input>
+        <input-field
+          [label]="'Amount'"
+          [type]="InputType.number"
+          [id]="'ingredientAmount'"
+          [name]="'ingredientAmount'"
+          [form]="addForm"
+          [(value)]="ingredientToAdd.amount"
+          class="col-span-2 sm:col-span-1"
+        ></input-field>
+
+        <!-- Unit Input -->
+        <input-field
+          [label]="'Unit'"
+          [type]="InputType.select"
+          [options]="measurementUnits"
+          [(value)]="ingredientToAdd.unit"
+          [id]="'unit'"
+          [name]="'unit'"
+          [form]="addForm"
+          class="col-span-2 sm:col-span-1"
+        ></input-field>
+      </div>
+    </form>
+  </simple-modal>
+  <!-- error and loading indicator -->
+  <div class="text-center py-16" *ngIf="loadingError">
+    <h2 class="text-2xl font-semibold">Oops, this stash doesn't exist.</h2>
+    <p>Was the menu or organization deleted?</p>
+  </div>
+  <loading-spinner [isLoading]="stash === undefined && !loadingError"></loading-spinner>
+</page-layout>

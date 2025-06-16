@@ -37,7 +37,7 @@ spring:
 
 email:
   from_address: asemailer@erlacher.dev
-imageBasePath: "/images"
+imageBasePath: "/api/v1/images"
 
 security:
   jwt:
@@ -114,6 +114,7 @@ initial-organizations:
 websocket:
   allowed-cross-origin-patterns:
     - "http://localhost:4200"
+    - "http://localhost:8080"
     - "moz-extension:*"
   application-prefix: /app
   topics:

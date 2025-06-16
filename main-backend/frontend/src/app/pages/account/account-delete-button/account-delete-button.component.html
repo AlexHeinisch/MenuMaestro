@@ -1,0 +1,26 @@
+<div [hidden]="!tokenService.isAuthenticated()">
+  <simple-button (click)="openModal()" [variant]="ButtonVariant.danger2"> Delete Account </simple-button>
+</div>
+
+<simple-modal
+  [title]="modalTitle"
+  [show]="isModalOpen"
+  [cancelBtnTitle]="'Cancel'"
+  [submitBtnTitle]="'Confirm'"
+  (setShow)="isModalOpen = $event"
+  (onSubmit)="handleModalSubmit()"
+  (onCancel)="handleModalCancel()"
+  [isSubmitEnabled]="isFormValid()"
+>
+  {{ modalBody }}
+  <form>
+    <input-field
+      name="confirm-delete"
+      [className]="'w-full my-4'"
+      [type]="InputType.text"
+      [id]="'confirmDelete'"
+      [(value)]="confirmDelete"
+    >
+    </input-field>
+  </form>
+</simple-modal>

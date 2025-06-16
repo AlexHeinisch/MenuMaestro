@@ -1,0 +1,59 @@
+<simple-button (click)="isModalOpen = true" [variant]="ButtonVariant.primary">
+  <span class="icon-[material-symbols--add] mr-1 -ml-1"></span> Menu
+</simple-button>
+
+<simple-modal
+  [title]="modalTitle"
+  [show]="isModalOpen"
+  [cancelBtnTitle]="'Cancel'"
+  [submitBtnTitle]="'Submit'"
+  (setShow)="isModalOpen = $event"
+  (onCancel)="handleModalCancel()"
+  (onSubmit)="handleModalSubmit()"
+  [isSubmitEnabled]="formIsValid()"
+>
+  <form #form="ngForm">
+    <div class="grid grid-cols-1 gap-4 rounded-lg">
+      <input-field
+        name="menu-name"
+        [label]="'Name'"
+        [type]="InputType.text"
+        [(value)]="menu.name"
+        placeholder="e.g. Football-Camp 2024"
+        [form]="form"
+        [required]="true"
+      ></input-field>
+
+      <input-field
+        name="menu-description"
+        [label]="'Description'"
+        [type]="InputType.textarea"
+        [(value)]="menu.description"
+        [form]="form"
+        placeholder="e.g. Summer Camp FC Umhausen 7.6.-20.6."
+      ></input-field>
+      <div></div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input-field
+          name="menu-n-people"
+          [label]="'Number of Participants'"
+          [type]="InputType.number"
+          [(value)]="menu.numberOfPeople"
+          placeholder="e.g. 2"
+          [form]="form"
+          [required]="true"
+        ></input-field>
+
+        <search-input
+          [id]="'organization'"
+          [label]="'Organization'"
+          [placeholder]="'Search for organization'"
+          [handleSearch]="searchOrganization.bind(this)"
+          [options]="organizationOptionsNames"
+          (selectedOption)="onOrganizationSelected($event)"
+        ></search-input>
+      </div>
+    </div>
+  </form>
+</simple-modal>
