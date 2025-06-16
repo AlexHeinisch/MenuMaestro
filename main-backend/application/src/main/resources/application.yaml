@@ -55,7 +55,7 @@ security:
 logging:
   level:
     root: info
-    at.codemaestro.datagen: debug
+    dev.heinisch.menumaestro.datagen: debug
 
 
 initial-accounts:

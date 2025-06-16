@@ -223,8 +223,8 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>at/codemaestro/datagen/**</exclude> <!-- Exclude the package from coverage -->
-						<exclude>at/codemaestro/websocket/**</exclude>
+						<exclude>dev/heinisch/menumaestro/datagen/**</exclude> <!-- Exclude the package from coverage -->
+						<exclude>dev/heinisch/menumaestro/websocket/**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
