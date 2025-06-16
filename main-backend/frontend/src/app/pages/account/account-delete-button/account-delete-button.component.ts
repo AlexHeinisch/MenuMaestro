@@ -6,9 +6,9 @@ import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
-import { AccountsApiService } from '../../../../generated/accounts';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
+import {AccountsApiService} from "../../../../generated";
 
 @Component({
   standalone: true,

@@ -5,9 +5,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { AccountCreateRequestDto, AccountsApiService } from '../../../../generated/accounts';
+import { AccountCreateRequestDto, AccountsApiService } from '../../../../generated';
 import { ErrorService } from '../../../globals/error.service';
-import { ErrorResponse } from '../../../../generated/menus';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 

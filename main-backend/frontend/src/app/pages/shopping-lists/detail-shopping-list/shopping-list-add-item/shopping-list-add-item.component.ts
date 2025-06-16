@@ -1,20 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PageLayoutComponent } from '../../../../components/Layout/PageLayout';
 import { ButtonVariant, SimpleButtonComponent } from '../../../../components/Button/SimpleButton';
-import { IngredientListPaginatedDto } from '../../../../../generated/ingredients/model/ingredient-list-paginated-dto';
-import { IngredientsApiService } from '../../../../../generated/ingredients/api/ingredients.service';
-import { IngredientDto } from '../../../../../generated/ingredients/model/ingredient-dto';
-import { ShoppingListIngredientAddDto } from '../../../../../generated/shopping-lists/model/shopping-list-ingredient-add-dto';
-import { IngredientUnitDto } from '../../../../../generated/shopping-lists/model/ingredient-unit-dto';
 import { InputFieldComponent, InputType } from '../../../../components/Input/InputField';
 import { SearchInputComponent } from '../../../../components/Input/SearchInput';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ShoppingListApiService } from '../../../../../generated/shopping-lists/api/shopping-list.service';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../../globals/error.service';
-import { ShoppingListDto } from '../../../../../generated/shopping-lists/model/shopping-list-dto';
-import { IngredientCategory } from '../../../../../generated/shopping-lists/model/ingredient-category';
+import {
+  IngredientCategory,
+  IngredientDto, IngredientListPaginatedDto, IngredientsApiService,
+  IngredientUnitDto, ShoppingListApiService, ShoppingListDto,
+  ShoppingListIngredientAddDto
+} from "../../../../../generated";
 
 @Component({
   selector: 'app-shopping-list-add-item',

@@ -1,20 +1,19 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuCreateDto } from '../../../../../../generated/menus/model/models';
-import { MenusApiService } from '../../../../../../generated/menus/api/menus.service';
 import { Router } from '@angular/router';
-import {
-  OrganizationSummaryDto,
-  OrganizationSummaryListPaginatedDto,
-} from '../../../../../../generated/organizations/model/models';
 import { ButtonVariant, SimpleButtonComponent } from '../../../../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../../../../components/Input/InputField';
 import { SearchInputComponent } from '../../../../../components/Input/SearchInput';
-import { OrganizationsApiService } from '../../../../../../generated/organizations';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../../../globals/error.service';
 import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModalComponent';
+import {
+  MenuCreateDto,
+  MenusApiService,
+  OrganizationsApiService,
+  OrganizationSummaryDto, OrganizationSummaryListPaginatedDto
+} from "../../../../../../generated";
 
 @Component({
   selector: 'menu-create',

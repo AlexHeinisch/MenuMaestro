@@ -2,23 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PageLayoutComponent } from '../../components/Layout/PageLayout';
 import { LoadingSpinnerComponent } from '../../components/LoadingSpinner/LoadingSpinner';
 import { NgForOf, NgIf } from '@angular/common';
-import {
-  IngredientUseCreateEditDto,
-  IngredientUseDto,
-  StashApiService,
-  StashResponseDto,
-  StashSearchResponseDto,
-} from '../../../generated/stash';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonVariant, SimpleButtonComponent } from '../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
-import {
-  IngredientDto,
-  IngredientListPaginatedDto,
-  IngredientsApiService,
-  IngredientUnitDto,
-} from '../../../generated/ingredients';
 import { ComplexModalComponent } from '../../components/Modal/ComplexModalComponent';
 import { SimpleModalComponent } from '../../components/Modal/SimpleModalComponent';
 import { SearchInputComponent } from '../../components/Input/SearchInput';
@@ -26,6 +13,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../globals/error.service';
 import { IngredientComputationService } from '../../service/ingredient-computation.service';
 import { TokenService } from '../../security/token.service';
+import {
+  IngredientDto, IngredientListPaginatedDto, IngredientsApiService,
+  IngredientUnitDto, IngredientUseCreateEditDto,
+  IngredientUseDto,
+  StashApiService,
+  StashResponseDto
+} from "../../../generated";
 
 @Component({
   selector: 'app-stash',

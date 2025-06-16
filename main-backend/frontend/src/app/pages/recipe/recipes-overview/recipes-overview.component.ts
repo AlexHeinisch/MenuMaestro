@@ -4,17 +4,18 @@ import { WidePageLayoutComponent } from '../../../components/Layout/WidePageLayo
 import { SearchInputComponent } from '../../../components/Input/SearchInput';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { RouterModule } from '@angular/router';
-import { RecipesApiService } from '../../../../generated/recipes/api/recipes.service';
-import { CookingAppliancesApiService } from '../../../../generated/cooking-appliances/api/cooking-appliances.service';
 import { FormsModule } from '@angular/forms';
-import { RecipeDto, RecipeListPaginatedDto, RecipeVisibility } from '../../../../generated/recipes/model/models';
-import { CookingApplianceDto } from '../../../../generated/cooking-appliances/model/models';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { IngredientsApiService } from '../../../../generated/ingredients/api/ingredients.service';
-import { IngredientDto } from '../../../../generated/ingredients/model/models';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 import { ErrorService } from '../../../globals/error.service';
 import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
+import {
+  CookingApplianceDto,
+  CookingAppliancesApiService, IngredientDto, IngredientsApiService,
+  RecipeDto,
+  RecipeListPaginatedDto,
+  RecipesApiService, RecipeVisibility
+} from "../../../../generated";
 
 // Define the types for filter options and filters
 interface FilterOption {

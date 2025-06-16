@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { EditRecipeComponent } from '../recipe-edit/recipe-edit.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { RecipesApiService } from '../../../../generated/recipes/api/recipes.service';
-import { RecipeCreateEditDto, RecipeDto } from '../../../../generated/recipes';
 import { Observable, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import {RecipeCreateEditDto, RecipeDto, RecipesApiService} from "../../../../generated";
 
 @Component({
   selector: 'app-recipe-edit-page',

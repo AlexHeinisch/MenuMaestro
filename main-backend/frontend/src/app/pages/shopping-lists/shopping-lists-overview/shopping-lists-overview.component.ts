@@ -8,16 +8,17 @@ import { CommonModule } from '@angular/common';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { ShoppingListDto } from '../../../../generated/shopping-lists/model/shopping-list-dto';
-import { ShoppingListStatus } from '../../../../generated/shopping-lists/model/shopping-list-status';
-import { ShoppingListApiService } from '../../../../generated/shopping-lists/api/shopping-list.service';
 import { ErrorService } from '../../../globals/error.service';
-import { MenusApiService } from '../../../../generated/menus/api/menus.service';
-import { MenuSummaryDto } from '../../../../generated/menus/model/menu-summary-dto';
-import { MenuSummaryListPaginatedDto } from '../../../../generated/menus/model/menu-summary-list-paginated-dto';
-import { ShoppingListListPaginatedDto } from '../../../../generated/shopping-lists/model/shopping-list-list-paginated-dto';
 import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
 import { ToastrService } from 'ngx-toastr';
+import {
+  MenusApiService,
+  MenuSummaryDto, MenuSummaryListPaginatedDto,
+  ShoppingListApiService,
+  ShoppingListDto,
+  ShoppingListListPaginatedDto,
+  ShoppingListStatus
+} from "../../../../generated";
 
 @Component({
   selector: 'app-shopping-lists-overview',

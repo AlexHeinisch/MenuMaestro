@@ -1,4 +1,4 @@
-import { IngredientCategory, IngredientUnitDto } from '../../generated/shopping-lists';
+import { IngredientCategory, IngredientUnitDto } from '../../generated';
 
 export interface ShoppingListUpdateMessage {
   updateType: ShoppingListUpdateType; // This is required

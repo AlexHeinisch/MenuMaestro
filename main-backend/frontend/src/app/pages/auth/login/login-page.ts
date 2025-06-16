@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AuthApiService, LoginRequestDto } from '../../../../generated/accounts';
+import { AuthApiService, LoginRequestDto } from '../../../../generated';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { FormsModule } from '@angular/forms';
 import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';

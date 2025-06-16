@@ -3,27 +3,24 @@ import { InfoMessageComponent, InfoMessageType } from '../../../components/Card/
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import {
-  MealInMenuDto,
+  MealInMenuDto, MealsApiService,
   MealStatus,
   MenuDetailDto,
-  MenusApiService,
+  MenusApiService, OrganizationRoleEnum, ShoppingListApiService,
   SnapshotCreateDto,
   SnapshotInMenuDto,
-} from '../../../../generated/menus';
+} from '../../../../generated';
 import { CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 import { CommonModule } from '@angular/common';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { ShoppingListApiService } from '../../../../generated/shopping-lists';
-import { MealsApiService } from '../../../../generated/meals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { StringFormattingService } from '../../../service/string-formatting.service';
-import { OrganizationRoleEnum } from '../../../../generated/organizations/model/organization-role-enum';
 import { TokenService } from '../../../security/token.service';
 
 @Component({

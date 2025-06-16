@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { AuthApiService } from '../../generated/accounts';
-import { OrganizationRoleEnum } from '../../generated/organizations';
+import {AuthApiService, OrganizationRoleEnum} from "../../generated";
 
 interface CustomJwtPayload extends JwtPayload {
   roles?: string[];

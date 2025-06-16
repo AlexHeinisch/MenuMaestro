@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import {
+  MenusApiService,
+  MenuStatus,
+  MenuSummaryListPaginatedDto, OrganizationsApiService,
   OrganizationSummaryDto,
   OrganizationSummaryListPaginatedDto,
-} from '../../../../generated/organizations/model/models';
-import { OrganizationsApiService } from '../../../../generated/organizations/api/organizations.service';
+} from '../../../../generated';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { RouterModule } from '@angular/router';
 import { SearchInputComponent } from '../../../components/Input/SearchInput';
 import { SimpleCardComponent } from '../../../components/Card/Card';
-import { MenusApiService } from '../../../../generated/menus/api/menus.service';
 import { CommonModule } from '@angular/common';
-import { MenuSummaryListPaginatedDto, MenuStatus } from '../../../../generated/menus/model/models';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';

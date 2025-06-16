@@ -1,24 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
 import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { MealDto, MealEditDto } from '../../../../generated/meals/model/models';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { MealsApiService } from '../../../../generated/meals/api/meals.service';
-import { MealStatus } from '../../../../generated/menus/model/meal-status';
 import { ButtonVariant } from '../../../components/Button/SimpleButton';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
-import { IngredientUnitDto } from '../../../../generated/ingredients';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
 import { TokenService } from '../../../security/token.service';
+import {IngredientUnitDto, MealDto, MealEditDto, MealsApiService, MealStatus} from "../../../../generated";
 
 @Component({
   selector: 'app-detail-meal',
@@ -27,7 +23,6 @@ import { TokenService } from '../../../security/token.service';
     RouterModule,
     CommonModule,
     PageLayoutComponent,
-    SearchInputComponent,
     SimpleButtonComponent,
     FormsModule,
     LoadingSpinnerComponent,

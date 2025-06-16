@@ -9,9 +9,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { OrganizationsApiService } from '../../../../generated/organizations/api/organizations.service';
-import { OrganizationSummaryDto } from '../../../../generated/menus';
-import { OrganizationEditDto, OrganizationRoleEnum } from '../../../../generated/organizations';
+import {
+  OrganizationEditDto,
+  OrganizationRoleEnum,
+  OrganizationsApiService,
+  OrganizationSummaryDto
+} from '../../../../generated';
 import { ButtonVariant } from '../../../components/Button/SimpleButton';
 import { OrganizationMembers } from '../organization-members/organization-members.component';
 import { TokenService } from '../../../security/token.service';

@@ -4,10 +4,8 @@ import { InputFieldComponent, InputType } from '../../../components/Input/InputF
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MenusApiService } from '../../../../generated/menus/api/menus.service';
 import { InfoMessageComponent, InfoMessageType } from '../../../components/Card/InfoMessage';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { MenuDetailDto } from '../../../../generated/menus/model/menu-detail-dto';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   CdkDrag,
@@ -17,23 +15,21 @@ import {
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { MealInMenuDto } from '../../../../generated/menus/model/meal-in-menu-dto';
-import { SnapshotInMenuDto } from '../../../../generated/menus/model/snapshot-in-menu-dto';
-import { MealStatus } from '../../../../generated/menus/model/meal-status';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { MealsApiService } from '../../../../generated/meals/api/meals.service';
-import { SnapshotCreateDto } from '../../../../generated/menus/model/snapshot-create-dto';
-import { ShoppingListApiService } from '../../../../generated/shopping-lists/api/shopping-list.service';
-import { ShoppingListCreateDto } from '../../../../generated/shopping-lists/model/shopping-list-create-dto';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
-import { ShoppingListPreviewEntryDto } from '../../../../generated/shopping-lists/model/shopping-list-preview-entry-dto';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
-import { MenuStatus } from '../../../../generated/menus';
 import { TokenService } from '../../../security/token.service';
-import { OrganizationRoleEnum } from '../../../../generated/organizations/model/organization-role-enum';
+import {
+  MealInMenuDto, MealsApiService,
+  MealStatus,
+  MenuDetailDto, MenusApiService, MenuStatus, OrganizationRoleEnum, ShoppingListApiService, ShoppingListCreateDto,
+  ShoppingListPreviewEntryDto,
+  SnapshotCreateDto,
+  SnapshotInMenuDto
+} from "../../../../generated";
 
 @Component({
   selector: 'app-menu-detail-view',

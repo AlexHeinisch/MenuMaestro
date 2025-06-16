@@ -1,18 +1,16 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SimpleModalComponent } from '../../../../components/Modal/SimpleModalComponent';
 import { InputFieldComponent, InputType } from '../../../../components/Input/InputField';
-import { ButtonVariant, SimpleButtonComponent } from '../../../../components/Button/SimpleButton';
-import { SearchInputComponent } from '../../../../components/Input/SearchInput';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../../globals/error.service';
-import { CreateIngredientDto } from '../../../../../generated/ingredients/model/create-ingredient-dto';
-import { IngredientUnitDto } from '../../../../../generated/ingredients/model/ingredient-unit-dto';
-import { IngredientCategory } from '../../../../../generated/ingredients/model/ingredient-category';
-import { IngredientsApiService } from '../../../../../generated/ingredients/api/ingredients.service';
-import { IngredientDto } from '../../../../../generated/ingredients/model/ingredient-dto';
+import {
+  CreateIngredientDto,
+  IngredientCategory, IngredientDto,
+  IngredientsApiService,
+  IngredientUnitDto
+} from '../../../../../generated';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenService } from '../../../../security/token.service';
 
@@ -23,10 +21,7 @@ import { TokenService } from '../../../../security/token.service';
     RouterModule,
     CommonModule,
     FormsModule,
-    SimpleModalComponent,
     InputFieldComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
   ],
   templateUrl: './request-ingredient-modal.component.html',
 })

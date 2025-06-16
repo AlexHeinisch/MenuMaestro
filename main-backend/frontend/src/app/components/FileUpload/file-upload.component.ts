@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ButtonVariant, SimpleButtonComponent } from '../Button/SimpleButton';
-import { EventData } from '@angular/cdk/testing';
-import { ImagesApiService } from '../../../generated/image-storage/api/images.service';
-import { ImageUploadResponseDto } from '../../../generated/image-storage/model/image-upload-response-dto';
 import { CommonModule } from '@angular/common';
 import { ErrorService } from '../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
+import {ImagesApiService, ImageUploadResponseDto} from "../../../generated";
 
 @Component({
   selector: 'app-file-upload',

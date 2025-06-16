@@ -3,13 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 import { EditRecipeComponent } from '../../recipe/recipe-edit/recipe-edit.component';
 import { NgIf } from '@angular/common';
-import { MealsApiService } from '../../../../generated/meals/api/meals.service';
-import { MealEditDto } from '../../../../generated/meals/model/meal-edit-dto';
-import { RecipeDto } from '../../../../generated/meals/model/recipe-dto';
-import { RecipeCreateEditDto } from '../../../../generated/meals/model/recipe-create-edit-dto';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
 import { ToastrService } from 'ngx-toastr';
-import { IngredientUnitDto } from '../../../../generated/meals';
+import {IngredientUnitDto, MealEditDto, MealsApiService, RecipeCreateEditDto, RecipeDto} from "../../../../generated";
 
 @Component({
   selector: 'app-edit-meal-component',

@@ -1,36 +1,32 @@
 import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { RecipesApiService } from '../../../../generated/recipes/api/recipes.service';
-import { IngredientsApiService } from '../../../../generated/ingredients/api/ingredients.service';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { SearchInputComponent } from '../../../components/Input/SearchInput';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  IngredientUnitDto,
-  IngredientDto,
-  IngredientListPaginatedDto,
-} from '../../../../generated/ingredients/model/models';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import {
-  CookingApplianceDto,
-  CookingApplianceListPaginatedDto,
-} from '../../../../generated/cooking-appliances/model/models';
-import { CookingAppliancesApiService } from '../../../../generated/cooking-appliances/api/cooking-appliances.service';
-import {
-  RecipeCreateEditDto,
-  RecipeVisibility,
-  IngredientUseCreateEditDto,
-  CookingApplianceUseCreateEditDto,
-} from '../../../../generated/recipes/model/models';
 import { Router } from '@angular/router';
 import { FileUploadComponent } from '../../../components/FileUpload/file-upload.component';
-import { ImageUploadResponseDto } from '../../../../generated/image-storage';
 import { TokenService } from '../../../security/token.service';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../globals/error.service';
 import { RequestIngredientModalComponent } from '../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
+import {
+  CookingApplianceDto,
+  CookingApplianceListPaginatedDto,
+  CookingAppliancesApiService,
+  CookingApplianceUseCreateEditDto,
+  ImageUploadResponseDto,
+  IngredientDto,
+  IngredientListPaginatedDto,
+  IngredientsApiService,
+  IngredientUnitDto,
+  IngredientUseCreateEditDto,
+  RecipeCreateEditDto,
+  RecipesApiService,
+  RecipeVisibility
+} from "../../../../generated";
 
 @Component({
   selector: 'app-recipe-create',

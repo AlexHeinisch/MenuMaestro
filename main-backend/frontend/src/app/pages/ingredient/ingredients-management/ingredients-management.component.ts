@@ -5,20 +5,21 @@ import { SimpleButtonComponent, ButtonVariant } from '../../../components/Button
 import { SearchInputComponent } from '../../../components/Input/SearchInput';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
+import { InputType } from '../../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '../../../security/token.service';
 import { ErrorService } from '../../../globals/error.service';
-import { IngredientListPaginatedDto } from '../../../../generated/ingredients/model/ingredient-list-paginated-dto';
-import { IngredientsApiService } from '../../../../generated/ingredients/api/ingredients.service';
-import { IngredientDto } from '../../../../generated/ingredients/model/ingredient-dto';
 import { StringFormattingService } from '../../../service/string-formatting.service';
-import { IngredientDtoWithCategory } from '../../../../generated/ingredients/model/ingredient-dto-with-category';
-import { IngredientWithCategoryListPaginatedDto } from '../../../../generated/ingredients/model/ingredient-with-category-list-paginated-dto';
 import { RequestIngredientModalComponent } from '../components/request-ingredient-modal/request-ingredient-modal.component';
+import {
+  IngredientDto,
+  IngredientDtoWithCategory, IngredientListPaginatedDto,
+  IngredientsApiService,
+  IngredientWithCategoryListPaginatedDto
+} from "../../../../generated";
 
 @Component({
   selector: 'app-ingredients-management',
@@ -30,7 +31,6 @@ import { RequestIngredientModalComponent } from '../components/request-ingredien
     SearchInputComponent,
     CommonModule,
     RouterModule,
-    InputFieldComponent,
     FormsModule,
     LoadingSpinnerComponent,
     PaginationControlsComponent,

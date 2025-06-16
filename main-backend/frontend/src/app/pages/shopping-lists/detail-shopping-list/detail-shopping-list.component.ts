@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ShoppingListApiService } from '../../../../generated/shopping-lists/api/shopping-list.service';
-import { ShoppingListDto } from '../../../../generated/shopping-lists/model/shopping-list-dto';
 import { CommonModule } from '@angular/common';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { SearchInputComponent } from '../../../components/Input/SearchInput';
@@ -9,25 +7,24 @@ import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { ShoppingListStatus } from '../../../../generated/shopping-lists/model/shopping-list-status';
-import { IngredientCategory } from '../../../../generated/shopping-lists/model/ingredient-category';
-import { ShoppingListIngredientDto } from '../../../../generated/shopping-lists/model/shopping-list-ingredient-dto';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { TokenService } from '../../../security/token.service';
-import { ShoppingListEditDto } from '../../../../generated/shopping-lists/model/shopping-list-edit-dto';
-import { ShoppingListIngredientEditDto } from '../../../../generated/shopping-lists/model/shopping-list-ingredient-edit-dto';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
 import { ShoppingListAddItemComponent } from './shopping-list-add-item/shopping-list-add-item.component';
 import { ToastrService } from 'ngx-toastr';
-import { OrganizationRoleEnum } from '../../../../generated/organizations';
 import { QRCodeModule } from 'angularx-qrcode';
-import { IngredientUnitDto, ShoppingListTokenDto } from '../../../../generated/shopping-lists';
 import { ErrorService } from '../../../globals/error.service';
 import { StringFormattingService } from '../../../service/string-formatting.service';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client/dist/sockjs';
 import { ShoppingListUpdateMessage, ShoppingListUpdateType } from '../../../websocket/shopping-list-update.message';
 import { Globals } from '../../../globals/globals';
+import {
+  IngredientCategory, IngredientUnitDto, OrganizationRoleEnum,
+  ShoppingListApiService,
+  ShoppingListDto, ShoppingListEditDto,
+  ShoppingListIngredientDto, ShoppingListIngredientEditDto, ShoppingListStatus, ShoppingListTokenDto
+} from "../../../../generated";
 
 type IngredientMap = {
   [key in IngredientCategory]?: ShoppingListIngredientDto[];

@@ -1,0 +1,87 @@
+---
+servers:
+- url: "http://localhost:8080"
+openapi: "3.0.0"
+paths:
+  /organizations:
+    $ref: "./Organizations.yaml#/paths/~1organizations"
+  /recipes/{id}:
+    $ref: "./Recipes.yaml#/paths/~1recipes~1{id}"
+  /accounts/{username}/reset-password:
+    $ref: "./Accounts.yaml#/paths/~1accounts~1{username}~1reset-password"
+  /menus:
+    $ref: "./Menus.yaml#/paths/~1menus"
+  /shopping-lists/{id}/items:
+    $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1{id}~1items"
+  /auth/refresh-roles:
+    $ref: "./Accounts.yaml#/paths/~1auth~1refresh-roles"
+  /cooking-appliances:
+    $ref: "./CookingAppliances.yaml#/paths/~1cooking-appliances"
+  /accounts/{username}/reset-password/{token}:
+    $ref: "./Accounts.yaml#/paths/~1accounts~1{username}~1reset-password~1{token}"
+  /ingredients:
+    $ref: "./Ingredients.yaml#/paths/~1ingredients"
+  /meals/{id}/complete:
+    $ref: "./Meals.yaml#/paths/~1meals~1{id}~1complete"
+  /recipes:
+    $ref: "./Recipes.yaml#/paths/~1recipes"
+  /stash/{id}/move-ingredients:
+    $ref: "./Stash.yaml#/paths/~1stash~1{id}~1move-ingredients"
+  /images/{id}:
+    $ref: "./ImageStorage.yaml#/paths/~1images~1{id}"
+  /shopping-lists/{id}:
+    $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1{id}"
+  /menus/{id}:
+    $ref: "./Menus.yaml#/paths/~1menus~1{id}"
+  /stash:
+    $ref: "./Stash.yaml#/paths/~1stash"
+  /ingredients/{ingredientId}:
+    $ref: "./Ingredients.yaml#/paths/~1ingredients~1{ingredientId}"
+  /menus/{menuId}/existsShoppingListForMenu:
+    $ref: "./Menus.yaml#/paths/~1menus~1{menuId}~1existsShoppingListForMenu"
+  /organizations/invitations:
+    $ref: "./Organizations.yaml#/paths/~1organizations~1invitations"
+  /menus/{id}/meals:
+    $ref: "./Menus.yaml#/paths/~1menus~1{id}~1meals"
+  /organizations/{id}/members/{username}:
+    $ref: "./Organizations.yaml#/paths/~1organizations~1{id}~1members~1{username}"
+  /shopping-lists:
+    $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists"
+  /shopping-lists/{id}/token:
+    $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1{id}~1token"
+  /accounts/{username}:
+    $ref: "./Accounts.yaml#/paths/~1accounts~1{username}"
+  /organizations/{id}/members/{username}/role:
+    $ref: "./Organizations.yaml#/paths/~1organizations~1{id}~1members~1{username}~1role"
+  /ingredientSuggestions:
+    $ref: "./Ingredients.yaml#/paths/~1ingredientSuggestions"
+  /menus/{menuId}/snapshots/{snapshotId}:
+    $ref: "./Menus.yaml#/paths/~1menus~1{menuId}~1snapshots~1{snapshotId}"
+  /auth/login:
+    $ref: "./Accounts.yaml#/paths/~1auth~1login"
+  /stash/{id}:
+    $ref: "./Stash.yaml#/paths/~1stash~1{id}"
+  /meals/{id}:
+    $ref: "./Meals.yaml#/paths/~1meals~1{id}"
+  /shopping-lists/{id}/close:
+    $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1{id}~1close"
+  /organizations/{id}:
+    $ref: "./Organizations.yaml#/paths/~1organizations~1{id}"
+  /images:
+    $ref: "./ImageStorage.yaml#/paths/~1images"
+  /shopping-lists/used-ingredient-preview:
+    $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1used-ingredient-preview"
+  /accounts/self:
+    $ref: "./Accounts.yaml#/paths/~1accounts~1self"
+  /accounts:
+    $ref: "./Accounts.yaml#/paths/~1accounts"
+  /menus/{id}/items/order:
+    $ref: "./Menus.yaml#/paths/~1menus~1{id}~1items~1order"
+  /organizations/{id}/members:
+    $ref: "./Organizations.yaml#/paths/~1organizations~1{id}~1members"
+  /menus/{id}/snapshots:
+    $ref: "./Menus.yaml#/paths/~1menus~1{id}~1snapshots"
+info:
+  title: "merged spec"
+  description: "merged spec"
+  version: "1.0.0"

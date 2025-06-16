@@ -8,14 +8,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { OrganizationsApiService } from '../../../../generated/organizations/api/organizations.service';
-import { AccountsApiService } from '../../../../generated/accounts/api/accounts.service';
 import {
+  AccountsApiService,
   OrganizationMemberDto,
   OrganizationMemberListPaginatedDto,
-  OrganizationRoleEnum,
+  OrganizationRoleEnum, OrganizationsApiService,
   OrganizationSummaryDto,
-} from '../../../../generated/organizations';
+} from '../../../../generated';
 import { ButtonVariant } from '../../../components/Button/SimpleButton';
 import { TokenService } from '../../../security/token.service';
 import { ToastrService } from 'ngx-toastr';

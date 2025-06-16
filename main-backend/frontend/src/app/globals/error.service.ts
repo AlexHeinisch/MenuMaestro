@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ErrorResponse } from '../../generated/menus';
 
 @Injectable({
   providedIn: 'root',

@@ -1,40 +1,36 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren, EventEmitter, Input, Output } from '@angular/core';
-import { RecipesApiService } from '../../../../generated/recipes/api/recipes.service';
-import { IngredientsApiService } from '../../../../generated/ingredients/api/ingredients.service';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { SearchInputComponent } from '../../../components/Input/SearchInput';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  IngredientUnitDto,
-  IngredientDto,
-  IngredientListPaginatedDto,
-} from '../../../../generated/ingredients/model/models';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import {
-  CookingApplianceDto,
-  CookingApplianceListPaginatedDto,
-} from '../../../../generated/cooking-appliances/model/models';
-import { CookingAppliancesApiService } from '../../../../generated/cooking-appliances/api/cooking-appliances.service';
-import {
-  RecipeCreateEditDto,
-  RecipeVisibility,
-  IngredientUseCreateEditDto,
-  CookingApplianceUseCreateEditDto,
-  RecipeDto,
-} from '../../../../generated/recipes/model/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 import { InfoMessageComponent, InfoMessageType } from '../../../components/Card/InfoMessage';
 import { FileUploadComponent } from '../../../components/FileUpload/file-upload.component';
-import { ImageUploadResponseDto } from '../../../../generated/image-storage';
 import { TokenService } from '../../../security/token.service';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { RequestIngredientModalComponent } from '../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component';
 import { Observable } from 'rxjs';
+import {
+  CookingApplianceDto,
+  CookingApplianceListPaginatedDto,
+  CookingAppliancesApiService,
+  CookingApplianceUseCreateEditDto,
+  ImageUploadResponseDto,
+  IngredientDto,
+  IngredientListPaginatedDto,
+  IngredientsApiService,
+  IngredientUnitDto,
+  IngredientUseCreateEditDto,
+  RecipeCreateEditDto,
+  RecipeDto,
+  RecipesApiService,
+  RecipeVisibility
+} from "../../../../generated";
 
 @Component({
   selector: 'app-recipe-edit',

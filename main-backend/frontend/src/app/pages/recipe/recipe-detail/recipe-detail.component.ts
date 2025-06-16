@@ -6,19 +6,17 @@ import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { RecipesApiService } from '../../../../generated/recipes/api/recipes.service';
-import { IngredientUnitDto, RecipeDto } from '../../../../generated/recipes/model/models';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { ButtonVariant } from '../../../components/Button/SimpleButton';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { FileUploadComponent } from '../../../components/FileUpload/file-upload.component';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { MenusApiService } from '../../../../generated/menus';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../globals/error.service';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
 import { TokenService } from '../../../security/token.service';
 import { AddMealToMenuModalComponent } from './components/add-meal/add-meal-to-menu-modal.component';
+import {IngredientUnitDto, MenusApiService, RecipeDto, RecipesApiService} from "../../../../generated";
 
 @Component({
   standalone: true,

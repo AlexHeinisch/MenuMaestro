@@ -1,14 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import {
-  OrganizationRoleEnum,
-  OrganizationsApiService,
-  OrganizationSummaryListPaginatedDto,
-} from '../../../../../../generated/organizations';
-import {
-  MenusApiService,
-  MenuSummaryListPaginatedDto,
-  OrganizationSummaryDto,
-} from '../../../../../../generated/menus';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModalComponent';
@@ -17,9 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { ButtonVariant, SimpleButtonComponent } from '../../../../../components/Button/SimpleButton';
 import { ToastrService } from 'ngx-toastr';
 import { SearchInputComponent } from '../../../../../components/Input/SearchInput';
-import { IngredientDto, IngredientListPaginatedDto } from '../../../../../../generated/ingredients';
 import { ErrorService } from '../../../../../globals/error.service';
 import { TokenService } from '../../../../../security/token.service';
+import {
+  MenusApiService, MenuSummaryListPaginatedDto,
+  OrganizationsApiService,
+  OrganizationSummaryDto,
+  OrganizationSummaryListPaginatedDto
+} from "../../../../../../generated";
 
 @Component({
   standalone: true,

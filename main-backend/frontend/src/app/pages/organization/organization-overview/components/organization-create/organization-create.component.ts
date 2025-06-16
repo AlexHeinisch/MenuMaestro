@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OrganizationCreateDto, OrganizationsApiService } from '../../../../../../generated/organizations';
+import { OrganizationCreateDto, OrganizationsApiService } from '../../../../../../generated';
 import { InputFieldComponent, InputType } from '../../../../../components/Input/InputField';
 import { ButtonVariant, SimpleButtonComponent } from '../../../../../components/Button/SimpleButton';
 import { ErrorService } from '../../../../../globals/error.service';

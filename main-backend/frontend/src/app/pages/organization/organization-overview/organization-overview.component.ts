@@ -14,9 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '../../../security/token.service';
 import { ErrorService } from '../../../globals/error.service';
 import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
-import { OrganizationsApiService } from '../../../../generated/organizations/api/organizations.service';
-import { OrganizationSummaryListPaginatedDto } from '../../../../generated/organizations/model/organization-summary-list-paginated-dto';
 import { CreateMenuModalContentComponent } from '../../menu/menu-overview/components/create-menu-modal-content/create-menu-modal-content.component';
+import {OrganizationsApiService, OrganizationSummaryListPaginatedDto} from "../../../../generated";
 
 @Component({
   selector: 'app-organization-overview',

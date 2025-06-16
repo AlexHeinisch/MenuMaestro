@@ -5,11 +5,11 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { AccountEditRequestDto, AccountInfoDto, AccountsApiService } from '../../../../generated/accounts';
 import { TokenService } from '../../../security/token.service';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../globals/error.service';
+import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../../../generated";
 
 @Component({
   selector: 'app-account-edit',

@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { AuthInterceptor } from './security/auth-interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import {BASE_PATH} from "../generated";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       tapToDismiss: true,
     }),
+    { provide: BASE_PATH, useFactory: () => window.location.protocol + '//' + window.location.host + "/api/v1" }
   ],
 };
