@@ -1,8 +1,0 @@
-<app-recipe-edit
-  *ngIf="mealId !== undefined"
-  [title]="'Edit Meal ' + (meal?.name || '')"
-  [hideVisibilityNameAndServings]="true"
-  [editRecipeHandler]="editRecipeHandler.bind(this)"
-  [fetchRecipeValueHandler]="fetchRecipeValueHandler.bind(this)"
-  [redirectPath]="redirectPath"
-></app-recipe-edit>
