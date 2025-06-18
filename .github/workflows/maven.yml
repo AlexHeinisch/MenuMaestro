@@ -94,7 +94,7 @@ jobs:
           fi
 
           echo "Using tag: $TAG"
-          docker build -t ghcr.io/$REPO_LOWER:$TAG ./application
+          docker build -t ghcr.io/$REPO_LOWER:$TAG .
 
       - name: Push Docker image
         run: |
