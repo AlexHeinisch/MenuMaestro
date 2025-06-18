@@ -4,8 +4,13 @@
     <file url="file://$PROJECT_DIR$/api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/application/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/configuration/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/db-versioning/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/domain-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/endpoint/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frontend/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/impl/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/integration-tests/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mappers/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parents/api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parents/api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parents/impl/src/main/java" charset="UTF-8" />

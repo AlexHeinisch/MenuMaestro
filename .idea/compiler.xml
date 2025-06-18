@@ -6,28 +6,44 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="endpoint" />
+        <module name="db-versioning" />
+        <module name="frontend" />
+        <module name="menumaestro-application" />
+        <module name="domain-core" />
       </profile>
-      <profile name="Annotation profile for Menu Maestro" enabled="true">
+      <profile name="Annotation profile for Menu Maestro Application" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.2/mapstruct-processor-1.6.2.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
-        <module name="menumaestro-rest-impl" />
-        <module name="menumaestro-integration-tests" />
-        <module name="menumaestro-configuration" />
-        <module name="menumaestro-rest-api" />
-        <module name="menumaestro-impl" />
-        <module name="menumaestro-api" />
-        <module name="menumaestro-application" />
+        <module name="mappers" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="menumaestro-api" target="17" />
+      <module name="menumaestro-configuration" target="17" />
+      <module name="menumaestro-impl" target="17" />
+      <module name="menumaestro-integration-tests" target="17" />
+      <module name="menumaestro-parents" target="17" />
+      <module name="menumaestro-parents-api" target="17" />
+      <module name="menumaestro-parents-impl" target="17" />
+      <module name="menumaestro-parents-rest-api" target="17" />
+      <module name="menumaestro-parents-rest-impl" target="17" />
+      <module name="menumaestro-rest-api" target="17" />
+      <module name="menumaestro-rest-impl" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="db-versioning" options="-parameters" />
+      <module name="domain-core" options="-parameters" />
+      <module name="endpoint" options="-parameters" />
+      <module name="frontend" options="-parameters" />
+      <module name="mappers" options="-parameters" />
       <module name="menumaestro-api" options="-parameters" />
       <module name="menumaestro-application" options="-parameters" />
       <module name="menumaestro-configuration" options="-parameters" />

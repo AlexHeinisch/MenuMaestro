@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MenuMaestro.iml" filepath="$PROJECT_DIR$/.idea/MenuMaestro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api/menumaestro-api.iml" filepath="$PROJECT_DIR$/api/menumaestro-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/configuration/menumaestro-configuration.iml" filepath="$PROJECT_DIR$/configuration/menumaestro-configuration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/impl/menumaestro-impl.iml" filepath="$PROJECT_DIR$/impl/menumaestro-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/integration-tests/menumaestro-integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/menumaestro-integration-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parents/menumaestro-parents.iml" filepath="$PROJECT_DIR$/parents/menumaestro-parents.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parents/api/menumaestro-parents-api.iml" filepath="$PROJECT_DIR$/parents/api/menumaestro-parents-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parents/impl/menumaestro-parents-impl.iml" filepath="$PROJECT_DIR$/parents/impl/menumaestro-parents-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parents/rest-api/menumaestro-parents-rest-api.iml" filepath="$PROJECT_DIR$/parents/rest-api/menumaestro-parents-rest-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parents/rest-impl/menumaestro-parents-rest-impl.iml" filepath="$PROJECT_DIR$/parents/rest-impl/menumaestro-parents-rest-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rest-api/menumaestro-rest-api.iml" filepath="$PROJECT_DIR$/rest-api/menumaestro-rest-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rest-impl/menumaestro-rest-impl.iml" filepath="$PROJECT_DIR$/rest-impl/menumaestro-rest-impl.iml" />
     </modules>
   </component>
 </project>
