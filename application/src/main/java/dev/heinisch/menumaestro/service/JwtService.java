@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,12 +68,12 @@ public class JwtService {
         try {
             return Jwts
                     .builder()
-                    .setClaims(extraClaims)
-                    .setSubject(subject)
-                    .setAudience(audience)
-                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(expiration)
-                    .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                    .claims(extraClaims)
+                    .subject(subject)
+                    .audience().add(audience).and()
+                    .expiration(expiration)
+                    .issuedAt(new Date(System.currentTimeMillis()))
+                    .signWith(getSignInKey(), Jwts.SIG.HS256)
                     .compact();
         } catch (Exception e) {
             // should not happen since key is validated at startup time
@@ -84,7 +85,7 @@ public class JwtService {
         try {
             if (isTokenExpired(token)) return false;
             var claims = extractAllClaims(token);
-            if (!claims.getAudience().equals(jwtProperties.getShoppingListShareToken().getAudienceClaim()))
+            if (!claims.getAudience().contains(jwtProperties.getShoppingListShareToken().getAudienceClaim()))
                 return false;
             return claims.getSubject().equals(shoppingListId.toString());
         } catch (Exception e) {
@@ -96,7 +97,7 @@ public class JwtService {
         try {
             if (isTokenExpired(token)) return false;
             var claims = extractAllClaims(token);
-            return claims.getAudience().equals(jwtProperties.getShoppingListShareToken().getAudienceClaim());
+            return claims.getAudience().contains(jwtProperties.getShoppingListShareToken().getAudienceClaim());
         } catch (Exception e) {
             return false; // users passed something
         }
@@ -108,14 +109,13 @@ public class JwtService {
 
     public Claims extractAllClaims(String token) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
+                .parser()
+                .verifyWith(getSignInKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token).getPayload();
     }
 
-    private Key getSignInKey() {
+    private SecretKey getSignInKey() {
         byte[] keyBytes = jwtProperties.getSecretKey().getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }

@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (!claims.getAudience().equals(jwtProperties.getAccountAccessToken().getAudienceClaim())) {
+        if (!claims.getAudience().contains(jwtProperties.getAccountAccessToken().getAudienceClaim())) {
             handlerExceptionResolver.resolveException(
                 request,
                 response,
