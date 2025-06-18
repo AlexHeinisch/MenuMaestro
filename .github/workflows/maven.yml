@@ -25,7 +25,6 @@ jobs:
           java-version: '21'
 
       - name: Build and test with Maven
-        working-directory: application
         run: mvn clean verify
 
       - name: Log in to GitHub Container Registry
@@ -37,7 +36,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:test_ci ./application
+          docker build -t ghcr.io/${{ github.repository }}:test_ci .
 
       - name: Push Docker image to GHCR
         run: |
