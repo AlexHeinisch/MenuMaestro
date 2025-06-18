@@ -14,7 +14,7 @@ import java.time.Duration;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "security.jwt")
+@ConfigurationProperties(prefix = "menumaestro.security.jwt")
 public class JwtProperties {
 
     @NotNull

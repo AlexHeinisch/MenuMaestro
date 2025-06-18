@@ -1,5 +1,7 @@
 package dev.heinisch.menumaestro.websocket;
 
+import dev.heinisch.menumaestro.properties.CorsProperties;
+import dev.heinisch.menumaestro.properties.WebsocketProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     private final ShoppingListChannelInterceptor interceptor;
     private final WebsocketProperties websocketProperties;
+    private final CorsProperties corsProperties;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -31,9 +34,9 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint(websocketProperties.getWebsocketPath())
-            .setAllowedOriginPatterns(websocketProperties.getAllowedCrossOriginPatterns().toArray(new String[0])).withSockJS();
+            .setAllowedOriginPatterns(corsProperties.getAllowedCrossOriginPatterns().toArray(new String[0])).withSockJS();
         registry.addEndpoint(websocketProperties.getWebsocketPath())
-            .setAllowedOriginPatterns(websocketProperties.getAllowedCrossOriginPatterns().toArray(new String[0]));
+            .setAllowedOriginPatterns(corsProperties.getAllowedCrossOriginPatterns().toArray(new String[0]));
     }
 
     @Override

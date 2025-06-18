@@ -22,7 +22,7 @@ import dev.heinisch.menumaestro.persistence.OrganizationRepository;
 import dev.heinisch.menumaestro.persistence.ShoppingListRepository;
 import dev.heinisch.menumaestro.websocket.ShoppingListUpdateMessage;
 import dev.heinisch.menumaestro.websocket.ShoppingListUpdateType;
-import dev.heinisch.menumaestro.websocket.WebsocketProperties;
+import dev.heinisch.menumaestro.properties.WebsocketProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.model.CloseShoppingListDto;

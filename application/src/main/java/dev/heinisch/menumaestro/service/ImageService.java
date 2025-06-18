@@ -26,7 +26,7 @@ public class ImageService implements ImageUrlMapper {
     @Value("${spring.application.uri}")
     private String applicationBaseUrl;
 
-    @Value("${imageBasePath}")
+    @Value("${menumaestro.image-base-path}")
     private String imageBasePath;
 
     public Set<String> getSupportedImageMimeTypes() {

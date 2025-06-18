@@ -1,5 +1,6 @@
 package dev.heinisch.menumaestro.service;
 
+import dev.heinisch.menumaestro.properties.EmailProperties;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,7 @@ public class EmailService {
     @Value("${spring.application.uri}")
     private String appUrl;
 
-    @Value("${email.from_address}")
-    private String fromAddress;
-
+    private final EmailProperties emailProperties;
     private final JavaMailSender mailSender;
 
     public void sendPasswordResetEmail(String to, String token) {
@@ -93,7 +92,7 @@ public class EmailService {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             helper.setTo(to);
-            helper.setFrom(fromAddress);
+            helper.setFrom(emailProperties.getUsername());
             helper.setSubject(subject);
             helper.setText(message, true);
 

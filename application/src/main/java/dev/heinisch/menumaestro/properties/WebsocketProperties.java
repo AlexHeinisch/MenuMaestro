@@ -1,4 +1,4 @@
-package dev.heinisch.menumaestro.websocket;
+package dev.heinisch.menumaestro.properties;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -13,11 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "websocket")
+@ConfigurationProperties(prefix = "menumaestro.websocket")
 public class WebsocketProperties {
-
-    @NotNull
-    private List<String> allowedCrossOriginPatterns;
 
     @NotNull
     private String applicationPrefix;

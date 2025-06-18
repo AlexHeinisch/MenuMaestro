@@ -1,3 +1,93 @@
+menumaestro:
+  cors:
+    allowed-cross-origin-patterns:
+      - "http://localhost:4200"
+      - "http://localhost:8080"
+      - "moz-extension:*"
+      - "https://menu-maestro.com"
+
+  websocket:
+    application-prefix: /app
+    topics:
+      shopping-list-topic-prefix: /shopping-lists
+    websocket-path: /ws
+
+  security:
+    jwt:
+      secret-key: replace_in_prod_this_is_only_for_testing_purposes
+      account-access-token:
+        expiration-time: 8h
+        role-claim-name: roles
+        audience-claim: "account"
+      shopping-list-share-token:
+        expiration-time: 24h
+        audience-claim: "shopping-list"
+    password-reset:
+      expiration-time: 15m
+
+  mail:
+    username: some_mail_username
+    password: some_password
+    host: smtp.example.com
+    port: 587
+
+  image-base-path: "/api/v1/images"
+
+  initial-accounts:
+    enabled: true
+    accounts:
+      - username: admin
+        password: hallo123
+        email: admin@example.com
+        first-name: Admin
+        last-name: Adminikus
+        is-global-admin: true
+      - username: user1
+        password: hallo123
+        email: user1@example.com
+        first-name: Max
+        last-name: Mustermann
+        is-global-admin: false
+      - username: user2
+        password: hallo123
+        email: user2@example.com
+        first-name: Maxine
+        last-name: Musterfrau
+        is-global-admin: false
+      - username: user3
+        password: hallo123
+        email: user3@example.com
+        first-name: Just
+        last-name: Invited
+        is-global-admin: false
+      - username: user4
+        password: hallo123
+        email: user4@example.com
+        first-name: InOther
+        last-name: Organization
+        is-global-admin: false
+  initial-organizations:
+    enabled: true
+    organizations:
+      - name: CoolOrg
+        description: The cool organization where almost everyone is.
+        members:
+          - username: admin
+            role: OWNER
+          - username: user1
+            role: ADMIN
+          - username: user2
+            role: MEMBER
+          - username: user3
+            role: INVITED
+      - name: LonelyOrg
+        description: The organization where the others are.
+        members:
+          - username: user4
+            role: OWNER
+          - username: user3
+            role: PLANNER
+
 spring:
   jpa:
     open-in-view: false
@@ -21,10 +111,10 @@ spring:
     name: MenuMaestro
     uri: http://localhost:8080
   mail:
-    host: email-smtp.eu-north-1.amazonaws.com
-    port: 587
-    username: AKIASOVAYIIFE2J23ZVS
-    password: BPUsynVUatUIR65qtxyYERVqCGxPFqEGYoTNQkdnhQ/M
+    host: ${menumaestro.mail.host}
+    port: ${menumaestro.mail.port}
+    username: ${menumaestro.mail.username}
+    password: ${menumaestro.mail.password}
     properties:
       mail:
         smtp:
@@ -34,91 +124,7 @@ spring:
     multipart:
       max-file-size: 5MB
 
-
-email:
-  from_address: asemailer@erlacher.dev
-imageBasePath: "/api/v1/images"
-
-security:
-  jwt:
-    secret-key: ASDHJAJKSDASJHDUIASHDOPIOUIOASRJAKLSDASKLJCKLACASKL
-    account-access-token:
-      expiration-time: 8h
-      role-claim-name: roles
-      audience-claim: "account"
-    shopping-list-share-token:
-      expiration-time: 24h
-      audience-claim: "shopping-list"
-  password-reset:
-    expiration-time: 15m
-
 logging:
   level:
     root: info
     dev.heinisch.menumaestro.datagen: debug
-
-
-initial-accounts:
-  accounts:
-    - username: admin
-      password: hallo123
-      email: admin@example.com
-      first-name: Admin
-      last-name: Adminikus
-      is-global-admin: true
-    - username: user1
-      password: hallo123
-      email: user1@example.com
-      first-name: Max
-      last-name: Mustermann
-      is-global-admin: false
-    - username: user2
-      password: hallo123
-      email: user2@example.com
-      first-name: Maxine
-      last-name: Musterfrau
-      is-global-admin: false
-    - username: user3
-      password: hallo123
-      email: user3@example.com
-      first-name: Just
-      last-name: Invited
-      is-global-admin: false
-    - username: user4
-      password: hallo123
-      email: user4@example.com
-      first-name: InOther
-      last-name: Organization
-      is-global-admin: false
-  enabled: true
-initial-organizations:
-  organizations:
-    - name: CoolOrg
-      description: The cool organization where almost everyone is.
-      members:
-        - username: admin
-          role: OWNER
-        - username: user1
-          role: ADMIN
-        - username: user2
-          role: MEMBER
-        - username: user3
-          role: INVITED
-    - name: LonelyOrg
-      description: The organization where the others are.
-      members:
-        - username: user4
-          role: OWNER
-        - username: user3
-          role: PLANNER
-  enabled: true
-
-websocket:
-  allowed-cross-origin-patterns:
-    - "http://localhost:4200"
-    - "http://localhost:8080"
-    - "moz-extension:*"
-  application-prefix: /app
-  topics:
-    shopping-list-topic-prefix: /shopping-lists
-  websocket-path: /ws

@@ -16,10 +16,10 @@ import java.util.List;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "initial-accounts")
+@ConfigurationProperties(prefix = "menumaestro.initial-accounts")
 public class InitialAccountProperties {
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     private List<@Valid SingleAccount> accounts;
 

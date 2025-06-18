@@ -13,7 +13,7 @@ import java.time.Duration;
 @Setter
 @Configuration
 @Validated
-@ConfigurationProperties(prefix = "security.password-reset")
+@ConfigurationProperties(prefix = "menumaestro.security.password-reset")
 public class PasswordResetProperties {
     @NotNull
     private Duration expirationTime;

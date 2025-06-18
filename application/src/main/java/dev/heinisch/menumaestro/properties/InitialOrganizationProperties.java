@@ -15,10 +15,10 @@ import java.util.List;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "initial-organizations")
+@ConfigurationProperties(prefix = "menumaestro.initial-organizations")
 public class InitialOrganizationProperties {
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     private List<@Valid SingleOrganization> organizations;
 

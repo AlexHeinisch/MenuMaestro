@@ -11,11 +11,8 @@
 
     <artifactId>application</artifactId>
 
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <packaging>jar</packaging>
+
     <dependencies>
         <dependency>
             <groupId>dev.heinisch.menumaestro</groupId>
@@ -73,6 +70,8 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <mainClass>dev.heinisch.menumaestro.BackendApplication</mainClass>
+                    <layout>JAR</layout>
                 </configuration>
             </plugin>
             <plugin>

@@ -4,6 +4,7 @@ import dev.heinisch.menumaestro.domain.organization.OrganizationRole;
 import dev.heinisch.menumaestro.exceptions.ForbiddenException;
 import dev.heinisch.menumaestro.exceptions.UnauthorizedException;
 import dev.heinisch.menumaestro.properties.JwtProperties;
+import dev.heinisch.menumaestro.properties.WebsocketProperties;
 import dev.heinisch.menumaestro.service.JwtService;
 import dev.heinisch.menumaestro.service.OrganizationService;
 import io.jsonwebtoken.Claims;
