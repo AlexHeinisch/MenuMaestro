@@ -75,6 +75,7 @@
                 <serviceSuffix>ApiService</serviceSuffix>
                 <withInterfaces>true</withInterfaces>
                 <providedInRoot>true</providedInRoot>
+                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
               </configOptions>
             </configuration>
           </execution>

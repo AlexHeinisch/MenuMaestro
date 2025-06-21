@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="impl" />
         <module name="endpoint" />
         <module name="db-versioning" />
+        <module name="jacoco-aggregate" />
+        <module name="domain-core" />
         <module name="frontend" />
         <module name="menumaestro-application" />
-        <module name="domain-core" />
       </profile>
       <profile name="Annotation profile for Menu Maestro Application" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -19,11 +21,14 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
         <module name="mappers" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="integration-tests" target="21" />
       <module name="menumaestro-api" target="17" />
       <module name="menumaestro-configuration" target="17" />
       <module name="menumaestro-impl" target="17" />
@@ -43,6 +48,9 @@
       <module name="domain-core" options="-parameters" />
       <module name="endpoint" options="-parameters" />
       <module name="frontend" options="-parameters" />
+      <module name="impl" options="-parameters" />
+      <module name="integration-tests" options="-parameters" />
+      <module name="jacoco-aggregate" options="-parameters" />
       <module name="mappers" options="-parameters" />
       <module name="menumaestro-api" options="-parameters" />
       <module name="menumaestro-application" options="-parameters" />
