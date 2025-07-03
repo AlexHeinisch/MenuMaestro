@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { SimpleButtonComponent } from '../../components/Button/SimpleButton';
+import {AnalyticsService} from "../../service/analytics.service";
+import {GoogleTagManagerService} from 'angular-google-tag-manager'
 
 @Component({
   standalone: true,
@@ -7,4 +9,16 @@ import { SimpleButtonComponent } from '../../components/Button/SimpleButton';
   templateUrl: './hero.component.html',
   imports: [SimpleButtonComponent],
 })
-export class HeroComponent {}
+export class HeroComponent implements OnInit {
+  constructor(
+      private analyticsService: AnalyticsService,
+      private gtmService: GoogleTagManagerService
+  ) {
+  }
+
+  ngOnInit() {
+    this.analyticsService.trackEvent('Hero Page Loaded', 'What does this do?', 'TEST');
+    console.log("Test")
+  }
+
+}
