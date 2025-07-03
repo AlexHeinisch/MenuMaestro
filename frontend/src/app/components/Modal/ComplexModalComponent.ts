@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ButtonVariant, SimpleButtonComponent } from '../Button/SimpleButton';
 
 @Component({
-  selector: 'complex-modal',
-  standalone: true,
-  imports: [CommonModule, SimpleButtonComponent],
-  template: `
+    selector: 'complex-modal',
+    imports: [CommonModule, SimpleButtonComponent],
+    template: `
     <div *ngIf="show" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-10 p-4">
       <div class="bg-white flex min-h-fit flex-col w-full max-w-[700px] justify-between rounded-lg p-6 relative">
         <!-- Add relative positioning to the parent container -->
@@ -49,7 +48,7 @@ import { ButtonVariant, SimpleButtonComponent } from '../Button/SimpleButton';
         </div>
       </div>
     </div>
-  `,
+  `
 })
 export class ComplexModalComponent {
   @Input() title!: string;

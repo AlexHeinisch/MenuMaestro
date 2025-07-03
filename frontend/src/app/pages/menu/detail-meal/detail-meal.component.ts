@@ -17,21 +17,20 @@ import { TokenService } from '../../../security/token.service';
 import {IngredientUnitDto, MealDto, MealEditDto, MealsApiService, MealStatus} from "../../../../generated";
 
 @Component({
-  selector: 'app-detail-meal',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    SimpleButtonComponent,
-    SimpleModalComponent,
-    ComplexModalComponent,
-    InputFieldComponent,
-  ],
-  templateUrl: './detail-meal.component.html',
+    selector: 'app-detail-meal',
+    imports: [
+        RouterModule,
+        CommonModule,
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        SimpleButtonComponent,
+        SimpleModalComponent,
+        ComplexModalComponent,
+        InputFieldComponent,
+    ],
+    templateUrl: './detail-meal.component.html'
 })
 export class DetailMealComponent implements OnInit {
   MealStatus = MealStatus;

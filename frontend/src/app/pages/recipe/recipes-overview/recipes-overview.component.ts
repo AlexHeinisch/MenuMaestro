@@ -32,20 +32,19 @@ interface Filter {
 }
 
 @Component({
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    WidePageLayoutComponent,
-    SearchInputComponent,
-    SimpleButtonComponent,
-    FormsModule,
-    InputFieldComponent,
-    LoadingSpinnerComponent,
-    PaginationControlsComponent,
-  ],
-  selector: 'app-recipes-overview',
-  templateUrl: './recipes-overview.component.html',
+    imports: [
+        RouterModule,
+        CommonModule,
+        WidePageLayoutComponent,
+        SearchInputComponent,
+        SimpleButtonComponent,
+        FormsModule,
+        InputFieldComponent,
+        LoadingSpinnerComponent,
+        PaginationControlsComponent,
+    ],
+    selector: 'app-recipes-overview',
+    templateUrl: './recipes-overview.component.html'
 })
 export class RecipesOverviewComponent implements OnInit {
   // Button variant

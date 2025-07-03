@@ -12,19 +12,17 @@ import { ErrorService } from '../../../globals/error.service';
 import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../../../generated";
 
 @Component({
-  selector: 'app-account-edit',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    SimpleModalComponent,
-  ],
-
-  templateUrl: './account-edit.component.html',
+    selector: 'app-account-edit',
+    imports: [
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        SimpleModalComponent,
+    ],
+    templateUrl: './account-edit.component.html'
 })
 export class AccountEditComponent {
   ButtonVariant = ButtonVariant;

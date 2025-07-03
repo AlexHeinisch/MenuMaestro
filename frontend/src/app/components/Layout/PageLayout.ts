@@ -2,15 +2,14 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  standalone: true,
-  imports: [CommonModule],
-  selector: 'page-layout',
-  template: `
+    imports: [CommonModule],
+    selector: 'page-layout',
+    template: `
     <div [ngClass]="containerClasses">
       <ng-content></ng-content>
     </div>
   `,
-  styles: [],
+    styles: []
 })
 export class PageLayoutComponent {
   @Input() styleNames?: string;

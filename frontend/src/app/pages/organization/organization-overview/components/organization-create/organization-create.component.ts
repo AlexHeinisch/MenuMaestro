@@ -10,10 +10,9 @@ import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModa
 import { TokenService } from '../../../../../security/token.service';
 
 @Component({
-  selector: 'organization-create',
-  standalone: true,
-  imports: [CommonModule, FormsModule, SimpleButtonComponent, InputFieldComponent, SimpleModalComponent],
-  templateUrl: './organization-create.component.html',
+    selector: 'organization-create',
+    imports: [CommonModule, FormsModule, SimpleButtonComponent, InputFieldComponent, SimpleModalComponent],
+    templateUrl: './organization-create.component.html'
 })
 export class CreateOrganizationModalContentComponent {
   @Output() organizationCreated = new EventEmitter<void>();

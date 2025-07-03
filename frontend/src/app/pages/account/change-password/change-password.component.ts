@@ -12,19 +12,17 @@ import { ToastrService } from 'ngx-toastr';
 import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../../../generated";
 
 @Component({
-  selector: 'app-change-password',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    SimpleModalComponent,
-  ],
-
-  templateUrl: './change-password.component.html',
+    selector: 'app-change-password',
+    imports: [
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        SimpleModalComponent,
+    ],
+    templateUrl: './change-password.component.html'
 })
 export class ChangePasswordComponent {
   ButtonVariant = ButtonVariant;

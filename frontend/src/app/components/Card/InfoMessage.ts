@@ -8,10 +8,9 @@ export enum InfoMessageType {
 }
 
 @Component({
-  standalone: true,
-  imports: [CommonModule],
-  selector: 'info-message',
-  template: `
+    imports: [CommonModule],
+    selector: 'info-message',
+    template: `
     <div
       [ngClass]="messageClasses"
       (click)="onClose.emit()"
@@ -22,7 +21,7 @@ export enum InfoMessageType {
       {{ message }}
     </div>
   `,
-  styles: [],
+    styles: []
 })
 export class InfoMessageComponent {
   @Input() message!: string;

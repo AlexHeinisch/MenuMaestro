@@ -4,10 +4,9 @@ import {AnalyticsService} from "../../service/analytics.service";
 import {GoogleTagManagerService} from 'angular-google-tag-manager'
 
 @Component({
-  standalone: true,
-  selector: 'app-hero',
-  templateUrl: './hero.component.html',
-  imports: [SimpleButtonComponent],
+    selector: 'app-hero',
+    templateUrl: './hero.component.html',
+    imports: [SimpleButtonComponent]
 })
 export class HeroComponent implements OnInit {
   constructor(

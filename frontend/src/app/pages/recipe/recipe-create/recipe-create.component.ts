@@ -29,20 +29,19 @@ import {
 } from "../../../../generated";
 
 @Component({
-  selector: 'app-recipe-create',
-  standalone: true,
-  imports: [
-    SimpleButtonComponent,
-    InputFieldComponent,
-    SearchInputComponent,
-    PageLayoutComponent,
-    FormsModule,
-    CommonModule,
-    FileUploadComponent,
-    RequestIngredientModalComponent,
-    SimpleModalComponent,
-  ],
-  templateUrl: './recipe-create.component.html',
+    selector: 'app-recipe-create',
+    imports: [
+        SimpleButtonComponent,
+        InputFieldComponent,
+        SearchInputComponent,
+        PageLayoutComponent,
+        FormsModule,
+        CommonModule,
+        FileUploadComponent,
+        RequestIngredientModalComponent,
+        SimpleModalComponent,
+    ],
+    templateUrl: './recipe-create.component.html'
 })
 export class CreateRecipeComponent {
   @ViewChild('requestIngredientModalComponent') requestIngredientModalComponent!: RequestIngredientModalComponent;

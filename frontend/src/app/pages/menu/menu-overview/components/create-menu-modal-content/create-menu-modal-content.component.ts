@@ -16,17 +16,16 @@ import {
 } from "../../../../../../generated";
 
 @Component({
-  selector: 'menu-create',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    SimpleButtonComponent,
-    InputFieldComponent,
-    SearchInputComponent,
-    SimpleModalComponent,
-  ],
-  templateUrl: './create-menu-modal-content.component.html',
+    selector: 'menu-create',
+    imports: [
+        CommonModule,
+        FormsModule,
+        SimpleButtonComponent,
+        InputFieldComponent,
+        SearchInputComponent,
+        SimpleModalComponent,
+    ],
+    templateUrl: './create-menu-modal-content.component.html'
 })
 export class CreateMenuModalContentComponent implements OnChanges {
   InputType = InputType;

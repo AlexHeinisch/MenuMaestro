@@ -22,21 +22,20 @@ import {
 } from "../../../generated";
 
 @Component({
-  selector: 'app-stash',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    LoadingSpinnerComponent,
-    NgIf,
-    NgForOf,
-    SimpleButtonComponent,
-    InputFieldComponent,
-    FormsModule,
-    ComplexModalComponent,
-    SimpleModalComponent,
-    SearchInputComponent,
-  ],
-  templateUrl: './stash.component.html',
+    selector: 'app-stash',
+    imports: [
+        PageLayoutComponent,
+        LoadingSpinnerComponent,
+        NgIf,
+        NgForOf,
+        SimpleButtonComponent,
+        InputFieldComponent,
+        FormsModule,
+        ComplexModalComponent,
+        SimpleModalComponent,
+        SearchInputComponent,
+    ],
+    templateUrl: './stash.component.html'
 })
 export class StashComponent implements OnInit {
   measurementUnits = Object.values(IngredientUnitDto);

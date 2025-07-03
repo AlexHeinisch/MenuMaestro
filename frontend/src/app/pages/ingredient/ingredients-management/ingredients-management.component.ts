@@ -22,21 +22,20 @@ import {
 } from "../../../../generated";
 
 @Component({
-  selector: 'app-ingredients-management',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    SimpleModalComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    LoadingSpinnerComponent,
-    PaginationControlsComponent,
-    RequestIngredientModalComponent,
-  ],
-  templateUrl: './ingredients-management.component.html',
+    selector: 'app-ingredients-management',
+    imports: [
+        PageLayoutComponent,
+        SimpleModalComponent,
+        SimpleButtonComponent,
+        SearchInputComponent,
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        LoadingSpinnerComponent,
+        PaginationControlsComponent,
+        RequestIngredientModalComponent,
+    ],
+    templateUrl: './ingredients-management.component.html'
 })
 export class IngredientsManagementComponent implements OnInit {
   @ViewChild('replacementSearchInput') replacementSearchInput!: SearchInputComponent;

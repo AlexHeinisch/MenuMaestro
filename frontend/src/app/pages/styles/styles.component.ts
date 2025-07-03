@@ -12,20 +12,19 @@ import { SearchInputComponent } from '../../components/Input/SearchInput';
 import { PageLayoutComponent } from '../../components/Layout/PageLayout';
 
 @Component({
-  selector: 'app-styles',
-  standalone: true,
-  imports: [
-    SimpleButtonComponent,
-    SimpleCardComponent,
-    InfoMessageComponent,
-    SimpleModalComponent,
-    ComplexModalComponent,
-    SearchInputComponent,
-    InputFieldComponent,
-    FormsModule,
-    PageLayoutComponent,
-  ],
-  templateUrl: './styles.component.html',
+    selector: 'app-styles',
+    imports: [
+        SimpleButtonComponent,
+        SimpleCardComponent,
+        InfoMessageComponent,
+        SimpleModalComponent,
+        ComplexModalComponent,
+        SearchInputComponent,
+        InputFieldComponent,
+        FormsModule,
+        PageLayoutComponent,
+    ],
+    templateUrl: './styles.component.html'
 })
 export class StylesComponent {
   ButtonVariant = ButtonVariant;

@@ -15,17 +15,16 @@ import {
 } from "../../../../../generated";
 
 @Component({
-  selector: 'app-shopping-list-add-item',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    InputFieldComponent,
-    SearchInputComponent,
-    FormsModule,
-  ],
-  templateUrl: './shopping-list-add-item.component.html',
+    selector: 'app-shopping-list-add-item',
+    imports: [
+        CommonModule,
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        InputFieldComponent,
+        SearchInputComponent,
+        FormsModule,
+    ],
+    templateUrl: './shopping-list-add-item.component.html'
 })
 export class ShoppingListAddItemComponent {
   ButtonVariant = ButtonVariant;

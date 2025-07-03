@@ -31,22 +31,21 @@ type IngredientMap = {
 };
 
 @Component({
-  selector: 'app-detail-shopping-list',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    PageLayoutComponent,
-    SearchInputComponent,
-    SimpleButtonComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    InputFieldComponent,
-    SimpleModalComponent,
-    ShoppingListAddItemComponent,
-    QRCodeModule,
-  ],
-  templateUrl: './detail-shopping-list.component.html',
+    selector: 'app-detail-shopping-list',
+    imports: [
+        RouterModule,
+        CommonModule,
+        PageLayoutComponent,
+        SearchInputComponent,
+        SimpleButtonComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        InputFieldComponent,
+        SimpleModalComponent,
+        ShoppingListAddItemComponent,
+        QRCodeModule,
+    ],
+    templateUrl: './detail-shopping-list.component.html'
 })
 export class DetailShoppingListComponent {
   anonymousUserName: string = 'anonymousUser';

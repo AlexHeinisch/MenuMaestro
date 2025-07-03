@@ -23,24 +23,23 @@ import { ToastrService } from 'ngx-toastr';
 import { CreateMenuModalContentComponent } from '../../menu/menu-overview/components/create-menu-modal-content/create-menu-modal-content.component';
 
 @Component({
-  selector: 'app-organization-detail',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    CreateMenuModalContentComponent,
-    SimpleModalComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
-    SimpleCardComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    SimpleCardComponent,
-    OrganizationMembers,
-  ],
-  templateUrl: './organization-detail.component.html',
+    selector: 'app-organization-detail',
+    imports: [
+        PageLayoutComponent,
+        CreateMenuModalContentComponent,
+        SimpleModalComponent,
+        SimpleButtonComponent,
+        SearchInputComponent,
+        SimpleCardComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        SimpleCardComponent,
+        OrganizationMembers,
+    ],
+    templateUrl: './organization-detail.component.html'
 })
 export class OrganizationDetailview {
   organization: OrganizationSummaryDto | undefined;

@@ -11,20 +11,18 @@ import { AccountDeleteButtonComponent } from '../account-delete-button/account-d
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 
 @Component({
-  selector: 'app-account-overview',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    AccountDeleteButtonComponent,
-    LoadingSpinnerComponent,
-  ],
-
-  templateUrl: './account-overview.html',
+    selector: 'app-account-overview',
+    imports: [
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        AccountDeleteButtonComponent,
+        LoadingSpinnerComponent,
+    ],
+    templateUrl: './account-overview.html'
 })
 export class AccountOverview {
   ButtonVariant = ButtonVariant;

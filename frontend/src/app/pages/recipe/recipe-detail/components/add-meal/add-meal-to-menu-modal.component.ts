@@ -17,18 +17,17 @@ import {
 } from "../../../../../../generated";
 
 @Component({
-  standalone: true,
-  selector: 'app-add-meal-to-menu-modal',
-  templateUrl: './add-meal-to-menu-modal.component.html',
-  imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    SimpleModalComponent,
-    InputFieldComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
-  ],
+    selector: 'app-add-meal-to-menu-modal',
+    templateUrl: './add-meal-to-menu-modal.component.html',
+    imports: [
+        RouterModule,
+        CommonModule,
+        FormsModule,
+        SimpleModalComponent,
+        InputFieldComponent,
+        SimpleButtonComponent,
+        SearchInputComponent,
+    ]
 })
 export class AddMealToMenuModalComponent implements OnInit {
   @ViewChild('searchInput') searchInput!: SearchInputComponent;

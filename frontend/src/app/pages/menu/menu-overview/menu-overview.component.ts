@@ -21,25 +21,23 @@ import { PaginationControlsComponent } from '../../../components/Pagination/Pagi
 import { CreateMenuModalContentComponent } from './components/create-menu-modal-content/create-menu-modal-content.component';
 
 @Component({
-  selector: 'app-menu-overview',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    CreateMenuModalContentComponent,
-    SimpleModalComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
-    SimpleCardComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    PaginationControlsComponent,
-    CreateMenuModalContentComponent,
-  ],
-
-  templateUrl: './menu-overview.component.html',
+    selector: 'app-menu-overview',
+    imports: [
+        PageLayoutComponent,
+        CreateMenuModalContentComponent,
+        SimpleModalComponent,
+        SimpleButtonComponent,
+        SearchInputComponent,
+        SimpleCardComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        PaginationControlsComponent,
+        CreateMenuModalContentComponent,
+    ],
+    templateUrl: './menu-overview.component.html'
 })
 export class MenuOverviewComponent implements OnInit {
   ButtonVariant = ButtonVariant;
