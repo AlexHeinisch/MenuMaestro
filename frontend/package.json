@@ -32,8 +32,6 @@
     "@iconify-json/mdi": "^1.2.1",
     "@stomp/stompjs": "^7.0.0",
     "@types/sockjs-client": "^1.5.4",
-    "angularx-qrcode": "^18.0.2",
-    "gtag": "^1.0.1",
     "jwt-decode": "^4.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
