@@ -1,3 +1,8 @@
+menumaestro:
+  initial-accounts:
+    enabled: false
+  initial-organizations:
+    enabled: false
 spring:
   jpa:
     database: h2
@@ -7,7 +12,3 @@ spring:
   h2:
     console:
       enabled: true
-initial-accounts:
-  enabled: false
-initial-organizations:
-  enabled: false

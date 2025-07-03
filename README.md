@@ -2,7 +2,8 @@
 
 ## Quickstart
 
-Start db
+Start a postgres database (e.g. via docker-compose)
+Setup the application properties accordingly
 
 ```sh
 cd ../
@@ -10,29 +11,17 @@ cd infrastructure
 docker compose up -d
 ```
 
-Start backend
+Start Application
 
 ```sh
 mvn clean install
 mvn -f application/pom.xml spring-boot:run
 ```
 
-Visit
-
-## Test Report
+Skip Tests
 
 ```sh
-mvn test
-mvn allure:serve
-```
-
-Visit http://172.29.144.1:52019/
-
-
-## Test Coverage
-
-```sh
-mvn jacoco:report
-cd application/target/site/jacoco
-python3 -m http.server 8081
+mvn clean install -DskipUnitTests
+mvn clean install -DskipIntegrationTests
+mvn clean install -DskipTests
 ```

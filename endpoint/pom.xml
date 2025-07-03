@@ -16,11 +16,36 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+
+        <!-- only needed for ParameterObject, aka Pagable -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
     </dependencies>
 
@@ -72,6 +97,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -98,6 +124,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -124,6 +151,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <schemaMappings>
                                 <schemaMapping>Pageable=org.springframework.data.domain.Pageable</schemaMapping>
@@ -146,6 +174,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -172,6 +201,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -198,6 +228,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -224,6 +255,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -250,6 +282,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -268,6 +301,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
+                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>
