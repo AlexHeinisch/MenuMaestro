@@ -1,10 +1,9 @@
 import {CommonModule} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {FooterComponent} from './components/Layout/Footer';
 import {HeaderComponent} from './components/Layout/Header';
 import {TokenService} from './security/token.service';
-import {GoogleTagManagerService} from "angular-google-tag-manager";
 import {AnalyticsService} from "./service/analytics.service";
 
 @Component({
