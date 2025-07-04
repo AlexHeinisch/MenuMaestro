@@ -12,10 +12,9 @@ import { SimpleButtonComponent, ButtonVariant } from '../../../../components/But
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-list-drag-and-drop',
-  standalone: true,
-  imports: [CommonModule, CdkDropList, CdkDrag, SimpleButtonComponent, CdkDropListGroup, FormsModule],
-  templateUrl: './list-drag-and-drop.component.html',
+    selector: 'app-list-drag-and-drop',
+    imports: [CommonModule, CdkDropList, CdkDrag, SimpleButtonComponent, CdkDropListGroup, FormsModule],
+    templateUrl: './list-drag-and-drop.component.html'
 })
 export class ListDragAndDropComponent {
   ButtonVariant = ButtonVariant;

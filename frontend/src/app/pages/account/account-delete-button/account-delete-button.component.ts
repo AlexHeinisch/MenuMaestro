@@ -11,10 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 import {AccountsApiService} from "../../../../generated";
 
 @Component({
-  standalone: true,
-  selector: 'account-delete-button',
-  templateUrl: './account-delete-button.component.html',
-  imports: [CommonModule, RouterModule, SimpleButtonComponent, SimpleModalComponent, InputFieldComponent, FormsModule],
+    selector: 'account-delete-button',
+    templateUrl: './account-delete-button.component.html',
+    imports: [CommonModule, RouterModule, SimpleButtonComponent, SimpleModalComponent, InputFieldComponent, FormsModule]
 })
 export class AccountDeleteButtonComponent {
   ButtonVariant = ButtonVariant;

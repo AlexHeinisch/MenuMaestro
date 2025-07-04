@@ -6,10 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import {ImagesApiService, ImageUploadResponseDto} from "../../../generated";
 
 @Component({
-  selector: 'app-file-upload',
-  standalone: true,
-  imports: [SimpleButtonComponent, CommonModule],
-  templateUrl: './file-upload.component.html',
+    selector: 'app-file-upload',
+    imports: [SimpleButtonComponent, CommonModule],
+    templateUrl: './file-upload.component.html'
 })
 export class FileUploadComponent {
   protected readonly ButtonVariant = ButtonVariant;

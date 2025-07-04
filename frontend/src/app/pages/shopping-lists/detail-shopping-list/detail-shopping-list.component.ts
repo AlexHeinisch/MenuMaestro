@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
@@ -12,7 +12,7 @@ import { TokenService } from '../../../security/token.service';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
 import { ShoppingListAddItemComponent } from './shopping-list-add-item/shopping-list-add-item.component';
 import { ToastrService } from 'ngx-toastr';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { ErrorService } from '../../../globals/error.service';
 import { StringFormattingService } from '../../../service/string-formatting.service';
 import { Client } from '@stomp/stompjs';
@@ -31,24 +31,22 @@ type IngredientMap = {
 };
 
 @Component({
-  selector: 'app-detail-shopping-list',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    PageLayoutComponent,
-    SearchInputComponent,
-    SimpleButtonComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    InputFieldComponent,
-    SimpleModalComponent,
-    ShoppingListAddItemComponent,
-    QRCodeModule,
-  ],
-  templateUrl: './detail-shopping-list.component.html',
+    selector: 'app-detail-shopping-list',
+    imports: [
+        RouterModule,
+        CommonModule,
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        InputFieldComponent,
+        SimpleModalComponent,
+        ShoppingListAddItemComponent,
+        QRCodeComponent,
+    ],
+    templateUrl: './detail-shopping-list.component.html'
 })
-export class DetailShoppingListComponent {
+export class DetailShoppingListComponent implements OnInit {
   anonymousUserName: string = 'anonymousUser';
 
   ShoppingListStatus = ShoppingListStatus;

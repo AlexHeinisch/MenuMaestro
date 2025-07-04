@@ -23,24 +23,22 @@ import { PaginationControlsComponent } from '../../../components/Pagination/Pagi
 import { CreateMenuModalContentComponent } from '../../menu/menu-overview/components/create-menu-modal-content/create-menu-modal-content.component';
 
 @Component({
-  selector: 'app-organization-members',
-  standalone: true,
-  imports: [
-    SimpleButtonComponent,
-    CreateMenuModalContentComponent,
-    SimpleModalComponent,
-    SearchInputComponent,
-    SimpleCardComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    SimpleCardComponent,
-    PaginationControlsComponent,
-  ],
-
-  templateUrl: './organization-members.component.html',
+    selector: 'app-organization-members',
+    imports: [
+        SimpleButtonComponent,
+        CreateMenuModalContentComponent,
+        SimpleModalComponent,
+        SearchInputComponent,
+        SimpleCardComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        SimpleCardComponent,
+        PaginationControlsComponent,
+    ],
+    templateUrl: './organization-members.component.html'
 })
 export class OrganizationMembers implements OnInit {
   @Input() organization: OrganizationSummaryDto | undefined;

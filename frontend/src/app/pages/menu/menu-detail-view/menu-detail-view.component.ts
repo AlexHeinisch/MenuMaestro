@@ -32,25 +32,24 @@ import {
 } from "../../../../generated";
 
 @Component({
-  selector: 'app-menu-detail-view',
-  standalone: true,
-  imports: [
-    SimpleButtonComponent,
-    InputFieldComponent,
-    PageLayoutComponent,
-    InfoMessageComponent,
-    LoadingSpinnerComponent,
-    CdkDropList,
-    CdkDrag,
-    CdkDragPreview,
-    CdkDragPlaceholder,
-    SimpleModalComponent,
-    ComplexModalComponent,
-    FormsModule,
-    CommonModule,
-    RouterLink,
-  ],
-  templateUrl: './menu-detail-view.component.html',
+    selector: 'app-menu-detail-view',
+    imports: [
+        SimpleButtonComponent,
+        InputFieldComponent,
+        PageLayoutComponent,
+        InfoMessageComponent,
+        LoadingSpinnerComponent,
+        CdkDropList,
+        CdkDrag,
+        CdkDragPreview,
+        CdkDragPlaceholder,
+        SimpleModalComponent,
+        ComplexModalComponent,
+        FormsModule,
+        CommonModule,
+        RouterLink,
+    ],
+    templateUrl: './menu-detail-view.component.html'
 })
 export class MenuDetailViewComponent {
   InputType = InputType;

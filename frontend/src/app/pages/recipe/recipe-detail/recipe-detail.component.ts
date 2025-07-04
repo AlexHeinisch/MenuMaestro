@@ -19,22 +19,18 @@ import { AddMealToMenuModalComponent } from './components/add-meal/add-meal-to-m
 import {IngredientUnitDto, MenusApiService, RecipeDto, RecipesApiService} from "../../../../generated";
 
 @Component({
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    PageLayoutComponent,
-    SearchInputComponent,
-    SimpleButtonComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    SimpleModalComponent,
-    FileUploadComponent,
-    InputFieldComponent,
-    AddMealToMenuModalComponent,
-  ],
-  selector: 'app-recipe-detail',
-  templateUrl: './recipe-detail.component.html',
+    imports: [
+        RouterModule,
+        CommonModule,
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        SimpleModalComponent,
+        AddMealToMenuModalComponent,
+    ],
+    selector: 'app-recipe-detail',
+    templateUrl: './recipe-detail.component.html'
 })
 export class RecipeDetailComponent implements OnInit {
   ButtonVariant = ButtonVariant;

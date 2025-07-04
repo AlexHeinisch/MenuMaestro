@@ -21,21 +21,20 @@ import {
 } from "../../../../generated";
 
 @Component({
-  selector: 'app-shopping-lists-overview',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
-    SimpleCardComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    PaginationControlsComponent,
-  ],
-  templateUrl: './shopping-lists-overview.component.html',
+    selector: 'app-shopping-lists-overview',
+    imports: [
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        SearchInputComponent,
+        SimpleCardComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        PaginationControlsComponent,
+    ],
+    templateUrl: './shopping-lists-overview.component.html'
 })
 export class ShoppingListsOverviewComponent {
   ButtonVariant = ButtonVariant;

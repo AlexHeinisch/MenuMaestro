@@ -8,10 +8,9 @@ export const SHORTCUT_SEARCH_INPUT_RESET = 'Escape';
 export const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
-  standalone: true,
-  selector: 'search-input',
-  imports: [CommonModule, FormsModule],
-  template: `
+    selector: 'search-input',
+    imports: [CommonModule, FormsModule],
+    template: `
     <label *ngIf="label" [attr.for]="id" class="block mb-2 text-base text-primary">{{ label }}</label>
 
     <div
@@ -86,7 +85,7 @@ export const SEARCH_DEBOUNCE_MS = 300;
         </li>
       </ul>
     </div>
-  `,
+  `
 })
 export class SearchInputComponent {
   @Input() placeholder: string = 'Search';

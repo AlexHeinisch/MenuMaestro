@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ButtonVariant, SimpleButtonComponent } from '../Button/SimpleButton';
 
 @Component({
-  selector: 'pagination-controls',
-  standalone: true,
-  template: `
+    selector: 'pagination-controls',
+    template: `
     <div
       *ngIf="data && !(data.first === true && data.last === true)"
       class="flex justify-center mt-6 items-center pt-6 pb-2 bottom-0 bg-white z-10"
@@ -47,8 +46,8 @@ import { ButtonVariant, SimpleButtonComponent } from '../Button/SimpleButton';
       </simple-button>
     </div>
   `,
-  styles: [],
-  imports: [CommonModule, SimpleButtonComponent],
+    styles: [],
+    imports: [CommonModule, SimpleButtonComponent]
 })
 export class PaginationControlsComponent {
   @Input() data: any;

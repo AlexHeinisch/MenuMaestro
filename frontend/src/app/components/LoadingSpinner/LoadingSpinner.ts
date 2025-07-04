@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
-  standalone: true,
-  imports: [CommonModule],
-  selector: 'loading-spinner',
-  template: `
+    imports: [CommonModule],
+    selector: 'loading-spinner',
+    template: `
     <div *ngIf="showSpinner" role="status" class="flex flex-col items-center justify-center">
       <svg
         aria-hidden="true"
@@ -25,7 +24,7 @@ import { Component, Input, OnChanges } from '@angular/core';
       </svg>
       <div class="mt-2 text-sm">Loading...</div>
     </div>
-  `,
+  `
 })
 export class LoadingSpinnerComponent implements OnChanges {
   @Input() isLoading = false;

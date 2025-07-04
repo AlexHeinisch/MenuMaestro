@@ -11,18 +11,17 @@ import { ErrorService } from '../../../globals/error.service';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 
 @Component({
-  standalone: true,
-  selector: 'app-login',
-  imports: [
-    CommonModule,
-    PageLayoutComponent,
-    FormsModule,
-    SimpleButtonComponent,
-    InputFieldComponent,
-    RouterModule,
-    LoadingSpinnerComponent,
-  ],
-  templateUrl: './login-page.html',
+    selector: 'app-login',
+    imports: [
+        CommonModule,
+        PageLayoutComponent,
+        FormsModule,
+        SimpleButtonComponent,
+        InputFieldComponent,
+        RouterModule,
+        LoadingSpinnerComponent,
+    ],
+    templateUrl: './login-page.html'
 })
 export class LoginComponent {
   InputType = InputType;

@@ -4,10 +4,9 @@ import { RouterModule } from '@angular/router';
 import { TokenService } from '../../../security/token.service';
 
 @Component({
-  standalone: true,
-  selector: 'account-button',
-  templateUrl: './account-button.component.html',
-  imports: [CommonModule, RouterModule],
+    selector: 'account-button',
+    templateUrl: './account-button.component.html',
+    imports: [CommonModule, RouterModule]
 })
 export class AccountButtonComponent {
   constructor(protected tokenService: TokenService) {}

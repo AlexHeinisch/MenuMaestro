@@ -8,10 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import {IngredientUnitDto, MealEditDto, MealsApiService, RecipeCreateEditDto, RecipeDto} from "../../../../generated";
 
 @Component({
-  selector: 'app-edit-meal-component',
-  standalone: true,
-  imports: [EditRecipeComponent, NgIf],
-  templateUrl: './edit-meal.component.html',
+    selector: 'app-edit-meal-component',
+    imports: [EditRecipeComponent, NgIf],
+    templateUrl: './edit-meal.component.html'
 })
 export class EditMealComponent implements OnInit {
   menuId: number | undefined;

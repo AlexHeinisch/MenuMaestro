@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ButtonVariant, SimpleButtonComponent } from '../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
-import { ComplexModalComponent } from '../../components/Modal/ComplexModalComponent';
 import { SimpleModalComponent } from '../../components/Modal/SimpleModalComponent';
 import { SearchInputComponent } from '../../components/Input/SearchInput';
 import { ToastrService } from 'ngx-toastr';
@@ -22,21 +21,19 @@ import {
 } from "../../../generated";
 
 @Component({
-  selector: 'app-stash',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    LoadingSpinnerComponent,
-    NgIf,
-    NgForOf,
-    SimpleButtonComponent,
-    InputFieldComponent,
-    FormsModule,
-    ComplexModalComponent,
-    SimpleModalComponent,
-    SearchInputComponent,
-  ],
-  templateUrl: './stash.component.html',
+    selector: 'app-stash',
+    imports: [
+        PageLayoutComponent,
+        LoadingSpinnerComponent,
+        NgIf,
+        NgForOf,
+        SimpleButtonComponent,
+        InputFieldComponent,
+        FormsModule,
+        SimpleModalComponent,
+        SearchInputComponent,
+    ],
+    templateUrl: './stash.component.html'
 })
 export class StashComponent implements OnInit {
   measurementUnits = Object.values(IngredientUnitDto);

@@ -33,22 +33,21 @@ import {
 } from "../../../../generated";
 
 @Component({
-  selector: 'app-recipe-edit',
-  standalone: true,
-  imports: [
-    SimpleButtonComponent,
-    InputFieldComponent,
-    SearchInputComponent,
-    PageLayoutComponent,
-    LoadingSpinnerComponent,
-    InfoMessageComponent,
-    FormsModule,
-    CommonModule,
-    FileUploadComponent,
-    RequestIngredientModalComponent,
-    SimpleModalComponent,
-  ],
-  templateUrl: './recipe-edit.component.html',
+    selector: 'app-recipe-edit',
+    imports: [
+        SimpleButtonComponent,
+        InputFieldComponent,
+        SearchInputComponent,
+        PageLayoutComponent,
+        LoadingSpinnerComponent,
+        InfoMessageComponent,
+        FormsModule,
+        CommonModule,
+        FileUploadComponent,
+        RequestIngredientModalComponent,
+        SimpleModalComponent,
+    ],
+    templateUrl: './recipe-edit.component.html'
 })
 export class EditRecipeComponent implements OnInit {
   @ViewChild('requestIngredientModalComponent') requestIngredientModalComponent!: RequestIngredientModalComponent;

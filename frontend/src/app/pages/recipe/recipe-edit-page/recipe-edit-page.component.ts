@@ -7,10 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import {RecipeCreateEditDto, RecipeDto, RecipesApiService} from "../../../../generated";
 
 @Component({
-  selector: 'app-recipe-edit-page',
-  standalone: true,
-  imports: [EditRecipeComponent, NgIf],
-  templateUrl: './recipe-edit-page.component.html',
+    selector: 'app-recipe-edit-page',
+    imports: [EditRecipeComponent, NgIf],
+    templateUrl: './recipe-edit-page.component.html'
 })
 export class RecipeEditPageComponent implements OnInit {
   recipeId: number | undefined;

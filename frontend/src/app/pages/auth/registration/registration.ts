@@ -11,19 +11,17 @@ import { ToastrService } from 'ngx-toastr';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
 
 @Component({
-  selector: 'app-account-registration',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    SimpleButtonComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-  ],
-
-  templateUrl: './registration.html',
+    selector: 'app-account-registration',
+    imports: [
+        PageLayoutComponent,
+        SimpleButtonComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+    ],
+    templateUrl: './registration.html'
 })
 export class AccountRegistration {
   ButtonVariant = ButtonVariant;

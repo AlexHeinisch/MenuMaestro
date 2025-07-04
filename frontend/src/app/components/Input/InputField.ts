@@ -15,10 +15,9 @@ export enum InputType {
 }
 
 @Component({
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  selector: 'input-field',
-  template: `
+    imports: [CommonModule, FormsModule],
+    selector: 'input-field',
+    template: `
     <div [class]="marginBottom">
       <label *ngIf="label && type !== InputType.checkbox" [attr.for]="id" class="block mb-2 text-base text-primary">{{
         label
@@ -159,8 +158,8 @@ export enum InputType {
       </ng-container>
     </div>
   `,
-  styles: [],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+    styles: [],
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 export class InputFieldComponent {
   @Input() type: InputType = InputType.text;

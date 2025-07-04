@@ -15,15 +15,14 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenService } from '../../../../security/token.service';
 
 @Component({
-  selector: 'app-request-ingredient-modal',
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    InputFieldComponent,
-  ],
-  templateUrl: './request-ingredient-modal.component.html',
+    selector: 'app-request-ingredient-modal',
+    imports: [
+        RouterModule,
+        CommonModule,
+        FormsModule,
+        InputFieldComponent,
+    ],
+    templateUrl: './request-ingredient-modal.component.html'
 })
 export class RequestIngredientModalComponent implements OnChanges {
   @Input() ingredientName: string = '';

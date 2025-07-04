@@ -6,10 +6,9 @@ import { AccountButtonComponent } from '../../pages/account/account-button/accou
 import { LoginLogoutButtonComponent } from '../../pages/auth/login/components/login-logout-button.component';
 
 @Component({
-  standalone: true,
-  selector: 'header',
-  imports: [CommonModule, RouterModule, LoginLogoutButtonComponent, AccountButtonComponent],
-  template: `
+    selector: 'header',
+    imports: [CommonModule, RouterModule, LoginLogoutButtonComponent, AccountButtonComponent],
+    template: `
     <nav class="bg-primary-800">
       <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
@@ -163,7 +162,7 @@ import { LoginLogoutButtonComponent } from '../../pages/auth/login/components/lo
         </div>
       </div>
     </nav>
-  `,
+  `
 })
 export class HeaderComponent implements OnInit {
   isMobileMenuOpen = false;

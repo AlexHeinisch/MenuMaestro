@@ -4,10 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { TokenService } from '../../../../security/token.service';
 
 @Component({
-  standalone: true,
-  selector: 'login-logout-button',
-  templateUrl: './login-logout-button.component.html',
-  imports: [CommonModule, RouterModule],
+    selector: 'login-logout-button',
+    templateUrl: './login-logout-button.component.html',
+    imports: [CommonModule, RouterModule]
 })
 export class LoginLogoutButtonComponent {
   constructor(

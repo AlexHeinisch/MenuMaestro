@@ -24,10 +24,9 @@ const variantStyles = {
 };
 
 @Component({
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  selector: 'simple-button',
-  template: `
+    imports: [CommonModule, RouterModule],
+    selector: 'simple-button',
+    template: `
     <button
       [attr.type]="type"
       [ngClass]="buttonClasses"
@@ -39,7 +38,7 @@ const variantStyles = {
       <ng-content></ng-content>
     </button>
   `,
-  styles: [],
+    styles: []
 })
 export class SimpleButtonComponent {
   @Input() variant: ButtonVariant = ButtonVariant.primary;

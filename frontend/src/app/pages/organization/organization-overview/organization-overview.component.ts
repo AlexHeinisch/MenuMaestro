@@ -18,25 +18,23 @@ import { CreateMenuModalContentComponent } from '../../menu/menu-overview/compon
 import {OrganizationsApiService, OrganizationSummaryListPaginatedDto} from "../../../../generated";
 
 @Component({
-  selector: 'app-organization-overview',
-  standalone: true,
-  imports: [
-    PageLayoutComponent,
-    CreateMenuModalContentComponent,
-    SimpleModalComponent,
-    SimpleButtonComponent,
-    SearchInputComponent,
-    SimpleCardComponent,
-    CommonModule,
-    RouterModule,
-    InputFieldComponent,
-    FormsModule,
-    LoadingSpinnerComponent,
-    CreateOrganizationModalContentComponent,
-    PaginationControlsComponent,
-  ],
-
-  templateUrl: './organization-overview.component.html',
+    selector: 'app-organization-overview',
+    imports: [
+        PageLayoutComponent,
+        CreateMenuModalContentComponent,
+        SimpleModalComponent,
+        SimpleButtonComponent,
+        SearchInputComponent,
+        SimpleCardComponent,
+        CommonModule,
+        RouterModule,
+        InputFieldComponent,
+        FormsModule,
+        LoadingSpinnerComponent,
+        CreateOrganizationModalContentComponent,
+        PaginationControlsComponent,
+    ],
+    templateUrl: './organization-overview.component.html'
 })
 export class OrganizationOverview {
   ButtonVariant = ButtonVariant;

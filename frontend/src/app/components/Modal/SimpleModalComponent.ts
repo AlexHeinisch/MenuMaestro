@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { SimpleButtonComponent, ButtonVariant } from '../Button/SimpleButton';
 
 @Component({
-  selector: 'simple-modal',
-  standalone: true,
-  imports: [CommonModule, SimpleButtonComponent],
-  template: `
+    selector: 'simple-modal',
+    imports: [CommonModule, SimpleButtonComponent],
+    template: `
     <div *ngIf="show" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-10 p-4">
       <div class="bg-white flex min-h-fit flex-col w-full max-w-[600px] justify-between rounded-lg p-6 relative">
         <h2 class="text-xl break-words">{{ title }}</h2>
@@ -39,7 +38,7 @@ import { SimpleButtonComponent, ButtonVariant } from '../Button/SimpleButton';
         </div>
       </div>
     </div>
-  `,
+  `
 })
 export class SimpleModalComponent {
   ButtonVariant = ButtonVariant;

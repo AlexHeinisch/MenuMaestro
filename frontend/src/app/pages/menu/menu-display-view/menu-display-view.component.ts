@@ -24,24 +24,23 @@ import { StringFormattingService } from '../../../service/string-formatting.serv
 import { TokenService } from '../../../security/token.service';
 
 @Component({
-  selector: 'app-menu-display-view',
-  standalone: true,
-  imports: [
-    SimpleButtonComponent,
-    InputFieldComponent,
-    PageLayoutComponent,
-    InfoMessageComponent,
-    LoadingSpinnerComponent,
-    CdkDropList,
-    CdkDrag,
-    CdkDragPreview,
-    CdkDragPlaceholder,
-    SimpleModalComponent,
-    FormsModule,
-    CommonModule,
-    RouterLink,
-  ],
-  templateUrl: './menu-display-view.component.html',
+    selector: 'app-menu-display-view',
+    imports: [
+        SimpleButtonComponent,
+        InputFieldComponent,
+        PageLayoutComponent,
+        InfoMessageComponent,
+        LoadingSpinnerComponent,
+        CdkDropList,
+        CdkDrag,
+        CdkDragPreview,
+        CdkDragPlaceholder,
+        SimpleModalComponent,
+        FormsModule,
+        CommonModule,
+        RouterLink,
+    ],
+    templateUrl: './menu-display-view.component.html'
 })
 export class MenuDisplayViewComponent {
   InputType = InputType;
