@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ButtonVariant, SimpleButtonComponent } from '../../components/Button/SimpleButton';
 import { InputFieldComponent, InputType } from '../../components/Input/InputField';
 import { FormsModule } from '@angular/forms';
-import { ComplexModalComponent } from '../../components/Modal/ComplexModalComponent';
 import { SimpleModalComponent } from '../../components/Modal/SimpleModalComponent';
 import { SearchInputComponent } from '../../components/Input/SearchInput';
 import { ToastrService } from 'ngx-toastr';
@@ -31,7 +30,6 @@ import {
         SimpleButtonComponent,
         InputFieldComponent,
         FormsModule,
-        ComplexModalComponent,
         SimpleModalComponent,
         SearchInputComponent,
     ],

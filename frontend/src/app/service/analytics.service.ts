@@ -5,15 +5,9 @@ declare var gtag : any;
 @Injectable({providedIn: 'root'})
 export class AnalyticsService {
 
-    trackEvent(eventName: string, eventDetails: string, eventCategory: string) {
-        gtag('event', eventName, {
-            // event Type - example: 'SCROLL_TO_TOP_CLICKED'
-            'event_category': eventCategory,
-            // the label that will show up in the dashboard as the events name
-            'event_label': eventName,
-            // a short description of what happened
-            'value': eventDetails
-        });
-        console.log("event tracked")
+    trackEvent(eventName: string, eventDetails: any) {
+        gtag('event', eventName, eventDetails)
     }
+
+    // TODO:: build some default events as we go to track different clicks
 }

@@ -10,13 +10,16 @@ import {GoogleTagManagerService} from 'angular-google-tag-manager'
 })
 export class HeroComponent implements OnInit {
   constructor(
-      private analyticsService: AnalyticsService,
       private gtmService: GoogleTagManagerService
   ) {
   }
 
   ngOnInit() {
-    this.analyticsService.trackEvent('Hero Page Loaded', 'What does this do?', 'TEST');
+    const gtmTag = {
+        event: 'Loaded Event',
+        pageName: 2
+    }
+    this.gtmService.pushTag(gtmTag)
     console.log("Test")
   }
 

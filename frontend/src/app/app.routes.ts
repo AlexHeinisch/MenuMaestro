@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { StylesComponent } from './pages/styles/styles.component';
 import { ListDragAndDropComponent } from './pages/menu/components/list-drag-and-drop/list-drag-and-drop.component';
 import { CreateRecipeComponent } from './pages/recipe/recipe-create/recipe-create.component';
 import { MenuDetailViewComponent } from './pages/menu/menu-detail-view/menu-detail-view.component';
@@ -25,54 +24,55 @@ import { RecipeEditPageComponent } from './pages/recipe/recipe-edit-page/recipe-
 import { EditMealComponent } from './pages/menu/edit-meal/edit-meal.component';
 import { MenuDisplayViewComponent } from './pages/menu/menu-display-view/menu-display-view.component';
 
+export const mainTitle: string = "MenuMaestro"
+
 export const routes: Routes = [
-  { path: '', component: HeroComponent },
-  { path: 'privacy', component: PrivacyComponent },
-  { path: 'styles', component: StylesComponent },
+  { path: '', component: HeroComponent, title: mainTitle},
+  { path: 'privacy', component: PrivacyComponent, title: `${mainTitle} - Privacy`},
   { path: 'list-drag-and-drop', component: ListDragAndDropComponent },
   {
     path: 'recipes',
     children: [
-      { path: '', component: RecipesOverviewComponent },
-      { path: 'create', component: CreateRecipeComponent, canActivate: [AuthGuard] },
-      { path: ':id/edit', component: RecipeEditPageComponent, canActivate: [AuthGuard] },
-      { path: ':id', component: RecipeDetailComponent },
+      { path: '', component: RecipesOverviewComponent, title: `${mainTitle} - Recipes` },
+      { path: 'create', component: CreateRecipeComponent, canActivate: [AuthGuard], title: `${mainTitle} - Create Recipe` },
+      { path: ':id/edit', component: RecipeEditPageComponent, canActivate: [AuthGuard], title: `${mainTitle} - Edit Recipe` },
+      { path: ':id', component: RecipeDetailComponent, title: `${mainTitle} - Recipe Details` },
     ],
   },
   {
     path: 'menus',
     children: [
-      { path: '', component: MenuOverviewComponent, canActivate: [AuthGuard] },
-      { path: ':id', component: MenuDetailViewComponent, canActivate: [AuthGuard] },
-      { path: ':id/closed', component: MenuDisplayViewComponent, canActivate: [AuthGuard] },
-      { path: ':menuId/meal/:mealId', component: DetailMealComponent, canActivate: [AuthGuard] },
-      { path: ':menuId/meal/:mealId/edit', component: EditMealComponent, canActivate: [AuthGuard] },
+      { path: '', component: MenuOverviewComponent, canActivate: [AuthGuard], title: `${mainTitle} - Menus Details` },
+      { path: ':id', component: MenuDetailViewComponent, canActivate: [AuthGuard], title: `${mainTitle} - Menu Details` },
+      { path: ':id/closed', component: MenuDisplayViewComponent, canActivate: [AuthGuard], title: `${mainTitle} - Menu Details` },
+      { path: ':menuId/meal/:mealId', component: DetailMealComponent, canActivate: [AuthGuard], title: `${mainTitle} - Meal Details` },
+      { path: ':menuId/meal/:mealId/edit', component: EditMealComponent, canActivate: [AuthGuard], title: `${mainTitle} - Meal Details` },
     ],
   },
   {
     path: 'stashes/:id',
-    component: StashComponent,
+    component: StashComponent, title: `${mainTitle} - Stashes`,
     canActivate: [AuthGuard],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: AccountRegistration },
-  { path: 'organizations', component: OrganizationOverview, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent, title: `${mainTitle} - Login` },
+  { path: 'register', component: AccountRegistration, title: `${mainTitle} - Register` },
   {
     path: 'organizations',
     children: [
-      { path: '', component: OrganizationOverview, canActivate: [AuthGuard] },
-      { path: ':id', component: OrganizationDetailview, canActivate: [AuthGuard] },
+      { path: '', component: OrganizationOverview, canActivate: [AuthGuard], title: `${mainTitle} - Organizations` },
+      { path: ':id', component: OrganizationDetailview, canActivate: [AuthGuard], title: `${mainTitle} - Organization Details` },
     ],
   },
   {
     path: 'shopping-lists',
     children: [
-      { path: '', component: ShoppingListsOverviewComponent, canActivate: [AuthGuard] },
-      { path: ':id', component: DetailShoppingListComponent },
+      { path: '', component: ShoppingListsOverviewComponent, canActivate: [AuthGuard], title: `${mainTitle} - Shopping Lists` },
+      { path: ':id', component: DetailShoppingListComponent, title: `${mainTitle} - Shopping List Details` },
     ],
   },
-  { path: 'account', component: AccountOverview, canActivate: [AuthGuard] },
-  { path: 'account/edit', component: AccountEditComponent, canActivate: [AuthGuard] },
-  { path: 'account/change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
-  { path: 'ingredients', component: IngredientsManagementComponent },
+  { path: 'account', component: AccountOverview, canActivate: [AuthGuard], title: `${mainTitle} - Account` },
+  { path: 'account/edit', component: AccountEditComponent, canActivate: [AuthGuard], title: `${mainTitle} - Edit Account` },
+  { path: 'account/change-password', component: ChangePasswordComponent, canActivate: [AuthGuard], title: `${mainTitle} - Change Password` },
+
+  { path: 'ingredients', component: IngredientsManagementComponent, title: `${mainTitle} - Admin Ingredients` },
 ];
