@@ -19,10 +19,10 @@ import dev.heinisch.menumaestro.persistence.ShoppingListItemRepository;
 import dev.heinisch.menumaestro.properties.PasswordResetProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openapitools.model.AccountCreateRequestDto;
-import org.openapitools.model.AccountEditRequestDto;
-import org.openapitools.model.AccountInfoDto;
-import org.openapitools.model.AccountSummaryDto;
+import org.openapitools.model.AccountCreateRequest;
+import org.openapitools.model.AccountEditRequest;
+import org.openapitools.model.AccountInfoResponse;
+import org.openapitools.model.AccountSummaryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,7 +52,7 @@ public class AccountService {
     private final ShoppingListItemRepository shoppingListItemRepository;
 
     @Transactional
-    public AccountInfoDto createAccount(AccountCreateRequestDto dto) {
+    public AccountInfoResponse createAccount(AccountCreateRequest dto) {
 
         if (accountRepository.findById(dto.getUsername()).isPresent()) {
             throw new ConflictException(String.format("Username '%s' already exists!", dto.getUsername()));
@@ -69,7 +69,7 @@ public class AccountService {
     }
 
     @Transactional
-    public AccountInfoDto editAccount(String username, AccountEditRequestDto dto) {
+    public AccountInfoResponse editAccount(String username, AccountEditRequest dto) {
         if (dto.getEmail() != null) {
             Optional<Account> a = accountRepository.findByEmail(dto.getEmail());
             if (a.isPresent() && !a.get().getUsername().equals(username)) {
@@ -101,7 +101,7 @@ public class AccountService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AccountSummaryDto> searchUsersByAnyNameExcludingInOrganization(String name, Long excludedOrganizationId, Pageable pageable) {
+    public Page<AccountSummaryResponse> searchUsersByAnyNameExcludingInOrganization(String name, Long excludedOrganizationId, Pageable pageable) {
         List<String> blacklistedUsernames = List.of();
         if (Objects.nonNull(excludedOrganizationId)) {
             blacklistedUsernames = organizationAccountRelationRepository.findMembersByOrganisationId(excludedOrganizationId)
@@ -197,11 +197,11 @@ public class AccountService {
         accountRepository.delete(account);
     }
 
-    public AccountInfoDto getAccountInfo(String username) {
+    public AccountInfoResponse getAccountInfo(String username) {
         Optional<Account> a = accountRepository.findById(username);
 
         Account account = a.get();
-        AccountInfoDto accountInfo = new AccountInfoDto();
+        AccountInfoResponse accountInfo = new AccountInfoResponse();
         accountInfo.setUsername(account.getUsername());
         accountInfo.setFirstName(account.getFirstName());
         accountInfo.setLastName(account.getLastName());

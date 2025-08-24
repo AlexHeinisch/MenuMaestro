@@ -6,7 +6,7 @@ import dev.heinisch.menumaestro.endpoint.AccountEndpoint;
 import dev.heinisch.menumaestro.persistence.AccountRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openapitools.model.AccountSummaryDto;
+import org.openapitools.model.AccountSummaryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -59,7 +59,7 @@ public class UserSearchIT extends BaseWebIntegrationTest {
                 () -> Assertions.assertTrue(response.getStatusCode().is2xxSuccessful()),
                 () -> Assertions.assertNotNull(response.getBody())
         );
-        List<String> body = response.getBody().getContent().stream().map(AccountSummaryDto::getUsername).toList();
+        List<String> body = response.getBody().getContent().stream().map(AccountSummaryResponse::getUsername).toList();
         Assertions.assertAll(
                 () -> Assertions.assertEquals(2, body.size()),
                 () -> Assertions.assertTrue(body.contains("User1") &&
@@ -78,7 +78,7 @@ public class UserSearchIT extends BaseWebIntegrationTest {
                 () -> Assertions.assertTrue(response.getStatusCode().is2xxSuccessful()),
                 () -> Assertions.assertNotNull(response.getBody())
         );
-        List<String> body = response.getBody().getContent().stream().map(AccountSummaryDto::getUsername).toList();
+        List<String> body = response.getBody().getContent().stream().map(AccountSummaryResponse::getUsername).toList();
         Assertions.assertAll(
                 () -> Assertions.assertEquals(0, body.size())
         );
@@ -94,7 +94,7 @@ public class UserSearchIT extends BaseWebIntegrationTest {
                 () -> Assertions.assertTrue(response.getStatusCode().is2xxSuccessful()),
                 () -> Assertions.assertNotNull(response.getBody())
         );
-        List<String> body = response.getBody().getContent().stream().map(AccountSummaryDto::getUsername).toList();
+        List<String> body = response.getBody().getContent().stream().map(AccountSummaryResponse::getUsername).toList();
         Assertions.assertAll(
                 () -> Assertions.assertEquals(3, body.size()),
                 () -> Assertions.assertTrue(body.contains("User1") &&

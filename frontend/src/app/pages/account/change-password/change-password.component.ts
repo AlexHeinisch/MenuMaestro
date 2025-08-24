@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -9,7 +9,7 @@ import { ErrorService } from '../../../globals/error.service';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { TokenService } from '../../../security/token.service';
 import { ToastrService } from 'ngx-toastr';
-import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../../../generated";
+import {AccountEditRequest, AccountInfoResponse, AccountsApiService} from "../../../../generated";
 
 @Component({
     selector: 'app-change-password',
@@ -24,11 +24,11 @@ import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../.
     ],
     templateUrl: './change-password.component.html'
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnInit {
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
-  accountInfo: AccountInfoDto = {
+  accountInfo: AccountInfoResponse = {
     username: '',
     email: '',
     firstName: '',
@@ -36,7 +36,7 @@ export class ChangePasswordComponent {
     isGlobalAdmin: false,
   };
 
-  accountEditRequestDto: AccountEditRequestDto = {
+  accountEditRequestDto: AccountEditRequest = {
     email: undefined,
     firstName: undefined,
     lastName: undefined,

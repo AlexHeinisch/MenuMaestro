@@ -5,21 +5,21 @@ import dev.heinisch.menumaestro.mapper.util.BasePageableMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import org.openapitools.model.AccountCreateRequestDto;
-import org.openapitools.model.AccountInfoDto;
-import org.openapitools.model.AccountSummaryDto;
-import org.openapitools.model.AccountSummaryListPaginatedDto;
+import org.openapitools.model.AccountCreateRequest;
+import org.openapitools.model.AccountInfoResponse;
+import org.openapitools.model.AccountSummaryListPaginatedResponse;
+import org.openapitools.model.AccountSummaryResponse;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
-public interface AccountMapper extends BasePageableMapper<AccountSummaryListPaginatedDto, AccountSummaryDto> {
+public interface AccountMapper extends BasePageableMapper<AccountSummaryListPaginatedResponse, AccountSummaryResponse> {
 
     @Mapping(target = "passwordHash", ignore = true)
     @Mapping(target = "passwordResetToken", ignore = true)
     @Mapping(target = "passwordResetPermittedUntil", ignore = true)
     @Mapping(target = "isGlobalAdmin", constant = "false")
-    Account toEntity(AccountCreateRequestDto dto);
+    Account toEntity(AccountCreateRequest dto);
 
-    AccountInfoDto toInfoDto(Account entity);
+    AccountInfoResponse toInfoDto(Account entity);
 
-    AccountSummaryDto toSummaryDto(Account entity);
+    AccountSummaryResponse toSummaryDto(Account entity);
 }

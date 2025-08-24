@@ -8,11 +8,11 @@ import dev.heinisch.menumaestro.validation.UserConstraints;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.api.AccountsApi;
-import org.openapitools.model.AccountCreateRequestDto;
-import org.openapitools.model.AccountEditRequestDto;
-import org.openapitools.model.AccountInfoDto;
-import org.openapitools.model.AccountSummaryListPaginatedDto;
-import org.openapitools.model.ResetPasswordCommitRequestDto;
+import org.openapitools.model.AccountCreateRequest;
+import org.openapitools.model.AccountEditRequest;
+import org.openapitools.model.AccountInfoResponse;
+import org.openapitools.model.AccountSummaryListPaginatedResponse;
+import org.openapitools.model.ResetPasswordCommitRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class AccountEndpoint implements AccountsApi {
     @Override
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @Transactional(readOnly = true)
-    public ResponseEntity<AccountInfoDto> getAccountInfo() {
+    public ResponseEntity<AccountInfoResponse> getAccountInfo() {
         log.info("GET /accounts/self");
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -45,8 +45,13 @@ public class AccountEndpoint implements AccountsApi {
 
 
     @Override
+    public ResponseEntity<Void> confirmEmail(String username, String token) {
+        return null;
+    }
+
+    @Override
     @Transactional
-    public ResponseEntity<AccountInfoDto> createAccount(AccountCreateRequestDto accountCreateRequestDto) {
+    public ResponseEntity<AccountInfoResponse> createAccount(AccountCreateRequest accountCreateRequestDto) {
         log.info("POST /accounts");
         log.debug("Request-Body: {}", accountCreateRequestDto);
 
@@ -58,7 +63,7 @@ public class AccountEndpoint implements AccountsApi {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_USER') and #username == principal)")
-    public ResponseEntity<AccountInfoDto> editAccount(String username, AccountEditRequestDto accountEditRequestDto) {
+    public ResponseEntity<AccountInfoResponse> editAccount(String username, AccountEditRequest accountEditRequestDto) {
         log.info("PUT /accounts/{}", username);
         log.debug("Request-Body: {}", accountEditRequestDto);
 
@@ -69,7 +74,7 @@ public class AccountEndpoint implements AccountsApi {
     }
 
     @Override
-    public ResponseEntity<Void> resetPasswordCommit(String username, String token, ResetPasswordCommitRequestDto resetPasswordCommitRequest) {
+    public ResponseEntity<Void> resetPasswordCommit(String username, String token, ResetPasswordCommitRequest resetPasswordCommitRequest) {
         log.info("PUT /accounts/{}/reset-password/{}", username, token);
         log.debug("Request-Body: {}", resetPasswordCommitRequest);
 
@@ -93,7 +98,7 @@ public class AccountEndpoint implements AccountsApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<AccountSummaryListPaginatedDto> searchAccounts(Integer page, Integer size, String name, Long excludingOrganization) {
+    public ResponseEntity<AccountSummaryListPaginatedResponse> searchAccounts(Integer page, Integer size, String name, Long excludingOrganization) {
         log.info("GET /accounts");
         log.debug("Search-Params: name={} page={} size={}", name, page, size);
 
@@ -115,14 +120,14 @@ public class AccountEndpoint implements AccountsApi {
         return ResponseEntity.noContent().build();
     }
 
-    private void validateCommitPasswordReset(String username, ResetPasswordCommitRequestDto dto) {
+    private void validateCommitPasswordReset(String username, ResetPasswordCommitRequest dto) {
         PropertyChecker.begin()
             .append(UserConstraints.validUsername(username))
             .append(UserConstraints.validPassword(dto.getPassword()))
             .finalize(ValidationException::fromPropertyChecker);
     }
 
-    private void validateCreateAccountDto(AccountCreateRequestDto dto) {
+    private void validateCreateAccountDto(AccountCreateRequest dto) {
         PropertyChecker.begin()
             .append(UserConstraints.validUsername(dto.getUsername()))
             .append(UserConstraints.validEmail(dto.getEmail()))
@@ -132,7 +137,7 @@ public class AccountEndpoint implements AccountsApi {
             .finalize(ValidationException::fromPropertyChecker);
     }
 
-    private void validateEditAccountDto(String username, AccountEditRequestDto dto) {
+    private void validateEditAccountDto(String username, AccountEditRequest dto) {
         PropertyChecker.begin()
             .append(UserConstraints.validUsername(username))
             .append(UserConstraints.validEmailNullable(dto.getEmail()))

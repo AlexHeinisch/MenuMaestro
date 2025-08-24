@@ -11,12 +11,12 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { AccountCreateRequestDto } from '../model/models';
-import { AccountEditRequestDto } from '../model/models';
-import { AccountInfoDto } from '../model/models';
-import { AccountSummaryListPaginatedDto } from '../model/models';
+import { AccountCreateRequest } from '../model/models';
+import { AccountEditRequest } from '../model/models';
+import { AccountInfoResponse } from '../model/models';
+import { AccountSummaryListPaginatedResponse } from '../model/models';
 import { ErrorResponse } from '../model/models';
-import { ResetPasswordCommitRequestDto } from '../model/models';
+import { ResetPasswordCommitRequest } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,9 +30,17 @@ export interface AccountsApiServiceInterface {
     /**
      * 
      * 
-     * @param accountCreateRequestDto 
+     * @param username 
+     * @param token 
      */
-    createAccount(accountCreateRequestDto?: AccountCreateRequestDto, extraHttpRequestParams?: any): Observable<AccountInfoDto>;
+    confirmEmail(username: string, token: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * 
+     * 
+     * @param accountCreateRequest 
+     */
+    createAccount(accountCreateRequest?: AccountCreateRequest, extraHttpRequestParams?: any): Observable<AccountInfoResponse>;
 
     /**
      * 
@@ -45,24 +53,24 @@ export interface AccountsApiServiceInterface {
      * 
      * 
      * @param username 
-     * @param accountEditRequestDto 
+     * @param accountEditRequest 
      */
-    editAccount(username: string, accountEditRequestDto?: AccountEditRequestDto, extraHttpRequestParams?: any): Observable<AccountInfoDto>;
+    editAccount(username: string, accountEditRequest?: AccountEditRequest, extraHttpRequestParams?: any): Observable<AccountInfoResponse>;
 
     /**
      * 
      * 
      */
-    getAccountInfo(extraHttpRequestParams?: any): Observable<AccountInfoDto>;
+    getAccountInfo(extraHttpRequestParams?: any): Observable<AccountInfoResponse>;
 
     /**
      * 
      * 
      * @param username 
      * @param token Password reset token sent via email by the application.
-     * @param resetPasswordCommitRequestDto 
+     * @param resetPasswordCommitRequest 
      */
-    resetPasswordCommit(username: string, token: string, resetPasswordCommitRequestDto?: ResetPasswordCommitRequestDto, extraHttpRequestParams?: any): Observable<{}>;
+    resetPasswordCommit(username: string, token: string, resetPasswordCommitRequest?: ResetPasswordCommitRequest, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * 
@@ -79,6 +87,6 @@ export interface AccountsApiServiceInterface {
      * @param name The search query to filter accounts by username, firstname or lastname.
      * @param excludingOrganization The search query to filter accounts by not in organization.
      */
-    searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, extraHttpRequestParams?: any): Observable<AccountSummaryListPaginatedDto>;
+    searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, extraHttpRequestParams?: any): Observable<AccountSummaryListPaginatedResponse>;
 
 }

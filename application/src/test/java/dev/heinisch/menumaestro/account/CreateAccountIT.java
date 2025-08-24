@@ -6,8 +6,8 @@ import dev.heinisch.menumaestro.utils.RestHelper;
 import io.restassured.http.Method;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
-import org.openapitools.model.AccountCreateRequestDto;
-import org.openapitools.model.AccountInfoDto;
+import org.openapitools.model.AccountCreateRequest;
+import org.openapitools.model.AccountInfoResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -18,12 +18,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateAccountIT extends BaseWebIntegrationTest {
 
-    private RestHelper.BodyRestHelper<AccountInfoDto, AccountCreateRequestDto> rest;
+    private RestHelper.BodyRestHelper<AccountInfoResponse, AccountCreateRequest> rest;
 
     @PostConstruct
     private void initRestHelper() {
         rest = new RestHelper.BodyRestHelper<>(
-                AccountInfoDto.class,
+                AccountInfoResponse.class,
                 this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
                 Method.POST,
                 URI,
@@ -173,7 +173,7 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
                 .messageContains("already exists");
     }
 
-    private void assertInfoDtoEqualsCreateDto(AccountInfoDto accountInfoDto, AccountCreateRequestDto accountCreateRequestDto) {
+    private void assertInfoDtoEqualsCreateDto(AccountInfoResponse accountInfoDto, AccountCreateRequest accountCreateRequestDto) {
         assertThat(accountInfoDto.getLastName()).isEqualTo(accountCreateRequestDto.getLastName());
         assertThat(accountInfoDto.getFirstName()).isEqualTo(accountCreateRequestDto.getFirstName());
         assertThat(accountInfoDto.getUsername()).isEqualTo(accountCreateRequestDto.getUsername());

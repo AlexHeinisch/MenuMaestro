@@ -12,8 +12,8 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { ErrorResponse } from '../model/models';
-import { LoginRequestDto } from '../model/models';
-import { TokenResponseDto } from '../model/models';
+import { LoginRequest } from '../model/models';
+import { TokenResponse } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -27,15 +27,15 @@ export interface AuthApiServiceInterface {
     /**
      * 
      * 
-     * @param loginRequestDto 
+     * @param loginRequest 
      */
-    login(loginRequestDto?: LoginRequestDto, extraHttpRequestParams?: any): Observable<TokenResponseDto>;
+    login(loginRequest?: LoginRequest, extraHttpRequestParams?: any): Observable<TokenResponse>;
 
     /**
      * 
      * Returns a token with same expiry as the current login token but refreshed permissions
      * @param authorization 
      */
-    refreshRoles(authorization?: string, extraHttpRequestParams?: any): Observable<TokenResponseDto>;
+    refreshRoles(authorization?: string, extraHttpRequestParams?: any): Observable<TokenResponse>;
 
 }

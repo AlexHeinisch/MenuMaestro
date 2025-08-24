@@ -9,7 +9,7 @@ import { TokenService } from '../../../security/token.service';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../globals/error.service';
-import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../../../generated";
+import {AccountEditRequest, AccountInfoResponse, AccountsApiService} from "../../../../generated";
 
 @Component({
     selector: 'app-account-edit',
@@ -28,7 +28,7 @@ export class AccountEditComponent {
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
-  accountInfo: AccountInfoDto = {
+  accountInfo: AccountInfoResponse = {
     username: '',
     email: '',
     firstName: '',
@@ -36,7 +36,7 @@ export class AccountEditComponent {
     isGlobalAdmin: false,
   };
 
-  accountEditRequestDto: AccountEditRequestDto = {
+  accountEditRequestDto: AccountEditRequest = {
     email: undefined,
     firstName: undefined,
     lastName: undefined,

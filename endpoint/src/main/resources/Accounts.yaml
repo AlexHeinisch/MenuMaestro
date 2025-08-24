@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountInfoDto'
+                $ref: '#/components/schemas/AccountInfoResponse'
   /auth/login:
     post:
       operationId: login
@@ -29,14 +29,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequestDto'
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         201:
           description: "Successful login"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenResponseDto'
+                $ref: '#/components/schemas/TokenResponse'
         403:
           description: "Invalid login credentials"
           content:
@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenResponseDto'
+                $ref: '#/components/schemas/TokenResponse'
         403:
           description: "Invalid login credentials"
           content:
@@ -99,7 +99,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AccountSummaryListPaginatedDto"
+                $ref: "#/components/schemas/AccountSummaryListPaginatedResponse"
         403:
           description: "No permission to search for accounts"
           content:
@@ -114,14 +114,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountCreateRequestDto'
+              $ref: '#/components/schemas/AccountCreateRequest'
       responses:
         201:
           description: "Account was successfully created."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountInfoDto'
+                $ref: '#/components/schemas/AccountInfoResponse'
         409:
           description: "Email or username already in use."
           content:
@@ -151,20 +151,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountEditRequestDto'
+              $ref: '#/components/schemas/AccountEditRequest'
       responses:
         200:
           description: "Account was successfully updated."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountInfoDto'
+                $ref: '#/components/schemas/AccountInfoResponse'
         403:
           description: "Not enough permissions to update account."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountInfoDto'
+                $ref: '#/components/schemas/AccountInfoResponse'
         409:
           description: "Email or username already in use."
           content:
@@ -199,6 +199,32 @@ paths:
                 $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
         404:
           description: "Specified account does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+    post:
+      operationId: confirmEmail
+      tags:
+        - Accounts
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+        - name: token
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+      responses:
+        204:
+          description: "E-Mail was successfully confirmed"
+        404:
+          description: "Could not confirm E-Mail because accounts does not exist or code was wrong."
           content:
             application/json:
               schema:
@@ -255,7 +281,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResetPasswordCommitRequestDto'
+              $ref: '#/components/schemas/ResetPasswordCommitRequest'
       responses:
         204:
           description: "Password was successfully changed."
@@ -268,7 +294,7 @@ paths:
 
 components:
   schemas:
-    AccountSummaryDto:
+    AccountSummaryResponse:
       description: "Basic information on an account"
       type: object
       required:
@@ -282,7 +308,7 @@ components:
           type: string
         lastName:
           type: string
-    AccountSummaryListPaginatedDto:
+    AccountSummaryListPaginatedResponse:
       type: object
       allOf:
         - $ref: 'PaginationResponse.yaml#/components/schemas/PaginationResponse'
@@ -291,11 +317,11 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/AccountSummaryDto'
+                $ref: '#/components/schemas/AccountSummaryResponse'
               default: [ ]
           required:
             - content
-    AccountInfoDto:
+    AccountInfoResponse:
       description: "All information of a specific account"
       type: object
       properties:
@@ -322,16 +348,16 @@ components:
         - firstName
         - isGlobalAdmin
 
-    TokenResponseDto:
+    TokenResponse:
       description: "Authentication material received on successful login."
       type: object
       properties:
         accessToken:
-          $ref: '#/components/schemas/AccessTokenDto'
+          $ref: '#/components/schemas/AccessTokenResponse'
       required:
         - accessToken
 
-    AccessTokenDto:
+    AccessTokenResponse:
       description: "Contains all information on an access token."
       type: object
       properties:
@@ -346,7 +372,7 @@ components:
         - token
         - expiryDate
 
-    LoginRequestDto:
+    LoginRequest:
       description: "Contains all information to attempt logging in."
       type: object
       properties:
@@ -360,7 +386,7 @@ components:
         - email
         - password
 
-    AccountCreateRequestDto:
+    AccountCreateRequest:
       description: "Contains information that is needed to create an account."
       type: object
       properties:
@@ -387,7 +413,7 @@ components:
         - firstName
         - password
 
-    AccountEditRequestDto:
+    AccountEditRequest:
       description: "Data of an account that needs to be changed."
       type: object
       properties:
@@ -407,7 +433,7 @@ components:
           type: string
           description: "Current password to confirm password and email changes."
 
-    ResetPasswordCommitRequestDto:
+    ResetPasswordCommitRequest:
       description: "Contains information that is needed to create an account."
       type: object
       properties:

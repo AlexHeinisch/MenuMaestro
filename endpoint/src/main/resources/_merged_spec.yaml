@@ -13,14 +13,14 @@ paths:
     $ref: "./Menus.yaml#/paths/~1menus"
   /shopping-lists/{id}/items:
     $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1{id}~1items"
-  /auth/refresh-roles:
-    $ref: "./Accounts.yaml#/paths/~1auth~1refresh-roles"
   /cooking-appliances:
     $ref: "./CookingAppliances.yaml#/paths/~1cooking-appliances"
-  /accounts/{username}/reset-password/{token}:
-    $ref: "./Accounts.yaml#/paths/~1accounts~1{username}~1reset-password~1{token}"
+  /auth/refresh-roles:
+    $ref: "./Accounts.yaml#/paths/~1auth~1refresh-roles"
   /ingredients:
     $ref: "./Ingredients.yaml#/paths/~1ingredients"
+  /accounts/{username}/reset-password/{token}:
+    $ref: "./Accounts.yaml#/paths/~1accounts~1{username}~1reset-password~1{token}"
   /meals/{id}/complete:
     $ref: "./Meals.yaml#/paths/~1meals~1{id}~1complete"
   /recipes:
@@ -71,12 +71,12 @@ paths:
     $ref: "./ImageStorage.yaml#/paths/~1images"
   /shopping-lists/used-ingredient-preview:
     $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1used-ingredient-preview"
+  /menus/{id}/items/order:
+    $ref: "./Menus.yaml#/paths/~1menus~1{id}~1items~1order"
   /accounts/self:
     $ref: "./Accounts.yaml#/paths/~1accounts~1self"
   /accounts:
     $ref: "./Accounts.yaml#/paths/~1accounts"
-  /menus/{id}/items/order:
-    $ref: "./Menus.yaml#/paths/~1menus~1{id}~1items~1order"
   /organizations/{id}/members:
     $ref: "./Organizations.yaml#/paths/~1organizations~1{id}~1members"
   /menus/{id}/snapshots:

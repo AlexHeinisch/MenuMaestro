@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.openapitools.model.ErrorResponse;
-import org.openapitools.model.ResetPasswordCommitRequestDto;
+import org.openapitools.model.ResetPasswordCommitRequest;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
@@ -96,14 +96,14 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withNonExistingUser_thenNoContent() {
-        commitResetPassword(DEFAULT_USERNAME + "Blub", DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD))
+        commitResetPassword(DEFAULT_USERNAME + "Blub", DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD))
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
     void whenCommitPasswordReset_withCorrectToken_thenNoContent() {
-        commitResetPassword(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD))
+        commitResetPassword(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD))
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
         var account = accountRepository.findById(DEFAULT_USERNAME).orElseThrow();
@@ -117,7 +117,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
         account.setPasswordResetToken(null);
         accountRepository.save(account);
 
-        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD), HttpStatus.FORBIDDEN);
+        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD), HttpStatus.FORBIDDEN);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.FORBIDDEN)
                 .messageContains("Password reset failed");
@@ -125,7 +125,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withInvalidToken_thenForbidden() {
-        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, "sometoken", new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD), HttpStatus.FORBIDDEN);
+        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, "sometoken", new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD), HttpStatus.FORBIDDEN);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.FORBIDDEN)
                 .messageContains("Password reset failed");
@@ -137,7 +137,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
         account.setPasswordResetPermittedUntil(Instant.now().minusSeconds(100));
         accountRepository.save(account);
 
-        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD), HttpStatus.FORBIDDEN);
+        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD), HttpStatus.FORBIDDEN);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.FORBIDDEN)
                 .messageContains("Password reset failed");
@@ -145,7 +145,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withBlankUser_thenUnprocessableEntity() {
-        var errorResponse = commitResetPasswordFails(" ", DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD), HttpStatus.UNPROCESSABLE_ENTITY);
+        var errorResponse = commitResetPasswordFails(" ", DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD), HttpStatus.UNPROCESSABLE_ENTITY);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageContains("Validation error")
@@ -154,7 +154,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withTooLongUsername_thenUnprocessableEntity() {
-        var errorResponse = commitResetPasswordFails("Blub".repeat(30), DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(DEFAULT_NEW_PASSWORD), HttpStatus.UNPROCESSABLE_ENTITY);
+        var errorResponse = commitResetPasswordFails("Blub".repeat(30), DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(DEFAULT_NEW_PASSWORD), HttpStatus.UNPROCESSABLE_ENTITY);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageContains("Validation error")
@@ -163,7 +163,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withBlankNewPassword_thenUnprocessableEntity() {
-        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto(" "), HttpStatus.UNPROCESSABLE_ENTITY);
+        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest(" "), HttpStatus.UNPROCESSABLE_ENTITY);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageContains("Validation error")
@@ -172,7 +172,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withTooShortNewPassword_thenUnprocessableEntity() {
-        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto("xx"), HttpStatus.UNPROCESSABLE_ENTITY);
+        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest("xx"), HttpStatus.UNPROCESSABLE_ENTITY);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageContains("Validation error")
@@ -181,7 +181,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCommitPasswordReset_withTooLongNewPassword_thenUnprocessableEntity() {
-        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequestDto("xx".repeat(50)), HttpStatus.UNPROCESSABLE_ENTITY);
+        var errorResponse = commitResetPasswordFails(DEFAULT_USERNAME, DEFAULT_PASSWORD_RESET_TOKEN, new ResetPasswordCommitRequest("xx".repeat(50)), HttpStatus.UNPROCESSABLE_ENTITY);
         ErrorResponseAssert.assertThat(errorResponse)
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageContains("Validation error")
@@ -189,7 +189,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
     }
 
 
-    private ErrorResponse commitResetPasswordFails(String username, String token, ResetPasswordCommitRequestDto dto, HttpStatus status) {
+    private ErrorResponse commitResetPasswordFails(String username, String token, ResetPasswordCommitRequest dto, HttpStatus status) {
         return commitResetPassword(username, token, dto)
                 .then()
                 .statusCode(status.value())
@@ -197,7 +197,7 @@ public class PasswordResetAccountIT extends BaseWebIntegrationTest {
                 .as(ErrorResponse.class);
     }
 
-    private Response commitResetPassword(String username, String token, ResetPasswordCommitRequestDto dto) {
+    private Response commitResetPassword(String username, String token, ResetPasswordCommitRequest dto) {
         return RestAssured
                 .given()
                 .contentType("application/json")

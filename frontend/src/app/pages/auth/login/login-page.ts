@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AuthApiService, LoginRequestDto } from '../../../../generated';
+import { AuthApiService, LoginRequest } from '../../../../generated';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { FormsModule } from '@angular/forms';
 import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';
@@ -26,7 +26,7 @@ import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/Load
 export class LoginComponent {
   InputType = InputType;
   isLoggedIn: boolean = false;
-  loginRequestDto: LoginRequestDto = {
+  loginRequestDto: LoginRequest = {
     username: '',
     password: '',
   };
@@ -65,7 +65,7 @@ export class LoginComponent {
    *
    * @param loginRequestDto authentication data from the user login form
    */
-  authenticateUser(loginRequestDto: LoginRequestDto) {
+  authenticateUser(loginRequestDto: LoginRequest) {
     this.isLoading = true;
     this.authApiService.login(loginRequestDto).subscribe({
       next: (obj) => {

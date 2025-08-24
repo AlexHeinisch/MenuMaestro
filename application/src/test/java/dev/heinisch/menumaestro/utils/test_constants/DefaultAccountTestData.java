@@ -1,9 +1,9 @@
 package dev.heinisch.menumaestro.utils.test_constants;
 
 import dev.heinisch.menumaestro.domain.account.Account;
-import org.openapitools.model.AccountCreateRequestDto;
-import org.openapitools.model.AccountEditRequestDto;
-import org.openapitools.model.LoginRequestDto;
+import org.openapitools.model.AccountCreateRequest;
+import org.openapitools.model.AccountEditRequest;
+import org.openapitools.model.LoginRequest;
 
 import java.time.Instant;
 
@@ -65,8 +65,8 @@ public class DefaultAccountTestData {
                 .build();
     }
 
-    public static AccountCreateRequestDto defaultAccountCreateRequestDto() {
-        return new AccountCreateRequestDto()
+    public static AccountCreateRequest defaultAccountCreateRequestDto() {
+        return new AccountCreateRequest()
                 .username(DEFAULT_USERNAME)
                 .email(DEFAULT_EMAIL)
                 .firstName(DEFAULT_FIRST_NAME)
@@ -74,8 +74,8 @@ public class DefaultAccountTestData {
                 .password(DEFAULT_PASSWORD);
     }
 
-    public static AccountEditRequestDto defaultEditRequestDto() {
-        return new AccountEditRequestDto()
+    public static AccountEditRequest defaultEditRequestDto() {
+        return new AccountEditRequest()
                 .email(DEFAULT_NEW_EMAIL)
                 .firstName(DEFAULT_NEW_FIRST_NAME)
                 .lastName(DEFAULT_NEW_LAST_NAME)
@@ -83,8 +83,8 @@ public class DefaultAccountTestData {
                 .oldPassword(DEFAULT_PASSWORD);
     }
 
-    public static LoginRequestDto defaultLoginRequestDto() {
-        return new LoginRequestDto()
+    public static LoginRequest defaultLoginRequestDto() {
+        return new LoginRequest()
                 .username(DEFAULT_USERNAME)
                 .password(DEFAULT_PASSWORD);
     }

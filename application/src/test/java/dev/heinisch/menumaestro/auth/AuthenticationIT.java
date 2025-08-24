@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.ErrorResponse;
-import org.openapitools.model.LoginRequestDto;
-import org.openapitools.model.TokenResponseDto;
+import org.openapitools.model.LoginRequest;
+import org.openapitools.model.TokenResponse;
 import org.springframework.http.HttpStatus;
 
 import java.time.Duration;
@@ -54,11 +54,11 @@ public class AuthenticationIT extends BaseWebIntegrationTest {
 
     @Test
     void whenLogin_withCorrectCredentials_thenOK() {
-        var responseDto = login(new LoginRequestDto().username(DEFAULT_USERNAME).password(DEFAULT_PASSWORD))
+        var responseDto = login(new LoginRequest().username(DEFAULT_USERNAME).password(DEFAULT_PASSWORD))
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
-                .as(TokenResponseDto.class);
+                .as(TokenResponse.class);
         assertThat(responseDto.getAccessToken()).isNotNull();
         assertThat(responseDto.getAccessToken().getToken()).isNotNull();
         assertThat(responseDto.getAccessToken().getExpiryDate())
@@ -140,7 +140,7 @@ public class AuthenticationIT extends BaseWebIntegrationTest {
     void refreshWithJwt_refreshesJwtButKeepsExpiry() {
         Date expires = new Date(System.currentTimeMillis() + 1000*6);
         Header header = generateValidAuthorizationHeaderExpires(DEFAULT_USERNAME, Collections.emptyList(), expires);
-        TokenResponseDto token = RestAssured
+        TokenResponse token = RestAssured
                 .given()
                 .header(header)
                 .when()
@@ -148,12 +148,12 @@ public class AuthenticationIT extends BaseWebIntegrationTest {
                 .then()
                 .statusCode(200)
                 .log().headers()
-                .extract().body().as(TokenResponseDto.class);
+                .extract().body().as(TokenResponse.class);
         Date expiryDate = Date.from(token.getAccessToken().getExpiryDate().toInstant());
         Assertions.assertTrue(Math.abs(Duration.between(expires.toInstant(), expiryDate.toInstant()).getSeconds()) < 2);
     }
 
-    private ErrorResponse loginFailed(LoginRequestDto dto, HttpStatus status) {
+    private ErrorResponse loginFailed(LoginRequest dto, HttpStatus status) {
         return login(dto)
                 .then()
                 .statusCode(status.value())
@@ -161,7 +161,7 @@ public class AuthenticationIT extends BaseWebIntegrationTest {
                 .as(ErrorResponse.class);
     }
 
-    private Response login(LoginRequestDto dto) {
+    private Response login(LoginRequest dto) {
         return RestAssured
                 .given()
                 .contentType("application/json")

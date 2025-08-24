@@ -17,17 +17,17 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { AccountCreateRequestDto } from '../model/account-create-request-dto';
+import { AccountCreateRequest } from '../model/account-create-request';
 // @ts-ignore
-import { AccountEditRequestDto } from '../model/account-edit-request-dto';
+import { AccountEditRequest } from '../model/account-edit-request';
 // @ts-ignore
-import { AccountInfoDto } from '../model/account-info-dto';
+import { AccountInfoResponse } from '../model/account-info-response';
 // @ts-ignore
-import { AccountSummaryListPaginatedDto } from '../model/account-summary-list-paginated-dto';
+import { AccountSummaryListPaginatedResponse } from '../model/account-summary-list-paginated-response';
 // @ts-ignore
 import { ErrorResponse } from '../model/error-response';
 // @ts-ignore
-import { ResetPasswordCommitRequestDto } from '../model/reset-password-commit-request-dto';
+import { ResetPasswordCommitRequest } from '../model/reset-password-commit-request';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -104,14 +104,81 @@ export class AccountsApiService implements AccountsApiServiceInterface {
     }
 
     /**
-     * @param accountCreateRequestDto 
+     * @param username 
+     * @param token 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAccount(accountCreateRequestDto?: AccountCreateRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountInfoDto>;
-    public createAccount(accountCreateRequestDto?: AccountCreateRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountInfoDto>>;
-    public createAccount(accountCreateRequestDto?: AccountCreateRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountInfoDto>>;
-    public createAccount(accountCreateRequestDto?: AccountCreateRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public confirmEmail(username: string, token: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public confirmEmail(username: string, token: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public confirmEmail(username: string, token: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public confirmEmail(username: string, token: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling confirmEmail.');
+        }
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling confirmEmail.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/accounts/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param accountCreateRequest 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createAccount(accountCreateRequest?: AccountCreateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountInfoResponse>;
+    public createAccount(accountCreateRequest?: AccountCreateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountInfoResponse>>;
+    public createAccount(accountCreateRequest?: AccountCreateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountInfoResponse>>;
+    public createAccount(accountCreateRequest?: AccountCreateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -159,10 +226,10 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         }
 
         let localVarPath = `/accounts`;
-        return this.httpClient.request<AccountInfoDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<AccountInfoResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: accountCreateRequestDto,
+                body: accountCreateRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -238,14 +305,14 @@ export class AccountsApiService implements AccountsApiServiceInterface {
 
     /**
      * @param username 
-     * @param accountEditRequestDto 
+     * @param accountEditRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public editAccount(username: string, accountEditRequestDto?: AccountEditRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountInfoDto>;
-    public editAccount(username: string, accountEditRequestDto?: AccountEditRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountInfoDto>>;
-    public editAccount(username: string, accountEditRequestDto?: AccountEditRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountInfoDto>>;
-    public editAccount(username: string, accountEditRequestDto?: AccountEditRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public editAccount(username: string, accountEditRequest?: AccountEditRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountInfoResponse>;
+    public editAccount(username: string, accountEditRequest?: AccountEditRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountInfoResponse>>;
+    public editAccount(username: string, accountEditRequest?: AccountEditRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountInfoResponse>>;
+    public editAccount(username: string, accountEditRequest?: AccountEditRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling editAccount.');
         }
@@ -296,10 +363,10 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         }
 
         let localVarPath = `/accounts/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<AccountInfoDto>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<AccountInfoResponse>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: accountEditRequestDto,
+                body: accountEditRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -314,9 +381,9 @@ export class AccountsApiService implements AccountsApiServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAccountInfo(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountInfoDto>;
-    public getAccountInfo(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountInfoDto>>;
-    public getAccountInfo(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountInfoDto>>;
+    public getAccountInfo(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountInfoResponse>;
+    public getAccountInfo(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountInfoResponse>>;
+    public getAccountInfo(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountInfoResponse>>;
     public getAccountInfo(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -356,7 +423,7 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         }
 
         let localVarPath = `/accounts/self`;
-        return this.httpClient.request<AccountInfoDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<AccountInfoResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -372,14 +439,14 @@ export class AccountsApiService implements AccountsApiServiceInterface {
     /**
      * @param username 
      * @param token Password reset token sent via email by the application.
-     * @param resetPasswordCommitRequestDto 
+     * @param resetPasswordCommitRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequestDto?: ResetPasswordCommitRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequestDto?: ResetPasswordCommitRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequestDto?: ResetPasswordCommitRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequestDto?: ResetPasswordCommitRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequest?: ResetPasswordCommitRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequest?: ResetPasswordCommitRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequest?: ResetPasswordCommitRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public resetPasswordCommit(username: string, token: string, resetPasswordCommitRequest?: ResetPasswordCommitRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling resetPasswordCommit.');
         }
@@ -436,7 +503,7 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: resetPasswordCommitRequestDto,
+                body: resetPasswordCommitRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -520,9 +587,9 @@ export class AccountsApiService implements AccountsApiServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountSummaryListPaginatedDto>;
-    public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountSummaryListPaginatedDto>>;
-    public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountSummaryListPaginatedDto>>;
+    public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AccountSummaryListPaginatedResponse>;
+    public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AccountSummaryListPaginatedResponse>>;
+    public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AccountSummaryListPaginatedResponse>>;
     public searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -580,7 +647,7 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         }
 
         let localVarPath = `/accounts`;
-        return this.httpClient.request<AccountSummaryListPaginatedDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<AccountSummaryListPaginatedResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

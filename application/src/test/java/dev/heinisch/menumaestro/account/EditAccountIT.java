@@ -9,8 +9,8 @@ import io.restassured.http.Method;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openapitools.model.AccountEditRequestDto;
-import org.openapitools.model.AccountInfoDto;
+import org.openapitools.model.AccountEditRequest;
+import org.openapitools.model.AccountInfoResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -25,12 +25,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class EditAccountIT extends BaseWebIntegrationTest {
 
-    private RestHelper.PathAndBodyRestHelper<AccountInfoDto, String, AccountEditRequestDto> rest;
+    private RestHelper.PathAndBodyRestHelper<AccountInfoResponse, String, AccountEditRequest> rest;
 
     @PostConstruct
     private void initRestHelper() {
         rest = new RestHelper.PathAndBodyRestHelper<>(
-                AccountInfoDto.class,
+                AccountInfoResponse.class,
                 this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
                 Method.PUT,
                 URI + "/{username}",
@@ -294,7 +294,7 @@ public class EditAccountIT extends BaseWebIntegrationTest {
                 .detailsContainSubstring("password cannot be blank");
     }
 
-    private void assertInfoDtoEqualsEditDto(AccountInfoDto accountInfoDto, AccountEditRequestDto accountEditRequestDto) {
+    private void assertInfoDtoEqualsEditDto(AccountInfoResponse accountInfoDto, AccountEditRequest accountEditRequestDto) {
         assertThat(accountInfoDto.getLastName()).isEqualTo(accountEditRequestDto.getLastName());
         assertThat(accountInfoDto.getFirstName()).isEqualTo(accountEditRequestDto.getFirstName());
         assertThat(accountInfoDto.getEmail()).isEqualTo(accountEditRequestDto.getEmail());

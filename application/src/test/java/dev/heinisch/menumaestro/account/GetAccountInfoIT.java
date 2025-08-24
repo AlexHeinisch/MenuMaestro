@@ -8,8 +8,8 @@ import io.restassured.http.Method;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openapitools.model.AccountCreateRequestDto;
-import org.openapitools.model.AccountInfoDto;
+import org.openapitools.model.AccountCreateRequest;
+import org.openapitools.model.AccountInfoResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -21,12 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class GetAccountInfoIT extends BaseWebIntegrationTest {
 
-    private RestHelper.BlankRestHelper<AccountInfoDto> rest;
+    private RestHelper.BlankRestHelper<AccountInfoResponse> rest;
 
     @PostConstruct
     private void initRestHelper() {
         rest = new RestHelper.BlankRestHelper<>(
-                AccountInfoDto.class,
+                AccountInfoResponse.class,
                 this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
                 Method.GET,
                 URI + "/self",
@@ -57,7 +57,7 @@ public class GetAccountInfoIT extends BaseWebIntegrationTest {
                 .hasStatus(HttpStatus.FORBIDDEN);
     }
 
-    private void assertInfoDtoEqualsCreateDto(AccountInfoDto accountInfoDto, AccountCreateRequestDto accountCreateRequestDto) {
+    private void assertInfoDtoEqualsCreateDto(AccountInfoResponse accountInfoDto, AccountCreateRequest accountCreateRequestDto) {
         assertAll(
                 "Verify accountInfoDto matches accountCreateRequestDto",
                 () -> assertThat(accountInfoDto.getLastName()).isEqualTo(accountCreateRequestDto.getLastName()),

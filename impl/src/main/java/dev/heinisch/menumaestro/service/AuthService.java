@@ -9,9 +9,9 @@ import dev.heinisch.menumaestro.persistence.OrganizationAccountRelationRepositor
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openapitools.model.AccessTokenDto;
-import org.openapitools.model.LoginRequestDto;
-import org.openapitools.model.TokenResponseDto;
+import org.openapitools.model.AccessTokenResponse;
+import org.openapitools.model.LoginRequest;
+import org.openapitools.model.TokenResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class AuthService {
     private final JwtService jwtService;
 
     @Transactional
-    public TokenResponseDto login(LoginRequestDto dto) {
+    public TokenResponse login(LoginRequest dto) {
         Account account = accountRepository.findById(dto.getUsername())
         .orElseThrow(() -> new UnauthorizedException("Username or password is incorrect."));
 
@@ -42,15 +42,15 @@ public class AuthService {
         List<OrganizationAccountRelation> orgRoles = organizationAccountRelationRepository.findByUsername(account.getUsername());
 
         String token = jwtService.generateAccountAccessToken(account, orgRoles);
-        return new TokenResponseDto()
-            .accessToken(new AccessTokenDto()
+        return new TokenResponse()
+            .accessToken(new AccessTokenResponse()
                 .token(token)
                 .expiryDate(jwtService.extractClaim(token, Claims::getExpiration).toInstant().atOffset(ZoneOffset.UTC))
             );
     }
 
     @Transactional(readOnly = true)
-    public TokenResponseDto refreshLogin(String username, String authHeader) {
+    public TokenResponse refreshLogin(String username, String authHeader) {
         Account account = accountRepository.findById(username)
                 .orElseThrow(() -> new UnauthorizedException("Account not found, likely deleted."));
         List<OrganizationAccountRelation> orgRoles = organizationAccountRelationRepository.findByUsername(account.getUsername());
@@ -61,8 +61,8 @@ public class AuthService {
         }
         Date expiry = Date.from(jwtService.extractClaim(authHeader, Claims::getExpiration).toInstant());
         String token = jwtService.generateAccountAccessToken(account, orgRoles, expiry);
-        return new TokenResponseDto()
-                .accessToken(new AccessTokenDto()
+        return new TokenResponse()
+                .accessToken(new AccessTokenResponse()
                         .token(token)
                         .expiryDate(jwtService.extractClaim(token, Claims::getExpiration).toInstant().atOffset(ZoneOffset.UTC))
                 );
