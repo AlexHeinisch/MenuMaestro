@@ -9,6 +9,7 @@ import dev.heinisch.menumaestro.persistence.MealRepository;
 import dev.heinisch.menumaestro.persistence.MenuRepository;
 import dev.heinisch.menumaestro.persistence.OrganizationAccountRelationRepository;
 import dev.heinisch.menumaestro.persistence.OrganizationRepository;
+import dev.heinisch.menumaestro.persistence.PendingAccountRepository;
 import dev.heinisch.menumaestro.persistence.RecipeRepository;
 import dev.heinisch.menumaestro.persistence.ShoppingListRepository;
 import dev.heinisch.menumaestro.persistence.StashRepository;
@@ -136,5 +137,8 @@ public abstract class BaseWebIntegrationTest {
 
     @Autowired
     protected OrganizationService organizationService;
+
+    @Autowired
+    protected PendingAccountRepository pendingAccountRepository;
 
 }

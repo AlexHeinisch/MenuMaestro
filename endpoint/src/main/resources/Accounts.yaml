@@ -203,6 +203,28 @@ paths:
             application/json:
               schema:
                 $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /accounts/{username}/confirm-email:
+    get:
+      operationId: resendToken
+      tags:
+        - Accounts
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+          required: true
+          allowEmptyValue: false
+      responses:
+        204:
+          description: "Token was successfully sent again."
+        409:
+          description: "Token has been sent too recently."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
     post:
       operationId: confirmEmail
       tags:

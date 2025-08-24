@@ -1,6 +1,7 @@
 package dev.heinisch.menumaestro.mapper;
 
 import dev.heinisch.menumaestro.domain.account.Account;
+import dev.heinisch.menumaestro.domain.account.PendingAccount;
 import dev.heinisch.menumaestro.mapper.util.BasePageableMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,12 +15,19 @@ import org.openapitools.model.AccountSummaryResponse;
 public interface AccountMapper extends BasePageableMapper<AccountSummaryListPaginatedResponse, AccountSummaryResponse> {
 
     @Mapping(target = "passwordHash", ignore = true)
+    @Mapping(target = "isGlobalAdmin", constant = "false")
+    @Mapping(target = "confirmationToken", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "lastTokenIssued", ignore = true)
+    PendingAccount toEntity(AccountCreateRequest dto);
+
     @Mapping(target = "passwordResetToken", ignore = true)
     @Mapping(target = "passwordResetPermittedUntil", ignore = true)
-    @Mapping(target = "isGlobalAdmin", constant = "false")
-    Account toEntity(AccountCreateRequest dto);
+    Account toAccountEntity(PendingAccount pendingAccount);
 
     AccountInfoResponse toInfoDto(Account entity);
+
+    AccountInfoResponse toInfoDto(PendingAccount entity);
 
     AccountSummaryResponse toSummaryDto(Account entity);
 }

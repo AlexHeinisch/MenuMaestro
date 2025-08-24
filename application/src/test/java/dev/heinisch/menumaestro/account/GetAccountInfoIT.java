@@ -41,7 +41,12 @@ public class GetAccountInfoIT extends BaseWebIntegrationTest {
 
     @BeforeEach
     void setup() {
-        accountService.createAccount(defaultAccountCreateRequestDto());
+        var dto = defaultAccountCreateRequestDto();
+        accountService.createAccount(dto);
+        accountService.confirmEmail(
+                dto.getUsername(),
+                pendingAccountRepository.findByEmail(dto.getEmail()).orElseThrow().getConfirmationToken()
+        );
     }
 
     @Test

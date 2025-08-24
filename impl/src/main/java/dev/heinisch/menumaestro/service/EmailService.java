@@ -43,6 +43,41 @@ public class EmailService {
         sendEmail("password reset", to, subject, message, true);
     }
 
+    public void sendEmailConfirmationEmail(String to, String username, String token) {
+        String subject = "Confirm Your Email";
+        String message = """
+                <!DOCTYPE html>
+                <html>
+                <body style="font-family: Arial, sans-serif;">
+                <h2>Email Confirmation</h2>
+                <p>We received a request to confirm your email address. Use the code below:</p>
+                <!-- 8-digit code in boxes -->
+                <div style="margin: 16px 0;">
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(0) + "</span>" + """
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(1) + "</span>" + """
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(2) + "</span>" + """
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(3) + "</span>" + """               
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(4) + "</span>" + """
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(5) + "</span>" + """
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold; margin-right:4px;">""" + token.charAt(6) + "</span>" + """
+                <span style="display:inline-block; width:40px; height:40px; border:1px solid #ccc; text-align:center; line-height:40px; font-size:18px; font-weight:bold;">""" + token.charAt(7) + "</span>" + """
+                </div>
+                
+                
+                <p>Or click the link below to confirm your email:</p>
+                """ + "<a href=\"" + appUrl + "/confirm-email?username=" + username + "&token=" + token + ">Confirm Email</a>" + """
+                
+                
+                <p>If you did not request this, please ignore this email or contact support if you have questions.</p>
+                <br>
+                <p>Thank you,</p>
+                <p><strong>The MenuMaestro Team</strong></p>
+                </body>
+                </html>
+                """;
+        sendEmail("email confirmation email", to, subject, message, true);
+    }
+
     public void sendIngredientRejectNotification(String to, String ingredient, String replacement) {
         String subject = "Ingredient Request Rejected";
         ingredient = StringEscapeUtils.escapeHtml4(ingredient);

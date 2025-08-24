@@ -67,6 +67,13 @@ export interface AccountsApiServiceInterface {
      * 
      * 
      * @param username 
+     */
+    resendToken(username: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * 
+     * 
+     * @param username 
      * @param token Password reset token sent via email by the application.
      * @param resetPasswordCommitRequest 
      */

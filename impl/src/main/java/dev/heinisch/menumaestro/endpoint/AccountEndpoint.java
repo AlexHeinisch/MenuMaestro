@@ -43,12 +43,6 @@ public class AccountEndpoint implements AccountsApi {
             .body(accountService.getAccountInfo(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
-
-    @Override
-    public ResponseEntity<Void> confirmEmail(String username, String token) {
-        return null;
-    }
-
     @Override
     @Transactional
     public ResponseEntity<AccountInfoResponse> createAccount(AccountCreateRequest accountCreateRequestDto) {
@@ -117,6 +111,33 @@ public class AccountEndpoint implements AccountsApi {
         log.info("DELETE /accounts/{}", username);
 
         accountService.deleteAccount(username);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> confirmEmail(String username, String token) {
+        log.info("POST /accounts/{}/confirm-email", username);
+
+        PropertyChecker.begin()
+                .append(UserConstraints.validUsername(username))
+                .checkThat(token, "token").length(32).notNull().notBlank().done()
+                .finalize(ValidationException::fromPropertyChecker);
+
+        accountService.confirmEmail(username, token);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> resendToken(String username) {
+        log.info("GET /accounts/{}/confirm-email", username);
+
+        PropertyChecker.begin()
+                .append(UserConstraints.validUsername(username))
+                .finalize(ValidationException::fromPropertyChecker);
+
+        accountService.sendConfirmationToken(username);
+
         return ResponseEntity.noContent().build();
     }
 

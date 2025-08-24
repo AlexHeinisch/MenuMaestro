@@ -63,6 +63,8 @@ paths:
     $ref: "./Stash.yaml#/paths/~1stash~1{id}"
   /meals/{id}:
     $ref: "./Meals.yaml#/paths/~1meals~1{id}"
+  /accounts/{username}/confirm-email:
+    $ref: "./Accounts.yaml#/paths/~1accounts~1{username}~1confirm-email"
   /shopping-lists/{id}/close:
     $ref: "./ShoppingLists.yaml#/paths/~1shopping-lists~1{id}~1close"
   /organizations/{id}:

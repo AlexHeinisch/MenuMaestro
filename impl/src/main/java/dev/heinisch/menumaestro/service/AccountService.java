@@ -1,6 +1,7 @@
 package dev.heinisch.menumaestro.service;
 
 import dev.heinisch.menumaestro.domain.account.Account;
+import dev.heinisch.menumaestro.domain.account.PendingAccount;
 import dev.heinisch.menumaestro.domain.image.ImageRecord;
 import dev.heinisch.menumaestro.domain.organization.OrganizationAccountRelation;
 import dev.heinisch.menumaestro.domain.organization.OrganizationRole;
@@ -14,11 +15,13 @@ import dev.heinisch.menumaestro.mapper.AccountMapper;
 import dev.heinisch.menumaestro.persistence.AccountRepository;
 import dev.heinisch.menumaestro.persistence.ImageRepository;
 import dev.heinisch.menumaestro.persistence.OrganizationAccountRelationRepository;
+import dev.heinisch.menumaestro.persistence.PendingAccountRepository;
 import dev.heinisch.menumaestro.persistence.RecipeRepository;
 import dev.heinisch.menumaestro.persistence.ShoppingListItemRepository;
 import dev.heinisch.menumaestro.properties.PasswordResetProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.model.AccountCreateRequest;
 import org.openapitools.model.AccountEditRequest;
 import org.openapitools.model.AccountInfoResponse;
@@ -30,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,21 +54,26 @@ public class AccountService {
     private final OrganizationService organizationService;
     private final ImageRepository imageRepository;
     private final ShoppingListItemRepository shoppingListItemRepository;
+    private final PendingAccountRepository  pendingAccountRepository;
 
     @Transactional
     public AccountInfoResponse createAccount(AccountCreateRequest dto) {
 
-        if (accountRepository.findById(dto.getUsername()).isPresent()) {
+        if (accountRepository.findById(dto.getUsername()).isPresent()
+                || pendingAccountRepository.findById(dto.getUsername()).isPresent()) {
             throw new ConflictException(String.format("Username '%s' already exists!", dto.getUsername()));
         }
-        if (accountRepository.findByEmail(dto.getEmail()).isPresent()) {
+        if (accountRepository.findByEmail(dto.getEmail()).isPresent()
+                || pendingAccountRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new ConflictException(String.format("Email '%s' already exists!", dto.getEmail()));
         }
 
-        Account newAccount = accountMapper.toEntity(dto);
+        PendingAccount newAccount = accountMapper.toEntity(dto);
+        newAccount.setCreationDate(Instant.now());
         newAccount.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
+        this.sendConfirmationToken(dto.getUsername());
 
-        accountRepository.save(newAccount);
+        pendingAccountRepository.save(newAccount);
         return accountMapper.toInfoDto(newAccount);
     }
 
@@ -198,9 +207,8 @@ public class AccountService {
     }
 
     public AccountInfoResponse getAccountInfo(String username) {
-        Optional<Account> a = accountRepository.findById(username);
+        Account account = accountRepository.findById(username).orElseThrow();
 
-        Account account = a.get();
         AccountInfoResponse accountInfo = new AccountInfoResponse();
         accountInfo.setUsername(account.getUsername());
         accountInfo.setFirstName(account.getFirstName());
@@ -209,5 +217,33 @@ public class AccountService {
         accountInfo.setIsGlobalAdmin(account.getIsGlobalAdmin());
 
         return accountInfo;
+    }
+
+    @Transactional
+    public void confirmEmail(String username, String token) {
+        PendingAccount pa = pendingAccountRepository.findById(username).orElseThrow(
+                () -> new NotFoundException("Username not found or token invalid.")
+        );
+        if (!StringUtils.equals(pa.getConfirmationToken(), token)) {
+            throw new NotFoundException("Username not found or token invalid.");
+        }
+        Account account = accountMapper.toAccountEntity(pa);
+        accountRepository.save(account);
+        pendingAccountRepository.delete(pa);
+    }
+
+    public void sendConfirmationToken(String username) {
+        Optional<PendingAccount> opa = pendingAccountRepository.findById(username);
+        if (opa.isEmpty()) {
+            return;
+        }
+        var pa = opa.get();
+        if (pa.getLastTokenIssued().isAfter(Instant.now().plus(15, ChronoUnit.MINUTES))) {
+            return;
+        }
+        pa.setLastTokenIssued(Instant.now());
+        String token = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        pa.setConfirmationToken(token);
+        emailService.sendEmailConfirmationEmail(pa.getEmail(), username, token);
     }
 }
