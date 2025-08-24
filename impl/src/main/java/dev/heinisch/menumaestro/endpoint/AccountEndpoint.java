@@ -12,6 +12,7 @@ import org.openapitools.model.AccountCreateRequest;
 import org.openapitools.model.AccountEditRequest;
 import org.openapitools.model.AccountInfoResponse;
 import org.openapitools.model.AccountSummaryListPaginatedResponse;
+import org.openapitools.model.ConfirmEmailRequest;
 import org.openapitools.model.ResetPasswordCommitRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -115,15 +116,15 @@ public class AccountEndpoint implements AccountsApi {
     }
 
     @Override
-    public ResponseEntity<Void> confirmEmail(String username, String token) {
+    public ResponseEntity<Void> confirmEmail(String username, ConfirmEmailRequest request) {
         log.info("POST /accounts/{}/confirm-email", username);
 
         PropertyChecker.begin()
                 .append(UserConstraints.validUsername(username))
-                .checkThat(token, "token").length(32).notNull().notBlank().done()
+                .checkThat(request.getToken(), "token").length(8).notNull().notBlank().done()
                 .finalize(ValidationException::fromPropertyChecker);
 
-        accountService.confirmEmail(username, token);
+        accountService.confirmEmail(username, request.getToken());
 
         return ResponseEntity.noContent().build();
     }

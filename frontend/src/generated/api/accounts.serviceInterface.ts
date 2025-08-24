@@ -15,6 +15,7 @@ import { AccountCreateRequest } from '../model/models';
 import { AccountEditRequest } from '../model/models';
 import { AccountInfoResponse } from '../model/models';
 import { AccountSummaryListPaginatedResponse } from '../model/models';
+import { ConfirmEmailRequest } from '../model/models';
 import { ErrorResponse } from '../model/models';
 import { ResetPasswordCommitRequest } from '../model/models';
 
@@ -31,9 +32,9 @@ export interface AccountsApiServiceInterface {
      * 
      * 
      * @param username 
-     * @param token 
+     * @param confirmEmailRequest 
      */
-    confirmEmail(username: string, token: string, extraHttpRequestParams?: any): Observable<{}>;
+    confirmEmail(username: string, confirmEmailRequest?: ConfirmEmailRequest, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * 

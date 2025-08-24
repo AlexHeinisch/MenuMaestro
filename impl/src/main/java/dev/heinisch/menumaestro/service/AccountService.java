@@ -71,9 +71,9 @@ public class AccountService {
         PendingAccount newAccount = accountMapper.toEntity(dto);
         newAccount.setCreationDate(Instant.now());
         newAccount.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
+        pendingAccountRepository.save(newAccount);
         this.sendConfirmationToken(dto.getUsername());
 
-        pendingAccountRepository.save(newAccount);
         return accountMapper.toInfoDto(newAccount);
     }
 
@@ -238,7 +238,8 @@ public class AccountService {
             return;
         }
         var pa = opa.get();
-        if (pa.getLastTokenIssued().isAfter(Instant.now().plus(15, ChronoUnit.MINUTES))) {
+        if (pa.getLastTokenIssued() != null
+                && pa.getLastTokenIssued().isAfter(Instant.now().plus(15, ChronoUnit.MINUTES))) {
             return;
         }
         pa.setLastTokenIssued(Instant.now());

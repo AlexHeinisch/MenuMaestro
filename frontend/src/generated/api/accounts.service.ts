@@ -25,6 +25,8 @@ import { AccountInfoResponse } from '../model/account-info-response';
 // @ts-ignore
 import { AccountSummaryListPaginatedResponse } from '../model/account-summary-list-paginated-response';
 // @ts-ignore
+import { ConfirmEmailRequest } from '../model/confirm-email-request';
+// @ts-ignore
 import { ErrorResponse } from '../model/error-response';
 // @ts-ignore
 import { ResetPasswordCommitRequest } from '../model/reset-password-commit-request';
@@ -105,19 +107,16 @@ export class AccountsApiService implements AccountsApiServiceInterface {
 
     /**
      * @param username 
-     * @param token 
+     * @param confirmEmailRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public confirmEmail(username: string, token: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public confirmEmail(username: string, token: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public confirmEmail(username: string, token: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public confirmEmail(username: string, token: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public confirmEmail(username: string, confirmEmailRequest?: ConfirmEmailRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public confirmEmail(username: string, confirmEmailRequest?: ConfirmEmailRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public confirmEmail(username: string, confirmEmailRequest?: ConfirmEmailRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public confirmEmail(username: string, confirmEmailRequest?: ConfirmEmailRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling confirmEmail.');
-        }
-        if (token === null || token === undefined) {
-            throw new Error('Required parameter token was null or undefined when calling confirmEmail.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -145,6 +144,15 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -160,6 +168,7 @@ export class AccountsApiService implements AccountsApiServiceInterface {
         return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: confirmEmailRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

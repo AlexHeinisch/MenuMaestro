@@ -236,12 +236,11 @@ paths:
             type: string
           required: true
           allowEmptyValue: false
-        - name: token
-          in: path
-          schema:
-            type: string
-          required: true
-          allowEmptyValue: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmEmailRequest"
       responses:
         204:
           description: "E-Mail was successfully confirmed"
@@ -464,3 +463,13 @@ components:
           description: "New password to be set."
       required:
         - password
+
+    ConfirmEmailRequest:
+      description: "Contains the confirmation token required for email confirmation"
+      type: object
+      properties:
+        token:
+          type: string
+          description: "Token to confirm email."
+      required:
+        - token

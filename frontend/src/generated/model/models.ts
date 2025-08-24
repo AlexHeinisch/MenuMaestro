@@ -8,6 +8,7 @@ export * from './add-meal-to-menu-request';
 export * from './base-recipe-value-dto';
 export * from './change-member-role-request';
 export * from './close-shopping-list-dto';
+export * from './confirm-email-request';
 export * from './cooking-appliance-dto';
 export * from './cooking-appliance-list-paginated-dto';
 export * from './cooking-appliance-use-create-edit-dto';

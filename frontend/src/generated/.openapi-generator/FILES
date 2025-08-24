@@ -38,6 +38,7 @@ model/add-meal-to-menu-request.ts
 model/base-recipe-value-dto.ts
 model/change-member-role-request.ts
 model/close-shopping-list-dto.ts
+model/confirm-email-request.ts
 model/cooking-appliance-dto.ts
 model/cooking-appliance-list-paginated-dto.ts
 model/cooking-appliance-use-create-edit-dto.ts
