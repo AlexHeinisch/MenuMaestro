@@ -6,6 +6,7 @@ import { MenuOverviewComponent } from './pages/menu/menu-overview/menu-overview.
 import { LoginComponent } from './pages/auth/login/login-page';
 import { AuthGuard } from './security/auth-guard';
 import { AccountRegistration } from './pages/auth/registration/registration';
+import { VerifyEmailComponent } from './pages/auth/verify-email/verify-email';
 import { OrganizationOverview } from './pages/organization/organization-overview/organization-overview.component';
 import { OrganizationDetailview } from './pages/organization/organization-detail/organization-detail.component';
 import { DetailShoppingListComponent } from './pages/shopping-lists/detail-shopping-list/detail-shopping-list.component';
@@ -56,6 +57,7 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent, title: `${mainTitle} - Login` },
   { path: 'register', component: AccountRegistration, title: `${mainTitle} - Register` },
+  { path: 'verify-email', component: VerifyEmailComponent, title: `${mainTitle} - Verify Email` },
   {
     path: 'organizations',
     children: [

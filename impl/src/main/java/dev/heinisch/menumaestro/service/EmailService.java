@@ -23,6 +23,27 @@ public class EmailService {
     private final EmailProperties emailProperties;
     private final JavaMailSender mailSender;
 
+    public void sendEmailVerification(String to, String token) {
+
+        String subject = "Verify Your Email Address";
+        String message = """
+                <html>
+                <body>
+                    <h2>Welcome to MenuMaestro!</h2>
+                    <p>Thank you for registering. Please verify your email address by clicking the link below:</p>
+                    <a href=\"""" + appUrl + "/verify-email?token=" + token + "\">Verify Email</a>" + """
+                    <p>This link will expire in 30 minutes.</p>
+                    <p>If you did not create an account, please ignore this email.</p>
+                    <br>
+                    <p>Thank you,</p>
+                    <p><strong>The MenuMaestro Team</strong></p>
+                </body>
+                </html>
+                """;
+
+        sendEmail("email verification", to, subject, message, true);
+    }
+
     public void sendPasswordResetEmail(String to, String token) {
 
         String subject = "Password Reset Request";
