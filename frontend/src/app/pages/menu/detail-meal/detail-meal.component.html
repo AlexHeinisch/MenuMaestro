@@ -54,6 +54,10 @@
             >
           </div>
           <div class="flex flex-row space-x-2">
+            <!-- Export PDF Button -->
+            <simple-button (click)="exportToPdf()" [variant]="ButtonVariant.borderOnly">
+              <span>Export PDF</span>
+            </simple-button>
             <!-- Complete/incomplete Button -->
             <simple-button
               *ngIf="

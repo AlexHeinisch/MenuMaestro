@@ -28,6 +28,10 @@
           <div>
             <app-add-meal-to-menu-modal [recipeId]="recipeId"> </app-add-meal-to-menu-modal>
           </div>
+          <!-- Export PDF Button -->
+          <simple-button (click)="exportToPdf()" [variant]="ButtonVariant.borderOnly">
+            <span>Export PDF</span>
+          </simple-button>
           <!-- Edit Button -->
           <simple-button
             *ngIf="tokenService.isAdmin() || isAuthor()"

@@ -14,6 +14,7 @@ import { InputFieldComponent, InputType } from '../../../components/Input/InputF
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../globals/error.service';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
+import { PdfExportService } from '../../../service/pdf-export.service';
 import { TokenService } from '../../../security/token.service';
 import { AddMealToMenuModalComponent } from './components/add-meal/add-meal-to-menu-modal.component';
 import {IngredientUnitDto, MenusApiService, RecipeDto, RecipesApiService} from "../../../../generated";
@@ -50,6 +51,7 @@ export class RecipeDetailComponent implements OnInit {
     private recipesApiService: RecipesApiService,
     private menusApiService: MenusApiService,
     private ingredientComputationService: IngredientComputationService,
+    private pdfExportService: PdfExportService,
     private router: Router,
     private toastr: ToastrService,
     private errorService: ErrorService,
@@ -128,5 +130,17 @@ export class RecipeDetailComponent implements OnInit {
 
   isAuthor(): boolean {
     return this.recipeDto?.author === this.tokenService.getUsername();
+  }
+
+  async exportToPdf(): Promise<void> {
+    if (this.recipeDto) {
+      try {
+        await this.pdfExportService.exportRecipeToPdf(this.recipeDto);
+        this.toastr.success('PDF exported successfully!');
+      } catch (error) {
+        this.toastr.error('Failed to export PDF');
+        console.error('PDF export error:', error);
+      }
+    }
   }
 }

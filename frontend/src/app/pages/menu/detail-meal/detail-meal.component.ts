@@ -10,6 +10,7 @@ import { ButtonVariant } from '../../../components/Button/SimpleButton';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
+import { PdfExportService } from '../../../service/pdf-export.service';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
@@ -57,6 +58,7 @@ export class DetailMealComponent implements OnInit {
     private route: ActivatedRoute,
     private mealsApiService: MealsApiService,
     private ingredientComputationService: IngredientComputationService,
+    private pdfExportService: PdfExportService,
     private router: Router,
     private errorService: ErrorService,
     private toastrService: ToastrService,
@@ -191,5 +193,17 @@ export class DetailMealComponent implements OnInit {
 
   handleEditModalSubmit(): void {
     this.onEdit(this.isEditModalEditName ? 'Meal name updated.' : 'Meal scaled.');
+  }
+
+  async exportToPdf(): Promise<void> {
+    if (this.mealDto) {
+      try {
+        await this.pdfExportService.exportMealToPdf(this.mealDto);
+        this.toastrService.success('PDF exported successfully!');
+      } catch (error) {
+        this.toastrService.error('Failed to export PDF');
+        console.error('PDF export error:', error);
+      }
+    }
   }
 }
