@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { BASE_PATH } from '../../../../generated';
+import { AccountsApiService } from '../../../../generated';
 
 @Component({
   selector: 'app-verify-email',
@@ -29,8 +29,7 @@ export class VerifyEmailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public router: Router,
-    private http: HttpClient,
-    @Inject(BASE_PATH) private basePath: string
+    private accountsApiService: AccountsApiService
   ) {}
 
   ngOnInit() {
@@ -47,9 +46,7 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   verifyEmail(token: string) {
-    const url = `${this.basePath}/verify-email?token=${encodeURIComponent(token)}`;
-
-    this.http.get<any>(url).subscribe({
+    this.accountsApiService.verifyEmail(token).subscribe({
       next: (response) => {
         this.isLoading = false;
         this.verificationSuccess = true;

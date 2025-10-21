@@ -31,7 +31,7 @@ public class EmailService {
                 <body>
                     <h2>Welcome to MenuMaestro!</h2>
                     <p>Thank you for registering. Please verify your email address by clicking the link below:</p>
-                    <a href=\"""" + appUrl + "/verify-email?token=" + token + "\">Verify Email</a>" + """
+                    <a href=\"""" + appUrl + "/accounts/verification?token=" + token + "\">Verify Email</a>" + """
                     <p>This link will expire in 30 minutes.</p>
                     <p>If you did not create an account, please ignore this email.</p>
                     <br>

@@ -6,13 +6,11 @@ import dev.heinisch.menumaestro.persistence.PendingRegistrationRepository;
 import dev.heinisch.menumaestro.service.PendingRegistrationService;
 import dev.heinisch.menumaestro.utils.ErrorResponseAssert;
 import dev.heinisch.menumaestro.utils.RestHelper;
-import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.AccountCreateRequestDto;
 import org.openapitools.model.AccountInfoDto;
-import org.openapitools.model.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -40,6 +38,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
     private PendingRegistrationService pendingRegistrationService;
 
     private RestHelper.BodyWithoutReturnRestHelper<AccountCreateRequestDto> rest;
+    private RestHelper.QueryRestHelper verificationRest;
 
     @PostConstruct
     private void initRestHelper() {
@@ -48,6 +47,12 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 Method.POST,
                 URI,
                 HttpStatus.ACCEPTED
+        );
+        verificationRest = new RestHelper.QueryRestHelper(
+                this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
+                Method.GET,
+                URI + "/verification",
+                HttpStatus.CREATED
         );
     }
 
@@ -87,10 +92,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         String token = pending.getVerificationToken();
 
         // Act
-        AccountInfoDto response = RestAssured.given()
-                .queryParam("token", token)
-                .when()
-                .get(URI.replace("/accounts", "/verify-email"))
+        AccountInfoDto response = verificationRest.request("token=" + token)
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
@@ -109,16 +111,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         String invalidToken = UUID.randomUUID().toString();
 
         // Act & Assert
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .queryParam("token", invalidToken)
-                        .when()
-                        .get(URI.replace("/accounts", "/verify-email"))
-                        .then()
-                        .statusCode(HttpStatus.NOT_FOUND.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(verificationRest.requestFails("token=" + invalidToken, HttpStatus.NOT_FOUND))
                 .hasStatus(HttpStatus.NOT_FOUND)
                 .messageContains("Invalid or expired verification token");
     }
@@ -139,16 +132,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         pendingRegistrationRepository.save(expiredRegistration);
 
         // Act & Assert
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .queryParam("token", expiredRegistration.getVerificationToken())
-                        .when()
-                        .get(URI.replace("/accounts", "/verify-email"))
-                        .then()
-                        .statusCode(HttpStatus.FORBIDDEN.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(verificationRest.requestFails("token=" + expiredRegistration.getVerificationToken(), HttpStatus.FORBIDDEN))
                 .hasStatus(HttpStatus.FORBIDDEN)
                 .messageContains("expired");
 
@@ -222,16 +206,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         );
 
         // Act & Assert
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .queryParam("token", token)
-                        .when()
-                        .get(URI.replace("/accounts", "/verify-email"))
-                        .then()
-                        .statusCode(HttpStatus.CONFLICT.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(verificationRest.requestFails("token=" + token, HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already exists");
 

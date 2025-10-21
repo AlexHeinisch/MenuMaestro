@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/accounts")
 public class EmailVerificationEndpoint {
 
     private final PendingRegistrationService pendingRegistrationService;
 
-    @GetMapping("/verify-email")
+    @GetMapping("/verification")
     public ResponseEntity<AccountInfoDto> verifyEmail(@RequestParam("token") String token) {
-        log.info("GET /verify-email with token");
+        log.info("GET /accounts/verification with token");
 
         AccountInfoDto accountInfo = pendingRegistrationService.verifyEmailAndCreateAccount(token);
 

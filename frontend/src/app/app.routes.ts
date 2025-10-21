@@ -57,7 +57,7 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent, title: `${mainTitle} - Login` },
   { path: 'register', component: AccountRegistration, title: `${mainTitle} - Register` },
-  { path: 'verify-email', component: VerifyEmailComponent, title: `${mainTitle} - Verify Email` },
+  { path: 'accounts/verification', component: VerifyEmailComponent, title: `${mainTitle} - Verify Email` },
   {
     path: 'organizations',
     children: [
