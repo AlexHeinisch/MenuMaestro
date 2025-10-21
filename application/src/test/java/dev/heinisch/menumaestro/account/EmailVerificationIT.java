@@ -5,7 +5,10 @@ import dev.heinisch.menumaestro.domain.account.PendingRegistration;
 import dev.heinisch.menumaestro.persistence.PendingRegistrationRepository;
 import dev.heinisch.menumaestro.service.PendingRegistrationService;
 import dev.heinisch.menumaestro.utils.ErrorResponseAssert;
+import dev.heinisch.menumaestro.utils.RestHelper;
 import io.restassured.RestAssured;
+import io.restassured.http.Method;
+import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.AccountCreateRequestDto;
 import org.openapitools.model.AccountInfoDto;
@@ -15,6 +18,7 @@ import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 import static dev.heinisch.menumaestro.utils.test_constants.DefaultAccountTestData.DEFAULT_EMAIL;
@@ -35,6 +39,18 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
     @Autowired
     private PendingRegistrationService pendingRegistrationService;
 
+    private RestHelper.BodyWithoutReturnRestHelper<AccountCreateRequestDto> rest;
+
+    @PostConstruct
+    private void initRestHelper() {
+        rest = new RestHelper.BodyWithoutReturnRestHelper<>(
+                this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
+                Method.POST,
+                URI,
+                HttpStatus.ACCEPTED
+        );
+    }
+
     @Override
     protected String getBasePath() {
         return "/accounts";
@@ -46,13 +62,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
 
         // Act
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         // Assert
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
@@ -71,13 +81,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
     void whenVerifyEmail_withValidToken_thenAccountCreated() {
         // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
         String token = pending.getVerificationToken();
@@ -155,26 +159,10 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
     void whenCreateAccount_withDuplicateUsername_inPendingRegistrations_thenConflict() {
         // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         // Act & Assert
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .contentType("application/json")
-                        .body(createDto.email("different@example.com"))
-                        .when()
-                        .post(URI)
-                        .then()
-                        .statusCode(HttpStatus.CONFLICT.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(rest.requestFails(createDto.email("different@example.com"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
     }
@@ -183,26 +171,10 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
     void whenCreateAccount_withDuplicateEmail_inPendingRegistrations_thenConflict() {
         // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         // Act & Assert
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .contentType("application/json")
-                        .body(createDto.username("differentuser"))
-                        .when()
-                        .post(URI)
-                        .then()
-                        .statusCode(HttpStatus.CONFLICT.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(rest.requestFails(createDto.username("differentuser"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
     }
@@ -224,17 +196,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
 
         // Act & Assert
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .contentType("application/json")
-                        .body(createDto.email("different@example.com"))
-                        .when()
-                        .post(URI)
-                        .then()
-                        .statusCode(HttpStatus.CONFLICT.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(rest.requestFails(createDto.email("different@example.com"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already exists");
     }
@@ -243,13 +205,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
     void whenVerifyEmail_butUsernameAlreadyTaken_thenConflict() {
         // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
         String token = pending.getVerificationToken();
@@ -323,13 +279,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
 
         // Act
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         // Assert
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
