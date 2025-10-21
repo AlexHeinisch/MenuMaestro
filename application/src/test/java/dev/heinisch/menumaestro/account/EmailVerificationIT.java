@@ -23,7 +23,6 @@ import static dev.heinisch.menumaestro.utils.test_constants.DefaultAccountTestDa
 import static dev.heinisch.menumaestro.utils.test_constants.DefaultAccountTestData.DEFAULT_USERNAME;
 import static dev.heinisch.menumaestro.utils.test_constants.DefaultAccountTestData.defaultAccountCreateRequestDto;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
@@ -42,8 +41,10 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCreateAccount_withValidData_thenPendingRegistrationCreated() {
+        // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
 
+        // Act
         RestAssured.given()
                 .contentType("application/json")
                 .body(createDto)
@@ -52,7 +53,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.ACCEPTED.value());
 
-        // Verify pending registration was created
+        // Assert
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
         assertThat(pending.getUsername()).isEqualTo(DEFAULT_USERNAME);
         assertThat(pending.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -61,16 +62,13 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         assertThat(pending.getVerificationToken()).isNotNull();
         assertThat(pending.getExpiresAt()).isAfter(Instant.now());
 
-        // Verify email was sent
         verify(emailService).sendEmailVerification(anyString(), anyString());
-
-        // Verify account was NOT created yet
         assertThat(accountRepository.findById(DEFAULT_USERNAME)).isEmpty();
     }
 
     @Test
     void whenVerifyEmail_withValidToken_thenAccountCreated() {
-        // Create pending registration
+        // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
         RestAssured.given()
                 .contentType("application/json")
@@ -83,7 +81,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
         String token = pending.getVerificationToken();
 
-        // Verify email
+        // Act
         AccountInfoDto response = RestAssured.given()
                 .queryParam("token", token)
                 .when()
@@ -93,19 +91,19 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .extract()
                 .as(AccountInfoDto.class);
 
-        // Assert account was created
+        // Assert
         assertThat(response.getUsername()).isEqualTo(DEFAULT_USERNAME);
         assertThat(response.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(accountRepository.findById(DEFAULT_USERNAME)).isPresent();
-
-        // Assert pending registration was deleted
         assertThat(pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME)).isEmpty();
     }
 
     @Test
     void whenVerifyEmail_withInvalidToken_thenNotFound() {
+        // Arrange
         String invalidToken = UUID.randomUUID().toString();
 
+        // Act & Assert
         ErrorResponseAssert.assertThat(
                 RestAssured.given()
                         .queryParam("token", invalidToken)
@@ -122,7 +120,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
 
     @Test
     void whenVerifyEmail_withExpiredToken_thenForbidden() {
-        // Manually create an expired pending registration
+        // Arrange
         PendingRegistration expiredRegistration = PendingRegistration.builder()
                 .username(DEFAULT_USERNAME)
                 .email(DEFAULT_EMAIL)
@@ -135,6 +133,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .build();
         pendingRegistrationRepository.save(expiredRegistration);
 
+        // Act & Assert
         ErrorResponseAssert.assertThat(
                 RestAssured.given()
                         .queryParam("token", expiredRegistration.getVerificationToken())
@@ -148,13 +147,12 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .hasStatus(HttpStatus.FORBIDDEN)
                 .messageContains("expired");
 
-        // Verify it was deleted
         assertThat(pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME)).isEmpty();
     }
 
     @Test
     void whenCreateAccount_withDuplicateUsername_inPendingRegistrations_thenConflict() {
-        // Create first pending registration
+        // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
         RestAssured.given()
                 .contentType("application/json")
@@ -164,7 +162,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.ACCEPTED.value());
 
-        // Try to create another with same username
+        // Act & Assert
         ErrorResponseAssert.assertThat(
                 RestAssured.given()
                         .contentType("application/json")
@@ -182,7 +180,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCreateAccount_withDuplicateEmail_inPendingRegistrations_thenConflict() {
-        // Create first pending registration
+        // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
         RestAssured.given()
                 .contentType("application/json")
@@ -192,7 +190,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.ACCEPTED.value());
 
-        // Try to create another with same email
+        // Act & Assert
         ErrorResponseAssert.assertThat(
                 RestAssured.given()
                         .contentType("application/json")
@@ -210,7 +208,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCreateAccount_withExistingAccountUsername_thenConflict() {
-        // Create an actual account first (directly in repo to bypass email verification)
+        // Arrange
         accountRepository.save(
                 dev.heinisch.menumaestro.domain.account.Account.builder()
                         .username(DEFAULT_USERNAME)
@@ -222,8 +220,9 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .build()
         );
 
-        // Try to create pending registration with same username
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
+
+        // Act & Assert
         ErrorResponseAssert.assertThat(
                 RestAssured.given()
                         .contentType("application/json")
@@ -241,7 +240,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
 
     @Test
     void whenVerifyEmail_butUsernameAlreadyTaken_thenConflict() {
-        // Create pending registration
+        // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
         RestAssured.given()
                 .contentType("application/json")
@@ -254,7 +253,6 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
         String token = pending.getVerificationToken();
 
-        // Manually create an account with the same username before verification completes
         accountRepository.save(
                 dev.heinisch.menumaestro.domain.account.Account.builder()
                         .username(DEFAULT_USERNAME)
@@ -266,7 +264,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .build()
         );
 
-        // Try to verify - should fail
+        // Act & Assert
         ErrorResponseAssert.assertThat(
                 RestAssured.given()
                         .queryParam("token", token)
@@ -280,13 +278,12 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already exists");
 
-        // Pending registration should be deleted
         assertThat(pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME)).isEmpty();
     }
 
     @Test
     void whenCleanupExpiredRegistrations_thenExpiredOnesDeleted() {
-        // Create a valid pending registration
+        // Arrange
         PendingRegistration validRegistration = PendingRegistration.builder()
                 .username("validuser")
                 .email("valid@example.com")
@@ -299,7 +296,6 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .build();
         pendingRegistrationRepository.save(validRegistration);
 
-        // Create an expired pending registration
         PendingRegistration expiredRegistration = PendingRegistration.builder()
                 .username("expireduser")
                 .email("expired@example.com")
@@ -312,19 +308,20 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .build();
         pendingRegistrationRepository.save(expiredRegistration);
 
-        // Run cleanup
+        // Act
         pendingRegistrationService.cleanupExpiredRegistrations();
 
-        // Verify expired was deleted
+        // Assert
         assertThat(pendingRegistrationRepository.findByUsername("expireduser")).isEmpty();
-
-        // Verify valid still exists
         assertThat(pendingRegistrationRepository.findByUsername("validuser")).isPresent();
     }
 
     @Test
     void whenPasswordIsEncoded_inPendingRegistration() {
+        // Arrange
         AccountCreateRequestDto createDto = defaultAccountCreateRequestDto();
+
+        // Act
         RestAssured.given()
                 .contentType("application/json")
                 .body(createDto)
@@ -333,9 +330,8 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.ACCEPTED.value());
 
+        // Assert
         PendingRegistration pending = pendingRegistrationRepository.findByUsername(DEFAULT_USERNAME).orElseThrow();
-
-        // Verify password is encoded (not plain text)
         assertThat(pending.getPasswordHash()).isNotEqualTo(DEFAULT_PASSWORD);
         assertThat(passwordEncoder.matches(DEFAULT_PASSWORD, pending.getPasswordHash())).isTrue();
     }
