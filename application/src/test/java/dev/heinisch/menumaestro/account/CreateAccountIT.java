@@ -3,11 +3,13 @@ package dev.heinisch.menumaestro.account;
 import dev.heinisch.menumaestro.BaseWebIntegrationTest;
 import dev.heinisch.menumaestro.utils.ErrorResponseAssert;
 import dev.heinisch.menumaestro.utils.RestHelper;
+import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.AccountCreateRequestDto;
 import org.openapitools.model.AccountInfoDto;
+import org.openapitools.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -39,9 +41,15 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
     @Test
     void whenCreateAccount_withValidData_thenAccepted() {
         var createDto = defaultAccountCreateRequestDto();
-        // Account creation now returns ACCEPTED (202) since it creates a pending registration
+        // Account creation now returns ACCEPTED (202) with no body since it creates a pending registration
         // that requires email verification before the account is fully created
-        rest.requestSuccessful(createDto);
+        RestAssured.given()
+                .contentType("application/json")
+                .body(createDto)
+                .when()
+                .post(URI)
+                .then()
+                .statusCode(HttpStatus.ACCEPTED.value());
     }
 
     @Test
@@ -157,10 +165,26 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
     @Test
     void whenCreateAccount_withAlreadyExistingUsername_thenConflict() {
         var createDto = defaultAccountCreateRequestDto();
-        rest.requestSuccessful(createDto);
+        RestAssured.given()
+                .contentType("application/json")
+                .body(createDto)
+                .when()
+                .post(URI)
+                .then()
+                .statusCode(HttpStatus.ACCEPTED.value());
 
         // Now returns "already pending verification" message since first registration is pending
-        ErrorResponseAssert.assertThat(rest.requestFails(createDto.email("new@example.com"), HttpStatus.CONFLICT))
+        ErrorResponseAssert.assertThat(
+                RestAssured.given()
+                        .contentType("application/json")
+                        .body(createDto.email("new@example.com"))
+                        .when()
+                        .post(URI)
+                        .then()
+                        .statusCode(HttpStatus.CONFLICT.value())
+                        .extract()
+                        .as(ErrorResponse.class)
+        )
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
     }
@@ -168,10 +192,26 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
     @Test
     void whenCreateAccount_withAlreadyExistingEmail_thenConflict() {
         var createDto = defaultAccountCreateRequestDto();
-        rest.requestSuccessful(createDto);
+        RestAssured.given()
+                .contentType("application/json")
+                .body(createDto)
+                .when()
+                .post(URI)
+                .then()
+                .statusCode(HttpStatus.ACCEPTED.value());
 
         // Now returns "already pending verification" message since first registration is pending
-        ErrorResponseAssert.assertThat(rest.requestFails(createDto.username("newusername"), HttpStatus.CONFLICT))
+        ErrorResponseAssert.assertThat(
+                RestAssured.given()
+                        .contentType("application/json")
+                        .body(createDto.username("newusername"))
+                        .when()
+                        .post(URI)
+                        .then()
+                        .statusCode(HttpStatus.CONFLICT.value())
+                        .extract()
+                        .as(ErrorResponse.class)
+        )
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
     }

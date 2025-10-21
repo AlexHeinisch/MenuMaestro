@@ -73,7 +73,7 @@ public class PendingRegistrationService {
         log.info("Created pending registration for username: {}, email: {}", dto.getUsername(), dto.getEmail());
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = {ForbiddenException.class, ConflictException.class})
     public AccountInfoDto verifyEmailAndCreateAccount(String token) {
 
         PendingRegistration pendingRegistration = pendingRegistrationRepository.findByVerificationToken(token)
@@ -81,16 +81,19 @@ public class PendingRegistrationService {
 
         if (pendingRegistration.isExpired()) {
             pendingRegistrationRepository.delete(pendingRegistration);
+            pendingRegistrationRepository.flush();
             throw new ForbiddenException("Verification token has expired!");
         }
 
         // Double-check that username and email are still available
         if (accountRepository.findById(pendingRegistration.getUsername()).isPresent()) {
             pendingRegistrationRepository.delete(pendingRegistration);
+            pendingRegistrationRepository.flush();
             throw new ConflictException(String.format("Username '%s' already exists!", pendingRegistration.getUsername()));
         }
         if (accountRepository.findByEmail(pendingRegistration.getEmail()).isPresent()) {
             pendingRegistrationRepository.delete(pendingRegistration);
+            pendingRegistrationRepository.flush();
             throw new ConflictException(String.format("Email '%s' already exists!", pendingRegistration.getEmail()));
         }
 
