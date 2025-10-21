@@ -3,13 +3,11 @@ package dev.heinisch.menumaestro.account;
 import dev.heinisch.menumaestro.BaseWebIntegrationTest;
 import dev.heinisch.menumaestro.utils.ErrorResponseAssert;
 import dev.heinisch.menumaestro.utils.RestHelper;
-import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.AccountCreateRequestDto;
 import org.openapitools.model.AccountInfoDto;
-import org.openapitools.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -20,12 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateAccountIT extends BaseWebIntegrationTest {
 
-    private RestHelper.BodyRestHelper<AccountInfoDto, AccountCreateRequestDto> rest;
+    private RestHelper.BodyWithoutReturnRestHelper<AccountCreateRequestDto> rest;
 
     @PostConstruct
     private void initRestHelper() {
-        rest = new RestHelper.BodyRestHelper<>(
-                AccountInfoDto.class,
+        rest = new RestHelper.BodyWithoutReturnRestHelper<>(
                 this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
                 Method.POST,
                 URI,
@@ -43,13 +40,7 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
         var createDto = defaultAccountCreateRequestDto();
         // Account creation now returns ACCEPTED (202) with no body since it creates a pending registration
         // that requires email verification before the account is fully created
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
     }
 
     @Test
@@ -165,26 +156,10 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
     @Test
     void whenCreateAccount_withAlreadyExistingUsername_thenConflict() {
         var createDto = defaultAccountCreateRequestDto();
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         // Now returns "already pending verification" message since first registration is pending
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .contentType("application/json")
-                        .body(createDto.email("new@example.com"))
-                        .when()
-                        .post(URI)
-                        .then()
-                        .statusCode(HttpStatus.CONFLICT.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(rest.requestFails(createDto.email("new@example.com"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
     }
@@ -192,26 +167,10 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
     @Test
     void whenCreateAccount_withAlreadyExistingEmail_thenConflict() {
         var createDto = defaultAccountCreateRequestDto();
-        RestAssured.given()
-                .contentType("application/json")
-                .body(createDto)
-                .when()
-                .post(URI)
-                .then()
-                .statusCode(HttpStatus.ACCEPTED.value());
+        rest.requestSuccessful(createDto);
 
         // Now returns "already pending verification" message since first registration is pending
-        ErrorResponseAssert.assertThat(
-                RestAssured.given()
-                        .contentType("application/json")
-                        .body(createDto.username("newusername"))
-                        .when()
-                        .post(URI)
-                        .then()
-                        .statusCode(HttpStatus.CONFLICT.value())
-                        .extract()
-                        .as(ErrorResponse.class)
-        )
+        ErrorResponseAssert.assertThat(rest.requestFails(createDto.username("newusername"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
     }
