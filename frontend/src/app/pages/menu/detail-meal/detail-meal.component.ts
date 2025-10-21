@@ -192,4 +192,30 @@ export class DetailMealComponent implements OnInit {
   handleEditModalSubmit(): void {
     this.onEdit(this.isEditModalEditName ? 'Meal name updated.' : 'Meal scaled.');
   }
+
+  downloadPdf(): void {
+    if (this.mealId === null) {
+      return;
+    }
+
+    // Use the API service to download the PDF as a blob
+    this.mealsApiService.downloadMealPdf(this.mealId).subscribe({
+      next: (blob: Blob) => {
+        // Create a temporary download link
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${this.mealDto?.name || 'meal'}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        this.toastrService.success('PDF downloaded successfully');
+      },
+      error: (err) => {
+        this.errorService.printErrorResponse(err);
+        this.toastrService.error('Failed to download PDF');
+      },
+    });
+  }
 }

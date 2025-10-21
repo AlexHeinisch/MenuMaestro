@@ -58,6 +58,7 @@
 		<jjwt.version>0.12.6</jjwt.version>
 		<apache-commons-lang.version>3.17.0</apache-commons-lang.version>
 		<apache-commons-text.version>1.13.1</apache-commons-text.version>
+		<itext.version>8.0.5</itext.version>
 		<liquibase-core.version>4.29.2</liquibase-core.version>
 		<h2.version>2.3.232</h2.version>
 		<postgres.version>42.7.5</postgres.version>
@@ -220,6 +221,12 @@
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt-jackson</artifactId>
 				<version>${jjwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.itextpdf</groupId>
+				<artifactId>itext-core</artifactId>
+				<version>${itext.version}</version>
+				<type>pom</type>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

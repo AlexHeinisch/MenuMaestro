@@ -111,6 +111,31 @@ paths:
         '404':
           description: A meal with the specified ID was not found
 
+  /meals/{id}/pdf:
+    get:
+      operationId: downloadMealPdf
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the meal
+      tags:
+        - Meals
+      summary: 'Download meal as PDF'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: A meal with the specified ID was not found.
+
 components:
   schemas:
     MealStatus:

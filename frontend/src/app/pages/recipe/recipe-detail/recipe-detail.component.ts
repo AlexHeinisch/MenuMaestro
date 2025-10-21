@@ -129,4 +129,30 @@ export class RecipeDetailComponent implements OnInit {
   isAuthor(): boolean {
     return this.recipeDto?.author === this.tokenService.getUsername();
   }
+
+  downloadPdf(): void {
+    if (this.recipeId === null) {
+      return;
+    }
+
+    // Use the API service to download the PDF as a blob
+    this.recipesApiService.downloadRecipePdf(this.recipeId).subscribe({
+      next: (blob: Blob) => {
+        // Create a temporary download link
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${this.recipeDto?.name || 'recipe'}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        this.toastr.success('PDF downloaded successfully');
+      },
+      error: (err) => {
+        this.errorService.printErrorResponse(err);
+        this.toastr.error('Failed to download PDF');
+      },
+    });
+  }
 }

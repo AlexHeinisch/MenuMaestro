@@ -165,6 +165,31 @@ paths:
         '422':
           $ref: 'https://api.swaggerhub.com/domains/smartbear-public/ProblemDetails/1.0.0#/components/responses/ValidationError'
 
+  /recipes/{id}/pdf:
+    get:
+      operationId: downloadRecipePdf
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: id of the recipe
+      tags:
+        - Recipes
+      summary: 'Download recipe as PDF'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: A recipe with the specified ID was not found.
+
 
 components:
   schemas:

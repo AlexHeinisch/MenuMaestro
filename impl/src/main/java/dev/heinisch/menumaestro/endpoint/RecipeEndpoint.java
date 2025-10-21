@@ -2,6 +2,7 @@ package dev.heinisch.menumaestro.endpoint;
 
 import dev.heinisch.menumaestro.exceptions.ValidationException;
 import dev.heinisch.menumaestro.mapper.RecipeMapper;
+import dev.heinisch.menumaestro.service.PdfGenerationService;
 import dev.heinisch.menumaestro.service.RecipeService;
 import dev.heinisch.menumaestro.validation.RecipeValueValidationHelper;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,17 @@ import org.openapitools.model.RecipeCreateEditDto;
 import org.openapitools.model.RecipeDto;
 import org.openapitools.model.RecipeListPaginatedDto;
 import org.openapitools.model.RecipeVisibility;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +39,7 @@ public class RecipeEndpoint implements RecipesApi {
     private final RecipeValueValidationHelper validationHelper;
     private final RecipeService recipeService;
     private final RecipeMapper recipeMapper;
+    private final PdfGenerationService pdfGenerationService;
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
@@ -112,5 +120,27 @@ public class RecipeEndpoint implements RecipesApi {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(result);
+    }
+
+    /**
+     * Download recipe as PDF.
+     *
+     * @param id the recipe ID
+     * @return PDF file as a resource
+     */
+    @GetMapping("/recipes/{id}/pdf")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or (@recipeService.hasAccessToRecipe(#id,principal))")
+    public ResponseEntity<Resource> downloadRecipePdf(@PathVariable Long id) {
+        log.info("GET /recipes/{}/pdf", id);
+
+        RecipeDto recipe = recipeService.getRecipeById(id);
+        byte[] pdfBytes = pdfGenerationService.generateRecipePdf(recipe);
+
+        String filename = recipe.getName().replaceAll("[^a-zA-Z0-9-_]", "_") + ".pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .body(new ByteArrayResource(pdfBytes));
     }
 }
