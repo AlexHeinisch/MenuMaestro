@@ -31,7 +31,7 @@ mvn clean install -DskipTests
 MenuMaestro can be deployed to a local Kubernetes cluster using Minikube. The deployment includes:
 - MenuMaestro application (Spring Boot + Angular)
 - PostgreSQL database
-- Mailhog (mock mail server)
+- Mailpit (modern mock mail server for testing emails)
 - CloudBeaver (database management UI)
 
 ### Prerequisites
@@ -40,7 +40,31 @@ MenuMaestro can be deployed to a local Kubernetes cluster using Minikube. The de
 2. Install [kubectl](https://kubernetes.io/docs/tasks/tools/)
 3. Install [Docker](https://docs.docker.com/get-docker/)
 
-### Build the Application Docker Image
+### Quick Start with Helper Scripts
+
+The easiest way to deploy is using the provided helper scripts:
+
+```sh
+# Full automated deployment (setup + build + deploy)
+./scripts/full-deploy.sh
+
+# Or run steps individually:
+./scripts/setup-minikube.sh    # Start Minikube and configure Docker
+./scripts/build-image.sh        # Build the application Docker image
+./scripts/deploy.sh             # Deploy to Kubernetes
+
+# Other useful scripts:
+./scripts/status.sh             # Check deployment status
+./scripts/logs.sh menumaestro   # View application logs
+./scripts/open-services.sh      # Open all services in browser
+./scripts/cleanup.sh            # Remove all resources
+```
+
+### Manual Deployment
+
+If you prefer to deploy manually or want to understand the individual steps:
+
+#### Build the Application Docker Image
 
 First, build the application JAR:
 
@@ -93,15 +117,18 @@ minikube ip
 Access the services using the NodePort mappings:
 
 - **MenuMaestro Application**: `http://$(minikube ip):30080`
-- **Mailhog UI**: `http://$(minikube ip):30025`
+- **Mailpit UI**: `http://$(minikube ip):30025`
 - **CloudBeaver**: `http://$(minikube ip):30978`
 
 Alternatively, use Minikube's service command to open services in your browser:
 
 ```sh
 minikube service menumaestro
-minikube service mailhog
+minikube service mailpit
 minikube service cloudbeaver
+
+# Or use the helper script:
+./scripts/open-services.sh
 ```
 
 ### CloudBeaver Database Configuration
@@ -120,13 +147,22 @@ On first access to CloudBeaver, you'll need to configure the PostgreSQL connecti
 
 ### Viewing Logs
 
-View application logs:
+View application logs using kubectl:
 
 ```sh
 kubectl logs -f deployment/menumaestro
 kubectl logs -f deployment/postgres
-kubectl logs -f deployment/mailhog
+kubectl logs -f deployment/mailpit
 kubectl logs -f deployment/cloudbeaver
+```
+
+Or use the helper script:
+
+```sh
+./scripts/logs.sh menumaestro   # MenuMaestro logs
+./scripts/logs.sh postgres      # PostgreSQL logs
+./scripts/logs.sh mailpit       # Mailpit logs
+./scripts/logs.sh cloudbeaver   # CloudBeaver logs
 ```
 
 ### Cleanup
@@ -135,6 +171,9 @@ To remove all deployed resources:
 
 ```sh
 kubectl delete -k k8s/
+
+# Or use the helper script (with confirmation prompt):
+./scripts/cleanup.sh
 ```
 
 To stop and delete the Minikube cluster:

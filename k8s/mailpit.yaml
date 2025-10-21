@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mailhog
+  name: mailpit
   labels:
-    app: mailhog
+    app: mailpit
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mailhog
+      app: mailpit
   template:
     metadata:
       labels:
-        app: mailhog
+        app: mailpit
     spec:
       containers:
-      - name: mailhog
-        image: mailhog/mailhog:latest
+      - name: mailpit
+        image: axllent/mailpit:latest
         ports:
         - containerPort: 1025
           name: smtp
@@ -25,6 +25,15 @@ spec:
         - containerPort: 8025
           name: http
           protocol: TCP
+        env:
+        - name: MP_MAX_MESSAGES
+          value: "5000"
+        - name: MP_DATA_FILE
+          value: /data/mailpit.db
+        - name: MP_SMTP_AUTH_ACCEPT_ANY
+          value: "1"
+        - name: MP_SMTP_AUTH_ALLOW_INSECURE
+          value: "1"
         resources:
           requests:
             memory: "64Mi"
@@ -48,9 +57,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mailhog
+  name: mailpit
   labels:
-    app: mailhog
+    app: mailpit
 spec:
   type: NodePort
   ports:
@@ -64,4 +73,4 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: mailhog
+    app: mailpit

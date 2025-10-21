@@ -8,7 +8,7 @@ metadata:
 data:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/dev"
   SPRING_DATASOURCE_USERNAME: "db_user"
-  MENUMAESTRO_MAIL_HOST: "mailhog"
+  MENUMAESTRO_MAIL_HOST: "mailpit"
   MENUMAESTRO_MAIL_PORT: "1025"
   MENUMAESTRO_MAIL_USERNAME: "noreply@menumaestro.local"
   MENUMAESTRO_MAIL_PASSWORD: ""
