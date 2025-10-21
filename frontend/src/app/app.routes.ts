@@ -24,6 +24,8 @@ import { ChangePasswordComponent } from './pages/account/change-password/change-
 import { RecipeEditPageComponent } from './pages/recipe/recipe-edit-page/recipe-edit-page.component';
 import { EditMealComponent } from './pages/menu/edit-meal/edit-meal.component';
 import { MenuDisplayViewComponent } from './pages/menu/menu-display-view/menu-display-view.component';
+import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password-page';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password-page';
 
 export const mainTitle: string = "MenuMaestro"
 
@@ -58,6 +60,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, title: `${mainTitle} - Login` },
   { path: 'register', component: AccountRegistration, title: `${mainTitle} - Register` },
   { path: 'accounts/verification', component: VerifyEmailComponent, title: `${mainTitle} - Verify Email` },
+  { path: 'forgot-password', component: ForgotPasswordComponent, title: `${mainTitle} - Forgot Password` },
+  { path: 'reset-password', component: ResetPasswordComponent, title: `${mainTitle} - Reset Password` },
   {
     path: 'organizations',
     children: [
