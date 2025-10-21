@@ -8,6 +8,7 @@ import dev.heinisch.menumaestro.exceptions.NotFoundException;
 import dev.heinisch.menumaestro.mapper.AccountMapper;
 import dev.heinisch.menumaestro.persistence.AccountRepository;
 import dev.heinisch.menumaestro.persistence.PendingRegistrationRepository;
+import dev.heinisch.menumaestro.properties.EmailVerificationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.model.AccountCreateRequestDto;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -26,8 +26,7 @@ import java.util.UUID;
 @Service
 public class PendingRegistrationService {
 
-    private static final Duration EXPIRATION_TIME = Duration.ofMinutes(30);
-
+    private final EmailVerificationProperties emailVerificationProperties;
     private final PendingRegistrationRepository pendingRegistrationRepository;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
@@ -55,7 +54,7 @@ public class PendingRegistrationService {
 
         String verificationToken = UUID.randomUUID().toString();
         Instant now = Instant.now();
-        Instant expiresAt = now.plus(EXPIRATION_TIME);
+        Instant expiresAt = now.plus(emailVerificationProperties.getExpirationTime());
 
         PendingRegistration pendingRegistration = PendingRegistration.builder()
                 .username(dto.getUsername())

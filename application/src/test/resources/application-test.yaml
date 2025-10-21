@@ -3,6 +3,9 @@ menumaestro:
     enabled: false
   initial-organizations:
     enabled: false
+  security:
+    email-verification:
+      expiration-time: 30m
 spring:
   jpa:
     database: h2

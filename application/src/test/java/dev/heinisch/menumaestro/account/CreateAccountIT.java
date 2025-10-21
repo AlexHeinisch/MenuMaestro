@@ -27,7 +27,7 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
                 this.generateValidAuthorizationHeader(DEFAULT_USERNAME, List.of("ROLE_USER")),
                 Method.POST,
                 URI,
-                HttpStatus.CREATED
+                HttpStatus.ACCEPTED
         );
     }
 
@@ -37,10 +37,11 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
     }
 
     @Test
-    void whenCreateAccount_withValidData_thenOK() {
+    void whenCreateAccount_withValidData_thenAccepted() {
         var createDto = defaultAccountCreateRequestDto();
-        var responseDto = rest.requestSuccessful(createDto);
-        assertInfoDtoEqualsCreateDto(responseDto, createDto);
+        // Account creation now returns ACCEPTED (202) since it creates a pending registration
+        // that requires email verification before the account is fully created
+        rest.requestSuccessful(createDto);
     }
 
     @Test
@@ -158,9 +159,10 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
         var createDto = defaultAccountCreateRequestDto();
         rest.requestSuccessful(createDto);
 
+        // Now returns "already pending verification" message since first registration is pending
         ErrorResponseAssert.assertThat(rest.requestFails(createDto.email("new@example.com"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
-                .messageContains("already exists");
+                .messageContains("already pending verification");
     }
 
     @Test
@@ -168,9 +170,10 @@ public class CreateAccountIT extends BaseWebIntegrationTest {
         var createDto = defaultAccountCreateRequestDto();
         rest.requestSuccessful(createDto);
 
+        // Now returns "already pending verification" message since first registration is pending
         ErrorResponseAssert.assertThat(rest.requestFails(createDto.username("newusername"), HttpStatus.CONFLICT))
                 .hasStatus(HttpStatus.CONFLICT)
-                .messageContains("already exists");
+                .messageContains("already pending verification");
     }
 
     private void assertInfoDtoEqualsCreateDto(AccountInfoDto accountInfoDto, AccountCreateRequestDto accountCreateRequestDto) {
