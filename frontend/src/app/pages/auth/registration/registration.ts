@@ -41,7 +41,7 @@ export class AccountRegistration {
   registrationSuccess = false;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private accountApiService: AccountsApiService,
     private errorService: ErrorService,
     private toastr: ToastrService

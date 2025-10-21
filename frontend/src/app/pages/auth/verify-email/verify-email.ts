@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
 import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
 import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { environment } from '../../../../environments/environment';
+import { BASE_PATH } from '../../../../generated';
 
 @Component({
   selector: 'app-verify-email',
@@ -28,8 +28,9 @@ export class VerifyEmailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient
+    public router: Router,
+    private http: HttpClient,
+    @Inject(BASE_PATH) private basePath: string
   ) {}
 
   ngOnInit() {
@@ -46,7 +47,7 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   verifyEmail(token: string) {
-    const url = `${environment.apiUrl}/api/v1/verify-email?token=${encodeURIComponent(token)}`;
+    const url = `${this.basePath}/verify-email?token=${encodeURIComponent(token)}`;
 
     this.http.get<any>(url).subscribe({
       next: (response) => {
