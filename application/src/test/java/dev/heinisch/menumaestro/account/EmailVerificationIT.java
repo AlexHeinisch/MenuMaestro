@@ -9,6 +9,7 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.AccountCreateRequestDto;
 import org.openapitools.model.AccountInfoDto;
+import org.openapitools.model.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -112,7 +113,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .then()
                         .statusCode(HttpStatus.NOT_FOUND.value())
                         .extract()
-                        .as(Object.class)
+                        .as(ErrorResponse.class)
         )
                 .hasStatus(HttpStatus.NOT_FOUND)
                 .messageContains("Invalid or expired verification token");
@@ -142,7 +143,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .then()
                         .statusCode(HttpStatus.FORBIDDEN.value())
                         .extract()
-                        .as(Object.class)
+                        .as(ErrorResponse.class)
         )
                 .hasStatus(HttpStatus.FORBIDDEN)
                 .messageContains("expired");
@@ -172,7 +173,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .then()
                         .statusCode(HttpStatus.CONFLICT.value())
                         .extract()
-                        .as(Object.class)
+                        .as(ErrorResponse.class)
         )
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
@@ -200,7 +201,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .then()
                         .statusCode(HttpStatus.CONFLICT.value())
                         .extract()
-                        .as(Object.class)
+                        .as(ErrorResponse.class)
         )
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already pending verification");
@@ -232,7 +233,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .then()
                         .statusCode(HttpStatus.CONFLICT.value())
                         .extract()
-                        .as(Object.class)
+                        .as(ErrorResponse.class)
         )
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already exists");
@@ -273,7 +274,7 @@ public class EmailVerificationIT extends BaseWebIntegrationTest {
                         .then()
                         .statusCode(HttpStatus.CONFLICT.value())
                         .extract()
-                        .as(Object.class)
+                        .as(ErrorResponse.class)
         )
                 .hasStatus(HttpStatus.CONFLICT)
                 .messageContains("already exists");
