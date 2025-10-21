@@ -28,8 +28,6 @@ spec:
         env:
         - name: MP_MAX_MESSAGES
           value: "5000"
-        - name: MP_DATA_FILE
-          value: /data/mailpit.db
         - name: MP_SMTP_AUTH_ACCEPT_ANY
           value: "1"
         - name: MP_SMTP_AUTH_ALLOW_INSECURE
