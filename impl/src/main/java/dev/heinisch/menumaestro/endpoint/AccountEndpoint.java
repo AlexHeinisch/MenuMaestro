@@ -121,6 +121,17 @@ public class AccountEndpoint implements AccountsApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    public ResponseEntity<AccountInfoDto> verifyEmail(String token) {
+        log.info("GET /accounts/verification with token");
+
+        AccountInfoDto accountInfo = pendingRegistrationService.verifyEmailAndCreateAccount(token);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(accountInfo);
+    }
+
     private void validateCommitPasswordReset(String username, ResetPasswordCommitRequestDto dto) {
         PropertyChecker.begin()
             .append(UserConstraints.validUsername(username))
