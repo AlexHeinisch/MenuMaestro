@@ -48,7 +48,7 @@ public class AccountEndpoint implements AccountsApi {
 
     @Override
     @Transactional
-    public ResponseEntity<AccountInfoDto> createAccount(AccountCreateRequestDto accountCreateRequestDto) {
+    public ResponseEntity<Void> createAccount(AccountCreateRequestDto accountCreateRequestDto) {
         log.info("POST /accounts");
         log.debug("Request-Body: {}", accountCreateRequestDto);
 
