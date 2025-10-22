@@ -29,8 +29,9 @@ This document describes the markdown support feature that has been implemented f
 - Supports markdown formatting
 
 **Meal** (`/domain-core/src/main/java/dev/heinisch/menumaestro/domain/menu/Meal.java`):
-- **NEW FIELD**: Added `description` field (VARCHAR(4096))
-- Allows meal-specific markdown descriptions/directions
+- **No changes needed** - Meals contain a `RecipeValue` object which has the description field
+- When a meal is created from a recipe, the RecipeValue is copied, so the meal's description comes from its RecipeValue
+- Markdown description is accessed through `meal.getRecipe().getDescription()`
 
 **Organization** (`/domain-core/src/main/java/dev/heinisch/menumaestro/domain/organization/Organization.java`):
 - Updated `description` field length to 4096 characters
@@ -41,7 +42,6 @@ This document describes the markdown support feature that has been implemented f
 - **Changes**:
   - Increased `recipe_value.description` to VARCHAR(4096)
   - Increased `menu.description` to VARCHAR(4096)
-  - Added `menu_item.description` VARCHAR(4096) column
   - Increased `organization.description` to VARCHAR(4096)
 
 #### 5. OpenAPI Specification Updates
@@ -53,8 +53,8 @@ This document describes the markdown support feature that has been implemented f
 - Updated `MenuDetailDto.description` and `MenuCreateDto.description` with markdown documentation and maxLength: 4096
 
 **Meals.yaml**:
-- **NEW**: Added `description` field to `MealDto` and `MealEditDto`
-- Documented as supporting markdown with maxLength: 4096
+- **No changes needed** - Meal descriptions are inherited from the RecipeValue object
+- The `MealDto.recipe` field contains the full RecipeDto with markdown description
 
 **Organizations.yaml**:
 - Updated `OrganizationSummaryDto`, `OrganizationCreateDto`, and `OrganizationEditDto`
@@ -75,10 +75,8 @@ validateMarkdownDescription(menuCreateDto.getDescription());
 ```
 
 **MealService**:
-```java
-validateMarkdownDescription(mealEditDto.getDescription());
-meal.setDescription(mealEditDto.getDescription());
-```
+- No special markdown validation needed - meal descriptions are part of the RecipeValue
+- When editing a meal's recipe, RecipeValueCreateService handles markdown validation
 
 **OrganizationService**:
 ```java
@@ -219,31 +217,30 @@ Follow the same pattern as Recipe Create.
 
 ### Meal Components
 
+**Note**: Meals inherit their description from the RecipeValue object. The description is accessed through `meal.recipe.description`.
+
 #### Edit Meal (`/frontend/src/app/pages/menu/edit-meal/`)
 
-1. Import MarkdownEditorComponent
-2. Add description field to the form:
+When editing a meal, the recipe editor (if included) will automatically support markdown through the recipe's description field. No additional markdown components need to be added specifically for meal description since it's part of the recipe.
+
+If you want to display the recipe description in the meal edit form:
+1. Import MarkdownViewerComponent
+2. Show the recipe description:
 ```html
-<div class="mb-4">
-  <label class="block text-sm font-medium mb-2">Description</label>
-  <app-markdown-editor
-    formControlName="description"
-    [placeholder]="'Enter meal-specific description or notes in markdown format...'"
-    [maxLength]="4096">
-  </app-markdown-editor>
+<div *ngIf="meal.recipe?.description" class="mb-4">
+  <h3 class="font-semibold mb-2">Recipe Directions</h3>
+  <app-markdown-viewer [content]="meal.recipe.description"></app-markdown-viewer>
 </div>
 ```
-
-3. Update the component TypeScript to include description in the form model
 
 #### Meal Detail (`/frontend/src/app/pages/menu/detail-meal/`)
 
 1. Import MarkdownViewerComponent
-2. Add description display:
+2. Display the recipe description (which is the meal's description):
 ```html
-<div *ngIf="meal.description" class="mb-4">
-  <h3 class="font-semibold mb-2">Description</h3>
-  <app-markdown-viewer [content]="meal.description"></app-markdown-viewer>
+<div *ngIf="meal.recipe?.description" class="mb-4">
+  <h3 class="font-semibold mb-2">Directions</h3>
+  <app-markdown-viewer [content]="meal.recipe.description"></app-markdown-viewer>
 </div>
 ```
 

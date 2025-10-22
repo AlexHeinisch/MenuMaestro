@@ -16,15 +16,8 @@
         <modifyDataType tableName="menu" columnName="description" newDataType="VARCHAR(4096)"/>
     </changeSet>
 
-    <!-- Add description field to Meal (menu_item table with discriminator) for markdown -->
-    <changeSet id="markdown-support-3" author="claude">
-        <addColumn tableName="menu_item">
-            <column name="description" type="VARCHAR(4096)"/>
-        </addColumn>
-    </changeSet>
-
     <!-- Increase description field length for Organization to support markdown -->
-    <changeSet id="markdown-support-4" author="claude">
+    <changeSet id="markdown-support-3" author="claude">
         <modifyDataType tableName="organization" columnName="description" newDataType="VARCHAR(4096)"/>
     </changeSet>
 
