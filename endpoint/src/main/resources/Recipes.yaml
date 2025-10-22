@@ -182,7 +182,9 @@ components:
         name:
           type: string
         description:
+          description: "Markdown description/directions for the recipe"
           type: string
+          maxLength: 4096
         author:
           type: string
         servings:

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <!-- Increase description field length for RecipeValue to support markdown -->
+    <changeSet id="markdown-support-1" author="claude">
+        <modifyDataType tableName="recipe_value" columnName="description" newDataType="VARCHAR(4096)"/>
+    </changeSet>
+
+    <!-- Increase description field length for Menu to support markdown -->
+    <changeSet id="markdown-support-2" author="claude">
+        <modifyDataType tableName="menu" columnName="description" newDataType="VARCHAR(4096)"/>
+    </changeSet>
+
+    <!-- Add description field to Meal (menu_item table with discriminator) for markdown -->
+    <changeSet id="markdown-support-3" author="claude">
+        <addColumn tableName="menu_item">
+            <column name="description" type="VARCHAR(4096)"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- Increase description field length for Organization to support markdown -->
+    <changeSet id="markdown-support-4" author="claude">
+        <modifyDataType tableName="organization" columnName="description" newDataType="VARCHAR(4096)"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -35,17 +35,27 @@ public class RecipeValueCreateService {
     private final IngredientRepository ingredientRepository;
     private final CookingApplianceRepository cookingApplianceRepository;
     private final ImageRepository imageRepository;
+    private final MarkdownSanitizerService markdownSanitizerService;
 
     @Transactional(propagation = Propagation.MANDATORY)
     public RecipeValue validateAndCreateNewRecipeValue(RecipeCreateEditDto recipeCreateEditDto) {
         validateIngredientsAndCookingAppliances(recipeCreateEditDto);
         validateRecipeImageId(recipeCreateEditDto);
+        validateMarkdownDescription(recipeCreateEditDto);
 
         return recipeMapper.toNewRecipeValue(
                 recipeCreateEditDto,
                 mapIngredients(recipeCreateEditDto.getIngredients()),
                 mapCookingAppliances(recipeCreateEditDto.getCookingAppliances())
         );
+    }
+
+    private void validateMarkdownDescription(RecipeCreateEditDto recipeDto) {
+        try {
+            markdownSanitizerService.validateMarkdown(recipeDto.getDescription());
+        } catch (IllegalArgumentException e) {
+            throw new ValidationException(e.getMessage());
+        }
     }
 
     private void validateIngredientsAndCookingAppliances(RecipeCreateEditDto dto) {

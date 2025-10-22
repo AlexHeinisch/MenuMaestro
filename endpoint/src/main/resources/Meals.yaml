@@ -131,6 +131,9 @@ components:
         name:
           description: "Name of the meal"
           type: string
+        description:
+          description: "Markdown description/directions for the meal"
+          type: string
         status:
           $ref: '#/components/schemas/MealStatus'
         numberOfPeople:
@@ -151,6 +154,9 @@ components:
       properties:
         name:
           description: "Name of the meal"
+          type: string
+        description:
+          description: "Markdown description/directions for the meal"
           type: string
         numberOfPeople:
           type: integer
