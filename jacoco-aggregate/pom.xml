@@ -24,6 +24,49 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!-- Skip coverage if integration tests are disabled -->
+        <profile>
+            <id>skip-coverage-no-its</id>
+            <activation>
+                <property>
+                    <name>skipIntegrationTests</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <skip.coverage>true</skip.coverage>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>skip-coverage-no-uts</id>
+            <activation>
+                <property>
+                    <name>skipUnitTests</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <skip.coverage>true</skip.coverage>
+            </properties>
+        </profile>
+
+        <!-- Skip coverage if unit tests are disabled -->
+        <profile>
+            <id>skip-coverage-no-tests</id>
+            <activation>
+                <property>
+                    <name>skipTests</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <skip.coverage>true</skip.coverage>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -41,6 +84,7 @@
                                 <dataFileInclude>**/merged.exec</dataFileInclude>
                             </dataFileIncludes>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
+                            <skip>${skip.coverage}</skip>
                         </configuration>
                     </execution>
                 </executions>
@@ -61,6 +105,7 @@
                                 <argument>${project.build.directory}/classes/check_coverage.py</argument>
                                 <argument>${minimumBranchCoverage}</argument>
                             </arguments>
+                            <skip>${skip.coverage}</skip>
                         </configuration>
                     </execution>
                 </executions>
