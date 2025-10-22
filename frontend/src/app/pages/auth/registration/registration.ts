@@ -38,9 +38,10 @@ export class AccountRegistration {
   };
 
   isLoading = false;
+  registrationSuccess = false;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private accountApiService: AccountsApiService,
     private errorService: ErrorService,
     private toastr: ToastrService
@@ -51,7 +52,11 @@ export class AccountRegistration {
     this.accountApiService.createAccount(this.accountCreate).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.router.navigate(['/login']);
+        this.registrationSuccess = true;
+        this.toastr.success(
+          'Please check your email to verify your account.',
+          'Registration Successful!'
+        );
       },
       error: (error) => {
         this.isLoading = false;

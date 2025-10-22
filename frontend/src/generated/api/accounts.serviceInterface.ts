@@ -32,7 +32,7 @@ export interface AccountsApiServiceInterface {
      * 
      * @param accountCreateRequestDto 
      */
-    createAccount(accountCreateRequestDto?: AccountCreateRequestDto, extraHttpRequestParams?: any): Observable<AccountInfoDto>;
+    createAccount(accountCreateRequestDto?: AccountCreateRequestDto, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * 
@@ -80,5 +80,12 @@ export interface AccountsApiServiceInterface {
      * @param excludingOrganization The search query to filter accounts by not in organization.
      */
     searchAccounts(page?: number, size?: number, name?: string, excludingOrganization?: number, extraHttpRequestParams?: any): Observable<AccountSummaryListPaginatedDto>;
+
+    /**
+     * Verify email address with token
+     * Verifies a user\&#39;s email address and creates the account if the token is valid.
+     * @param token The verification token sent via email.
+     */
+    verifyEmail(token: string, extraHttpRequestParams?: any): Observable<AccountInfoDto>;
 
 }

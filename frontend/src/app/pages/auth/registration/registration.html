@@ -1,6 +1,36 @@
 <page-layout>
-  <h1 class="mb-8 text-center text-3xl" *ngIf="!isLoading">Sign up to MenuMaestro</h1>
-  <div class="flex flex-col" *ngIf="!isLoading">
+  <h1 class="mb-8 text-center text-3xl" *ngIf="!isLoading && !registrationSuccess">Sign up to MenuMaestro</h1>
+
+  <!-- Success Message -->
+  <div *ngIf="registrationSuccess" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
+      <div class="text-center">
+        <svg class="mx-auto h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <h2 class="mt-4 text-2xl font-bold text-gray-900">Registration Successful!</h2>
+        <p class="mt-4 text-gray-600">
+          We've sent a verification email to <strong>{{ accountCreate.email }}</strong>.
+        </p>
+        <p class="mt-2 text-gray-600">
+          Please check your email and click the verification link to activate your account.
+        </p>
+        <p class="mt-4 text-sm text-gray-500">
+          The verification link will expire in 30 minutes.
+        </p>
+        <div class="mt-6">
+          <simple-button
+            [variant]="ButtonVariant.primary"
+            [className]="'w-full'"
+            (click)="router.navigate(['/login'])">
+            Go to Login
+          </simple-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col" *ngIf="!isLoading && !registrationSuccess">
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
         <form #form="ngForm" (ngSubmit)="onSubmit(form)" (keydown.enter)="onSubmit(form)">

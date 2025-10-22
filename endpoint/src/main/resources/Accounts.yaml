@@ -116,12 +116,8 @@ paths:
             schema:
               $ref: '#/components/schemas/AccountCreateRequestDto'
       responses:
-        201:
-          description: "Account was successfully created."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountInfoDto'
+        202:
+          description: "Account registration initiated. Please check your email to verify your account."
         409:
           description: "Email or username already in use."
           content:
@@ -130,6 +126,46 @@ paths:
                 $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
         422:
           description: "Validation error occurred."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+
+  /accounts/verification:
+    get:
+      operationId: verifyEmail
+      tags:
+        - Accounts
+      summary: Verify email address with token
+      description: Verifies a user's email address and creates the account if the token is valid.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: The verification token sent via email.
+          schema:
+            type: string
+      responses:
+        201:
+          description: "Email verified and account successfully created."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountInfoDto'
+        403:
+          description: "Verification token has expired."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        404:
+          description: "Invalid or expired verification token."
+          content:
+            application/json:
+              schema:
+                $ref: "ErrorResponse.yaml#/components/responses/ErrorResponse"
+        409:
+          description: "Email or username already in use."
           content:
             application/json:
               schema:

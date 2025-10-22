@@ -24,6 +24,8 @@ menumaestro:
         audience-claim: "shopping-list"
     password-reset:
       expiration-time: 15m
+    email-verification:
+      expiration-time: 30m
 
   mail:
     username: some_mail_username

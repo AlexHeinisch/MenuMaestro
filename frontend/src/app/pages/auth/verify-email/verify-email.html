@@ -1,0 +1,65 @@
+<page-layout>
+  <!-- Loading State -->
+  <loading-spinner [isLoading]="isLoading"></loading-spinner>
+
+  <!-- Success State -->
+  <div *ngIf="verificationSuccess && !isLoading" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
+      <div class="text-center">
+        <svg class="mx-auto h-16 w-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <h1 class="mt-4 text-3xl font-bold text-gray-900">Email Verified!</h1>
+        <p class="mt-4 text-gray-600">
+          Your email has been successfully verified.
+        </p>
+        <p class="mt-2 text-gray-600" *ngIf="accountUsername">
+          Welcome, <strong>{{ accountUsername }}</strong>!
+        </p>
+        <p class="mt-4 text-gray-600">
+          You can now log in to your account.
+        </p>
+        <div class="mt-6">
+          <simple-button
+            [variant]="ButtonVariant.primary"
+            [className]="'w-full'"
+            (click)="router.navigate(['/login'])">
+            Go to Login
+          </simple-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="verificationError && !isLoading" class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
+      <div class="text-center">
+        <svg class="mx-auto h-16 w-16 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <h1 class="mt-4 text-3xl font-bold text-gray-900">Verification Failed</h1>
+        <p class="mt-4 text-gray-600">
+          {{ errorMessage }}
+        </p>
+        <p class="mt-4 text-sm text-gray-500">
+          If you continue to experience issues, please try registering again or contact support.
+        </p>
+        <div class="mt-6 space-y-3">
+          <simple-button
+            [variant]="ButtonVariant.primary"
+            [className]="'w-full'"
+            (click)="router.navigate(['/register'])">
+            Register Again
+          </simple-button>
+          <simple-button
+            [variant]="ButtonVariant.secondary"
+            [className]="'w-full'"
+            (click)="router.navigate(['/login'])">
+            Go to Login
+          </simple-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</page-layout>

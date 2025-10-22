@@ -3,6 +3,7 @@ package dev.heinisch.menumaestro.endpoint;
 import dev.heinisch.menumaestro.exceptions.ValidationException;
 import dev.heinisch.menumaestro.mapper.AccountMapper;
 import dev.heinisch.menumaestro.service.AccountService;
+import dev.heinisch.menumaestro.service.PendingRegistrationService;
 import dev.heinisch.menumaestro.validation.PropertyChecker;
 import dev.heinisch.menumaestro.validation.UserConstraints;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountEndpoint implements AccountsApi {
 
     private final AccountService accountService;
+    private final PendingRegistrationService pendingRegistrationService;
     private final AccountMapper accountMapper;
 
     @Override
@@ -46,14 +48,18 @@ public class AccountEndpoint implements AccountsApi {
 
     @Override
     @Transactional
-    public ResponseEntity<AccountInfoDto> createAccount(AccountCreateRequestDto accountCreateRequestDto) {
+    public ResponseEntity<Void> createAccount(AccountCreateRequestDto accountCreateRequestDto) {
         log.info("POST /accounts");
         log.debug("Request-Body: {}", accountCreateRequestDto);
 
         validateCreateAccountDto(accountCreateRequestDto);
+        pendingRegistrationService.createPendingRegistration(accountCreateRequestDto);
+
+        // Return a placeholder response since the account hasn't been created yet
+        // The actual account will be created after email verification
         return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(accountService.createAccount(accountCreateRequestDto));
+            .status(HttpStatus.ACCEPTED)
+            .build();
     }
 
     @Override
@@ -113,6 +119,17 @@ public class AccountEndpoint implements AccountsApi {
 
         accountService.deleteAccount(username);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<AccountInfoDto> verifyEmail(String token) {
+        log.info("GET /accounts/verification with token");
+
+        AccountInfoDto accountInfo = pendingRegistrationService.verifyEmailAndCreateAccount(token);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(accountInfo);
     }
 
     private void validateCommitPasswordReset(String username, ResetPasswordCommitRequestDto dto) {
