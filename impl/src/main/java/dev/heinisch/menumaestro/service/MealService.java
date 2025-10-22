@@ -37,7 +37,6 @@ public class MealService {
     private final StashService stashService;
     private final RecipeValueCreateService recipeValueCreateService;
     private final IngredientComputationService ingredientComputationService;
-    private final MarkdownSanitizerService markdownSanitizerService;
 
     @Transactional(readOnly = true)
     public MealDto getMealById(Long id) {
@@ -87,10 +86,7 @@ public class MealService {
             throw new ValidationException("Meal cannot be changed, menu it belongs to was closed!");
         }
 
-        validateMarkdownDescription(mealEditDto.getDescription());
-
         meal.setName(mealEditDto.getName());
-        meal.setDescription(mealEditDto.getDescription());
         meal.setNumberOfPeople(mealEditDto.getNumberOfPeople());
 
         if (mealEditDto.getRecipe() != null) {
@@ -99,13 +95,5 @@ public class MealService {
         }
         menuComputationService.computeMetadata(meal.getMenu(), iid -> ingredientRepository.findById(iid).orElseThrow());
         return mealMapper.toMealDto(mealRepository.save(meal));
-    }
-
-    private void validateMarkdownDescription(String description) {
-        try {
-            markdownSanitizerService.validateMarkdown(description);
-        } catch (IllegalArgumentException e) {
-            throw new ValidationException(e.getMessage());
-        }
     }
 }

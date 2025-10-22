@@ -28,9 +28,6 @@ public class Meal extends MenuItem {
     @NotNull
     private String name;
 
-    @Column(length = 4096)
-    private String description;
-
     @Column
     @Positive
     @NotNull
@@ -46,11 +43,10 @@ public class Meal extends MenuItem {
     private MealStatus status;
 
     @Builder
-    public Meal(Long id, String name, String description, Menu menu, Integer position, RecipeValue recipe, Integer numberOfPeople, Boolean isDone) {
+    public Meal(Long id, String name, Menu menu, Integer position, RecipeValue recipe, Integer numberOfPeople, Boolean isDone) {
         super(id, menu, position);
         this.recipe = recipe;
         this.name = name;
-        this.description = description;
         this.numberOfPeople = numberOfPeople;
         this.isDone = isDone;
     }
