@@ -64,7 +64,8 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Accounts.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
@@ -90,14 +91,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/CookingAppliances.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -117,14 +118,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Ingredients.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -144,14 +145,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Recipes.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <schemaMappings>
                                 <schemaMapping>Pageable=org.springframework.data.domain.Pageable</schemaMapping>
@@ -167,14 +168,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Menus.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -194,14 +195,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Organizations.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -221,14 +222,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Meals.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -248,14 +249,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/ShoppingLists.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -275,14 +276,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/Stash.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -294,14 +295,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/ImageStorage.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <output>${project.basedir}/target/generated-sources</output>
+                            <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>src/gen/java/main</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>

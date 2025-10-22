@@ -33,4 +33,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### OpenAPI Generated Sources ###
+**/src/gen/
+
 **/_merged_spec*

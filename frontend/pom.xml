@@ -68,6 +68,7 @@
               <inputSpecRootDirectory>${project.basedir}/../endpoint/src/main/resources</inputSpecRootDirectory>
               <generatorName>typescript-angular</generatorName>
               <output>${project.basedir}/src/generated/</output>
+              <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
               <configOptions>
                 <ngVersion>18.2</ngVersion>
                 <fileNaming>kebab-case</fileNaming>
@@ -75,7 +76,6 @@
                 <serviceSuffix>ApiService</serviceSuffix>
                 <withInterfaces>true</withInterfaces>
                 <providedInRoot>true</providedInRoot>
-                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
               </configOptions>
             </configuration>
           </execution>
