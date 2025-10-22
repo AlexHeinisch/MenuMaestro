@@ -58,6 +58,7 @@
 		<jjwt.version>0.12.6</jjwt.version>
 		<apache-commons-lang.version>3.17.0</apache-commons-lang.version>
 		<apache-commons-text.version>1.13.1</apache-commons-text.version>
+		<commonmark.version>0.23.0</commonmark.version>
 		<liquibase-core.version>4.29.2</liquibase-core.version>
 		<h2.version>2.3.232</h2.version>
 		<postgres.version>42.7.5</postgres.version>
@@ -87,6 +88,11 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>${apache-commons-lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.commonmark</groupId>
+				<artifactId>commonmark</artifactId>
+				<version>${commonmark.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.rest-assured</groupId>

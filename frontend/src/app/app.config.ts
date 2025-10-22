@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, SecurityContext } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -7,6 +7,7 @@ import { AuthInterceptor } from './security/auth-interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import {BASE_PATH} from "../generated";
+import { provideMarkdown } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,9 @@ export const appConfig: ApplicationConfig = {
       timeOut: 5000, // Toast duration in milliseconds
       closeButton: true,
       tapToDismiss: true,
+    }),
+    provideMarkdown({
+      sanitize: SecurityContext.NONE, // We handle security on backend
     }),
     { provide: BASE_PATH, useFactory: () => window.location.protocol + '//' + window.location.host + "/api/v1" }
   ],

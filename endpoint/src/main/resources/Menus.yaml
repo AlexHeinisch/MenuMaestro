@@ -373,7 +373,8 @@ components:
           format: int64
         description:
           type: string
-          description: "Description of the menu"
+          description: "Markdown description of the menu"
+          maxLength: 4096
         numberOfPeople:
           type: integer
           description: "Number of people that are having the menu"
@@ -478,7 +479,8 @@ components:
           example: "Football Summer Camp 2024"
         description:
           type: string
-          description: "Description of the menu"
+          description: "Markdown description of the menu"
+          maxLength: 4096
           example: "Summer camp of FC Max Musterhausen from 7.6.-20.6."
         organizationId:
           type: integer
