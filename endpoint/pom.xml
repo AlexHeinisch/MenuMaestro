@@ -65,13 +65,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Accounts.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -92,13 +92,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/CookingAppliances.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -119,13 +119,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Ingredients.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -146,13 +146,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Recipes.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <schemaMappings>
                                 <schemaMapping>Pageable=org.springframework.data.domain.Pageable</schemaMapping>
@@ -169,13 +169,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Menus.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -196,13 +196,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Organizations.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -223,13 +223,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Meals.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -250,13 +250,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/ShoppingLists.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>object+pageable=Pageable</typeMapping>
@@ -277,13 +277,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/Stash.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -296,13 +296,13 @@
                             <inputSpec>${project.basedir}/src/main/resources/ImageStorage.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.basedir}/src/gen/java/main</output>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useBeanValidation>false</useBeanValidation>
-                                <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>
