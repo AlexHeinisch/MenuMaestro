@@ -24,15 +24,16 @@
         [required]="true"
       ></input-field>
 
-      <input-field
-        name="menu-description"
-        [label]="'Description'"
-        [type]="InputType.textarea"
-        [(value)]="menu.description"
-        [form]="form"
-        placeholder="e.g. Summer Camp FC Umhausen 7.6.-20.6."
-      ></input-field>
-      <div></div>
+      <div>
+        <label class="block text-sm font-medium mb-2 text-gray-700">Description</label>
+        <app-markdown-editor
+          [(ngModel)]="menu.description"
+          name="menu-description"
+          [placeholder]="'Enter menu description in markdown format...'"
+          [maxLength]="4096"
+          [rows]="6"
+        ></app-markdown-editor>
+      </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input-field

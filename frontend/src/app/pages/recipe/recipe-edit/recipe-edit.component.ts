@@ -14,6 +14,7 @@ import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
 import { RequestIngredientModalComponent } from '../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component';
+import { MarkdownEditorComponent } from '../../../components/Markdown/MarkdownEditor/markdown-editor.component';
 import { Observable } from 'rxjs';
 import {
   CookingApplianceDto,
@@ -46,6 +47,7 @@ import {
         FileUploadComponent,
         RequestIngredientModalComponent,
         SimpleModalComponent,
+        MarkdownEditorComponent,
     ],
     templateUrl: './recipe-edit.component.html'
 })
