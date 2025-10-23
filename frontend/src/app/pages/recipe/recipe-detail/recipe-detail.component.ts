@@ -16,6 +16,7 @@ import { ErrorService } from '../../../globals/error.service';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
 import { TokenService } from '../../../security/token.service';
 import { AddMealToMenuModalComponent } from './components/add-meal/add-meal-to-menu-modal.component';
+import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
 import {IngredientUnitDto, MenusApiService, RecipeDto, RecipesApiService} from "../../../../generated";
 
 @Component({
@@ -28,6 +29,7 @@ import {IngredientUnitDto, MenusApiService, RecipeDto, RecipesApiService} from "
         LoadingSpinnerComponent,
         SimpleModalComponent,
         AddMealToMenuModalComponent,
+        MarkdownViewerComponent,
     ],
     selector: 'app-recipe-detail',
     templateUrl: './recipe-detail.component.html'

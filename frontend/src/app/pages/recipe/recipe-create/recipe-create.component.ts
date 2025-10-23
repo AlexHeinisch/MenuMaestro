@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../globals/error.service';
 import { RequestIngredientModalComponent } from '../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component';
 import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
+import { MarkdownEditorComponent } from '../../../components/Markdown/MarkdownEditor/markdown-editor.component';
 import {
   CookingApplianceDto,
   CookingApplianceListPaginatedDto,
@@ -40,6 +41,7 @@ import {
         FileUploadComponent,
         RequestIngredientModalComponent,
         SimpleModalComponent,
+        MarkdownEditorComponent,
     ],
     templateUrl: './recipe-create.component.html'
 })

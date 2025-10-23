@@ -8,6 +8,7 @@ import { SearchInputComponent } from '../../../../../components/Input/SearchInpu
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from '../../../../../globals/error.service';
 import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModalComponent';
+import { MarkdownEditorComponent } from '../../../../../components/Markdown/MarkdownEditor/markdown-editor.component';
 import {
   MenuCreateDto,
   MenusApiService,
@@ -24,6 +25,7 @@ import {
         InputFieldComponent,
         SearchInputComponent,
         SimpleModalComponent,
+        MarkdownEditorComponent,
     ],
     templateUrl: './create-menu-modal-content.component.html'
 })
