@@ -469,6 +469,8 @@ components:
           type: string
         description:
           type: string
+          description: "Markdown description of the organization"
+          maxLength: 4096
         stashId:
           description: "The id of the corresponding organization stash"
           type: integer
@@ -509,6 +511,8 @@ components:
           type: string
         description:
           type: string
+          description: "Markdown description of the organization"
+          maxLength: 4096
     OrganizationRoleEnum:
       description: Defines the possible roles of an organization member.
       type: string
@@ -544,6 +548,8 @@ components:
           type: string
         description:
           type: string
+          description: "Markdown description of the organization"
+          maxLength: 4096
       required:
         - name
         - description

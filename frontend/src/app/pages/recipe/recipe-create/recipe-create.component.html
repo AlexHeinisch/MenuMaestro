@@ -162,17 +162,15 @@
 
     <!-- Directions Row -->
     <div class="mb-12">
-      <input-field
-        [label]="'Directions*'"
-        [type]="InputType.textarea"
-        [placeholder]="'Enter recipe directions'"
-        [ariaLabel]="'Directions input field'"
-        [(value)]="recipeCreate.description"
-        [id]="'directions'"
-        [name]="'directions'"
-        [required]="true"
-        [form]="form"
-      ></input-field>
+      <label class="block text-sm font-medium mb-2 text-gray-700">Directions*</label>
+      <app-markdown-editor
+        [(ngModel)]="recipeCreate.description"
+        name="directions"
+        [placeholder]="'Enter recipe directions in markdown format...'"
+        [maxLength]="4096"
+        [rows]="10"
+        required
+      ></app-markdown-editor>
     </div>
 
     <div class="flex justify-end space-x-4">

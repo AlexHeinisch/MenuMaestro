@@ -39,6 +39,7 @@ public class OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationAccountRelationRepository organizationAccountRelationRepository;
     private final StashRepository stashRepository;
+    private final MarkdownSanitizerService markdownSanitizerService;
 
     @Transactional(readOnly = true)
     public Page<OrganizationSummaryDto> getOrganizationsByUsernameAndNameSubstring(String username, String nameSearchQuery, Pageable page) {
@@ -151,6 +152,7 @@ public class OrganizationService {
     @Transactional
     public OrganizationSummaryDto createOrganization(
         OrganizationCreateDto organizationCreateDto, String creatingUsername) {
+        validateMarkdownDescription(organizationCreateDto.getDescription());
         if (organizationRepository.findByName(organizationCreateDto.getName()).isPresent()) {
             throw new ConflictException("An organization with that name already exists: " + organizationCreateDto.getName());
         }
@@ -171,10 +173,19 @@ public class OrganizationService {
 
     @Transactional
     public OrganizationSummaryDto editOrganization(long organizationId, OrganizationEditDto organizationEditDto) {
+        validateMarkdownDescription(organizationEditDto.getDescription());
         Organization organization = organizationRepository.findById(organizationId).orElseThrow();
         organization.setName(organizationEditDto.getName());
         organization.setDescription(organizationEditDto.getDescription());
         return organizationMapper.toOrganizationSummaryDto(organization);
+    }
+
+    private void validateMarkdownDescription(String description) {
+        try {
+            markdownSanitizerService.validateMarkdown(description);
+        } catch (IllegalArgumentException e) {
+            throw new dev.heinisch.menumaestro.exceptions.ValidationException(e.getMessage());
+        }
     }
 
 

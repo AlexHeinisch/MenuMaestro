@@ -26,16 +26,16 @@
         [className]="'w-full col-span-2'"
         [required]="true"
       ></input-field>
-      <input-field
-        name="menu-description"
-        [label]="'Description'"
-        class="col-span-2"
-        [className]="'w-full col-span-2'"
-        [type]="InputType.textarea"
-        [(value)]="organization.description"
-        [form]="form"
-        placeholder="e.g. Some description about the organization"
-      ></input-field>
+      <div class="col-span-2">
+        <label class="block text-sm font-medium mb-2 text-gray-700">Description</label>
+        <app-markdown-editor
+          [(ngModel)]="organization.description"
+          name="organization-description"
+          [placeholder]="'Enter organization description in markdown format...'"
+          [maxLength]="4096"
+          [rows]="6"
+        ></app-markdown-editor>
+      </div>
     </div>
   </form>
 </simple-modal>
