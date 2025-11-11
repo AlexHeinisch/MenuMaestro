@@ -8,6 +8,12 @@ import { MarkdownModule } from 'ngx-markdown';
   imports: [CommonModule, MarkdownModule],
   template: `
     <div class="markdown-content">
+      <div *ngIf="content && content.length > maxExpectedLength" class="warning-banner">
+        <svg class="warning-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+        </svg>
+        <span>This content exceeds the expected length ({{ content.length }} / {{ maxExpectedLength }} characters)</span>
+      </div>
       <markdown
               [data]="content">
       </markdown>
@@ -136,8 +142,29 @@ import { MarkdownModule } from 'ngx-markdown';
       background-color: #f3f4f6;
       font-weight: 700;
     }
+
+    .warning-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      background-color: #fef3c7;
+      border: 1px solid #fbbf24;
+      border-radius: 0.375rem;
+      color: #92400e;
+      font-size: 0.875rem;
+    }
+
+    .warning-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex-shrink: 0;
+      color: #f59e0b;
+    }
   `]
 })
 export class MarkdownViewerComponent {
   @Input() content: string = '';
+  @Input() maxExpectedLength: number = 4096;
 }

@@ -20,6 +20,10 @@ public class MarkdownSanitizerService {
     /**
      * Validates that the markdown content doesn't contain links or images.
      *
+     * This service follows a validation approach rather than sanitization:
+     * markdown with forbidden elements is rejected entirely rather than having
+     * those elements stripped out. This provides clearer feedback to users.
+     *
      * @param markdown the markdown content to validate
      * @throws IllegalArgumentException if the markdown contains links or images
      */
@@ -30,23 +34,6 @@ public class MarkdownSanitizerService {
 
         Node document = parser.parse(markdown);
         validateNode(document);
-    }
-
-    /**
-     * Sanitizes markdown by removing links and images while preserving other formatting.
-     *
-     * @param markdown the markdown content to sanitize
-     * @return sanitized markdown content
-     */
-    public String sanitizeMarkdown(String markdown) {
-        if (markdown == null || markdown.isBlank()) {
-            return markdown;
-        }
-
-        // For now, we'll use validation approach - reject markdown with links/images
-        // This is simpler and gives clear feedback to users
-        validateMarkdown(markdown);
-        return markdown;
     }
 
     private void validateNode(Node node) {

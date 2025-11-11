@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
       tapToDismiss: true,
     }),
     provideMarkdown({
-      sanitize: SecurityContext.NONE, // We handle security on backend
+      sanitize: SecurityContext.HTML, // Sanitize HTML for defense in depth (backend also validates)
     }),
     {
       provide: MARKED_OPTIONS,
