@@ -41,7 +41,7 @@ public class RecipeValue {
     @NotBlank
     private String name;
 
-    @Column(nullable = false, length = 1024)
+    @Column(nullable = false, length = 4096)
     @NotNull
     private String description;
 

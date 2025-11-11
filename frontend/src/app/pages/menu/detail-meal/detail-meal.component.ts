@@ -14,6 +14,7 @@ import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
 import { TokenService } from '../../../security/token.service';
+import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
 import {IngredientUnitDto, MealDto, MealEditDto, MealsApiService, MealStatus} from "../../../../generated";
 
 @Component({
@@ -29,6 +30,7 @@ import {IngredientUnitDto, MealDto, MealEditDto, MealsApiService, MealStatus} fr
         SimpleModalComponent,
         ComplexModalComponent,
         InputFieldComponent,
+        MarkdownViewerComponent,
     ],
     templateUrl: './detail-meal.component.html'
 })

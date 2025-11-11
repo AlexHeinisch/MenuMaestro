@@ -21,6 +21,8 @@ import { TokenService } from '../../../security/token.service';
 import { ErrorService } from '../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { CreateMenuModalContentComponent } from '../../menu/menu-overview/components/create-menu-modal-content/create-menu-modal-content.component';
+import { MarkdownEditorComponent } from '../../../components/Markdown/MarkdownEditor/markdown-editor.component';
+import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
 
 @Component({
     selector: 'app-organization-detail',
@@ -33,6 +35,8 @@ import { CreateMenuModalContentComponent } from '../../menu/menu-overview/compon
         SimpleCardComponent,
         CommonModule,
         RouterModule,
+        MarkdownEditorComponent,
+        MarkdownViewerComponent,
         InputFieldComponent,
         FormsModule,
         LoadingSpinnerComponent,

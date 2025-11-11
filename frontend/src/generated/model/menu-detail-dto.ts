@@ -25,7 +25,7 @@ export interface MenuDetailDto {
      */
     stashId: number;
     /**
-     * Description of the menu
+     * Markdown description of the menu
      */
     description: string;
     /**
