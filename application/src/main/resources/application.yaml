@@ -130,3 +130,6 @@ logging:
   level:
     root: info
     dev.heinisch.menumaestro.datagen: debug
+    dev.heinisch.menumaestro.websocket: debug
+    org.springframework.web.socket: warn
+    org.springframework.messaging: warn

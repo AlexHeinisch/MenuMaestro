@@ -33,6 +33,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        log.debug("Registering STOMP endpoints at path: {}", websocketProperties.getWebsocketPath());
         registry.addEndpoint(websocketProperties.getWebsocketPath())
             .setAllowedOriginPatterns(corsProperties.getAllowedCrossOriginPatterns().toArray(new String[0])).withSockJS();
         registry.addEndpoint(websocketProperties.getWebsocketPath())
