@@ -43,7 +43,6 @@
     <!-- Bottom Left Column: Servings and Cooking Appliances -->
     <div class="space-y-4 border-t pt-4 flex items-top items-left md:pt-6 md:pb-0">
       <div class="bg-white rounded-lg">
-        <h2 class="text-xl font-semibold pb-4">Description</h2>
         <div class="pb-[30px]">
           <app-markdown-viewer *ngIf="recipeDto.description" [content]="recipeDto.description"></app-markdown-viewer>
           <p *ngIf="!recipeDto.description" class="text-gray-500 italic">No description available</p>
