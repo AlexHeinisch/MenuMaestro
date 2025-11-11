@@ -15,7 +15,7 @@ export interface MenuCreateDto {
      */
     name: string;
     /**
-     * Description of the menu
+     * Markdown description of the menu
      */
     description: string;
     /**

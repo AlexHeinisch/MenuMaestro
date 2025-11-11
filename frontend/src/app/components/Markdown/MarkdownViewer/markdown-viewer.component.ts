@@ -7,96 +7,134 @@ import { MarkdownModule } from 'ngx-markdown';
   standalone: true,
   imports: [CommonModule, MarkdownModule],
   template: `
-    <div class="markdown-content prose prose-sm max-w-none">
-      <markdown [data]="content"></markdown>
+    <div class="markdown-content">
+      <markdown
+              [data]="content">
+      </markdown>
     </div>
   `,
   styles: [`
     .markdown-content {
-      @apply text-gray-800;
+      color: #374151;
+      line-height: 1.6;
     }
 
-    .markdown-content :deep(h1),
-    .markdown-content :deep(h2),
-    .markdown-content :deep(h3),
-    .markdown-content :deep(h4),
-    .markdown-content :deep(h5),
-    .markdown-content :deep(h6) {
-      @apply font-bold mt-4 mb-2;
+    .markdown-content ::ng-deep h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
     }
 
-    .markdown-content :deep(h1) {
-      @apply text-2xl;
+    .markdown-content ::ng-deep h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
     }
 
-    .markdown-content :deep(h2) {
-      @apply text-xl;
+    .markdown-content ::ng-deep h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
     }
 
-    .markdown-content :deep(h3) {
-      @apply text-lg;
+    .markdown-content ::ng-deep h4 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #111827;
+      margin-top: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
-    .markdown-content :deep(p) {
-      @apply mb-2;
+    .markdown-content ::ng-deep p {
+      margin-bottom: 1rem;
     }
 
-    .markdown-content :deep(ul),
-    .markdown-content :deep(ol) {
-      @apply ml-6 mb-2;
+    .markdown-content ::ng-deep ul,
+    .markdown-content ::ng-deep ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+      padding-left: 0.5rem;
     }
 
-    .markdown-content :deep(ul) {
-      @apply list-disc;
+    .markdown-content ::ng-deep ul {
+      list-style-type: disc;
     }
 
-    .markdown-content :deep(ol) {
-      @apply list-decimal;
+    .markdown-content ::ng-deep ol {
+      list-style-type: decimal;
     }
 
-    .markdown-content :deep(li) {
-      @apply mb-1;
+    .markdown-content ::ng-deep li {
+      margin-bottom: 0.25rem;
     }
 
-    .markdown-content :deep(blockquote) {
-      @apply border-l-4 border-gray-300 pl-4 italic;
+    .markdown-content ::ng-deep blockquote {
+      border-left: 4px solid #d1d5db;
+      padding-left: 1rem;
+      font-style: italic;
+      color: #6b7280;
+      margin: 1rem 0;
     }
 
-    .markdown-content :deep(code) {
-      @apply bg-gray-100 rounded px-1 py-0.5 text-sm font-mono;
+    .markdown-content ::ng-deep code {
+      background-color: #f3f4f6;
+      border-radius: 0.25rem;
+      padding: 0.125rem 0.375rem;
+      font-size: 0.875rem;
+      font-family: 'Courier New', monospace;
     }
 
-    .markdown-content :deep(pre) {
-      @apply bg-gray-100 rounded p-3 overflow-x-auto;
+    .markdown-content ::ng-deep pre {
+      background-color: #f3f4f6;
+      border-radius: 0.375rem;
+      padding: 0.75rem;
+      overflow-x: auto;
+      margin: 1rem 0;
     }
 
-    .markdown-content :deep(pre code) {
-      @apply bg-transparent p-0;
+    .markdown-content ::ng-deep pre code {
+      background-color: transparent;
+      padding: 0;
     }
 
-    .markdown-content :deep(strong) {
-      @apply font-bold;
+    .markdown-content ::ng-deep strong {
+      font-weight: 700;
     }
 
-    .markdown-content :deep(em) {
-      @apply italic;
+    .markdown-content ::ng-deep em {
+      font-style: italic;
     }
 
-    .markdown-content :deep(hr) {
-      @apply my-4 border-gray-300;
+    .markdown-content ::ng-deep hr {
+      margin: 1.5rem 0;
+      border: none;
+      border-top: 1px solid #d1d5db;
     }
 
-    .markdown-content :deep(table) {
-      @apply w-full border-collapse my-4;
+    .markdown-content ::ng-deep table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
     }
 
-    .markdown-content :deep(th),
-    .markdown-content :deep(td) {
-      @apply border border-gray-300 px-3 py-2;
+    .markdown-content ::ng-deep th,
+    .markdown-content ::ng-deep td {
+      border: 1px solid #d1d5db;
+      padding: 0.5rem 0.75rem;
     }
 
-    .markdown-content :deep(th) {
-      @apply bg-gray-100 font-bold;
+    .markdown-content ::ng-deep th {
+      background-color: #f3f4f6;
+      font-weight: 700;
     }
   `]
 })

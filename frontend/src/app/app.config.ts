@@ -7,7 +7,7 @@ import { AuthInterceptor } from './security/auth-interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import {BASE_PATH} from "../generated";
-import { provideMarkdown } from 'ngx-markdown';
+import { provideMarkdown, MARKED_OPTIONS } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +27,13 @@ export const appConfig: ApplicationConfig = {
     provideMarkdown({
       sanitize: SecurityContext.NONE, // We handle security on backend
     }),
+    {
+      provide: MARKED_OPTIONS,
+      useValue: {
+        breaks: true, // Convert \n in paragraphs into <br>
+        gfm: true, // GitHub Flavored Markdown
+      },
+    },
     { provide: BASE_PATH, useFactory: () => window.location.protocol + '//' + window.location.host + "/api/v1" }
   ],
 };

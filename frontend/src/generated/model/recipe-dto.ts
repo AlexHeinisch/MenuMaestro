@@ -14,6 +14,9 @@ import { IngredientUseDto } from './ingredient-use-dto';
 
 export interface RecipeDto { 
     name: string;
+    /**
+     * Markdown description/directions for the recipe
+     */
     description: string;
     author: string;
     servings: number;
