@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>dev.heinisch.menumaestro</groupId>
 	<artifactId>root</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<name>Menu Maestro Application</name>
 	<url />
@@ -33,6 +33,9 @@
 	</modules>
 
 	<properties>
+        <!-- product version -->
+        <revision>1.0.0</revision>
+
 		<!-- test properties -->
 		<minimumBranchCoverage>70</minimumBranchCoverage>
 		<skipTests>false</skipTests>
@@ -44,7 +47,6 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 
 		<!-- core dependency versions -->
 		<spring.boot.version>3.5.0</spring.boot.version>
@@ -253,7 +255,7 @@
 				</dependencies>
 				<configuration>
 					<!-- Location of custom Checkstyle configuration file -->
-					<configLocation>checkstyle.xml</configLocation>
+					<configLocation>${session.executionRootDirectory}/checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<outputFileFormat>plain</outputFileFormat>
