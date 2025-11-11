@@ -48,10 +48,11 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
         }
         /* ============================================ */
 
-
+        log.debug("WebSocket CONNECT request received for shopping list topic");
 
         List<String> tokenList = accessor.getNativeHeader("X-Authorization");
         if (tokenList == null || tokenList.isEmpty() || tokenList.getFirst() == null) {
+            log.warn("WebSocket connection rejected: No X-Authorization header provided");
             throw ForbiddenException.generic();
         }
 
@@ -60,14 +61,16 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
         try {
             claims = jwtService.extractAllClaims(token);
         } catch (Exception e) {
+            log.warn("WebSocket connection rejected: Invalid JWT token - {}", e.getMessage());
             throw new UnauthorizedException("Invalid JWT token format or claims extraction failed");
         }
 
         if (jwtService.isTokenExpired(token)) {
+            log.warn("WebSocket connection rejected: Token expired");
             throw new UnauthorizedException("Provided token is expired!");
         }
 
-        if(claims.getAudience().equals(jwtProperties.getAccountAccessToken().getAudienceClaim())) {
+        if(claims.getAudience().contains(jwtProperties.getAccountAccessToken().getAudienceClaim())) {
 
             // extract roles & username
             final List<String> roles = ((List<?>) claims.get(jwtProperties.getAccountAccessToken().getRoleClaimName(), List.class))
@@ -78,22 +81,27 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
             if (!roles.contains("ROLE_ADMIN") &&
                 !organizationService.hasPermissionsForShoppingList(1L, username, OrganizationRole.MEMBER.name().toUpperCase())
             ) {
+                log.warn("WebSocket connection rejected: User '{}' lacks permissions for shopping list", username);
                 throw ForbiddenException.generic();
             }
 
+            log.info("WebSocket connection established: User '{}' connected to shopping list", username);
             // logged-in user has permissions
             return message;
         }
 
-        if(claims.getAudience().equals(jwtProperties.getShoppingListShareToken().getAudienceClaim())) {
+        if(claims.getAudience().contains(jwtProperties.getShoppingListShareToken().getAudienceClaim())) {
             if (!jwtService.isValidShoppingListToken(1L, token)) {
+                log.warn("WebSocket connection rejected: Invalid shopping list share token");
                 throw ForbiddenException.generic();
             }
 
+            log.info("WebSocket connection established: Anonymous user connected via share token");
             // shopping list share token is valid
             return message;
         }
 
+        log.warn("WebSocket connection rejected: Token has wrong audience claim");
         // token audience does not correspond to any permitted token here
         throw new UnauthorizedException("Wrong token provided!");
     }

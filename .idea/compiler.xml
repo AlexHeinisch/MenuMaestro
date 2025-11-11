@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="impl" />
         <module name="endpoint" />
+        <module name="application" />
         <module name="db-versioning" />
         <module name="jacoco-aggregate" />
         <module name="domain-core" />
@@ -20,9 +21,6 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
         <module name="mappers" />
       </profile>
@@ -44,6 +42,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="application" options="-parameters" />
       <module name="db-versioning" options="-parameters" />
       <module name="domain-core" options="-parameters" />
       <module name="endpoint" options="-parameters" />
