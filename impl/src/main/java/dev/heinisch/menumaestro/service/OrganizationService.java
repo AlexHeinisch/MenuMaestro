@@ -39,7 +39,7 @@ public class OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationAccountRelationRepository organizationAccountRelationRepository;
     private final StashRepository stashRepository;
-    private final MarkdownSanitizerService markdownSanitizerService;
+    private final MarkdownValidatorService markdownValidatorService;
 
     @Transactional(readOnly = true)
     public Page<OrganizationSummaryDto> getOrganizationsByUsernameAndNameSubstring(String username, String nameSearchQuery, Pageable page) {
@@ -182,7 +182,7 @@ public class OrganizationService {
 
     private void validateMarkdownDescription(String description) {
         try {
-            markdownSanitizerService.validateMarkdown(description);
+            markdownValidatorService.validateMarkdown(description);
         } catch (IllegalArgumentException e) {
             throw new dev.heinisch.menumaestro.exceptions.ValidationException(e.getMessage());
         }

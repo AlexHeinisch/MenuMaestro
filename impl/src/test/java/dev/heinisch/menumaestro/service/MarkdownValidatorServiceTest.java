@@ -7,16 +7,16 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Unit tests for {@link MarkdownSanitizerService}.
+ * Unit tests for {@link MarkdownValidatorService}.
  * Tests validation of markdown content to ensure links and images are properly detected and rejected.
  */
-class MarkdownSanitizerServiceTest {
+class MarkdownValidatorServiceTest {
 
-    private MarkdownSanitizerService service;
+    private MarkdownValidatorService service;
 
     @BeforeEach
     void setUp() {
-        service = new MarkdownSanitizerService();
+        service = new MarkdownValidatorService();
     }
 
     @Test

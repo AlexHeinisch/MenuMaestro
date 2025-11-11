@@ -15,7 +15,7 @@ public class RecipeConstraints {
 
     public static PropertyChecker validOptionalRecipeDescription(String description) {
         return PropertyChecker.begin()
-            .checkThat(description, "description").maxLength(1023).done();
+            .checkThat(description, "description").maxLength(4096).done();
     }
 
     public static PropertyChecker validServings(Integer servings) {

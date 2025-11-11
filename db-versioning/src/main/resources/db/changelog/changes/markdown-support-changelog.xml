@@ -7,17 +7,17 @@
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <!-- Increase description field length for RecipeValue to support markdown -->
-    <changeSet id="markdown-support-1" author="claude">
+    <changeSet id="markdown-support-1" author="alex.heinisch">
         <modifyDataType tableName="recipe_value" columnName="description" newDataType="VARCHAR(4096)"/>
     </changeSet>
 
     <!-- Increase description field length for Menu to support markdown -->
-    <changeSet id="markdown-support-2" author="claude">
+    <changeSet id="markdown-support-2" author="alex.heinisch">
         <modifyDataType tableName="menu" columnName="description" newDataType="VARCHAR(4096)"/>
     </changeSet>
 
     <!-- Increase description field length for Organization to support markdown -->
-    <changeSet id="markdown-support-3" author="claude">
+    <changeSet id="markdown-support-3" author="alex.heinisch">
         <modifyDataType tableName="organization" columnName="description" newDataType="VARCHAR(4096)"/>
     </changeSet>
 
