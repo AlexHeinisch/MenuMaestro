@@ -23,7 +23,7 @@ import dev.heinisch.menumaestro.persistence.OrganizationRepository;
 import dev.heinisch.menumaestro.persistence.RecipeRepository;
 import dev.heinisch.menumaestro.persistence.ShoppingListRepository;
 import dev.heinisch.menumaestro.service.JwtService;
-import dev.heinisch.menumaestro.service.MarkdownSanitizerService;
+import dev.heinisch.menumaestro.service.MarkdownValidatorService;
 import dev.heinisch.menumaestro.service.MenuService;
 import dev.heinisch.menumaestro.service.ShoppingListService;
 import dev.heinisch.menumaestro.service.StashService;
@@ -54,7 +54,7 @@ public class GetMenuStashComputeTest extends IngredientComputationTestBase {
     IngredientMapper ingredientMapper;
     StashService stashService;
     EntityLockingRepository entityLocker;
-    MarkdownSanitizerService markdownSanitizerService;
+    MarkdownValidatorService markdownValidatorService;
 
     MenuComputationService menuComputationService;
     ShoppingListService shoppingListService;
@@ -82,7 +82,7 @@ public class GetMenuStashComputeTest extends IngredientComputationTestBase {
         recipeRepository = mock(RecipeRepository.class);
         mealRepository = mock(MealRepository.class);
         ingredientRepository = mock(IngredientRepository.class);
-        markdownSanitizerService = mock(MarkdownSanitizerService.class);
+        markdownValidatorService = mock(MarkdownValidatorService.class);
 
         menuComputationService = new MenuComputationService(ingredientComputationService);
 
@@ -92,7 +92,7 @@ public class GetMenuStashComputeTest extends IngredientComputationTestBase {
         shoppingListMapper = new ShoppingListMapperImpl();
 
         shoppingListRepository = mock(ShoppingListRepository.class);
-        menuService = new MenuService(menuRepository, organizationRepository, recipeRepository, mealRepository, ingredientRepository, ingredientMapper, menuMapper, organizationMapper, enumsMapper, menuComputationService, shoppingListRepository, shoppingListService, stashService, entityLocker, markdownSanitizerService);
+        menuService = new MenuService(menuRepository, organizationRepository, recipeRepository, mealRepository, ingredientRepository, ingredientMapper, menuMapper, organizationMapper, enumsMapper, menuComputationService, shoppingListRepository, shoppingListService, stashService, entityLocker, markdownValidatorService);
     }
 
     @Test

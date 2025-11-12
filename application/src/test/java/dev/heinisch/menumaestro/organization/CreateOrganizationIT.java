@@ -107,7 +107,7 @@ public class CreateOrganizationIT extends BaseWebIntegrationTest {
     @Test
     void whenCreateOrg_withTooLongDescription_thenUnprocessableEntity() {
         var createDto = defaultCreateOrganizationDto()
-                .description("foobar".repeat(250));
+                .description("foobar".repeat(850));
         ErrorResponseAssert.assertThat(createOrganizationFails(createDto, HttpStatus.UNPROCESSABLE_ENTITY))
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageEquals("Validation error occurred!")

@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.heinisch.menumaestro</groupId>
         <artifactId>root</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>application</artifactId>
@@ -17,17 +17,17 @@
         <dependency>
             <groupId>dev.heinisch.menumaestro</groupId>
             <artifactId>impl</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>dev.heinisch.menumaestro</groupId>
             <artifactId>db-versioning</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>dev.heinisch.menumaestro</groupId>
             <artifactId>frontend</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>

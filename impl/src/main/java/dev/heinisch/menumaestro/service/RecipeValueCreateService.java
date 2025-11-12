@@ -35,7 +35,7 @@ public class RecipeValueCreateService {
     private final IngredientRepository ingredientRepository;
     private final CookingApplianceRepository cookingApplianceRepository;
     private final ImageRepository imageRepository;
-    private final MarkdownSanitizerService markdownSanitizerService;
+    private final MarkdownValidatorService markdownValidatorService;
 
     @Transactional(propagation = Propagation.MANDATORY)
     public RecipeValue validateAndCreateNewRecipeValue(RecipeCreateEditDto recipeCreateEditDto) {
@@ -52,7 +52,7 @@ public class RecipeValueCreateService {
 
     private void validateMarkdownDescription(RecipeCreateEditDto recipeDto) {
         try {
-            markdownSanitizerService.validateMarkdown(recipeDto.getDescription());
+            markdownValidatorService.validateMarkdown(recipeDto.getDescription());
         } catch (IllegalArgumentException e) {
             throw new ValidationException(e.getMessage());
         }

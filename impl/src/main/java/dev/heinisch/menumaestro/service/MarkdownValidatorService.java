@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
  * Ensures markdown doesn't contain disallowed elements like links and images.
  */
 @Service
-public class MarkdownSanitizerService {
+public class MarkdownValidatorService {
 
     private final Parser parser;
 
-    public MarkdownSanitizerService() {
+    public MarkdownValidatorService() {
         this.parser = Parser.builder().build();
     }
 

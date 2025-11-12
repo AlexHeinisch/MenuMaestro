@@ -57,7 +57,7 @@ public class MenuService {
     private final ShoppingListService shoppingListService;
     private final StashService stashService;
     private final EntityLockingRepository entityLocker;
-    private final MarkdownSanitizerService markdownSanitizerService;
+    private final MarkdownValidatorService markdownValidatorService;
 
 
     @Transactional
@@ -152,7 +152,7 @@ public class MenuService {
 
     private void validateMarkdownDescription(String description) {
         try {
-            markdownSanitizerService.validateMarkdown(description);
+            markdownValidatorService.validateMarkdown(description);
         } catch (IllegalArgumentException e) {
             throw new ValidationException(e.getMessage());
         }

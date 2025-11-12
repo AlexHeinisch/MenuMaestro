@@ -91,7 +91,7 @@ public class CreateMenuIT extends BaseWebIntegrationTest {
 
     @Test
     void whenCreateMenu_withTooLongDescription_thenUnprocessableEntity() {
-        ErrorResponseAssert.assertThat(rest.requestFails(defaultMenuCreateDto1().organizationId(organization1.getId()).description("FOOOOOBBBBBAAAAARRR".repeat(100)), HttpStatus.UNPROCESSABLE_ENTITY))
+        ErrorResponseAssert.assertThat(rest.requestFails(defaultMenuCreateDto1().organizationId(organization1.getId()).description("FOOOOOBBBBBAAAAARRR".repeat(500)), HttpStatus.UNPROCESSABLE_ENTITY))
                 .hasStatus(HttpStatus.UNPROCESSABLE_ENTITY)
                 .messageContains("Validation error")
                 .detailsContainSubstring("too long")
