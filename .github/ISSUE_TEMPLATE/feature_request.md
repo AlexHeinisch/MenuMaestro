@@ -6,9 +6,6 @@ labels: 'enhancement'
 assignees: ''
 ---
 
-## Title
-Brief, descriptive title of the feature (e.g., "Add user email verification flow")
-
 ## Context
 Explain the problem or opportunity this feature addresses. Include:
 - Current limitations or pain points

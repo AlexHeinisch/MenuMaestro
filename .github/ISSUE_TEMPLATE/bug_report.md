@@ -6,9 +6,6 @@ labels: 'bug'
 assignees: ''
 ---
 
-## Title
-Brief, descriptive title of the bug (e.g., "User session expires during file upload")
-
 ## Summary
 Quick one-sentence description of what's broken.
 
