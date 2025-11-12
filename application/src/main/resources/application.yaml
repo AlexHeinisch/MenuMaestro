@@ -6,7 +6,6 @@ menumaestro:
       - "moz-extension:*"
       - "https://menu-maestro.com"
       - "https://preview-menumaestro-application-*.menu-maestro.com"
-      - "https://*.menu-maestro.com"
 
   websocket:
     application-prefix: /app
