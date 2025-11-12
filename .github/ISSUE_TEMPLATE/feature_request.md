@@ -1,20 +1,37 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+about: Suggest an idea for this project following our structured template
+title: '[FEATURE] '
+labels: 'enhancement'
 assignees: ''
-
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Context
+Explain the problem or opportunity this feature addresses. Include:
+- Current limitations or pain points
+- Why this feature is needed
+- Any relevant background information
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+Example: "Currently users can sign up without verifying their email address, 
+leading to fake accounts. Need to implement email verification following our 
+existing auth patterns."
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Acceptance Criteria
+List specific, testable criteria that define when this feature is complete:
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## Technical Details
+Provide implementation guidance:
+- Files to modify or create
+- Relevant existing code patterns to follow
+- API endpoints or database changes needed
+- Dependencies or libraries to use
+
+## Testing
+Describe how this feature should be tested:
+- Unit tests needed
+- Integration tests needed
+- Edge cases to cover
+- Manual testing steps
