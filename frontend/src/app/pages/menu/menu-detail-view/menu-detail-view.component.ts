@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
 import { IngredientComputationService } from '../../../service/ingredient-computation.service';
 import { TokenService } from '../../../security/token.service';
+import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
 import {
   MealInMenuDto, MealsApiService,
   MealStatus,
@@ -48,6 +49,7 @@ import {
         FormsModule,
         CommonModule,
         RouterLink,
+        MarkdownViewerComponent,
     ],
     templateUrl: './menu-detail-view.component.html'
 })

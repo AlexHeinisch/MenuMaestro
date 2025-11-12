@@ -57,6 +57,7 @@ public class MenuService {
     private final ShoppingListService shoppingListService;
     private final StashService stashService;
     private final EntityLockingRepository entityLocker;
+    private final MarkdownValidatorService markdownValidatorService;
 
 
     @Transactional
@@ -139,6 +140,7 @@ public class MenuService {
 
     @Transactional
     public MenuSummaryDto createMenu(MenuCreateDto menuCreateDto) {
+        validateMarkdownDescription(menuCreateDto.getDescription());
         Menu menu = menuMapper.toMenu(menuCreateDto);
         if (!organizationRepository.existsById(menuCreateDto.getOrganizationId())) {
             throw new ConflictException("Organization with id " + menuCreateDto.getOrganizationId() + " does not exist!");
@@ -146,6 +148,14 @@ public class MenuService {
         var dto = menuMapper.toMenuSummaryDto(menuRepository.save(menu));
         dto.setOrganization(organizationMapper.toOrganizationSummaryDto(organizationRepository.findById(menu.getOrganizationId()).orElseThrow()));
         return dto;
+    }
+
+    private void validateMarkdownDescription(String description) {
+        try {
+            markdownValidatorService.validateMarkdown(description);
+        } catch (IllegalArgumentException e) {
+            throw new ValidationException(e.getMessage());
+        }
     }
 
 

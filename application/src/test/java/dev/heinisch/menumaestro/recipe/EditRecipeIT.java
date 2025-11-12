@@ -174,7 +174,7 @@ class EditRecipeIT extends BaseWebIntegrationTest {
     @Test
     void whenEditRecipe_withTooLongDescription_thenUnprocessableEntity() {
         var editDto = defaultCreateEditRecipeDto()
-                .description("Blub".repeat(300));
+                .description("Blub".repeat(3000));
 
         var errorResponse = editRecipeFails(recipeDto.getId(), editDto, HttpStatus.UNPROCESSABLE_ENTITY);
         ErrorResponseAssert.assertThat(errorResponse)

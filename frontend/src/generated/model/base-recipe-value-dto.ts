@@ -14,6 +14,9 @@
  */
 export interface BaseRecipeValueDto { 
     name: string;
+    /**
+     * Markdown description/directions for the recipe
+     */
     description: string;
     author: string;
     servings: number;

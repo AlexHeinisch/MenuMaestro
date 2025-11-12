@@ -15,6 +15,9 @@
 export interface OrganizationSummaryDto { 
     id: number;
     name: string;
+    /**
+     * Markdown description of the organization
+     */
     description: string;
     /**
      * The id of the corresponding organization stash

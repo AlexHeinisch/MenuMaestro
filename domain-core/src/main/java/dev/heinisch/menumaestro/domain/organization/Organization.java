@@ -21,7 +21,7 @@ public class Organization {
     @NotNull
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 4096)
     @NotNull
     private String description;
 

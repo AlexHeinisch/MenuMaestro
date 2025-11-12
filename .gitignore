@@ -37,3 +37,4 @@ build/
 **/src/gen/
 
 **/_merged_spec*
+.playwright-mcp/**

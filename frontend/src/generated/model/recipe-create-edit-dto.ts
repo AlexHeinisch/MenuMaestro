@@ -14,6 +14,9 @@ import { RecipeVisibility } from './recipe-visibility';
 
 export interface RecipeCreateEditDto { 
     name: string;
+    /**
+     * Markdown description/directions for the recipe
+     */
     description: string;
     author: string;
     servings: number;

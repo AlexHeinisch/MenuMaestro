@@ -14,7 +14,7 @@ public class MenuConstraints {
 
     public static PropertyChecker validOptionalMenuDescription(String description) {
         return PropertyChecker.begin()
-            .checkThat(description, "description").maxLength(1023).done();
+            .checkThat(description, "description").maxLength(4096).done();
     }
 
     public static PropertyChecker validNumberOfPeople(Integer servings) {

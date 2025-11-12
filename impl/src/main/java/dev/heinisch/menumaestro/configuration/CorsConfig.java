@@ -16,7 +16,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         // Allow cross-origin requests from localhost:4200
         registry.addMapping("/**")  // Apply to all endpoints
-                .allowedOrigins(corsProperties.getAllowedCrossOriginPatterns().toArray(new String[0]))
+                .allowedOriginPatterns(corsProperties.getAllowedCrossOriginPatterns().toArray(new String[0]))
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")  // Specify allowed HTTP methods
                 .allowedHeaders("*")
                 .exposedHeaders("*");  // Allow all headers

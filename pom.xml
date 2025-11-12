@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>dev.heinisch.menumaestro</groupId>
 	<artifactId>root</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<name>Menu Maestro Application</name>
 	<url />
@@ -33,6 +33,9 @@
 	</modules>
 
 	<properties>
+        <!-- product version -->
+        <revision>1.0.0</revision>
+
 		<!-- test properties -->
 		<minimumBranchCoverage>70</minimumBranchCoverage>
 		<skipTests>false</skipTests>
@@ -44,7 +47,6 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 
 		<!-- core dependency versions -->
 		<spring.boot.version>3.5.0</spring.boot.version>
@@ -58,6 +60,7 @@
 		<jjwt.version>0.12.6</jjwt.version>
 		<apache-commons-lang.version>3.17.0</apache-commons-lang.version>
 		<apache-commons-text.version>1.13.1</apache-commons-text.version>
+		<commonmark.version>0.23.0</commonmark.version>
 		<liquibase-core.version>4.29.2</liquibase-core.version>
 		<h2.version>2.3.232</h2.version>
 		<postgres.version>42.7.5</postgres.version>
@@ -87,6 +90,11 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>${apache-commons-lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.commonmark</groupId>
+				<artifactId>commonmark</artifactId>
+				<version>${commonmark.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.rest-assured</groupId>
@@ -247,7 +255,7 @@
 				</dependencies>
 				<configuration>
 					<!-- Location of custom Checkstyle configuration file -->
-					<configLocation>checkstyle.xml</configLocation>
+					<configLocation>${session.executionRootDirectory}/checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<outputFileFormat>plain</outputFileFormat>

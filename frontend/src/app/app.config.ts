@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, SecurityContext } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -7,6 +7,7 @@ import { AuthInterceptor } from './security/auth-interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import {BASE_PATH} from "../generated";
+import { provideMarkdown, MARKED_OPTIONS } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,16 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       tapToDismiss: true,
     }),
+    provideMarkdown({
+      sanitize: SecurityContext.HTML, // Sanitize HTML for defense in depth (backend also validates)
+    }),
+    {
+      provide: MARKED_OPTIONS,
+      useValue: {
+        breaks: true, // Convert \n in paragraphs into <br>
+        gfm: true, // GitHub Flavored Markdown
+      },
+    },
     { provide: BASE_PATH, useFactory: () => window.location.protocol + '//' + window.location.host + "/api/v1" }
   ],
 };

@@ -17,7 +17,10 @@
     </div>
     <loading-spinner [isLoading]="isLoading"></loading-spinner>
 
-    <p>{{ organization?.description }}</p>
+    <div class="mb-8" *ngIf="organization">
+      <app-markdown-viewer *ngIf="organization.description" [content]="organization.description"></app-markdown-viewer>
+      <p *ngIf="!organization.description" class="text-gray-500 italic">No description available</p>
+    </div>
     <div class="mt-16">
       <app-organization-members [organization]="organization"></app-organization-members>
     </div>
@@ -55,16 +58,16 @@
           [form]="form"
           [className]="'w-full'"
         ></input-field>
-        <input-field
-          [label]="'Description'"
-          [type]="inputType.text"
-          [(value)]="orgEditDto.description"
-          [placeholder]="'Enter Description'"
-          [id]="'orgEditDescription'"
-          [name]="'orgEditDescription'"
-          [form]="form"
-          [className]="'w-full'"
-        ></input-field>
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-700">Description</label>
+          <app-markdown-editor
+            [(ngModel)]="orgEditDto.description"
+            name="orgEditDescription"
+            [placeholder]="'Enter organization description in markdown format...'"
+            [maxLength]="4096"
+            [rows]="8"
+          ></app-markdown-editor>
+        </div>
       </div>
     </form>
   </simple-modal>

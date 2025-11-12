@@ -14,6 +14,9 @@
  */
 export interface OrganizationCreateDto { 
     name: string;
+    /**
+     * Markdown description of the organization
+     */
     description?: string;
 }
 

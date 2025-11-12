@@ -8,10 +8,11 @@ import { ErrorService } from '../../../../../globals/error.service';
 import { ToastrService } from 'ngx-toastr';
 import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModalComponent';
 import { TokenService } from '../../../../../security/token.service';
+import { MarkdownEditorComponent } from '../../../../../components/Markdown/MarkdownEditor/markdown-editor.component';
 
 @Component({
     selector: 'organization-create',
-    imports: [CommonModule, FormsModule, SimpleButtonComponent, InputFieldComponent, SimpleModalComponent],
+    imports: [CommonModule, FormsModule, SimpleButtonComponent, InputFieldComponent, SimpleModalComponent, MarkdownEditorComponent],
     templateUrl: './organization-create.component.html'
 })
 export class CreateOrganizationModalContentComponent {
