@@ -65,6 +65,21 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
             throw ForbiddenException.generic();
         }
 
+        // Extract shopping list ID from destination
+        final Long shoppingListId;
+        try {
+            String destination = accessor.getDestination();
+            if (destination == null) {
+                log.warn("WebSocket connection rejected: No destination provided");
+                throw ForbiddenException.generic();
+            }
+            String[] parts = destination.split("/");
+            shoppingListId = Long.parseLong(parts[parts.length - 1]);
+        } catch (NumberFormatException e) {
+            log.warn("WebSocket connection rejected: Invalid shopping list ID in destination");
+            throw ForbiddenException.generic();
+        }
+
         List<String> tokenList = accessor.getNativeHeader("X-Authorization");
         if (tokenList == null || tokenList.isEmpty() || tokenList.getFirst() == null) {
             log.warn("WebSocket connection rejected: No X-Authorization header provided");
