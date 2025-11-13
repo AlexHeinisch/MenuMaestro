@@ -21,10 +21,6 @@ if [ -z "$MINIKUBE_ACTIVE_DOCKERD" ]; then
 fi
 
 echo ""
-echo "Building application JAR..."
-mvn clean install -DskipTests
-
-echo ""
 echo "Building Docker image..."
 docker build -t menumaestro:latest .
 
