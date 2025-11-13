@@ -124,6 +124,12 @@ export class DetailShoppingListComponent implements OnInit {
             { 'X-Authorization': (this.shareToken ?? this.tokenService.getToken()).toString() }
           );
         },
+        onStompError: (frame) => {
+          this.handleWebSocketError('WebSocket connection error: Unable to connect to shopping list updates');
+        },
+        onWebSocketError: (event) => {
+          this.handleWebSocketError('WebSocket connection error: Unable to connect to shopping list updates');
+        },
       });
       this.stompClient.activate();
     });
@@ -131,6 +137,18 @@ export class DetailShoppingListComponent implements OnInit {
 
   ngOnDestroy() {
     this.stompClient?.deactivate();
+  }
+
+  handleWebSocketError(message: string): void {
+    this.toastr.error(message);
+    if (this.shareToken) {
+      this.toastr.error('Your share token is invalid or has expired. Redirecting to home page...');
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 3000);
+    } else {
+      this.toastr.error('Unable to establish live updates connection. Please refresh the page.');
+    }
   }
 
   onShoppingListUpdateReceived(msg: ShoppingListUpdateMessage) {

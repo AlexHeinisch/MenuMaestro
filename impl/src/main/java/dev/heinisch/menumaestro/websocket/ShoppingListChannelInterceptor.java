@@ -50,6 +50,21 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
 
         log.debug("WebSocket CONNECT request received for shopping list topic");
 
+        // Extract shopping list ID from destination
+        final Long shoppingListId;
+        try {
+            String destination = accessor.getDestination();
+            if (destination == null) {
+                log.warn("WebSocket connection rejected: No destination provided");
+                throw ForbiddenException.generic();
+            }
+            String[] parts = destination.split("/");
+            shoppingListId = Long.parseLong(parts[parts.length - 1]);
+        } catch (NumberFormatException e) {
+            log.warn("WebSocket connection rejected: Invalid shopping list ID in destination");
+            throw ForbiddenException.generic();
+        }
+
         List<String> tokenList = accessor.getNativeHeader("X-Authorization");
         if (tokenList == null || tokenList.isEmpty() || tokenList.getFirst() == null) {
             log.warn("WebSocket connection rejected: No X-Authorization header provided");
@@ -79,24 +94,24 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
 
             // check if logged-in user has permission
             if (!roles.contains("ROLE_ADMIN") &&
-                !organizationService.hasPermissionsForShoppingList(1L, username, OrganizationRole.MEMBER.name().toUpperCase())
+                !organizationService.hasPermissionsForShoppingList(shoppingListId, username, OrganizationRole.MEMBER.name().toUpperCase())
             ) {
-                log.warn("WebSocket connection rejected: User '{}' lacks permissions for shopping list", username);
+                log.warn("WebSocket connection rejected: User '{}' lacks permissions for shopping list {}", username, shoppingListId);
                 throw ForbiddenException.generic();
             }
 
-            log.info("WebSocket connection established: User '{}' connected to shopping list", username);
+            log.info("WebSocket connection established: User '{}' connected to shopping list {}", username, shoppingListId);
             // logged-in user has permissions
             return message;
         }
 
         if(claims.getAudience().contains(jwtProperties.getShoppingListShareToken().getAudienceClaim())) {
-            if (!jwtService.isValidShoppingListToken(1L, token)) {
-                log.warn("WebSocket connection rejected: Invalid shopping list share token");
+            if (!jwtService.isValidShoppingListToken(shoppingListId, token)) {
+                log.warn("WebSocket connection rejected: Invalid shopping list share token for shopping list {}", shoppingListId);
                 throw ForbiddenException.generic();
             }
 
-            log.info("WebSocket connection established: Anonymous user connected via share token");
+            log.info("WebSocket connection established: Anonymous user connected via share token to shopping list {}", shoppingListId);
             // shopping list share token is valid
             return message;
         }
