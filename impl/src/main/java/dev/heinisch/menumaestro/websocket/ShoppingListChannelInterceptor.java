@@ -35,20 +35,20 @@ public class ShoppingListChannelInterceptor implements ChannelInterceptor {
         final StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 
         /* ============================================
-        FILTER FOR CONNECT STATEMENTS + CORRECT TOPIC
+        FILTER FOR SUBSCRIBE STATEMENTS + CORRECT TOPIC
            ============================================ */
 
-        // only prevent unauthorized connections
-        if (accessor.getCommand() != StompCommand.CONNECT) {
+        // only prevent unauthorized subscriptions
+        if (accessor.getCommand() != StompCommand.SUBSCRIBE) {
             return message;
         }
         // only care about shopping list topics
-        if (accessor.getDestination() != null && !accessor.getDestination().startsWith(websocketProperties.getTopics().getShoppingListTopicPrefix())) {
+        if (accessor.getDestination() == null || !accessor.getDestination().startsWith(websocketProperties.getTopics().getShoppingListTopicPrefix())) {
             return message;
         }
         /* ============================================ */
 
-        log.debug("WebSocket CONNECT request received for shopping list topic");
+        log.debug("WebSocket SUBSCRIBE request received for shopping list topic");
 
         // Extract shopping list ID from destination
         final Long shoppingListId;
