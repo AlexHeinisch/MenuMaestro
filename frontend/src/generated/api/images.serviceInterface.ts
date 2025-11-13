@@ -26,6 +26,7 @@ export interface ImagesApiServiceInterface {
     /**
      * 
      * Download an image
+     * @endpoint get /images/{id}
      * @param id 
      */
     downloadImage(id: string, extraHttpRequestParams?: any): Observable<Blob>;
@@ -33,6 +34,7 @@ export interface ImagesApiServiceInterface {
     /**
      * 
      * Upload an image file, get back an identifier to refer to the record.
+     * @endpoint post /images
      * @param file 
      */
     uploadImage(file?: Blob, extraHttpRequestParams?: any): Observable<ImageUploadResponseDto>;

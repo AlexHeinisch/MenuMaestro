@@ -13,10 +13,15 @@
  * Status of meal in a menu indicating if it is done or if ingredients are missing.
  */
 export enum MealStatus {
+
     Done = 'DONE',
+
     AllIngredientsMissing = 'ALL_INGREDIENTS_MISSING',
+
     SomeIngredientsMissing = 'SOME_INGREDIENTS_MISSING',
+
     AllIngredientsPresent = 'ALL_INGREDIENTS_PRESENT',
+
     Closed = 'CLOSED'
 }
 

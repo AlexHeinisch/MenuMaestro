@@ -34,6 +34,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Add a new item (existing ingredient or custom one) to a shopping list
      * 
+     * @endpoint post /shopping-lists/{id}/items
      * @param id The ID of the shopping list
      * @param shoppingListIngredientAddDto Data to add a new item in a shopping list
      * @param token Optional token to be used by anonymous users
@@ -43,6 +44,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Manually close a shopping list and mark it as CLOSED
      * 
+     * @endpoint patch /shopping-lists/{id}/close
      * @param id The ID of the shopping list
      */
     closeShoppingList(id: number, extraHttpRequestParams?: any): Observable<CloseShoppingListDto>;
@@ -50,6 +52,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Create a new shopping list
      * 
+     * @endpoint post /shopping-lists
      * @param shoppingListCreateDto The details of the shopping list
      */
     createShoppingList(shoppingListCreateDto: ShoppingListCreateDto, extraHttpRequestParams?: any): Observable<ShoppingListDto>;
@@ -57,6 +60,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Used to create a share token for anonymous users to see and use the shopping list.
      * 
+     * @endpoint post /shopping-lists/{id}/token
      * @param id The ID of the shopping list
      */
     createShoppingListToken(id: number, extraHttpRequestParams?: any): Observable<ShoppingListTokenDto>;
@@ -64,6 +68,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Edit a shopping list (used for updating the checkedBy property and status)
      * 
+     * @endpoint patch /shopping-lists/{id}
      * @param id The ID of the shopping list
      * @param shoppingListEditDto The edited shopping list
      * @param token Optional token to be used by anonymous users
@@ -73,6 +78,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Get a shopping list by ID
      * 
+     * @endpoint get /shopping-lists/{id}
      * @param id The ID of the shopping list
      * @param token Optional token to be used by anonymous users
      */
@@ -81,6 +87,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * perform same computations as for the shopping list but preview which ingredients will be used.
      * 
+     * @endpoint post /shopping-lists/used-ingredient-preview
      * @param shoppingListCreateDto The details of the shopping list
      */
     getShoppingListPreview(shoppingListCreateDto: ShoppingListCreateDto, extraHttpRequestParams?: any): Observable<Array<ShoppingListPreviewEntryDto>>;
@@ -88,6 +95,7 @@ export interface ShoppingListApiServiceInterface {
     /**
      * Search for shopping lists by name and completion status
      * 
+     * @endpoint get /shopping-lists
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param name The name of the shopping list (supports partial match)

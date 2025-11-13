@@ -81,11 +81,11 @@ public class RecipeEndpoint implements RecipesApi {
     }
 
     @Override
-    public ResponseEntity<RecipeListPaginatedDto> getRecipes(Integer page, Integer size, String name, String description, String author, List<Long> ingredients, List<Long> requiredCookingAppliances, RecipeVisibility visibility, Pageable pageable) {
+    public ResponseEntity<RecipeListPaginatedDto> getRecipes(String name, String description, String author, List<Long> ingredients, List<Long> requiredCookingAppliances, RecipeVisibility visibility, Pageable pageable) {
         log.info("GET /recipes");
         log.debug("Search-Params: name='{}', desc='{}', author='{}', ingredients='{}', cooking_appliances='{}', visibility={}, page={}, size={}",
             name, description, author, StringUtils.join(ingredients, ','), StringUtils.join(requiredCookingAppliances, ','),
-            visibility, page, size);
+            visibility, pageable.getPageNumber(), pageable.getPageSize());
 
         String username = "";
         boolean isAdmin = false;
@@ -96,9 +96,9 @@ public class RecipeEndpoint implements RecipesApi {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         }
 
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
+        Pageable p = pageable.isPaged()
+            ? pageable
+            : PageRequest.of(0, 20);
         var result = recipeMapper.mapPageable(recipeService.getRecipes(
             name,
             description,
