@@ -13,14 +13,23 @@
  * The different units by which to measure amounts.
  */
 export enum IngredientUnitDto {
+
     Litres = 'LITRES',
+
     Millilitres = 'MILLILITRES',
+
     Kilograms = 'KILOGRAMS',
+
     Grams = 'GRAMS',
+
     Ounces = 'OUNCES',
+
     Cups = 'CUPS',
+
     Tablespoons = 'TABLESPOONS',
+
     Teaspoons = 'TEASPOONS',
+
     Piece = 'PIECE'
 }
 

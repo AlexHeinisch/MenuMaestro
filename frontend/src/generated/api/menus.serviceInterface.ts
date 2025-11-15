@@ -33,6 +33,7 @@ export interface MenusApiServiceInterface {
     /**
      * Add a new meal to a menu
      * 
+     * @endpoint post /menus/{id}/meals
      * @param id Id of the menu to add a meal to
      * @param addMealToMenuRequest Data to create a new meal in a menu
      */
@@ -41,6 +42,7 @@ export interface MenusApiServiceInterface {
     /**
      * Add a new snapshot to a menu
      * 
+     * @endpoint post /menus/{id}/snapshots
      * @param id Id of the menu to add a snapshot to
      * @param snapshotCreateDto Data to add a new snapshot to a menu
      */
@@ -49,6 +51,7 @@ export interface MenusApiServiceInterface {
     /**
      * Reorder the menu-items (snapshots and meals) by giving a reordered list of their ids
      * 
+     * @endpoint put /menus/{id}/items/order
      * @param id 
      * @param requestBody Reordered list with the menu-item ids
      */
@@ -57,6 +60,7 @@ export interface MenusApiServiceInterface {
     /**
      * Close a menu, which makes it unchangeable and transfers its stash to the organization
      * 
+     * @endpoint post /menus/{id}
      * @param id 
      */
     closeMenuById(id: number, extraHttpRequestParams?: any): Observable<{}>;
@@ -64,6 +68,7 @@ export interface MenusApiServiceInterface {
     /**
      * Create a new menu
      * 
+     * @endpoint post /menus
      * @param menuCreateDto Data for the new menu
      */
     createMenu(menuCreateDto: MenuCreateDto, extraHttpRequestParams?: any): Observable<MenuSummaryDto>;
@@ -71,6 +76,7 @@ export interface MenusApiServiceInterface {
     /**
      * Delete a menu by its id
      * 
+     * @endpoint delete /menus/{id}
      * @param id Id of the menu to delete
      */
     deleteMenuById(id: number, extraHttpRequestParams?: any): Observable<{}>;
@@ -78,6 +84,7 @@ export interface MenusApiServiceInterface {
     /**
      * Returns true if a Shopping list for the corresponding Menu exists, false otherwise
      * 
+     * @endpoint get /menus/{menuId}/existsShoppingListForMenu
      * @param menuId Id of the menu
      */
     existsShoppingListForMenu(menuId: number, extraHttpRequestParams?: any): Observable<boolean>;
@@ -85,6 +92,7 @@ export interface MenusApiServiceInterface {
     /**
      * Get a single menu by its id
      * 
+     * @endpoint get /menus/{id}
      * @param id 
      */
     getMenuById(id: number, extraHttpRequestParams?: any): Observable<MenuDetailDto>;
@@ -92,6 +100,7 @@ export interface MenusApiServiceInterface {
     /**
      * Search menus by specified criteria
      * 
+     * @endpoint get /menus
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -104,6 +113,7 @@ export interface MenusApiServiceInterface {
     /**
      * Removes a snapshot from a menu
      * 
+     * @endpoint delete /menus/{menuId}/snapshots/{snapshotId}
      * @param menuId Id of the menu to remove a snapshot from
      * @param snapshotId Id of the snapshot to be removed
      */

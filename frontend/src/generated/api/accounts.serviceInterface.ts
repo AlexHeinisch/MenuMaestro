@@ -30,6 +30,7 @@ export interface AccountsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint post /accounts
      * @param accountCreateRequestDto 
      */
     createAccount(accountCreateRequestDto?: AccountCreateRequestDto, extraHttpRequestParams?: any): Observable<{}>;
@@ -37,6 +38,7 @@ export interface AccountsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint delete /accounts/{username}
      * @param username The username of the account to be deleted.
      */
     deleteAccount(username: string, extraHttpRequestParams?: any): Observable<{}>;
@@ -44,6 +46,7 @@ export interface AccountsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint put /accounts/{username}
      * @param username 
      * @param accountEditRequestDto 
      */
@@ -52,12 +55,14 @@ export interface AccountsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint get /accounts/self
      */
     getAccountInfo(extraHttpRequestParams?: any): Observable<AccountInfoDto>;
 
     /**
      * 
      * 
+     * @endpoint put /accounts/{username}/reset-password/{token}
      * @param username 
      * @param token Password reset token sent via email by the application.
      * @param resetPasswordCommitRequestDto 
@@ -67,6 +72,7 @@ export interface AccountsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint post /accounts/{username}/reset-password
      * @param username 
      */
     resetPasswordInitiate(username: string, extraHttpRequestParams?: any): Observable<{}>;
@@ -74,6 +80,7 @@ export interface AccountsApiServiceInterface {
     /**
      * Search accounts by username
      * Get a list of accounts matching the search query.
+     * @endpoint get /accounts
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param name The search query to filter accounts by username, firstname or lastname.
@@ -84,6 +91,7 @@ export interface AccountsApiServiceInterface {
     /**
      * Verify email address with token
      * Verifies a user\&#39;s email address and creates the account if the token is valid.
+     * @endpoint get /accounts/verification
      * @param token The verification token sent via email.
      */
     verifyEmail(token: string, extraHttpRequestParams?: any): Observable<AccountInfoDto>;

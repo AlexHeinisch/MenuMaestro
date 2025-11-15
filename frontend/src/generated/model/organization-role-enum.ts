@@ -13,11 +13,17 @@
  * Defines the possible roles of an organization member.
  */
 export enum OrganizationRoleEnum {
+
     Member = 'member',
+
     Admin = 'admin',
+
     Owner = 'owner',
+
     Planner = 'planner',
+
     Shopper = 'shopper',
+
     Invited = 'invited'
 }
 

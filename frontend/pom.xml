@@ -16,7 +16,7 @@
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.15.1</version>
+        <version>${frontend-maven.version}</version>
         <configuration>
           <nodeVersion>v22.14.0</nodeVersion>
         </configuration>
@@ -57,7 +57,7 @@
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
-        <version>7.9.0</version>
+        <version>${openapi-generator.version}</version>
         <executions>
           <execution>
             <id>05-webapp-cooking-appliances-api</id>

@@ -13,8 +13,11 @@
  * Visibility of a recipe.
  */
 export enum RecipeVisibility {
+
     Public = 'PUBLIC',
+
     Private = 'PRIVATE',
+
     Organization = 'ORGANIZATION'
 }
 

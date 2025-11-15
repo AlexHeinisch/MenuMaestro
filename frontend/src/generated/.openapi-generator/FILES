@@ -1,5 +1,6 @@
 .gitignore
 README.md
+api.base.service.ts
 api.module.ts
 api/accounts.service.ts
 api/accounts.serviceInterface.ts
@@ -100,4 +101,5 @@ model/stash-response-dto.ts
 model/stash-search-response-dto.ts
 model/token-response-dto.ts
 param.ts
+provide-api.ts
 variables.ts

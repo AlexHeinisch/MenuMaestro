@@ -25,6 +25,7 @@ export interface CookingAppliancesApiServiceInterface {
     /**
      * Get all cooking appliances, or all matching the given filters. Supports pagination and search.
      * 
+     * @endpoint get /cooking-appliances
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.

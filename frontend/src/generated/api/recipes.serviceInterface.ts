@@ -30,6 +30,7 @@ export interface RecipesApiServiceInterface {
     /**
      * Create a new persistent recipe
      * 
+     * @endpoint post /recipes
      * @param recipeCreateEditDto data for the recipe
      */
     createRecipe(recipeCreateEditDto?: RecipeCreateEditDto, extraHttpRequestParams?: any): Observable<RecipeDto>;
@@ -37,6 +38,7 @@ export interface RecipesApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint delete /recipes/{id}
      * @param id id of the recipe
      */
     deleteRecipeById(id: number, extraHttpRequestParams?: any): Observable<{}>;
@@ -44,6 +46,7 @@ export interface RecipesApiServiceInterface {
     /**
      * Edit an already existing recipe.
      * 
+     * @endpoint put /recipes/{id}
      * @param id id of the recipe
      * @param recipeCreateEditDto data for the recipe
      */
@@ -52,6 +55,7 @@ export interface RecipesApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint get /recipes/{id}
      * @param id id of the recipe
      */
     getRecipeById(id: number, extraHttpRequestParams?: any): Observable<RecipeDto>;
@@ -59,6 +63,7 @@ export interface RecipesApiServiceInterface {
     /**
      * Get a list of all Recipes matching the search query.
      * 
+     * @endpoint get /recipes
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param name 
