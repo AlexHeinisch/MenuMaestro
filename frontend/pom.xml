@@ -60,7 +60,7 @@
         <version>${openapi-generator.version}</version>
         <executions>
           <execution>
-            <id>05-webapp-cooking-appliances-api</id>
+            <id>generate-rest-clients</id>
             <goals>
               <goal>generate</goal>
             </goals>
