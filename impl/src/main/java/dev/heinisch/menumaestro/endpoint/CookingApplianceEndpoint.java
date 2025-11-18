@@ -25,18 +25,14 @@ public class CookingApplianceEndpoint implements CookingAppliancesApi {
     private final CookingApplianceMapper cookingApplianceMapper;
 
     @Override
-    public ResponseEntity<CookingApplianceListPaginatedDto> getCookingAppliances(Integer page, Integer size, List<String> sort, String name, Pageable pageable) {
+    public ResponseEntity<CookingApplianceListPaginatedDto> getCookingAppliances(String name, Pageable pageable) {
         log.info("GET /cooking-appliances");
         log.debug("Search-Params: name='{}' page={}, size={}",
-            name, page, size);
+                name, pageable.getPageNumber(), pageable.getPageSize());
 
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
-
-        var result = cookingApplianceService.getCookingAppliances(name, p);
+        var result = cookingApplianceService.getCookingAppliances(name, PageableHelper.orDefault(pageable));
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(cookingApplianceMapper.mapPageable(result));
+                .status(HttpStatus.OK)
+                .body(cookingApplianceMapper.mapPageable(result));
     }
 }

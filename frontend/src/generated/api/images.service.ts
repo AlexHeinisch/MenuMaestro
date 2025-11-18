@@ -24,6 +24,7 @@ import { ImageUploadResponseDto } from '../model/image-upload-response-dto';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     ImagesApiServiceInterface
 } from './images.serviceInterface';
@@ -33,83 +34,15 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ImagesApiService implements ImagesApiServiceInterface {
+export class ImagesApiService extends BaseService implements ImagesApiServiceInterface {
 
-    protected basePath = 'http://localhost:8080';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
      * Download an image
+     * @endpoint get /images/{id}
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -124,39 +57,29 @@ export class ImagesApiService implements ImagesApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'image/*',
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'image/*',
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let localVarPath = `/images/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: "blob",
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -164,6 +87,7 @@ export class ImagesApiService implements ImagesApiServiceInterface {
 
     /**
      * Upload an image file, get back an identifier to refer to the record.
+     * @endpoint post /images
      * @param file 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -175,27 +99,16 @@ export class ImagesApiService implements ImagesApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -232,15 +145,16 @@ export class ImagesApiService implements ImagesApiServiceInterface {
         }
 
         let localVarPath = `/images`;
-        return this.httpClient.request<ImageUploadResponseDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ImageUploadResponseDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );

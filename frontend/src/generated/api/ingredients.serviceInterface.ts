@@ -29,6 +29,7 @@ export interface IngredientsApiServiceInterface {
     /**
      * Approve a suggested ingredient.
      * 
+     * @endpoint post /ingredients/{ingredientId}
      * @param ingredientId ID of the suggested ingredient to approve
      */
     approveIngredient(ingredientId: number, extraHttpRequestParams?: any): Observable<IngredientDto>;
@@ -36,6 +37,7 @@ export interface IngredientsApiServiceInterface {
     /**
      * Delete an existing ingredient.
      * 
+     * @endpoint delete /ingredients/{ingredientId}
      * @param ingredientId ID of the ingredient to delete
      */
     deleteIngredient(ingredientId: number, extraHttpRequestParams?: any): Observable<{}>;
@@ -43,6 +45,7 @@ export interface IngredientsApiServiceInterface {
     /**
      * Get all suggested ingredients.
      * 
+     * @endpoint get /ingredientSuggestions
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -52,6 +55,7 @@ export interface IngredientsApiServiceInterface {
     /**
      * Replace an existing ingredient.
      * 
+     * @endpoint patch /ingredients/{ingredientId}
      * @param ingredientId ID of the ingredient to replace
      * @param replaceIngredientRequest 
      */
@@ -60,6 +64,7 @@ export interface IngredientsApiServiceInterface {
     /**
      * Get all ingredients, or all matching the given filters. Supports pagination and search.
      * 
+     * @endpoint get /ingredients
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -71,6 +76,7 @@ export interface IngredientsApiServiceInterface {
     /**
      * Suggest a new ingredient.
      * 
+     * @endpoint post /ingredients
      * @param createIngredientDto 
      */
     suggestIngredient(createIngredientDto: CreateIngredientDto, extraHttpRequestParams?: any): Observable<IngredientDto>;

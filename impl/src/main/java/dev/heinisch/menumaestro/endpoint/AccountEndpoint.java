@@ -99,17 +99,14 @@ public class AccountEndpoint implements AccountsApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<AccountSummaryListPaginatedDto> searchAccounts(Integer page, Integer size, String name, Long excludingOrganization) {
+    public ResponseEntity<AccountSummaryListPaginatedDto> searchAccounts(String name, Long excludingOrganization, Pageable pageable) {
         log.info("GET /accounts");
-        log.debug("Search-Params: name={} page={} size={}", name, page, size);
+        log.debug("Search-Params: name={} page={} size={}", name, pageable.getPageNumber(), pageable.getPageSize());
 
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
-
+        var result = accountService.searchUsersByAnyNameExcludingInOrganization(name, excludingOrganization, PageableHelper.orDefault(pageable));
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(accountMapper.mapPageable(accountService.searchUsersByAnyNameExcludingInOrganization(name, excludingOrganization, p)));
+            .body(accountMapper.mapPageable(result));
     }
 
     @Override

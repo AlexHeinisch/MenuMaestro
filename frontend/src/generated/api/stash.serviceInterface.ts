@@ -28,6 +28,7 @@ export interface StashApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint get /stash/{id}
      * @param id 
      */
     getStash(id: number, extraHttpRequestParams?: any): Observable<StashResponseDto>;
@@ -35,6 +36,7 @@ export interface StashApiServiceInterface {
     /**
      * 
      * Removes the selected ingredient amounts from one stash and adds them to another.
+     * @endpoint post /stash/{id}/move-ingredients
      * @param id 
      * @param otherStashId 
      * @param ingredientUseCreateEditDto Specifies which ingredients + amounts to move
@@ -44,6 +46,7 @@ export interface StashApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint get /stash
      * @param name 
      * @param page 
      * @param size 
@@ -53,6 +56,7 @@ export interface StashApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint patch /stash/{id}
      * @param id 
      * @param ingredientUseCreateEditDto List of ingredients to modify. Use amount 0 to delete, nonzero amount to add
      * @param ifMatch Standard precondition header, give an ETAG here. See the 412 response status.

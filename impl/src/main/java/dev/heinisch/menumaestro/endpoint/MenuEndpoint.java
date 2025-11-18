@@ -101,14 +101,14 @@ public class MenuEndpoint implements MenusApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<MenuSummaryListPaginatedDto> getMenus(Integer page, Integer size, List<String> sort, String name, Long organizationId, MenuStatus status, Pageable pageable) {
+    public ResponseEntity<MenuSummaryListPaginatedDto> getMenus(String name, Long organizationId, MenuStatus status, Pageable pageable) {
         log.info("GET /menus?=<>");
-        log.debug("Search-Params: name='{}', organizationId='{}', status='{}', page='{}', size='{}'", name, organizationId, status, page, size);
+        log.debug("Search-Params: name='{}', organizationId='{}', status='{}', page='{}', size='{}'", name, organizationId, status, pageable.getPageNumber(), pageable.getPageSize());
         String username;
 
-        Pageable p = page == null && size == null
-                ? Pageable.unpaged()
-                : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
+        Pageable p = pageable.isPaged()
+                ? pageable
+                : PageRequest.of(0, 20);
         if (SecurityContextHolder.getContext().getAuthentication()
                 .getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {

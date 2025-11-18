@@ -14,6 +14,7 @@ paths:
       tags:
         - Ingredients
       summary: 'Get all ingredients, or all matching the given filters. Supports pagination and search.'
+      x-spring-paginated: true
       parameters:
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
@@ -139,6 +140,7 @@ paths:
       tags:
         - Ingredients
       summary: 'Get all suggested ingredients.'
+      x-spring-paginated: true
       parameters:
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'

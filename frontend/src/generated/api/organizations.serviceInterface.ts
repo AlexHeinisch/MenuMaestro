@@ -33,6 +33,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Change the role of a member in an organization
      * Update the role of a specific member. Only admins/owners can perform this action.
+     * @endpoint put /organizations/{id}/members/{username}/role
      * @param id The ID of the organization
      * @param username The username of the account whose role is being changed
      * @param changeMemberRoleRequest The new role to assign to the member
@@ -42,6 +43,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint post /organizations
      * @param organizationCreateDto Organization data to be created.
      */
     createOrganization(organizationCreateDto: OrganizationCreateDto, extraHttpRequestParams?: any): Observable<OrganizationSummaryDto>;
@@ -49,6 +51,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Delete an organization by ID
      * Delete the specified organization from the system.
+     * @endpoint delete /organizations/{id}
      * @param id The ID of the organization to delete
      */
     deleteOrganization(id: number, extraHttpRequestParams?: any): Observable<{}>;
@@ -56,6 +59,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Edit organization information
      * Allows updating the organization\&#39;s name and description.
+     * @endpoint put /organizations/{id}
      * @param id The ID of the organization
      * @param organizationEditDto The edited organization data
      */
@@ -64,6 +68,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint get /organizations/invitations
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      */
@@ -72,6 +77,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Get organization details by ID
      * 
+     * @endpoint get /organizations/{id}
      * @param id The ID of the organization
      */
     getOrganizationById(id: number, extraHttpRequestParams?: any): Observable<OrganizationSummaryDto>;
@@ -79,6 +85,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Get all members of an organization
      * Retrieve a list of all members of a specified organization.
+     * @endpoint get /organizations/{id}/members
      * @param id The ID of the organization
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
@@ -88,6 +95,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint get /organizations
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param name Name of an organisation
@@ -97,6 +105,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Invite a user to an organization
      * Invite a user to an organization by specifying their unique username.
+     * @endpoint post /organizations/{id}/members
      * @param id The ID of the organization
      * @param inviteMemberRequest User details to invite to the organization
      */
@@ -105,6 +114,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Remove a member from an organization
      * Remove a specific member from the organization by their username. If the user is in the organization this represents a kick-action. If the user is invited this represents revoking the invitation. Only admins can perform this action.
+     * @endpoint delete /organizations/{id}/members/{username}
      * @param id The ID of the organization
      * @param username The username of the member to remove
      */
@@ -113,6 +123,7 @@ export interface OrganizationsApiServiceInterface {
     /**
      * Respond to an invitation to join an organization
      * Endpoint to allow a user to accept or decline an invitation to join an organization.
+     * @endpoint put /organizations/{id}/members
      * @param id The ID of the organization
      * @param respondToInvitationRequest Response to the invitation
      */

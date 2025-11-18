@@ -10,8 +10,11 @@
 
 
 export enum MenuStatus {
+
     All = 'ALL',
+
     Closed = 'CLOSED',
+
     Serving = 'SERVING'
 }
 

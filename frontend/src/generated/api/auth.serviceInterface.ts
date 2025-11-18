@@ -27,6 +27,7 @@ export interface AuthApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint post /auth/login
      * @param loginRequestDto 
      */
     login(loginRequestDto?: LoginRequestDto, extraHttpRequestParams?: any): Observable<TokenResponseDto>;
@@ -34,6 +35,7 @@ export interface AuthApiServiceInterface {
     /**
      * 
      * Returns a token with same expiry as the current login token but refreshed permissions
+     * @endpoint post /auth/refresh-roles
      * @param authorization 
      */
     refreshRoles(authorization?: string, extraHttpRequestParams?: any): Observable<TokenResponseDto>;

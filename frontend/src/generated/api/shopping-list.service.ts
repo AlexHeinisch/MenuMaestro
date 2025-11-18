@@ -40,6 +40,7 @@ import { ShoppingListTokenDto } from '../model/shopping-list-token-dto';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     ShoppingListApiServiceInterface
 } from './shopping-list.serviceInterface';
@@ -49,70 +50,15 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ShoppingListApiService implements ShoppingListApiServiceInterface {
+export class ShoppingListApiService extends BaseService implements ShoppingListApiServiceInterface {
 
-    protected basePath = 'http://localhost:8080';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
      * Add a new item (existing ingredient or custom one) to a shopping list
+     * @endpoint post /shopping-lists/{id}/items
      * @param id The ID of the shopping list
      * @param shoppingListIngredientAddDto Data to add a new item in a shopping list
      * @param token Optional token to be used by anonymous users
@@ -131,34 +77,21 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (token !== undefined && token !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>token, 'token');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>token, 'token');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -182,16 +115,17 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/items`;
-        return this.httpClient.request<ShoppingListDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ShoppingListDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: shoppingListIngredientAddDto,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -199,6 +133,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * Manually close a shopping list and mark it as CLOSED
+     * @endpoint patch /shopping-lists/{id}/close
      * @param id The ID of the shopping list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -213,27 +148,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -248,14 +172,15 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/close`;
-        return this.httpClient.request<CloseShoppingListDto>('patch', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<CloseShoppingListDto>('patch', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -263,6 +188,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * Create a new shopping list
+     * @endpoint post /shopping-lists
      * @param shoppingListCreateDto The details of the shopping list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -277,27 +203,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -321,15 +236,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists`;
-        return this.httpClient.request<ShoppingListDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ShoppingListDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: shoppingListCreateDto,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -337,6 +253,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * Used to create a share token for anonymous users to see and use the shopping list.
+     * @endpoint post /shopping-lists/{id}/token
      * @param id The ID of the shopping list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -351,27 +268,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -386,14 +292,15 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/token`;
-        return this.httpClient.request<ShoppingListTokenDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ShoppingListTokenDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -401,6 +308,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * Edit a shopping list (used for updating the checkedBy property and status)
+     * @endpoint patch /shopping-lists/{id}
      * @param id The ID of the shopping list
      * @param shoppingListEditDto The edited shopping list
      * @param token Optional token to be used by anonymous users
@@ -419,34 +327,21 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (token !== undefined && token !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>token, 'token');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>token, 'token');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -470,16 +365,17 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<ShoppingListDto>('patch', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ShoppingListDto>('patch', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: shoppingListEditDto,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -487,6 +383,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * Get a shopping list by ID
+     * @endpoint get /shopping-lists/{id}
      * @param id The ID of the shopping list
      * @param token Optional token to be used by anonymous users
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -501,34 +398,21 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (token !== undefined && token !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>token, 'token');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>token, 'token');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -543,15 +427,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<ShoppingListDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ShoppingListDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -559,6 +444,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * perform same computations as for the shopping list but preview which ingredients will be used.
+     * @endpoint post /shopping-lists/used-ingredient-preview
      * @param shoppingListCreateDto The details of the shopping list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -573,27 +459,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -617,15 +492,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists/used-ingredient-preview`;
-        return this.httpClient.request<Array<ShoppingListPreviewEntryDto>>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<ShoppingListPreviewEntryDto>>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: shoppingListCreateDto,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -633,6 +509,7 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
 
     /**
      * Search for shopping lists by name and completion status
+     * @endpoint get /shopping-lists
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param name The name of the shopping list (supports partial match)
@@ -647,50 +524,29 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
     public searchShoppingLists(page?: number, size?: number, name?: string, status?: ShoppingListStatus, menuId?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (page !== undefined && page !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>page, 'page');
-        }
-        if (size !== undefined && size !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>size, 'size');
-        }
-        if (name !== undefined && name !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>name, 'name');
-        }
-        if (status !== undefined && status !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>status, 'status');
-        }
-        if (menuId !== undefined && menuId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>menuId, 'menuId');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>page, 'page');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>size, 'size');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>name, 'name');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>status, 'status');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>menuId, 'menuId');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -705,15 +561,16 @@ export class ShoppingListApiService implements ShoppingListApiServiceInterface {
         }
 
         let localVarPath = `/shopping-lists`;
-        return this.httpClient.request<ShoppingListListPaginatedDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<ShoppingListListPaginatedDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );

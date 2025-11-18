@@ -13,15 +13,25 @@
  * Enum representing the categories of ingredients
  */
 export enum IngredientCategory {
+
     FreshProduce = 'FRESH_PRODUCE',
+
     RedMeatsAndPoultry = 'RED_MEATS_AND_POULTRY',
+
     Fish = 'FISH',
+
     DairyAndEggs = 'DAIRY_AND_EGGS',
+
     Bakery = 'BAKERY',
+
     PantryStaples = 'PANTRY_STAPLES',
+
     FrozenFoods = 'FROZEN_FOODS',
+
     Beverages = 'BEVERAGES',
+
     Snacks = 'SNACKS',
+
     Other = 'OTHER'
 }
 

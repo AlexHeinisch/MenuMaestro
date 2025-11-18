@@ -13,7 +13,9 @@
  * The status of the shopping list, indicating whether it is open or completed.
  */
 export enum ShoppingListStatus {
+
     Open = 'OPEN',
+
     Closed = 'CLOSED'
 }
 

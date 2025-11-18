@@ -38,6 +38,7 @@ import { SnapshotCreateDto } from '../model/snapshot-create-dto';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     MenusApiServiceInterface
 } from './menus.serviceInterface';
@@ -47,70 +48,15 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class MenusApiService implements MenusApiServiceInterface {
+export class MenusApiService extends BaseService implements MenusApiServiceInterface {
 
-    protected basePath = 'http://localhost:8080';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
      * Add a new meal to a menu
+     * @endpoint post /menus/{id}/meals
      * @param id Id of the menu to add a meal to
      * @param addMealToMenuRequest Data to create a new meal in a menu
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -129,27 +75,16 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -173,15 +108,16 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/meals`;
-        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: addMealToMenuRequest,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -189,6 +125,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Add a new snapshot to a menu
+     * @endpoint post /menus/{id}/snapshots
      * @param id Id of the menu to add a snapshot to
      * @param snapshotCreateDto Data to add a new snapshot to a menu
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -207,27 +144,16 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -251,15 +177,16 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/snapshots`;
-        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: snapshotCreateDto,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -267,6 +194,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Reorder the menu-items (snapshots and meals) by giving a reordered list of their ids
+     * @endpoint put /menus/{id}/items/order
      * @param id 
      * @param requestBody Reordered list with the menu-item ids
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -285,26 +213,15 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -328,15 +245,16 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/items/order`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: requestBody,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -344,6 +262,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Close a menu, which makes it unchangeable and transfers its stash to the organization
+     * @endpoint post /menus/{id}
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -358,27 +277,16 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -393,14 +301,15 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -408,6 +317,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Create a new menu
+     * @endpoint post /menus
      * @param menuCreateDto Data for the new menu
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -422,28 +332,17 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json',
-                'application/problem+json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json',
+            'application/problem+json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -467,15 +366,16 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus`;
-        return this.httpClient.request<MenuSummaryDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<MenuSummaryDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: menuCreateDto,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -483,6 +383,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Delete a menu by its id
+     * @endpoint delete /menus/{id}
      * @param id Id of the menu to delete
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -497,27 +398,16 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -532,14 +422,15 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -547,6 +438,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Returns true if a Shopping list for the corresponding Menu exists, false otherwise
+     * @endpoint get /menus/{menuId}/existsShoppingListForMenu
      * @param menuId Id of the menu
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -561,27 +453,16 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -596,14 +477,15 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "menuId", value: menuId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/existsShoppingListForMenu`;
-        return this.httpClient.request<boolean>('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<boolean>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -611,6 +493,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Get a single menu by its id
+     * @endpoint get /menus/{id}
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -625,28 +508,17 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json',
-                'application/problem+json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json',
+            'application/problem+json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -661,14 +533,15 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<MenuDetailDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<MenuDetailDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -676,6 +549,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Search menus by specified criteria
+     * @endpoint get /menus
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -691,54 +565,33 @@ export class MenusApiService implements MenusApiServiceInterface {
     public getMenus(page?: number, size?: number, sort?: Array<string>, name?: string, organizationId?: number, status?: MenuStatus, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (page !== undefined && page !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>page, 'page');
-        }
-        if (size !== undefined && size !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>size, 'size');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>page, 'page');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>size, 'size');
         if (sort) {
             localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                 [...sort].join(COLLECTION_FORMATS['csv']), 'sort');
         }
-        if (name !== undefined && name !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>name, 'name');
-        }
-        if (organizationId !== undefined && organizationId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>organizationId, 'organization_id');
-        }
-        if (status !== undefined && status !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>status, 'status');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>name, 'name');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>organizationId, 'organization_id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>status, 'status');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -753,15 +606,16 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus`;
-        return this.httpClient.request<MenuSummaryListPaginatedDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<MenuSummaryListPaginatedDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );
@@ -769,6 +623,7 @@ export class MenusApiService implements MenusApiServiceInterface {
 
     /**
      * Removes a snapshot from a menu
+     * @endpoint delete /menus/{menuId}/snapshots/{snapshotId}
      * @param menuId Id of the menu to remove a snapshot from
      * @param snapshotId Id of the snapshot to be removed
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -787,27 +642,16 @@ export class MenusApiService implements MenusApiServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -822,14 +666,15 @@ export class MenusApiService implements MenusApiServiceInterface {
         }
 
         let localVarPath = `/menus/${this.configuration.encodeParam({name: "menuId", value: menuId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/snapshots/${this.configuration.encodeParam({name: "snapshotId", value: snapshotId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
                 reportProgress: reportProgress
             }
         );

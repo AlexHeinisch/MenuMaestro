@@ -27,6 +27,7 @@ export interface MealsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint delete /meals/{id}
      * @param id id of the meal
      */
     deleteMealById(id: number, extraHttpRequestParams?: any): Observable<{}>;
@@ -34,6 +35,7 @@ export interface MealsApiServiceInterface {
     /**
      * Edit an already existing meal.
      * 
+     * @endpoint patch /meals/{id}
      * @param id id of the meal
      * @param mealEditDto data for the fields of the meal to update
      */
@@ -42,6 +44,7 @@ export interface MealsApiServiceInterface {
     /**
      * Get a single meal by its id
      * 
+     * @endpoint get /meals/{id}
      * @param id 
      */
     getMealById(id: number, extraHttpRequestParams?: any): Observable<MealDto>;
@@ -49,6 +52,7 @@ export interface MealsApiServiceInterface {
     /**
      * 
      * 
+     * @endpoint put /meals/{id}/complete
      * @param id id of the meal
      * @param done 
      * @param deleteFromStash 

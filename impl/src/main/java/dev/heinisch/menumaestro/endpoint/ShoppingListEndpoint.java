@@ -82,21 +82,17 @@ public class ShoppingListEndpoint implements ShoppingListApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<ShoppingListListPaginatedDto> searchShoppingLists(Integer page, Integer size, String name, ShoppingListStatus status, Long menuId) {
+    public ResponseEntity<ShoppingListListPaginatedDto> searchShoppingLists(String name, ShoppingListStatus status, Long menuId, Pageable pageable) {
         log.info("GET /shopping-lists");
-        log.debug("Search-Params: name={} status={} menuId={} page={} size={}", name, status, menuId, page, size);
-
-        Pageable p = page == null && size == null
-                ? Pageable.unpaged()
-                : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
+        log.debug("Search-Params: name={} status={} menuId={} page={} size={}", name, status, menuId, pageable.getPageNumber(), pageable.getPageSize());
 
         if (SecurityContextHolder.getContext().getAuthentication()
                 .getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            ShoppingListListPaginatedDto result = shoppingListMapper.mapPageable(shoppingListService.searchShoppingListsAsAdmin(name, status, menuId, p));
+            ShoppingListListPaginatedDto result = shoppingListMapper.mapPageable(shoppingListService.searchShoppingListsAsAdmin(name, status, menuId, PageableHelper.orDefault(pageable)));
             return ResponseEntity.ok(result);
         }
-        ShoppingListListPaginatedDto result = shoppingListMapper.mapPageable(shoppingListService.searchShoppingLists(name, status, menuId, SecurityContextHolder.getContext().getAuthentication().getName(), p));
+        ShoppingListListPaginatedDto result = shoppingListMapper.mapPageable(shoppingListService.searchShoppingLists(name, status, menuId, SecurityContextHolder.getContext().getAuthentication().getName(), PageableHelper.orDefault(pageable)));
         return ResponseEntity.ok(result);
     }
 
