@@ -13,6 +13,7 @@ paths:
       operationId: searchStashes
       tags:
         - Stash
+      x-spring-paginated: true
       parameters:
         - name: name
           schema:

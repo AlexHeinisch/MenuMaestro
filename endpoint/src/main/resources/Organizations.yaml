@@ -13,6 +13,7 @@ paths:
       operationId: getInvitations
       tags:
         - Organizations
+      x-spring-paginated: true
       parameters:
           - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
           - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
@@ -35,6 +36,7 @@ paths:
       operationId: getOrganizations
       tags:
         - Organizations
+      x-spring-paginated: true
       parameters:
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'
@@ -325,6 +327,7 @@ paths:
         - Organizations
       summary: "Get all members of an organization"
       description: "Retrieve a list of all members of a specified organization."
+      x-spring-paginated: true
       parameters:
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'

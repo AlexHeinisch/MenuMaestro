@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openapitools.model.AccountSummaryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class UserSearchIT extends BaseWebIntegrationTest {
     void searchUsers() {
         setup();
         var response = Assertions.assertDoesNotThrow(() -> accountEndpoint
-                .searchAccounts(null, null, "User", null));
+                .searchAccounts("User", null, Pageable.unpaged()));
         Assertions.assertAll(
                 () -> Assertions.assertTrue(response.getStatusCode().is2xxSuccessful()),
                 () -> Assertions.assertNotNull(response.getBody())
@@ -73,7 +74,7 @@ public class UserSearchIT extends BaseWebIntegrationTest {
     void searchNoUsers() {
         setup();
         var response = Assertions.assertDoesNotThrow(() -> accountEndpoint
-                .searchAccounts(null, null, "Koch", null));
+                .searchAccounts("Koch", null, Pageable.unpaged()));
         Assertions.assertAll(
                 () -> Assertions.assertTrue(response.getStatusCode().is2xxSuccessful()),
                 () -> Assertions.assertNotNull(response.getBody())
@@ -89,7 +90,7 @@ public class UserSearchIT extends BaseWebIntegrationTest {
     void searchAllUsers() {
         setup();
         var response = Assertions.assertDoesNotThrow(() -> accountEndpoint
-                .searchAccounts(null, null, "us", null));
+                .searchAccounts("us", null, Pageable.unpaged()));
         Assertions.assertAll(
                 () -> Assertions.assertTrue(response.getStatusCode().is2xxSuccessful()),
                 () -> Assertions.assertNotNull(response.getBody())

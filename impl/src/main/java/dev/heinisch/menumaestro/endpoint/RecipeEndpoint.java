@@ -96,9 +96,6 @@ public class RecipeEndpoint implements RecipesApi {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
         }
 
-        Pageable p = pageable.isPaged()
-            ? pageable
-            : PageRequest.of(0, 20);
         var result = recipeMapper.mapPageable(recipeService.getRecipes(
             name,
             description,
@@ -108,7 +105,7 @@ public class RecipeEndpoint implements RecipesApi {
             visibility,
             username,
             isAdmin,
-            p));
+            PageableHelper.orDefault(pageable)));
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(result);

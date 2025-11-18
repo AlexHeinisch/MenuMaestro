@@ -30,11 +30,7 @@ public class CookingApplianceEndpoint implements CookingAppliancesApi {
         log.debug("Search-Params: name='{}' page={}, size={}",
                 name, pageable.getPageNumber(), pageable.getPageSize());
 
-        Pageable p = pageable.isPaged()
-                ? pageable
-                : PageRequest.of(0, 20);
-
-        var result = cookingApplianceService.getCookingAppliances(name, p);
+        var result = cookingApplianceService.getCookingAppliances(name, PageableHelper.orDefault(pageable));
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(cookingApplianceMapper.mapPageable(result));

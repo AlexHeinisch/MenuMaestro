@@ -20,7 +20,6 @@ import dev.heinisch.menumaestro.validation.PropertyChecker;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.model.OrganizationCreateDto;
 import org.openapitools.model.OrganizationEditDto;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,11 +52,7 @@ public class OrganizationEndpoint implements OrganizationsApi {
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals(username)) {
             throw new ConflictException("Cannot change your own role!");
         }
-        organizationService.changeRole(
-            id,
-            username,
-            changeMemberRoleRequest.getRole()
-        );
+        organizationService.changeRole(id, username, changeMemberRoleRequest.getRole());
         return ResponseEntity.noContent().build();
     }
 
@@ -87,16 +82,12 @@ public class OrganizationEndpoint implements OrganizationsApi {
 
     @Override
     @PreAuthorize("hasRole('ROLE_ADMIN') or ((hasRole('ROLE_USER') and @organizationService.hasPermissionForOrganization(#id, principal, 'MEMBER')))")
-    public ResponseEntity<OrganizationMemberListPaginatedDto> getOrganizationMembers(Long id, Integer page, Integer size) {
+    public ResponseEntity<OrganizationMemberListPaginatedDto> getOrganizationMembers(Long id, Pageable pageable) {
         log.info("GET /organizations/{}", id);
-
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(organizationMapper.mapMemberPageable(organizationService.getOrganizationMembers(id, p)));
+            .body(organizationMapper.mapMemberPageable(organizationService.getOrganizationMembers(id, PageableHelper.orDefault(pageable))));
     }
 
 
@@ -126,18 +117,14 @@ public class OrganizationEndpoint implements OrganizationsApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<OrganizationSummaryListPaginatedDto> getOrganizations(Integer page, Integer size, String name) {
+    public ResponseEntity<OrganizationSummaryListPaginatedDto> getOrganizations(String name, Pageable pageable) {
         log.info("GET /organizations");
-        log.info("Search-Params: name={} page={}, size={}", name, page, size);
-
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
+        log.info("Search-Params: name={} page={}, size={}", name, pageable.getPageNumber(), pageable.getPageSize());
 
         if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(organizationMapper.mapPageable(organizationService.getAllOrganizationsByNameSubstring(name, p)));
+                .body(organizationMapper.mapPageable(organizationService.getAllOrganizationsByNameSubstring(name, PageableHelper.orDefault(pageable))));
         }
 
         return ResponseEntity
@@ -145,7 +132,7 @@ public class OrganizationEndpoint implements OrganizationsApi {
             .body(organizationMapper.mapPageable(organizationService.getOrganizationsByUsernameAndNameSubstring(
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString(),
                 name,
-                p
+                PageableHelper.orDefault(pageable)
             )));
     }
 
@@ -174,19 +161,15 @@ public class OrganizationEndpoint implements OrganizationsApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<OrganizationSummaryListPaginatedDto> getInvitations(Integer page, Integer size) {
+    public ResponseEntity<OrganizationSummaryListPaginatedDto> getInvitations(Pageable pageable) {
         log.info("GET /organizations/invitations");
-        log.debug("Search-Params: page={}, size={}", page, size);
-
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
+        log.debug("Search-Params: page={}, size={}", pageable.getPageNumber(), pageable.getPageSize());
 
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(organizationMapper.mapPageable(organizationService.getInvitationsByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString(),
-                p
+                PageableHelper.orDefault(pageable)
             )));
     }
 

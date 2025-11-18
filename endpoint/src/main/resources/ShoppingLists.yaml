@@ -55,6 +55,7 @@ paths:
       operationId: "searchShoppingLists"
       tags:
         - ShoppingList
+      x-spring-paginated: true
       parameters:
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'

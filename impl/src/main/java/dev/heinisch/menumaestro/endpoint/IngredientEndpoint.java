@@ -12,7 +12,6 @@ import org.openapitools.model.IngredientDto;
 import org.openapitools.model.IngredientListPaginatedDto;
 import org.openapitools.model.IngredientWithCategoryListPaginatedDto;
 import org.openapitools.model.ReplaceIngredientRequest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,12 +56,8 @@ public class IngredientEndpoint implements IngredientsApi {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<IngredientWithCategoryListPaginatedDto> ingredientSuggestions(Integer page, Integer size, List<String> sort) {
-        Pageable p = page == null && size == null
-                ? Pageable.unpaged()
-                : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
-
-        var result = ingredientMapper.mapPageableIngredientWithCategory(ingredientService.findAllRequestedIngredients(p));
+    public ResponseEntity<IngredientWithCategoryListPaginatedDto> ingredientSuggestions(Pageable pageable) {
+        var result = ingredientMapper.mapPageableIngredientWithCategory(ingredientService.findAllRequestedIngredients(PageableHelper.orDefault(pageable)));
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(result);
@@ -97,18 +92,15 @@ public class IngredientEndpoint implements IngredientsApi {
     }
     @Override
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') or @jwtService.isValidShoppingListToken(#token)")
-    public ResponseEntity<IngredientListPaginatedDto> searchIngredients(Integer page, Integer size, List<String> sort, String name, String token) {
+    public ResponseEntity<IngredientListPaginatedDto> searchIngredients(String name, String token, Pageable pageable) {
         log.info("GET /ingredients?token={}", StringUtils.isBlank(token) ? "<null>" : "<present>");
-        log.debug("Search-Params: name='{}' page={}, size={}", name, page, size);
-        Pageable p = page == null && size == null
-            ? Pageable.unpaged()
-            : PageRequest.of(page == null ? 0 : page, size == null ? 20 : size);
+        log.debug("Search-Params: name='{}' page={}, size={}", name, pageable.getPageNumber(), pageable.getPageSize());
         String username=null;
         if(SecurityContextHolder.getContext()!=null) {
             username=SecurityContextHolder.getContext().getAuthentication().getName();
         }
 
-        var result = ingredientMapper.mapPageable(ingredientService.searchIngredients(name, p,username));
+        var result = ingredientMapper.mapPageable(ingredientService.searchIngredients(name, PageableHelper.orDefault(pageable),username));
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(result);

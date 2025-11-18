@@ -76,6 +76,7 @@ paths:
         - Accounts
       summary: Search accounts by username
       description: Get a list of accounts matching the search query.
+      x-spring-paginated: true
       parameters:
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/pageParam'
         - $ref: 'https://api.swaggerhub.com/apis/spring/pagination/1.0.0#/components/parameters/sizeParam'

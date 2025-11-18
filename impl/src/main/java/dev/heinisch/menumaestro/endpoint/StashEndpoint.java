@@ -10,7 +10,7 @@ import org.openapitools.api.StashApi;
 import org.openapitools.model.IngredientUseCreateEditDto;
 import org.openapitools.model.StashResponseDto;
 import org.openapitools.model.StashSearchResponseDto;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -81,18 +81,12 @@ public class StashEndpoint implements StashApi {
 
     @PreAuthorize("isAuthenticated()")
     @Override
-    public ResponseEntity<List<StashSearchResponseDto>> searchStashes(String name, Integer page, Integer size) {
+    public ResponseEntity<List<StashSearchResponseDto>> searchStashes(String name, Pageable pageable) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (name == null) {
             name = "";
         }
-        if (page == null) {
-            page = 0;
-        }
-        if (size == null) {
-            size = 10;
-        }
-        return ResponseEntity.ok(stashService.searchStashes(name, username, PageRequest.of(page, size)));
+        return ResponseEntity.ok(stashService.searchStashes(name, username, PageableHelper.orDefault(pageable)));
     }
 
     void validateStashUpdateRequest(Long id, List<IngredientUseCreateEditDto> body) {
