@@ -3,12 +3,12 @@
 ## Prerequisites
 
 ```sh
-Angular CLI: 18.2.10
-Node: 22.9.0
-Package Manager: npm 10.8.3
+Angular CLI: 20.0.5
+Node: 22.14.0
+Package Manager: npm 10.9.2
 ```
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10 and has since been updated.
 
 
 ## Quickstart

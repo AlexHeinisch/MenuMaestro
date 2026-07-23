@@ -19,7 +19,6 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "jsx": "react",                         // Add this line to enable JSX support
     "lib": [
       "ES2022",
       "dom"
