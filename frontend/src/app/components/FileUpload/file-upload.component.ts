@@ -40,14 +40,16 @@ export class FileUploadComponent {
 
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      this.onFileSelected({ target: { files: files } });
-    }
+    this.handleFiles(event.dataTransfer?.files ?? null);
   }
 
-  onFileSelected(event: any) {
-    this.file = event.target.files[0];
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.handleFiles(input.files);
+  }
+
+  private handleFiles(files: FileList | null): void {
+    this.file = files?.[0] ?? null;
 
     if (this.file !== null) {
       this.imagesApi.uploadImage(this.file, "response").subscribe({

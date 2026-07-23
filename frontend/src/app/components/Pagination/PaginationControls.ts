@@ -6,6 +6,7 @@ import {
 } from "@angular/core";
 
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
+import { PaginationResponse } from "../../../generated";
 
 @Component({
   selector: "pagination-controls",
@@ -55,14 +56,14 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
   imports: [SimpleButtonComponent],
 })
 export class PaginationControlsComponent {
-  @Input() data: any;
+  @Input() data: PaginationResponse | undefined;
   @Input() currentPage: number = 1;
   readonly pageChange = output<number>();
 
   ButtonVariant = ButtonVariant;
 
   onPageChange(newPage: number): void {
-    if (newPage >= 0 && newPage <= this.data.totalPages) {
+    if (this.data && newPage >= 0 && newPage <= this.data.totalPages) {
       this.currentPage = newPage;
       this.pageChange.emit(this.currentPage);
     }

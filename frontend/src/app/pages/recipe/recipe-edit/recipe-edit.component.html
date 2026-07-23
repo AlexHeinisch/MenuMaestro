@@ -108,7 +108,7 @@
                 [handleSearch]="searchCookingApp.bind(this)"
                 [options]="cookingAppOptionsNames"
                 [searchTerm]="cookingApp.name"
-                (selectedOption)="onCookingAppSelected($event, i)"
+                (selectedOption)="onCookingAppSelected($any($event), i)"
               ></search-input>
             </div>
             <div class="flex-1">
@@ -162,7 +162,7 @@
                 [options]="ingredientsOptionsNames"
                 [supportsAddCustom]="true"
                 [searchTerm]="ingredient.name"
-                (selectedOption)="onIngredientSelected($event, i)"
+                (selectedOption)="onIngredientSelected($any($event), i)"
                 (selectedAddCustom)="onRequestIngredientSelected($event, i)"
                 #ingredientSearchInput
               ></search-input>

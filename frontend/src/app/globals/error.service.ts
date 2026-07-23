@@ -1,4 +1,5 @@
 import { Injectable, inject } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({
@@ -7,7 +8,7 @@ import { ToastrService } from "ngx-toastr";
 export class ErrorService {
   private toastr = inject(ToastrService);
 
-  printErrorResponse(err: any) {
+  printErrorResponse(err: HttpErrorResponse) {
     console.error(err); // Always log the error for debugging
 
     if (err.error) {

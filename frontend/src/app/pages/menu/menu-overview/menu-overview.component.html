@@ -11,7 +11,7 @@
       <div class="lg:grow">
         <search-input
           [options]="menuSearchSuggestions"
-          (selectedOption)="onMenuSearch($event)"
+          (selectedOption)="onMenuSearch($any($event))"
           [handleSearch]="onMenuSearch.bind(this)"
           [searchTerm]="menuSearchTerm"
           [label]="'Menu'"
@@ -25,7 +25,7 @@
           [placeholder]="'e.g. FC Umhausen'"
           [handleSearch]="searchOrganization.bind(this)"
           [options]="organizationSearchNames"
-          (selectedOption)="onOrganizationSelected($event)"
+          (selectedOption)="onOrganizationSelected($any($event))"
           [label]="'Organization'"
         ></search-input>
       </div>

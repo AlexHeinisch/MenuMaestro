@@ -58,7 +58,7 @@
             <div class="pl-2 pb-4 w-[95%]">
               <search-input
                 [options]="ingredientSearchSuggestions"
-                (selectedOption)="onIngredientSearchSelect($event)"
+                (selectedOption)="onIngredientSearchSelect($any($event))"
                 [handleSearch]="onIngredientSearch.bind(this)"
                 placeholder="e.g. Tomato"
                 [searchTerm]="ingredientSearchTerm"
@@ -103,7 +103,7 @@
             </div>
             <div class="pl-4 pb-4 w-[95%]">
               <search-input
-                (selectedOption)="onDescriptionSearch($event)"
+                (selectedOption)="onDescriptionSearch($any($event))"
                 [handleSearch]="onDescriptionSearch.bind(this)"
                 placeholder="e.g. Breakfast"
                 [searchTerm]="descriptionSearchTerm"
@@ -116,7 +116,7 @@
             </div>
             <div class="pl-4 pb-4 w-[95%]">
               <search-input
-                (selectedOption)="onAuthorSearch($event)"
+                (selectedOption)="onAuthorSearch($any($event))"
                 [handleSearch]="onAuthorSearch.bind(this)"
                 placeholder="e.g. Sabrina"
                 [searchTerm]="authorSearchTerm"
@@ -238,7 +238,7 @@
           <!-- Search Bar -->
           <div class="w-[20rem] md:w-[20rem] lg:w-[24rem] mb-4">
             <search-input
-              (selectedOption)="onSearch($event)"
+              (selectedOption)="onSearch($any($event))"
               [handleSearch]="onSearch.bind(this)"
               placeholder="What would you like to eat?"
               [searchTerm]="searchTerm"
@@ -310,7 +310,7 @@
           </div>
           <search-input
             [options]="ingredientSearchSuggestions"
-            (selectedOption)="onIngredientSearchSelect($event)"
+            (selectedOption)="onIngredientSearchSelect($any($event))"
             [handleSearch]="onIngredientSearch.bind(this)"
             placeholder="e.g. Tomato"
             [searchTerm]="ingredientSearchTerm"
@@ -352,7 +352,7 @@
             <span class="text-base font-medium text-primary">Description</span>
           </div>
           <search-input
-            (selectedOption)="onDescriptionSearch($event)"
+            (selectedOption)="onDescriptionSearch($any($event))"
             [handleSearch]="onDescriptionSearch.bind(this)"
             placeholder="e.g. Breakfast"
             [searchTerm]="descriptionSearchTerm"
@@ -364,7 +364,7 @@
             <span class="text-base font-medium text-primary">Author</span>
           </div>
           <search-input
-            (selectedOption)="onAuthorSearch($event)"
+            (selectedOption)="onAuthorSearch($any($event))"
             [handleSearch]="onAuthorSearch.bind(this)"
             placeholder="e.g. Sabrina"
             [searchTerm]="authorSearchTerm"

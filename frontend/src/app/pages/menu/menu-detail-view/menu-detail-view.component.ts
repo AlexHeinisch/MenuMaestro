@@ -219,7 +219,7 @@ export class MenuDetailViewComponent {
 
   areAllMealsDone(): boolean | undefined {
     return this.menuDetail?.meals?.every(
-      (meal: any) => meal.status === MealStatus.Done,
+      (meal) => meal.status === MealStatus.Done,
     );
   }
 

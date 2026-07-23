@@ -73,7 +73,7 @@
               [placeholder]="'Search for cooking appliance'"
               [handleSearch]="searchCookingApp.bind(this)"
               [options]="cookingAppOptionsNames"
-              (selectedOption)="onCookingAppSelected($event, i)"
+              (selectedOption)="onCookingAppSelected($any($event), i)"
             ></search-input>
           </div>
           <div class="flex-1">
@@ -129,7 +129,7 @@
               [handleSearch]="searchIngredient.bind(this)"
               [options]="ingredientsOptionsNames"
               [supportsAddCustom]="true"
-              (selectedOption)="onIngredientSelected($event, i)"
+              (selectedOption)="onIngredientSelected($any($event), i)"
               (selectedAddCustom)="onRequestIngredientSelected($event, i)"
               #ingredientSearchInput
             ></search-input>

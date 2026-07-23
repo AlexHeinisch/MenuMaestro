@@ -73,7 +73,7 @@ export class EditMealComponent implements OnInit {
     );
   }
 
-  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<any> {
+  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<unknown> {
     const meal = this.meal!;
     meal.recipe = recipeEdit;
     meal.name = recipeEdit.name;

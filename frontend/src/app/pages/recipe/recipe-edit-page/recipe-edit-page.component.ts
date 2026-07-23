@@ -42,7 +42,7 @@ export class RecipeEditPageComponent implements OnInit {
     return this.recipesApiService.getRecipeById(this.recipeId!);
   }
 
-  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<any> {
+  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<unknown> {
     return this.recipesApiService
       .editRecipeById(this.recipeId!, recipeEdit)
       .pipe(tap((next) => this.toastr.success("Recipe updated.")));

@@ -52,7 +52,7 @@
           [placeholder]="'Search for organization'"
           [handleSearch]="searchOrganization.bind(this)"
           [options]="organizationOptionsNames"
-          (selectedOption)="onOrganizationSelected($event)"
+          (selectedOption)="onOrganizationSelected($any($event))"
         ></search-input>
       </div>
     </div>

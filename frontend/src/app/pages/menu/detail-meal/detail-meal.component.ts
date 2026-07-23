@@ -62,7 +62,6 @@ export class DetailMealComponent implements OnInit {
 
   mealId: number | null = null;
   menuId: number | null = null;
-  meal: any = null;
   loadingMeal: boolean = true;
 
   mealDto: MealDto | undefined;

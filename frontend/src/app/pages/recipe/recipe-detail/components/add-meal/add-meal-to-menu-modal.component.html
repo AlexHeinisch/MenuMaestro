@@ -23,7 +23,7 @@
         [handleSearch]="searchOrganization.bind(this)"
         [options]="organizationOptionsNames"
         [searchTerm]="selectedOrganizationName || ''"
-        (selectedOption)="onOrganizationSelected($event)"
+        (selectedOption)="onOrganizationSelected($any($event))"
         #searchInput
       ></search-input>
     </div>
@@ -38,7 +38,7 @@
           [id]="'menuOptions'"
           [name]="'menuOptions'"
           [(value)]="selectedMenuName"
-          (valueChange)="onMenuSelected($event)"
+          (valueChange)="onMenuSelected($any($event))"
         ></input-field>
       </div>
     }

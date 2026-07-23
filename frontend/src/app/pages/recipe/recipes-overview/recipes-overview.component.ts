@@ -18,6 +18,7 @@ import {
 } from "../../../components/Input/InputField";
 import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
 import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
 import { PaginationControlsComponent } from "../../../components/Pagination/PaginationControls";
 import {
   CookingApplianceDto,
@@ -61,6 +62,7 @@ interface Filter {
 })
 export class RecipesOverviewComponent implements OnInit {
   private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
 
   // Button variant
   ButtonVariant = ButtonVariant;
@@ -208,17 +210,17 @@ export class RecipesOverviewComponent implements OnInit {
     this.fetchRecipes();
   }
 
-  onDescriptionSearch(searchTerm: any): void {
+  onDescriptionSearch(searchTerm: string): void {
     this.descriptionSearchTerm = searchTerm;
     this.fetchRecipes();
   }
 
-  onAuthorSearch(searchTerm: any): void {
+  onAuthorSearch(searchTerm: string): void {
     this.authorSearchTerm = searchTerm;
     this.fetchRecipes();
   }
 
-  onIngredientSearch(searchTerm: any): void {
+  onIngredientSearch(searchTerm: string): void {
     this.ingredientSearchTerm = searchTerm;
     // Limit suggestions to 5
     this.ingredientsService
@@ -247,22 +249,18 @@ export class RecipesOverviewComponent implements OnInit {
       if (!exists) {
         this.ingredientsSelected.push(ingredient);
       } else {
-        this.errorService.printErrorResponse(
-          "Ingredient already exists in the selection",
-        );
+        this.toastr.error("Ingredient already exists in the selection");
       }
     } else {
-      this.errorService.printErrorResponse(
-        "Ingredient is undefined and cannot be added",
-      );
+      this.toastr.error("Ingredient is undefined and cannot be added");
     }
     this.ingredientsOptions = [];
     this.ingredientSearchTerm = "";
     this.fetchRecipes();
   }
 
-  removeIngredient(ingredient: any): void {
-    this.ingredientsSelected.splice(ingredient, 1);
+  removeIngredient(index: number): void {
+    this.ingredientsSelected.splice(index, 1);
     this.fetchRecipes();
   }
 

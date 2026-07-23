@@ -79,7 +79,7 @@
     [handleSearch]="searchIngredientOwn.bind(this)"
     [options]="ingredientsOptionsNamesOwn"
     [supportsAddCustom]="true"
-    (selectedOption)="onIngredientSelectedOwn($event)"
+    (selectedOption)="onIngredientSelectedOwn($any($event))"
     (selectedAddCustom)="onRequestIngredientSelected($event)"
     #ownIngredientSearchInput
   ></search-input>
@@ -128,7 +128,7 @@
         [placeholder]="'e.g. Apple'"
         [handleSearch]="searchIngredient.bind(this)"
         [options]="ingredientsOptionsNames"
-        (selectedOption)="onIngredientSelected($event)"
+        (selectedOption)="onIngredientSelected($any($event))"
         #replacementSearchInput
       ></search-input>
     </div>

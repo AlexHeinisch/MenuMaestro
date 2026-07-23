@@ -142,19 +142,19 @@ export class ListDragAndDropComponent {
     }
   }
 
-  onEdit(item: { id: number; name: string }, list: any) {
+  onEdit(item: { id: number; name: string }, list: (typeof this.lists)[number]) {
     console.log("Edit clicked for:", item, "in list:", list.name);
   }
 
-  onDetails(item: { id: number; name: string }, list: any) {
+  onDetails(item: { id: number; name: string }, list: (typeof this.lists)[number]) {
     console.log("Details clicked for:", item, "in list:", list.name);
   }
 
-  onDelete(item: { id: number; name: string }, list: any) {
+  onDelete(item: { id: number; name: string }, list: (typeof this.lists)[number]) {
     console.log("Delete clicked for:", item, "in list:", list.name);
   }
 
-  toggleCollapse(list: any) {
+  toggleCollapse(list: (typeof this.lists)[number]) {
     list.collapsed = !list.collapsed;
   }
 
@@ -171,14 +171,14 @@ export class ListDragAndDropComponent {
     }
   }
 
-  generateShoppingList(list: any) {
+  generateShoppingList(list: (typeof this.lists)[number]) {
     if (this.newShoppingListItem) {
       this.moveAllItemsToNextList(this.lists.indexOf(list));
       this.newShoppingListItem = "";
     }
   }
 
-  isEmpty(list: any) {
+  isEmpty(list: (typeof this.lists)[number]) {
     return list.items.length === 0;
   }
 }

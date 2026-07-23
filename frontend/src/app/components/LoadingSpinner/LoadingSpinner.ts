@@ -38,7 +38,7 @@ export class LoadingSpinnerComponent implements OnChanges {
   readonly delay = input(300); //milliseconds
 
   showSpinner = false;
-  private timeout: any;
+  private timeout: ReturnType<typeof setTimeout> | undefined;
 
   ngOnChanges(): void {
     if (this.isLoading()) {

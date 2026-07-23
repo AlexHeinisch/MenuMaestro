@@ -123,10 +123,10 @@ export class SearchInputComponent {
   @Input() supportsAddCustom: boolean = false;
 
   readonly filterLocally = input<boolean>(false);
-  readonly selectedOption = output<any>();
-  readonly selectedAddCustom = output<any>();
+  readonly selectedOption = output<number | string>();
+  readonly selectedAddCustom = output<string>();
 
-  filteredOptions: any[] = [];
+  filteredOptions: (string | [number, string])[] = [];
   isFocused: boolean = false;
   hasExactMatch: boolean = false;
   private clickInsideDropdown: boolean = false;

@@ -6,6 +6,7 @@ import {
 } from "@angular/core";
 import { PageLayoutComponent } from "../../components/Layout/PageLayout";
 import { LoadingSpinnerComponent } from "../../components/LoadingSpinner/LoadingSpinner";
+import { HttpErrorResponse } from "@angular/common/http";
 
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -111,7 +112,7 @@ export class StashComponent implements OnInit {
     });
   }
 
-  onEditModalShow(event: any): void {
+  onEditModalShow(event: boolean): void {
     if (!event) {
       this.editStashOriginalEntry = null;
       this.editStashEntry = null;
@@ -220,7 +221,7 @@ export class StashComponent implements OnInit {
     this.onEditModalShow(false);
   }
 
-  setShowAddIngredientModal(event: any): void {
+  setShowAddIngredientModal(event: boolean): void {
     if (!event) {
       this.ingredientToAdd = null;
     } else {
@@ -353,7 +354,7 @@ export class StashComponent implements OnInit {
     return this.checkableEntries?.filter((e) => e.checked).length || 0;
   }
 
-  handleStashUpdateError(error: any) {
+  handleStashUpdateError(error: HttpErrorResponse) {
     // if-match: precondition failed
     if (error.status === 412) {
       this.loadStash(() =>

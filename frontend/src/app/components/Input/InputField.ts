@@ -20,6 +20,8 @@ export enum InputType {
   textarea = "textarea",
 }
 
+export type InputFieldValue = string | number | boolean | null | undefined;
+
 @Component({
   imports: [FormsModule],
   selector: "input-field",
@@ -215,9 +217,9 @@ export class InputFieldComponent {
   @Input() label?: string;
   readonly placeholder = input<string>();
   readonly required = input<boolean>(false);
-  @Input() value: any = null;
+  @Input() value: InputFieldValue = null;
   readonly possibleCheckedBy = input<string | null>(null);
-  readonly valueChange = output<any>();
+  readonly valueChange = output<InputFieldValue>();
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string>();
   readonly className = input<string>();
@@ -256,7 +258,7 @@ export class InputFieldComponent {
     return classes.includes("w-") ? classes : classes + " w-full";
   }
 
-  onValueChange(newValue: any) {
+  onValueChange(newValue: InputFieldValue) {
     if (this.type === InputType.number) {
       const numericValue =
         newValue === "" || newValue === null ? null : Number(newValue);

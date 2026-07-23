@@ -116,7 +116,7 @@
                         [(value)]="member.role"
                         [className]="'text-sm'"
                         #role
-                        (change)="openChangeRoleModal(member, role.value)"
+                        (change)="openChangeRoleModal(member, $any(role.value))"
                       >
                       </input-field>
                     }
@@ -218,7 +218,7 @@
       [options]="memberOptions"
       [searchTerm]="inviteMemberInput"
       [filterLocally]="false"
-      (selectedOption)="onSearchUsersSelected($event)"
+      (selectedOption)="onSearchUsersSelected($any($event))"
     ></search-input>
   </div>
 </simple-modal>

@@ -11,7 +11,7 @@
       <div class="lg:grow">
         <search-input
           [options]="shoppingListSearchSuggestions"
-          (selectedOption)="onShoppingListSearch($event)"
+          (selectedOption)="onShoppingListSearch($any($event))"
           [handleSearch]="onShoppingListSearch.bind(this)"
           [searchTerm]="shoppingListSearchTerm"
           [label]="'Shopping List'"
@@ -23,7 +23,7 @@
       <div class="lg:grow">
         <search-input
           [options]="menuSearchSuggestions"
-          (selectedOption)="onMenuSelected($event)"
+          (selectedOption)="onMenuSelected($any($event))"
           [handleSearch]="onMenuSearch.bind(this)"
           [searchTerm]="menuSearchTerm"
           [label]="'Menu'"

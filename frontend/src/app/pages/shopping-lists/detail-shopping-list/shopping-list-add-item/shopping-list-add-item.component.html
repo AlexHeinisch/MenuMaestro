@@ -14,7 +14,7 @@
         [handleSearch]="searchIngredient.bind(this)"
         [options]="ingredientsOptionsNames"
         [supportsAddCustom]="true"
-        (selectedOption)="onIngredientSelected($event)"
+        (selectedOption)="onIngredientSelected($any($event))"
         (selectedAddCustom)="onAddCustomSelected($event)"
       ></search-input>
     </div>

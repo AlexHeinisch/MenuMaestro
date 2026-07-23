@@ -136,7 +136,7 @@ export class EditRecipeComponent implements OnInit {
   );
   readonly redirectPath = input<string>("");
   readonly editRecipeHandler = input<
-    (recipe: RecipeCreateEditDto) => Observable<any>
+    (recipe: RecipeCreateEditDto) => Observable<unknown>
   >(() => null!);
   readonly title = input<string>("Edit Recipe");
   readonly hideVisibilityNameAndServings = input<boolean>(false);
@@ -349,7 +349,7 @@ export class EditRecipeComponent implements OnInit {
         });
       this.editRecipe();
     } else {
-      this.errorService.printErrorResponse("Form is invalid");
+      this.toastr.error("Form is invalid");
     }
   }
 
