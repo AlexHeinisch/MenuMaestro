@@ -1,12 +1,12 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   ViewChild,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
@@ -54,7 +54,7 @@ export class AddMealToMenuModalComponent implements OnInit {
   protected tokenService = inject(TokenService);
 
   @ViewChild("searchInput") searchInput!: SearchInputComponent;
-  @Input() recipeId: number | undefined | null;
+  readonly recipeId = input<number | null>();
 
   ButtonVariant = ButtonVariant;
   InputType = InputType;
@@ -208,7 +208,7 @@ export class AddMealToMenuModalComponent implements OnInit {
 
   handleSubmit(): void {
     this.menusApiService
-      .addMealToMenu(this.selectedMenuId!, { recipeId: this.recipeId! })
+      .addMealToMenu(this.selectedMenuId!, { recipeId: this.recipeId()! })
       .subscribe({
         next: () => {
           this.toastr.success("Meal added to menu.");

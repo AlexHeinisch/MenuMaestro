@@ -5,6 +5,7 @@ import {
   Output,
   SimpleChanges,
   ChangeDetectionStrategy,
+  input,
 } from "@angular/core";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
@@ -20,7 +21,7 @@ export const SEARCH_DEBOUNCE_MS = 300;
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (label) {
-      <label [attr.for]="id" class="block mb-2 text-base text-primary">{{
+      <label [attr.for]="id()" class="block mb-2 text-base text-primary">{{
         label
       }}</label>
     }
@@ -44,9 +45,9 @@ export const SEARCH_DEBOUNCE_MS = 300;
       </div>
 
       <input
-        [id]="id"
+        [id]="id()"
         [(ngModel)]="searchTerm"
-        [placeholder]="placeholder"
+        [placeholder]="placeholder()"
         (input)="onSearch($event)"
         (keydown)="onKeyDown($event)"
         (focus)="onFocus()"
@@ -115,15 +116,15 @@ export const SEARCH_DEBOUNCE_MS = 300;
   `,
 })
 export class SearchInputComponent {
-  @Input() placeholder: string = "Search";
-  @Input() handleSearch: (searchTerm: string) => void = () => {};
-  @Input() options: string[] | [number, string][] = [];
+  readonly placeholder = input<string>("Search");
+  readonly handleSearch = input<(searchTerm: string) => void>(() => {});
+  readonly options = input<string[] | [number, string][]>([]);
   @Input() label?: string;
-  @Input() id: string = "";
+  readonly id = input<string>("");
   @Input() searchTerm: string = "";
   @Input() supportsAddCustom: boolean = false;
 
-  @Input() filterLocally: boolean = false;
+  readonly filterLocally = input<boolean>(false);
   @Output() selectedOption = new EventEmitter<any>();
   @Output() selectedAddCustom = new EventEmitter<any>();
 
@@ -144,8 +145,9 @@ export class SearchInputComponent {
       .pipe(debounceTime(this.debounceTime), distinctUntilChanged())
       .subscribe((searchTerm) => {
         this.filterOptions(searchTerm);
-        if (this.handleSearch) {
-          this.handleSearch(searchTerm);
+        const handleSearch = this.handleSearch();
+        if (handleSearch) {
+          handleSearch(searchTerm);
         }
       });
   }
@@ -187,20 +189,20 @@ export class SearchInputComponent {
   }
 
   private filterOptions(searchTerm: string): void {
-    if (!this.filterLocally) {
-      this.filteredOptions = this.options;
-      this.hasExactMatch = this.options.some(
+    if (!this.filterLocally()) {
+      this.filteredOptions = this.options();
+      this.hasExactMatch = this.options().some(
         (option) =>
           this.getOptionLabel(option).toLowerCase() ===
           searchTerm.toLowerCase(),
       );
     } else if (searchTerm) {
-      this.filteredOptions = this.options.filter((option) =>
+      this.filteredOptions = this.options().filter((option) =>
         this.getOptionLabel(option)
           .toLowerCase()
           .includes(searchTerm.toLowerCase()),
       ) as string[] | [number, string][];
-      this.hasExactMatch = this.options.some(
+      this.hasExactMatch = this.options().some(
         (option) =>
           this.getOptionLabel(option).toLowerCase() ===
           searchTerm.toLowerCase(),

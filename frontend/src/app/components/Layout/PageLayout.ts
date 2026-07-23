@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, input } from "@angular/core";
 
 @Component({
   selector: "page-layout",
@@ -11,9 +11,9 @@ import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
   styles: [],
 })
 export class PageLayoutComponent {
-  @Input() styleNames?: string;
+  readonly styleNames = input<string>();
 
   get containerClasses(): string {
-    return `mx-auto w-full px-6 lg:px-4 py-8 md:w-[900px] text-neutral-700 ${this.styleNames || ""}`;
+    return `mx-auto w-full px-6 lg:px-4 py-8 md:w-[900px] text-neutral-700 ${this.styleNames() || ""}`;
   }
 }

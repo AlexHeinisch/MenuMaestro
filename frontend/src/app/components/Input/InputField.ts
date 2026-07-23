@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 import { ControlContainer, FormsModule, NgForm } from "@angular/forms";
 import { StringFormattingService } from "../../service/string-formatting.service";
@@ -24,9 +25,9 @@ export enum InputType {
   imports: [FormsModule],
   selector: "input-field",
   template: `
-    <div [class]="marginBottom">
+    <div [class]="marginBottom()">
       @if (label && type !== InputType.checkbox) {
-        <label [attr.for]="id" class="block mb-2 text-base text-primary">{{
+        <label [attr.for]="id()" class="block mb-2 text-base text-primary">{{
           label
         }}</label>
       }
@@ -36,12 +37,12 @@ export enum InputType {
           @case (InputType.text) {
             <input
               [type]="type"
-              [id]="id"
+              [id]="id()"
               [name]="name"
-              [attr.aria-label]="ariaLabel"
-              [attr.placeholder]="placeholder"
-              [required]="required"
-              [disabled]="disabled"
+              [attr.aria-label]="ariaLabel()"
+              [attr.placeholder]="placeholder()"
+              [required]="required()"
+              [disabled]="disabled()"
               [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
@@ -52,16 +53,16 @@ export enum InputType {
             <div class="flex items-center">
               <input
                 [type]="passwordHidden ? type : 'text'"
-                [id]="id"
+                [id]="id()"
                 [name]="name"
-                [attr.aria-label]="ariaLabel"
-                [attr.placeholder]="placeholder"
-                [required]="required"
+                [attr.aria-label]="ariaLabel()"
+                [attr.placeholder]="placeholder()"
+                [required]="required()"
                 [class]="inputClassesWFullDefault"
                 class="rounded-r-none"
-                [disabled]="disabled"
+                [disabled]="disabled()"
                 [(ngModel)]="value"
-                [attr.minlength]="minlength"
+                [attr.minlength]="minlength()"
                 (ngModelChange)="onValueChange($event)"
               />
               <span
@@ -81,12 +82,12 @@ export enum InputType {
           @case (InputType.number) {
             <input
               [type]="type"
-              [id]="id"
+              [id]="id()"
               [name]="name"
-              [attr.aria-label]="ariaLabel"
-              [attr.placeholder]="placeholder"
-              [required]="required"
-              [disabled]="disabled"
+              [attr.aria-label]="ariaLabel()"
+              [attr.placeholder]="placeholder()"
+              [required]="required()"
+              [disabled]="disabled()"
               [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
@@ -96,12 +97,12 @@ export enum InputType {
           @case (InputType.email) {
             <input
               [type]="type"
-              [id]="id"
+              [id]="id()"
               [name]="name"
-              [attr.aria-label]="ariaLabel"
-              [attr.placeholder]="placeholder"
-              [required]="required"
-              [disabled]="disabled"
+              [attr.aria-label]="ariaLabel()"
+              [attr.placeholder]="placeholder()"
+              [required]="required()"
+              [disabled]="disabled()"
               [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onEmailChange($event)"
@@ -110,16 +111,16 @@ export enum InputType {
           }
           @case (InputType.select) {
             <select
-              [id]="id"
+              [id]="id()"
               [name]="name"
-              [attr.aria-label]="ariaLabel"
-              [required]="required"
-              [disabled]="disabled"
+              [attr.aria-label]="ariaLabel()"
+              [required]="required()"
+              [disabled]="disabled()"
               [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
             >
-              @for (option of options; track option) {
+              @for (option of options(); track option) {
                 <option [value]="toSelectKey(option)">
                   {{ toSelectLabel(option) }}
                 </option>
@@ -129,11 +130,11 @@ export enum InputType {
           @case (InputType.date) {
             <input
               [type]="type"
-              [id]="id"
+              [id]="id()"
               [name]="name"
-              [attr.aria-label]="ariaLabel"
-              [attr.placeholder]="placeholder"
-              [disabled]="disabled"
+              [attr.aria-label]="ariaLabel()"
+              [attr.placeholder]="placeholder()"
+              [disabled]="disabled()"
               [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
@@ -141,14 +142,14 @@ export enum InputType {
           }
           @case (InputType.textarea) {
             <textarea
-              [id]="id"
+              [id]="id()"
               [name]="name"
-              [attr.aria-label]="ariaLabel"
-              [attr.placeholder]="placeholder"
-              [required]="required"
-              [disabled]="disabled"
+              [attr.aria-label]="ariaLabel()"
+              [attr.placeholder]="placeholder()"
+              [required]="required()"
+              [disabled]="disabled()"
               [class]="inputClassesWFullDefault"
-              [rows]="rows"
+              [rows]="rows()"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
             ></textarea>
@@ -157,11 +158,11 @@ export enum InputType {
             <div class="flex items-center space-x-3">
               <input
                 [type]="type"
-                [id]="id"
+                [id]="id()"
                 [name]="name"
-                [attr.aria-label]="ariaLabel"
-                [attr.placeholder]="placeholder"
-                [disabled]="disabled"
+                [attr.aria-label]="ariaLabel()"
+                [attr.placeholder]="placeholder()"
+                [disabled]="disabled()"
                 [class]="inputClasses"
                 [ngModel]="value"
                 [checked]="value"
@@ -170,15 +171,15 @@ export enum InputType {
               />
               @if (label) {
                 <label
-                  [attr.for]="id"
+                  [attr.for]="id()"
                   class="text-sm text-neutral-700"
-                  [class]="value ? labelStyling : ''"
+                  [class]="value ? labelStyling() : ''"
                 >
                   {{ label }}
                 </label>
               }
             </div>
-            @if (required) {
+            @if (required()) {
               <div class="mt-1 h-3">
                 @if (
                   form &&
@@ -213,22 +214,22 @@ export class InputFieldComponent {
 
   @Input() type: InputType = InputType.text;
   @Input() label?: string;
-  @Input() placeholder?: string;
-  @Input() required: boolean = false;
+  readonly placeholder = input<string>();
+  readonly required = input<boolean>(false);
   @Input() value: any = null;
-  @Input() possibleCheckedBy: string | null = null;
+  readonly possibleCheckedBy = input<string | null>(null);
   @Output() valueChange = new EventEmitter<any>();
-  @Input() disabled: boolean = false;
-  @Input() ariaLabel?: string;
-  @Input() className?: string;
-  @Input() id: string = "";
+  readonly disabled = input<boolean>(false);
+  readonly ariaLabel = input<string>();
+  readonly className = input<string>();
+  readonly id = input<string>("");
   @Input() name: string = "";
-  @Input() marginBottom: string = "";
-  @Input() labelStyling: string = "text-neutral-700";
-  @Input() minlength: string = "";
+  readonly marginBottom = input<string>("");
+  readonly labelStyling = input<string>("text-neutral-700");
+  readonly minlength = input<string>("");
 
-  @Input() options: ([number, string] | string)[] = []; // relevant only for select
-  @Input() rows: number = 4; // relevant only for textarea
+  readonly options = input<([number, string] | string)[]>([]); // relevant only for select
+  readonly rows = input<number>(4); // relevant only for textarea
 
   @Input() form: NgForm | null = null;
 
@@ -245,7 +246,7 @@ export class InputFieldComponent {
     const neutralClasses = "border-neutral-200";
 
     // Dynamically construct the class string
-    const classes = [baseClasses, neutralClasses, this.className || ""];
+    const classes = [baseClasses, neutralClasses, this.className() || ""];
 
     // Filter out any empty or falsy values and join into a string
     return classes.filter(Boolean).join(" ").trim();
@@ -275,11 +276,12 @@ export class InputFieldComponent {
 
   onCheckboxChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    if (this.possibleCheckedBy === null) {
+    const possibleCheckedBy = this.possibleCheckedBy();
+    if (possibleCheckedBy === null) {
       this.valueChange.emit(inputElement.checked);
     } else {
       if (inputElement.checked) {
-        this.valueChange.emit(this.possibleCheckedBy);
+        this.valueChange.emit(possibleCheckedBy);
       } else {
         this.valueChange.emit("");
       }

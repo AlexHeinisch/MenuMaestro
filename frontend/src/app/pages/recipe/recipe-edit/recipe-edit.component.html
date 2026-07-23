@@ -1,9 +1,9 @@
 <page-layout styleNames="bg-transparent">
-  <h1 class="mb-8 text-3xl flex">{{ title }}</h1>
+  <h1 class="mb-8 text-3xl flex">{{ title() }}</h1>
   @if (!loadingRecipe && errorNoRecipeFound.length === 0) {
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
       <!-- Recipe Name and Servings Row -->
-      @if (!hideVisibilityNameAndServings) {
+      @if (!hideVisibilityNameAndServings()) {
         <div
           class="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4 mb-4 lg:items-center"
         >

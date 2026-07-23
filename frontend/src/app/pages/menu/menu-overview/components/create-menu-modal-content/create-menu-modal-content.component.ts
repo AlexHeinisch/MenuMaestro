@@ -1,10 +1,10 @@
 import {
   Component,
-  Input,
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
@@ -67,7 +67,7 @@ export class CreateMenuModalContentComponent implements OnChanges {
   organizationOptionsNames: string[] = [];
   selectedOrganizationName: string | null = null;
 
-  @Input() organizations: OrganizationSummaryDto[] = [];
+  readonly organizations = input<OrganizationSummaryDto[]>([]);
 
   constructor() {
     const navigation = this.router.getCurrentNavigation();
@@ -83,8 +83,8 @@ export class CreateMenuModalContentComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["organizations"] && this.organizations.length > 0) {
-      this.menu.organizationId = this.organizations[0].id;
+    if (changes["organizations"] && this.organizations().length > 0) {
+      this.menu.organizationId = this.organizations()[0].id;
     }
   }
 
@@ -104,7 +104,7 @@ export class CreateMenuModalContentComponent implements OnChanges {
     this.menu = {
       name: "",
       description: "",
-      organizationId: this.organizations[0].id,
+      organizationId: this.organizations()[0].id,
       numberOfPeople: 1,
     };
   }

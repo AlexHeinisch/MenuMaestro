@@ -1,4 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  input,
+} from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 export enum ButtonVariant {
@@ -27,11 +32,11 @@ const variantStyles = {
   selector: "simple-button",
   template: `
     <button
-      [attr.type]="type"
+      [attr.type]="type()"
       [class]="buttonClasses"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       (click)="handleClick($event)"
-      [attr.aria-label]="ariaLabel"
+      [attr.aria-label]="ariaLabel()"
       [routerLink]="routerLink ? routerLink : null"
     >
       <ng-content></ng-content>
@@ -41,21 +46,21 @@ const variantStyles = {
   styles: [],
 })
 export class SimpleButtonComponent {
-  @Input() variant: ButtonVariant = ButtonVariant.primary;
-  @Input() type: string = "button";
-  @Input() disabled: boolean = false;
-  @Input() ariaLabel?: string;
+  readonly variant = input<ButtonVariant>(ButtonVariant.primary);
+  readonly type = input<string>("button");
+  readonly disabled = input<boolean>(false);
+  readonly ariaLabel = input<string>();
   @Input() routerLink?: string | string[];
-  @Input() className?: string;
+  readonly className = input<string>();
 
   get buttonClasses(): string {
     const baseClasses =
       "button disabled:bg-slate-300 disabled:border-slate-300 disabled:text-slate-500 text-sm disabled:cursor-not-allowed focus:outline-hidden border py-2 lg:px-4 px-3 flex items-center justify-center w-auto inline-flex hover:transition-colors hover:ease-in h-[42px]";
-    return `${baseClasses} ${variantStyles[this.variant]} ${this.className || ""}`.trim();
+    return `${baseClasses} ${variantStyles[this.variant()]} ${this.className() || ""}`.trim();
   }
 
   handleClick(event: MouseEvent): void {
-    if (this.disabled) {
+    if (this.disabled()) {
       event.preventDefault();
       event.stopPropagation();
     }

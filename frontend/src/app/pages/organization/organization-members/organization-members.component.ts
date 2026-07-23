@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   OnInit,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
@@ -58,7 +58,7 @@ export class OrganizationMembers implements OnInit {
   private errorService = inject(ErrorService);
   private route = inject(ActivatedRoute);
 
-  @Input() organization: OrganizationSummaryDto | undefined;
+  readonly organization = input<OrganizationSummaryDto>();
   organizationId!: number;
 
   isInviteMemberModalOpen: boolean = false;
@@ -91,9 +91,10 @@ export class OrganizationMembers implements OnInit {
   }
 
   onInviteMember() {
-    if (this.organization && this.organization?.id) {
+    const organization = this.organization();
+    if (organization && organization?.id) {
       this.organizationApiService
-        .inviteMember(this.organization.id, {
+        .inviteMember(organization.id, {
           username: this.inviteMemberInput,
         })
         .subscribe({
@@ -169,7 +170,7 @@ export class OrganizationMembers implements OnInit {
   handleChangeRoleModalSubmit(): void {
     this.organizationApiService
       .changeMemberRole(
-        this.organization?.id!,
+        this.organization()?.id!,
         this.memberToChange?.username!,
         { role: this.memberToChange?.role! },
       )
@@ -214,7 +215,7 @@ export class OrganizationMembers implements OnInit {
 
   handleRemoveMemberModalSubmit(): void {
     this.organizationApiService
-      .removeMember(this.organization?.id!, this.usernameToRemove)
+      .removeMember(this.organization()?.id!, this.usernameToRemove)
       .subscribe({
         next: (response) => {
           this.toastr.success(
@@ -257,7 +258,7 @@ export class OrganizationMembers implements OnInit {
     }
 
     this.accountsApiService
-      .searchAccounts(0, 5, searchTerm, this.organization?.id)
+      .searchAccounts(0, 5, searchTerm, this.organization()?.id)
       .subscribe({
         next: (response) => {
           if (response) {

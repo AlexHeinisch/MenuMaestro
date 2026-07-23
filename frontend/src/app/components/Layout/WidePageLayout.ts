@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, input } from "@angular/core";
 
 @Component({
   selector: "wide-page-layout",
@@ -11,9 +11,9 @@ import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
   styles: [],
 })
 export class WidePageLayoutComponent {
-  @Input() styleNames?: string;
+  readonly styleNames = input<string>();
 
   get containerClasses(): string {
-    return `mx-auto px-4 py-8 sm:w-[75%] md:w-[80%] lg:w-[70%] xl:w-[65%] text-neutral-700 ${this.styleNames || ""}`;
+    return `mx-auto px-4 py-8 sm:w-[75%] md:w-[80%] lg:w-[70%] xl:w-[65%] text-neutral-700 ${this.styleNames() || ""}`;
   }
 }

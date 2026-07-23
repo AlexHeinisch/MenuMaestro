@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   ChangeDetectionStrategy,
+  input,
 } from "@angular/core";
 
 import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
@@ -13,14 +14,14 @@ import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
   imports: [SimpleButtonComponent],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    @if (show) {
+    @if (show()) {
       <div
         class="fixed inset-0 bg-black/50 backdrop-blur-xs flex justify-center items-center z-10 p-4"
       >
         <div
           class="bg-white flex min-h-fit flex-col w-full max-w-[600px] justify-between rounded-lg p-6 relative"
         >
-          <h2 class="text-xl wrap-break-word">{{ title }}</h2>
+          <h2 class="text-xl wrap-break-word">{{ title() }}</h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -51,10 +52,10 @@ import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
             }
             <simple-button
               (click)="handleSubmit()"
-              [disabled]="!isSubmitEnabled"
+              [disabled]="!isSubmitEnabled()"
               className="w-full sm:w-32"
             >
-              {{ submitBtnTitle }}
+              {{ submitBtnTitle() }}
             </simple-button>
           </div>
         </div>
@@ -65,11 +66,11 @@ import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
 export class SimpleModalComponent {
   ButtonVariant = ButtonVariant;
 
-  @Input() title!: string;
-  @Input() show!: boolean;
+  readonly title = input.required<string>();
+  readonly show = input.required<boolean>();
   @Input() cancelBtnTitle?: string;
-  @Input() submitBtnTitle!: string;
-  @Input() isSubmitEnabled: boolean = true;
+  readonly submitBtnTitle = input.required<string>();
+  readonly isSubmitEnabled = input<boolean>(true);
 
   @Output() setShow = new EventEmitter<boolean>();
   @Output() onCancel = new EventEmitter<void>();

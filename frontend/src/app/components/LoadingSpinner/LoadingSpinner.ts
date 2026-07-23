@@ -1,8 +1,8 @@
 import {
   Component,
-  Input,
   OnChanges,
   ChangeDetectionStrategy,
+  input,
 } from "@angular/core";
 
 @Component({
@@ -34,18 +34,18 @@ import {
   `,
 })
 export class LoadingSpinnerComponent implements OnChanges {
-  @Input() isLoading = false;
-  @Input() delay = 300; //milliseconds
+  readonly isLoading = input(false);
+  readonly delay = input(300); //milliseconds
 
   showSpinner = false;
   private timeout: any;
 
   ngOnChanges(): void {
-    if (this.isLoading) {
+    if (this.isLoading()) {
       // Set a timeout to show the spinner after the delay
       this.timeout = setTimeout(() => {
         this.showSpinner = true;
-      }, this.delay);
+      }, this.delay());
     } else {
       // Clear the timeout and hide the spinner immediately
       clearTimeout(this.timeout);

@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   ChangeDetectionStrategy,
+  input,
 } from "@angular/core";
 
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
@@ -13,7 +14,7 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
   imports: [SimpleButtonComponent],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    @if (show) {
+    @if (show()) {
       <div
         class="fixed inset-0 bg-black/50 backdrop-blur-xs flex justify-center items-center z-10 p-4"
       >
@@ -37,7 +38,7 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
               d="M6 18 18 6M6 6l12 12"
             />
           </svg>
-          <h2 class="text-xl wrap-break-word">{{ title }}</h2>
+          <h2 class="text-xl wrap-break-word">{{ title() }}</h2>
           <div class="mb-5 mt-5">
             <ng-content></ng-content>
           </div>
@@ -57,9 +58,9 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
               <simple-button
                 (click)="handleSubmit()"
                 className="w-full sm:w-90"
-                [variant]="secondBtnVariant"
+                [variant]="secondBtnVariant()"
               >
-                {{ secondBtnTitle }}
+                {{ secondBtnTitle() }}
               </simple-button>
               @if (thirdBtnTitle) {
                 <simple-button
@@ -77,12 +78,12 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
   `,
 })
 export class ComplexModalComponent {
-  @Input() title!: string;
-  @Input() show!: boolean;
+  readonly title = input.required<string>();
+  readonly show = input.required<boolean>();
   @Input() firstBtnTitle?: string;
-  @Input() secondBtnTitle!: string;
+  readonly secondBtnTitle = input.required<string>();
   @Input() thirdBtnTitle?: string; // Input for the third button title
-  @Input() secondBtnVariant: ButtonVariant = ButtonVariant.secondary;
+  readonly secondBtnVariant = input<ButtonVariant>(ButtonVariant.secondary);
 
   @Output() setShow = new EventEmitter<boolean>();
   @Output() onCancel = new EventEmitter<void>();

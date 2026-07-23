@@ -8,6 +8,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 
 import {
@@ -241,8 +242,8 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
             #textarea
             [(ngModel)]="value"
             (ngModelChange)="onValueChange($event)"
-            [placeholder]="placeholder"
-            [rows]="rows"
+            [placeholder]="placeholder()"
+            [rows]="rows()"
             [maxlength]="maxLength"
             class="w-full p-3 border border-gray-300 border-t-0 rounded-b focus:outline-hidden focus:ring-2 focus:ring-blue-500 font-mono text-sm"
           ></textarea>
@@ -325,8 +326,8 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
 export class MarkdownEditorComponent implements ControlValueAccessor {
   private emojiService = inject(EmojiService);
 
-  @Input() placeholder: string = "Enter markdown text...";
-  @Input() rows: number = 8;
+  readonly placeholder = input<string>("Enter markdown text...");
+  readonly rows = input<number>(8);
   @Input() maxLength: number = 4096;
   @Output() valueChange = new EventEmitter<string>();
 

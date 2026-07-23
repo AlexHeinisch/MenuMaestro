@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input,
 } from "@angular/core";
 
 export enum InfoMessageType {
@@ -22,15 +22,15 @@ export enum InfoMessageType {
       class="my-2 p-1 text-center border-2 rounded-xl cursor-pointer"
       tabindex="0"
     >
-      {{ message }}
+      {{ message() }}
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   styles: [],
 })
 export class InfoMessageComponent {
-  @Input() message!: string;
-  @Input() type!: InfoMessageType;
+  readonly message = input.required<string>();
+  readonly type = input.required<InfoMessageType>();
   @Output() onClose = new EventEmitter<void>();
 
   onKeyDown(event: KeyboardEvent): void {
@@ -40,7 +40,7 @@ export class InfoMessageComponent {
   }
 
   get messageClasses(): string {
-    switch (this.type) {
+    switch (this.type()) {
       case InfoMessageType.success:
         return "text-white border-primary-300 bg-primary-100";
       case InfoMessageType.failure:

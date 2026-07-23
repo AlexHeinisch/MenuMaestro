@@ -1,10 +1,10 @@
 import {
   Component,
   EventEmitter,
-  Input,
   Output,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 import { PageLayoutComponent } from "../../../../components/Layout/PageLayout";
 import {
@@ -65,8 +65,8 @@ export class ShoppingListAddItemComponent {
   measurementUnits: IngredientUnitDto[] = Object.values(IngredientUnitDto);
   category: IngredientCategory = IngredientCategory.Other;
 
-  @Input() shoppingListId: number = 1;
-  @Input() shareToken: string | undefined = undefined;
+  readonly shoppingListId = input<number>(1);
+  readonly shareToken = input<string>();
   @Output() closeView = new EventEmitter<ShoppingListDto | null>();
 
   handleClick(): void {
@@ -75,7 +75,7 @@ export class ShoppingListAddItemComponent {
 
   searchIngredient(searchTerm: string) {
     this.ingredientsApiService
-      .searchIngredients(0, 5, undefined, searchTerm, this.shareToken)
+      .searchIngredients(0, 5, undefined, searchTerm, this.shareToken())
       .subscribe({
         next: (response: IngredientListPaginatedDto) => {
           if (response.content) {
@@ -118,9 +118,9 @@ export class ShoppingListAddItemComponent {
     if (form.valid) {
       this.shoppingListApiService
         .addItemToShoppingList(
-          this.shoppingListId,
+          this.shoppingListId(),
           this.shoppingListIngredientAddDto,
-          this.shareToken,
+          this.shareToken(),
         )
         .subscribe({
           next: (response) => {

@@ -1,10 +1,10 @@
 import {
   Component,
-  Input,
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
@@ -37,7 +37,7 @@ export class RequestIngredientModalComponent implements OnChanges {
   private errorService = inject(ErrorService);
   private tokenService = inject(TokenService);
 
-  @Input() ingredientName: string = "";
+  readonly ingredientName = input<string>("");
 
   InputType = InputType;
 
@@ -52,7 +52,7 @@ export class RequestIngredientModalComponent implements OnChanges {
       changes["ingredientName"].currentValue !== undefined
     ) {
       this.newIngredient = {
-        name: this.ingredientName,
+        name: this.ingredientName(),
         defaultUnit: IngredientUnitDto.Grams,
         category: IngredientCategory.Other,
       };

@@ -5,10 +5,10 @@ import {
   ViewChild,
   ViewChildren,
   EventEmitter,
-  Input,
   Output,
   ChangeDetectionStrategy,
   inject,
+  input,
 } from "@angular/core";
 import {
   ButtonVariant,
@@ -129,12 +129,15 @@ export class EditRecipeComponent implements OnInit {
 
   initialImageLink: string | undefined = undefined;
 
-  @Input() fetchRecipeValueHandler: () => Observable<RecipeDto> = () => null!;
-  @Input() redirectPath: string = "";
-  @Input() editRecipeHandler: (recipe: RecipeCreateEditDto) => Observable<any> =
-    () => null!;
-  @Input() title: string = "Edit Recipe";
-  @Input() hideVisibilityNameAndServings: boolean = false;
+  readonly fetchRecipeValueHandler = input<() => Observable<RecipeDto>>(
+    () => null!,
+  );
+  readonly redirectPath = input<string>("");
+  readonly editRecipeHandler = input<
+    (recipe: RecipeCreateEditDto) => Observable<any>
+  >(() => null!);
+  readonly title = input<string>("Edit Recipe");
+  readonly hideVisibilityNameAndServings = input<boolean>(false);
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -144,7 +147,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   fetchRecipe(): void {
-    this.fetchRecipeValueHandler().subscribe({
+    this.fetchRecipeValueHandler()().subscribe({
       next: (recipe) => {
         this.loadingRecipe = false;
         this.recipeEdit = {
@@ -205,9 +208,9 @@ export class EditRecipeComponent implements OnInit {
     } else {
       this.router.navigate([`/login`]);
     }
-    this.editRecipeHandler(this.recipeEdit).subscribe({
+    this.editRecipeHandler()(this.recipeEdit).subscribe({
       next: (response) => {
-        this.router.navigate([this.redirectPath]);
+        this.router.navigate([this.redirectPath()]);
       },
       error: (error) => {
         this.errorService.printErrorResponse(error);
@@ -349,7 +352,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   cancelClicked() {
-    this.router.navigate([this.redirectPath]);
+    this.router.navigate([this.redirectPath()]);
   }
 
   onRequestIngredientSelected(selected: string, index: number) {
