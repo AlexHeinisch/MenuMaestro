@@ -6,8 +6,7 @@ import {
   input,
   output,
 } from "@angular/core";
-import { Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
 
 import { FormsModule } from "@angular/forms";
 

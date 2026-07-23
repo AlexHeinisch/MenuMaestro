@@ -6,13 +6,8 @@ import {
 import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
-import {
-  HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withInterceptorsFromDi,
-  withXhr,
-} from "@angular/common/http";
-import { AuthInterceptor } from "./security/auth-interceptor";
+import { provideHttpClient, withInterceptors, withXhr } from "@angular/common/http";
+import { authInterceptor } from "./security/auth-interceptor";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideToastr } from "ngx-toastr";
 import { BASE_PATH } from "../generated";
@@ -22,8 +17,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withXhr(), withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideHttpClient(withXhr(), withInterceptors([authInterceptor])),
     provideAnimations(),
     provideToastr({
       preventDuplicates: true,
