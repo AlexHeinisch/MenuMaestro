@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -33,6 +39,7 @@ import {
     SimpleModalComponent,
     MarkdownEditorComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./create-menu-modal-content.component.html",
 })
 export class CreateMenuModalContentComponent implements OnChanges {

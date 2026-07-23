@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 import { MarkdownModule } from "ngx-markdown";
 
@@ -31,6 +31,7 @@ import { MarkdownModule } from "ngx-markdown";
       <markdown [data]="content"> </markdown>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .markdown-content {

@@ -165,7 +165,10 @@
   }
 
   <simple-modal
-    [title]="'Edit Stash Ingredient: ' + this.editStashEntry?.name"
+    [title]="
+      'Edit Stash Ingredient: ' +
+      $safeNavigationMigration(this.editStashEntry?.name)
+    "
     [show]="editStashEntry !== null"
     [cancelBtnTitle]="'Cancel'"
     [submitBtnTitle]="'Confirm'"

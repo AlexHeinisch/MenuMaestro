@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 
 import { HttpErrorResponse } from "@angular/common/http";
@@ -18,6 +18,7 @@ import { AccountsApiService } from "../../../../generated";
     RouterModule,
     LoadingSpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./verify-email.html",
 })
 export class VerifyEmailComponent implements OnInit {

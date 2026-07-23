@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
 import {
@@ -28,6 +33,7 @@ import { MarkdownEditorComponent } from "../../../../../components/Markdown/Mark
     SimpleModalComponent,
     MarkdownEditorComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./organization-create.component.html",
 })
 export class CreateOrganizationModalContentComponent {

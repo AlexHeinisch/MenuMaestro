@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { map, Observable, tap } from "rxjs";
 import { EditRecipeComponent } from "../../recipe/recipe-edit/recipe-edit.component";
@@ -16,6 +16,7 @@ import {
 @Component({
   selector: "app-edit-meal-component",
   imports: [EditRecipeComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./edit-meal.component.html",
 })
 export class EditMealComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 import { FormsModule } from "@angular/forms";
@@ -27,6 +27,7 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
     AccountDeleteButtonComponent,
     LoadingSpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./account-overview.html",
 })
 export class AccountOverview {

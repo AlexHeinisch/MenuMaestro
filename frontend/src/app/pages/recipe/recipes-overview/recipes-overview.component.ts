@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from "@angular/core";
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { WidePageLayoutComponent } from "../../../components/Layout/WidePageLayout";
 import { SearchInputComponent } from "../../../components/Input/SearchInput";
 import {
@@ -51,6 +56,7 @@ interface Filter {
     PaginationControlsComponent,
   ],
   selector: "app-recipes-overview",
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./recipes-overview.component.html",
 })
 export class RecipesOverviewComponent implements OnInit {

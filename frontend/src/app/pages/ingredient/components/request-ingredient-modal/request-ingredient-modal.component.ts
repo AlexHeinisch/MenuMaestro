@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 import { FormsModule } from "@angular/forms";
@@ -21,6 +27,7 @@ import { TokenService } from "../../../../security/token.service";
 @Component({
   selector: "app-request-ingredient-modal",
   imports: [RouterModule, FormsModule, InputFieldComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./request-ingredient-modal.component.html",
 })
 export class RequestIngredientModalComponent implements OnChanges {

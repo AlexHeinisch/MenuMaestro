@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { PageLayoutComponent } from "../../../../components/Layout/PageLayout";
 import {
   ButtonVariant,
@@ -33,6 +39,7 @@ import {
     SearchInputComponent,
     FormsModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./shopping-list-add-item.component.html",
 })
 export class ShoppingListAddItemComponent {

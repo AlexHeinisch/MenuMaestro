@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
 import { FormsModule, NgForm } from "@angular/forms";
@@ -31,6 +31,7 @@ import {
     FormsModule,
     SimpleModalComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./change-password.component.html",
 })
 export class ChangePasswordComponent {

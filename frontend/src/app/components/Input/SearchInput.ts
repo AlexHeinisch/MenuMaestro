@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
@@ -16,6 +17,7 @@ export const SEARCH_DEBOUNCE_MS = 300;
 @Component({
   selector: "search-input",
   imports: [FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (label) {
       <label [attr.for]="id" class="block mb-2 text-base text-primary">{{

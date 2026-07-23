@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { FooterComponent } from "./components/Layout/Footer";
 import { HeaderComponent } from "./components/Layout/Header";
@@ -9,6 +9,7 @@ import { AnalyticsService } from "./service/analytics.service";
   selector: "app-root",
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: "./app.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: "./app.component.css",
 })
 export class AppComponent implements OnInit {

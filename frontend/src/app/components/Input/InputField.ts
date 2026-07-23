@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ControlContainer, FormsModule, NgForm } from "@angular/forms";
 import { StringFormattingService } from "../../service/string-formatting.service";
@@ -199,6 +205,7 @@ export enum InputType {
     </div>
   `,
   styles: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class InputFieldComponent {

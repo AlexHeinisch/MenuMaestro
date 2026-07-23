@@ -3,8 +3,8 @@
 ## Prerequisites
 
 ```sh
-Angular CLI: 20.0.5
-Node: 22.14.0
+Angular CLI: 22.0.8
+Node: 22.22.3
 Package Manager: npm 10.9.2
 ```
 

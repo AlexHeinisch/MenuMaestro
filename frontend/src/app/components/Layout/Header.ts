@@ -1,4 +1,9 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import {
+  Component,
+  HostListener,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { TokenService } from "../../security/token.service";
@@ -13,6 +18,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
     LoginLogoutButtonComponent,
     AccountButtonComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <nav class="bg-primary-800">
       <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 import { Router, RouterModule } from "@angular/router";
 import { AccountsApiService } from "../../../../generated";
@@ -22,6 +22,7 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
     RouterModule,
     LoadingSpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./forgot-password-page.html",
 })
 export class ForgotPasswordComponent {

@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
@@ -33,6 +34,7 @@ import {
 @Component({
   selector: "app-add-meal-to-menu-modal",
   templateUrl: "./add-meal-to-menu-modal.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterModule,
     FormsModule,

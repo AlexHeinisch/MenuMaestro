@@ -6,6 +6,7 @@ import {
   forwardRef,
   ViewChild,
   ElementRef,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 
 import {
@@ -264,6 +265,7 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .markdown-editor-container {

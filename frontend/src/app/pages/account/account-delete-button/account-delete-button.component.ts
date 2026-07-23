@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TokenService } from "../../../security/token.service";
 import {
@@ -18,6 +18,7 @@ import { AccountsApiService } from "../../../../generated";
 @Component({
   selector: "account-delete-button",
   templateUrl: "./account-delete-button.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterModule,
     SimpleButtonComponent,

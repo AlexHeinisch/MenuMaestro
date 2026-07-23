@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { PageLayoutComponent } from "../../components/Layout/PageLayout";
 import { LoadingSpinnerComponent } from "../../components/LoadingSpinner/LoadingSpinner";
 
@@ -40,6 +40,7 @@ import {
     SimpleModalComponent,
     SearchInputComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./stash.component.html",
 })
 export class StashComponent implements OnInit {

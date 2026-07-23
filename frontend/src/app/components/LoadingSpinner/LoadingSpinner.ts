@@ -1,8 +1,14 @@
-import { Component, Input, OnChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 @Component({
   imports: [],
   selector: "loading-spinner",
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (showSpinner) {
       <div role="status" class="flex flex-col items-center justify-center">

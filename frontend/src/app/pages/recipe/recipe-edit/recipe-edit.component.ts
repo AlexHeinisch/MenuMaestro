@@ -7,6 +7,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import {
   ButtonVariant,
@@ -66,6 +67,7 @@ import {
     SimpleModalComponent,
     MarkdownEditorComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./recipe-edit.component.html",
 })
 export class EditRecipeComponent implements OnInit {

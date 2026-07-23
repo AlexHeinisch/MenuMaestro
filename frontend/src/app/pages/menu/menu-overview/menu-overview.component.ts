@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import {
   MenusApiService,
@@ -43,6 +49,7 @@ import { CreateMenuModalContentComponent } from "./components/create-menu-modal-
     PaginationControlsComponent,
     CreateMenuModalContentComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./menu-overview.component.html",
 })
 export class MenuOverviewComponent implements OnInit {

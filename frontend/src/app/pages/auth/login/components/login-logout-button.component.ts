@@ -1,10 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TokenService } from "../../../../security/token.service";
 
 @Component({
   selector: "login-logout-button",
   templateUrl: "./login-logout-button.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule],
 })
 export class LoginLogoutButtonComponent {

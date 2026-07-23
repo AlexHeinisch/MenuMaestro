@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SearchInputComponent } from "../../../components/Input/SearchInput";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
@@ -38,6 +38,7 @@ import {
     MarkdownViewerComponent,
   ],
   selector: "app-recipe-detail",
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./recipe-detail.component.html",
 })
 export class RecipeDetailComponent implements OnInit {

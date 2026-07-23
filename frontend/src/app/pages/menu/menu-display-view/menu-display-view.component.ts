@@ -1,46 +1,64 @@
-import { Component } from '@angular/core';
-import { InfoMessageComponent, InfoMessageType } from '../../../components/Card/InfoMessage';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import {
-  MealInMenuDto, MealsApiService,
+  InfoMessageComponent,
+  InfoMessageType,
+} from "../../../components/Card/InfoMessage";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  MealInMenuDto,
+  MealsApiService,
   MealStatus,
   MenuDetailDto,
-  MenusApiService, OrganizationRoleEnum, ShoppingListApiService,
+  MenusApiService,
+  OrganizationRoleEnum,
+  ShoppingListApiService,
   SnapshotCreateDto,
   SnapshotInMenuDto,
-} from '../../../../generated';
-import { CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList } from '@angular/cdk/drag-drop';
-import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { CommonModule } from '@angular/common';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { ErrorService } from '../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { StringFormattingService } from '../../../service/string-formatting.service';
-import { TokenService } from '../../../security/token.service';
+} from "../../../../generated";
+import {
+  CdkDrag,
+  CdkDragPlaceholder,
+  CdkDragPreview,
+  CdkDropList,
+} from "@angular/cdk/drag-drop";
+import { FormsModule } from "@angular/forms";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { CommonModule } from "@angular/common";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { StringFormattingService } from "../../../service/string-formatting.service";
+import { TokenService } from "../../../security/token.service";
 
 @Component({
-    selector: 'app-menu-display-view',
-    imports: [
-        SimpleButtonComponent,
-        InputFieldComponent,
-        PageLayoutComponent,
-        InfoMessageComponent,
-        LoadingSpinnerComponent,
-        CdkDropList,
-        CdkDrag,
-        CdkDragPreview,
-        CdkDragPlaceholder,
-        SimpleModalComponent,
-        FormsModule,
-        CommonModule,
-        RouterLink,
-    ],
-    templateUrl: './menu-display-view.component.html'
+  selector: "app-menu-display-view",
+  imports: [
+    SimpleButtonComponent,
+    InputFieldComponent,
+    PageLayoutComponent,
+    InfoMessageComponent,
+    LoadingSpinnerComponent,
+    CdkDropList,
+    CdkDrag,
+    CdkDragPreview,
+    CdkDragPlaceholder,
+    SimpleModalComponent,
+    FormsModule,
+    CommonModule,
+    RouterLink,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./menu-display-view.component.html",
 })
 export class MenuDisplayViewComponent {
   InputType = InputType;
@@ -53,10 +71,10 @@ export class MenuDisplayViewComponent {
   combinedMealsAndSnapshots: (MealInMenuDto | SnapshotInMenuDto)[] = [];
 
   loadingMenu: boolean = true;
-  errorNoMenuFound: string = '';
+  errorNoMenuFound: string = "";
   showFullDescription = false;
   maxFullDescriptionLength: number = 95;
-  menuDeleteModalTitle: string = '';
+  menuDeleteModalTitle: string = "";
   isMenuDeleteModalOpen: boolean = false;
 
   constructor(
@@ -69,23 +87,25 @@ export class MenuDisplayViewComponent {
     private errorService: ErrorService,
     private toastrService: ToastrService,
     private stringFormattingService: StringFormattingService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.menuId = +params['id'];
+      this.menuId = +params["id"];
       this.fetchMenu();
     });
-    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe((result) => {
-      if (result.matches) {
-        // Mobile view
-        this.maxFullDescriptionLength = 25;
-      } else {
-        // Desktop view
-        this.maxFullDescriptionLength = 95;
-      }
-    });
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        if (result.matches) {
+          // Mobile view
+          this.maxFullDescriptionLength = 25;
+        } else {
+          // Desktop view
+          this.maxFullDescriptionLength = 95;
+        }
+      });
   }
 
   fetchMenu(): void {
@@ -104,7 +124,7 @@ export class MenuDisplayViewComponent {
         });
       },
       error: (err) => {
-        this.errorNoMenuFound = 'No menu with the given id exists.';
+        this.errorNoMenuFound = "No menu with the given id exists.";
         this.loadingMenu = false;
         this.errorService.printErrorResponse(err);
       },
@@ -123,7 +143,7 @@ export class MenuDisplayViewComponent {
     this.menusApiService.deleteMenuById(this.menuId).subscribe({
       next: () => {
         this.router.navigate([`/menus`]);
-        this.toastrService.success('Menu deleted.');
+        this.toastrService.success("Menu deleted.");
       },
       error: (err) => {
         this.errorService.printErrorResponse(err);
@@ -131,13 +151,16 @@ export class MenuDisplayViewComponent {
     });
   }
 
-  isSnapshot(item: MealInMenuDto | SnapshotInMenuDto): item is SnapshotInMenuDto {
+  isSnapshot(
+    item: MealInMenuDto | SnapshotInMenuDto,
+  ): item is SnapshotInMenuDto {
     return (item as SnapshotInMenuDto).numberOfMealsIncluded !== undefined;
   }
 
   openMenuDeleteModal(): void {
     if (this.menuDetail.name) {
-      this.menuDeleteModalTitle = 'Are you sure you want to delete "' + this.menuDetail.name + '"?';
+      this.menuDeleteModalTitle =
+        'Are you sure you want to delete "' + this.menuDetail.name + '"?';
     }
     this.isMenuDeleteModalOpen = true;
   }
@@ -147,11 +170,11 @@ export class MenuDisplayViewComponent {
   }
 
   formatStatus(status: string | undefined): string {
-    if (!status) return 'Unknown Status';
+    if (!status) return "Unknown Status";
 
     return status
       .toLowerCase()
-      .replace(/_/g, ' ')
+      .replace(/_/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize the first letter of each word
   }
 
@@ -159,9 +182,15 @@ export class MenuDisplayViewComponent {
     if (this.tokenService.isAdmin()) {
       return true;
     }
-    const perm = this.tokenService.getPermissionForOrganization(this.menuDetail.organization.id);
-    return [OrganizationRoleEnum.Admin, OrganizationRoleEnum.Owner, OrganizationRoleEnum.Planner]
+    const perm = this.tokenService.getPermissionForOrganization(
+      this.menuDetail.organization.id,
+    );
+    return [
+      OrganizationRoleEnum.Admin,
+      OrganizationRoleEnum.Owner,
+      OrganizationRoleEnum.Planner,
+    ]
       .map((v) => v.toString().toUpperCase())
-      .includes(perm ?? '');
+      .includes(perm ?? "");
   }
 }

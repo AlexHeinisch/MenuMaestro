@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -23,6 +23,7 @@ import { FormsModule } from "@angular/forms";
     CdkDropListGroup,
     FormsModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./list-drag-and-drop.component.html",
 })
 export class ListDragAndDropComponent {

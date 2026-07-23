@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
 import { FormsModule, NgForm } from "@angular/forms";
@@ -29,6 +29,7 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
     FormsModule,
     LoadingSpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./registration.html",
 })
 export class AccountRegistration {

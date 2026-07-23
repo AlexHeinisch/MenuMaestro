@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { InfoMessageComponent, InfoMessageType } from '../../../components/Card/InfoMessage';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import {
+  InfoMessageComponent,
+  InfoMessageType,
+} from "../../../components/Card/InfoMessage";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import {
   CdkDrag,
   CdkDragDrop,
@@ -14,44 +23,51 @@ import {
   CdkDragPreview,
   CdkDropList,
   moveItemInArray,
-} from '@angular/cdk/drag-drop';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ErrorService } from '../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
-import { IngredientComputationService } from '../../../service/ingredient-computation.service';
-import { TokenService } from '../../../security/token.service';
-import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
+} from "@angular/cdk/drag-drop";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { ComplexModalComponent } from "../../../components/Modal/ComplexModalComponent";
+import { IngredientComputationService } from "../../../service/ingredient-computation.service";
+import { TokenService } from "../../../security/token.service";
+import { MarkdownViewerComponent } from "../../../components/Markdown/MarkdownViewer/markdown-viewer.component";
 import {
-  MealInMenuDto, MealsApiService,
+  MealInMenuDto,
+  MealsApiService,
   MealStatus,
-  MenuDetailDto, MenusApiService, MenuStatus, OrganizationRoleEnum, ShoppingListApiService, ShoppingListCreateDto,
+  MenuDetailDto,
+  MenusApiService,
+  MenuStatus,
+  OrganizationRoleEnum,
+  ShoppingListApiService,
+  ShoppingListCreateDto,
   ShoppingListPreviewEntryDto,
   SnapshotCreateDto,
-  SnapshotInMenuDto
+  SnapshotInMenuDto,
 } from "../../../../generated";
 
 @Component({
-    selector: 'app-menu-detail-view',
-    imports: [
-        SimpleButtonComponent,
-        InputFieldComponent,
-        PageLayoutComponent,
-        InfoMessageComponent,
-        LoadingSpinnerComponent,
-        CdkDropList,
-        CdkDrag,
-        CdkDragPreview,
-        CdkDragPlaceholder,
-        SimpleModalComponent,
-        ComplexModalComponent,
-        FormsModule,
-        CommonModule,
-        RouterLink,
-        MarkdownViewerComponent,
-    ],
-    templateUrl: './menu-detail-view.component.html'
+  selector: "app-menu-detail-view",
+  imports: [
+    SimpleButtonComponent,
+    InputFieldComponent,
+    PageLayoutComponent,
+    InfoMessageComponent,
+    LoadingSpinnerComponent,
+    CdkDropList,
+    CdkDrag,
+    CdkDragPreview,
+    CdkDragPlaceholder,
+    SimpleModalComponent,
+    ComplexModalComponent,
+    FormsModule,
+    CommonModule,
+    RouterLink,
+    MarkdownViewerComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./menu-detail-view.component.html",
 })
 export class MenuDetailViewComponent {
   InputType = InputType;
@@ -63,34 +79,34 @@ export class MenuDetailViewComponent {
   menuDetail: MenuDetailDto = {} as MenuDetailDto;
   newSnapshot: SnapshotCreateDto = {} as SnapshotCreateDto;
   combinedMealsAndSnapshots: (MealInMenuDto | SnapshotInMenuDto)[] = [];
-  mealSeparatorName: string = '';
+  mealSeparatorName: string = "";
   checkboxList: { id: number; name: string; isChecked: boolean }[] = [];
   selectAll: boolean = false;
 
   loadingMenu: boolean = true;
-  errorNoMenuFound: string = '';
+  errorNoMenuFound: string = "";
   showFullDescription = false;
   maxFullDescriptionLength: number = 95;
   isLegendModalOpen: boolean = false;
   isShoppingListModalOpen: boolean = false;
   isShoppingListModalStep2Open: boolean = false;
-  shoppingListModalTitle: string = '';
-  shoppingListName: string = '';
+  shoppingListModalTitle: string = "";
+  shoppingListName: string = "";
   isMealGroupModalOpen: boolean = false;
   clickedSnapshotPos: number = -1;
-  menuDeleteModalTitle: string = '';
+  menuDeleteModalTitle: string = "";
   isMenuDeleteModalOpen: boolean = false;
 
   clickedMeal: MealInMenuDto = {} as MealInMenuDto;
-  mealDeleteModalTitle: string = '';
+  mealDeleteModalTitle: string = "";
   isMealDeleteModalOpen: boolean = false;
 
   clickedSnapshot: SnapshotInMenuDto = {} as SnapshotInMenuDto;
-  snapshotDeleteModalTitle: string = '';
+  snapshotDeleteModalTitle: string = "";
   isSnapshotDeleteModalOpen: boolean = false;
   handleMultipleShoppingListsModal: boolean = false;
 
-  menuCloseModalTitle: string = '';
+  menuCloseModalTitle: string = "";
   isMenuCloseModalOpen: boolean = false;
 
   shoppingListIngredientsPreview: ShoppingListPreviewEntryDto[] | null = null;
@@ -112,23 +128,25 @@ export class MenuDetailViewComponent {
     private breakpointObserver: BreakpointObserver,
     private errorService: ErrorService,
     private toastrService: ToastrService,
-    protected tokenService: TokenService
+    protected tokenService: TokenService,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.menuId = +params['id'];
+      this.menuId = +params["id"];
       this.fetchMenu(true);
     });
-    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe((result) => {
-      if (result.matches) {
-        // Mobile view
-        this.maxFullDescriptionLength = 25;
-      } else {
-        // Desktop view
-        this.maxFullDescriptionLength = 95;
-      }
-    });
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        if (result.matches) {
+          // Mobile view
+          this.maxFullDescriptionLength = 25;
+        } else {
+          // Desktop view
+          this.maxFullDescriptionLength = 95;
+        }
+      });
   }
 
   fetchMenu(isInitialFetch: boolean = false): void {
@@ -138,7 +156,7 @@ export class MenuDetailViewComponent {
         this.menuDetail = menu;
 
         if (this.menuDetail.status === MenuStatus.Closed) {
-          this.router.navigate(['/menus/' + this.menuId + '/closed']);
+          this.router.navigate(["/menus/" + this.menuId + "/closed"]);
         }
 
         const meals = this.menuDetail.meals || [];
@@ -161,7 +179,7 @@ export class MenuDetailViewComponent {
         }
       },
       error: (err) => {
-        this.errorNoMenuFound = 'No menu with the given id exists.';
+        this.errorNoMenuFound = "No menu with the given id exists.";
         this.loadingMenu = false;
         this.errorService.printErrorResponse(err);
       },
@@ -173,13 +191,20 @@ export class MenuDetailViewComponent {
   }
 
   drop(event: CdkDragDrop<(MealInMenuDto | SnapshotInMenuDto)[]>) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    const combinedMealsAndSnapshotsIdsArray = this.combinedMealsAndSnapshots.map((item) => item.id);
-    this.menusApiService.changeMenuItemOrder(this.menuId, combinedMealsAndSnapshotsIdsArray).subscribe({
-      next: () => {
-        this.fetchMenu();
-      },
-    });
+    moveItemInArray(
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex,
+    );
+    const combinedMealsAndSnapshotsIdsArray =
+      this.combinedMealsAndSnapshots.map((item) => item.id);
+    this.menusApiService
+      .changeMenuItemOrder(this.menuId, combinedMealsAndSnapshotsIdsArray)
+      .subscribe({
+        next: () => {
+          this.fetchMenu();
+        },
+      });
   }
   openCloseMealModal(item: MealInMenuDto, index: number, done: boolean) {
     this.isCloseMealModalOpen = true;
@@ -197,55 +222,73 @@ export class MenuDetailViewComponent {
   }
 
   areAllMealsDone(): boolean | undefined {
-    return this.menuDetail?.meals?.every((meal: any) => meal.status === MealStatus.Done);
+    return this.menuDetail?.meals?.every(
+      (meal: any) => meal.status === MealStatus.Done,
+    );
   }
 
   onMark(removeFromstash: boolean) {
-    this.mealsApiService.markCompleted(this.closeMealModalItem.id, this.closeMealModalDone, removeFromstash).subscribe({
-      next: () => {
-        this.fetchMenu();
-        if (this.closeMealModalDone) {
-          setTimeout(() => {
-            const scrollSuccessful = this.autoScrollOnClickDownToFirstNotDoneMeal(this.closeMealModalIndex);
-            if (!scrollSuccessful) {
-              setTimeout(() => {
-                this.autoScrollOnClickDownToFirstNotDoneMeal(this.closeMealModalIndex);
-                if (this.areAllMealsDone()) {
-                  this.openMenuCloseModal();
-                }
-              }, 150);
-            }
-          }, 150);
-          this.toastrService.success(
-            'Meal marked as done. \n This meal will be ignored for shopping lists and stash calculations.'
-          );
-        } else {
-          this.toastrService.success(
-            'Meal marked as not done. \n This meal will be included in shopping lists and stash calculations.'
-          );
-        }
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.mealsApiService
+      .markCompleted(
+        this.closeMealModalItem.id,
+        this.closeMealModalDone,
+        removeFromstash,
+      )
+      .subscribe({
+        next: () => {
+          this.fetchMenu();
+          if (this.closeMealModalDone) {
+            setTimeout(() => {
+              const scrollSuccessful =
+                this.autoScrollOnClickDownToFirstNotDoneMeal(
+                  this.closeMealModalIndex,
+                );
+              if (!scrollSuccessful) {
+                setTimeout(() => {
+                  this.autoScrollOnClickDownToFirstNotDoneMeal(
+                    this.closeMealModalIndex,
+                  );
+                  if (this.areAllMealsDone()) {
+                    this.openMenuCloseModal();
+                  }
+                }, 150);
+              }
+            }, 150);
+            this.toastrService.success(
+              "Meal marked as done. \n This meal will be ignored for shopping lists and stash calculations.",
+            );
+          } else {
+            this.toastrService.success(
+              "Meal marked as not done. \n This meal will be included in shopping lists and stash calculations.",
+            );
+          }
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
     this.isCloseMealModalOpen = false;
   }
 
   autoScrollOnClickDownToFirstNotDoneMeal(index: number): boolean {
     const findNextIncompleteMealArray = this.combinedMealsAndSnapshots.filter(
-      (item) => !this.isSnapshot(item) && (item as MealInMenuDto).status !== MealStatus.Done
+      (item) =>
+        !this.isSnapshot(item) &&
+        (item as MealInMenuDto).status !== MealStatus.Done,
     ) as MealInMenuDto[];
     if (findNextIncompleteMealArray.length > 0) {
-      const firstIncompleteMeal = this.combinedMealsAndSnapshots.indexOf(findNextIncompleteMealArray[0]);
+      const firstIncompleteMeal = this.combinedMealsAndSnapshots.indexOf(
+        findNextIncompleteMealArray[0],
+      );
       if (firstIncompleteMeal > index) {
-        const id = 'menu-item-' + firstIncompleteMeal;
+        const id = "menu-item-" + firstIncompleteMeal;
         const mealElement = document.getElementById(id);
         if (mealElement) {
-          const position = mealElement.getBoundingClientRect().top + window.scrollY;
+          const position =
+            mealElement.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: position,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
           return true;
         }
@@ -256,18 +299,23 @@ export class MenuDetailViewComponent {
 
   autoScrollToFirstNotDoneMeal(): void {
     const findNextIncompleteMealArray = this.combinedMealsAndSnapshots.filter(
-      (item) => !this.isSnapshot(item) && (item as MealInMenuDto).status !== MealStatus.Done
+      (item) =>
+        !this.isSnapshot(item) &&
+        (item as MealInMenuDto).status !== MealStatus.Done,
     ) as MealInMenuDto[];
     console.log(findNextIncompleteMealArray);
     if (findNextIncompleteMealArray.length > 0) {
-      const firstIncompleteMeal = this.combinedMealsAndSnapshots.indexOf(findNextIncompleteMealArray[0]);
-      const id = 'menu-item-' + firstIncompleteMeal;
+      const firstIncompleteMeal = this.combinedMealsAndSnapshots.indexOf(
+        findNextIncompleteMealArray[0],
+      );
+      const id = "menu-item-" + firstIncompleteMeal;
       const mealElement = document.getElementById(id);
       if (mealElement) {
-        const position = mealElement.getBoundingClientRect().top + window.scrollY;
+        const position =
+          mealElement.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
           top: position,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
       }
     }
@@ -281,7 +329,7 @@ export class MenuDetailViewComponent {
     this.menusApiService.deleteMenuById(this.menuId).subscribe({
       next: () => {
         this.router.navigate([`/menus`]);
-        this.toastrService.success('Menu deleted.');
+        this.toastrService.success("Menu deleted.");
       },
       error: (err) => {
         this.errorService.printErrorResponse(err);
@@ -293,7 +341,7 @@ export class MenuDetailViewComponent {
     this.mealsApiService.deleteMealById(item.id).subscribe({
       next: () => {
         this.fetchMenu();
-        this.toastrService.success('Meal deleted.');
+        this.toastrService.success("Meal deleted.");
       },
       error: (err) => {
         this.errorService.printErrorResponse(err);
@@ -302,37 +350,48 @@ export class MenuDetailViewComponent {
   }
 
   onDeleteSnapshot(item: SnapshotInMenuDto) {
-    this.menusApiService.removeSnapshotFromMenu(this.menuId, item.id).subscribe({
-      next: () => {
-        this.fetchMenu();
-        this.toastrService.success('Meals separator deleted.');
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.menusApiService
+      .removeSnapshotFromMenu(this.menuId, item.id)
+      .subscribe({
+        next: () => {
+          this.fetchMenu();
+          this.toastrService.success("Meals separator deleted.");
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
-  isSnapshot(item: MealInMenuDto | SnapshotInMenuDto): item is SnapshotInMenuDto {
+  isSnapshot(
+    item: MealInMenuDto | SnapshotInMenuDto,
+  ): item is SnapshotInMenuDto {
     return (item as SnapshotInMenuDto).numberOfMealsIncluded !== undefined;
   }
 
-  createShoppingListFromSnapshot(item: SnapshotInMenuDto, checkedMultipeShoppingLists: boolean) {
+  createShoppingListFromSnapshot(
+    item: SnapshotInMenuDto,
+    checkedMultipeShoppingLists: boolean,
+  ) {
     if (!checkedMultipeShoppingLists) {
-      this.menusApiService.existsShoppingListForMenu(this.menuId).subscribe((hasOpenList) => {
-        if (hasOpenList) {
-          this.clickedSnapshot = item;
-          this.handleMultipleShoppingListsModal = true;
-        } else {
-          this.createShoppingListFromSnapshot(item, true);
-        }
-      });
+      this.menusApiService
+        .existsShoppingListForMenu(this.menuId)
+        .subscribe((hasOpenList) => {
+          if (hasOpenList) {
+            this.clickedSnapshot = item;
+            this.handleMultipleShoppingListsModal = true;
+          } else {
+            this.createShoppingListFromSnapshot(item, true);
+          }
+        });
     } else {
       this.isShoppingListModalOpen = true;
-      this.shoppingListModalTitle = 'Create Shopping List';
-      this.shoppingListName = this.menuDetail.name + ': ' + item.name;
+      this.shoppingListModalTitle = "Create Shopping List";
+      this.shoppingListName = this.menuDetail.name + ": " + item.name;
       // by default have the name of this snapshot group checked but also add option to check all
-      const snapshotsOnly = this.combinedMealsAndSnapshots.filter(this.isSnapshot);
+      const snapshotsOnly = this.combinedMealsAndSnapshots.filter(
+        this.isSnapshot,
+      );
 
       this.checkboxList = snapshotsOnly.map((snapshot) => ({
         id: snapshot.id,
@@ -358,25 +417,27 @@ export class MenuDetailViewComponent {
 
   addSnapshot(isDefault: boolean) {
     if (this.clickedSnapshotPos === -1) {
-      this.mealSeparatorName = 'Initial Selection';
+      this.mealSeparatorName = "Initial Selection";
       this.clickedSnapshotPos = this.combinedMealsAndSnapshots.length;
     }
     this.newSnapshot.name = this.mealSeparatorName;
     this.newSnapshot.position = this.clickedSnapshotPos;
-    this.menusApiService.addSnapshotToMenu(this.menuId, this.newSnapshot).subscribe({
-      next: () => {
-        this.fetchMenu();
-        this.toastrService.success(
-          isDefault
-            ? 'A default meals separator was created for planning. It can be deleted manually and custom meals separators can be added.'
-            : 'Meals separator created.'
-        );
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
-    this.mealSeparatorName = '';
+    this.menusApiService
+      .addSnapshotToMenu(this.menuId, this.newSnapshot)
+      .subscribe({
+        next: () => {
+          this.fetchMenu();
+          this.toastrService.success(
+            isDefault
+              ? "A default meals separator was created for planning. It can be deleted manually and custom meals separators can be added."
+              : "Meals separator created.",
+          );
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
+    this.mealSeparatorName = "";
     this.clickedSnapshotPos = -1;
   }
 
@@ -388,14 +449,16 @@ export class MenuDetailViewComponent {
     this.isShoppingListModalOpen = false;
     this.isShoppingListModalStep2Open = true;
     const createShoppingListDto = this.getCreateShoppingListDto();
-    this.shoppingListsApiService.getShoppingListPreview(createShoppingListDto).subscribe({
-      next: (response) => {
-        this.shoppingListIngredientsPreview = response;
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.shoppingListsApiService
+      .getShoppingListPreview(createShoppingListDto)
+      .subscribe({
+        next: (response) => {
+          this.shoppingListIngredientsPreview = response;
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   shoppingListCreateHasAtLeastOneMealGroupChecked(): boolean {
@@ -403,26 +466,31 @@ export class MenuDetailViewComponent {
   }
 
   isShoppingListModalSubmitEnabled(): boolean {
-    const hasAtLeastOneChecked = this.shoppingListCreateHasAtLeastOneMealGroupChecked();
+    const hasAtLeastOneChecked =
+      this.shoppingListCreateHasAtLeastOneMealGroupChecked();
     return this.shoppingListName.trim().length > 0 && hasAtLeastOneChecked;
   }
 
   handleShoppingListModalSubmit() {
     const shoppingListCreateDto = this.getCreateShoppingListDto();
 
-    this.shoppingListsApiService.createShoppingList(shoppingListCreateDto).subscribe({
-      next: (data) => {
-        this.router.navigate(['/shopping-lists', data.id]);
-        this.toastrService.success('Shopping list created.');
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.shoppingListsApiService
+      .createShoppingList(shoppingListCreateDto)
+      .subscribe({
+        next: (data) => {
+          this.router.navigate(["/shopping-lists", data.id]);
+          this.toastrService.success("Shopping list created.");
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   private getCreateShoppingListDto() {
-    const selectedSnapshots = this.checkboxList.filter((checkbox) => checkbox.isChecked);
+    const selectedSnapshots = this.checkboxList.filter(
+      (checkbox) => checkbox.isChecked,
+    );
     const shoppingListCreateDto: ShoppingListCreateDto = {
       name: this.shoppingListName,
       menuId: this.menuId,
@@ -440,7 +508,7 @@ export class MenuDetailViewComponent {
   }
 
   handleMealGroupModalCancel() {
-    this.mealSeparatorName = '';
+    this.mealSeparatorName = "";
     this.clickedSnapshotPos = -1;
   }
 
@@ -449,17 +517,18 @@ export class MenuDetailViewComponent {
   }
 
   formatStatus(status: string | undefined): string {
-    if (!status) return 'Unknown Status';
+    if (!status) return "Unknown Status";
 
     return status
       .toLowerCase()
-      .replace(/_/g, ' ')
+      .replace(/_/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize the first letter of each word
   }
 
   openMenuDeleteModal(): void {
     if (this.menuDetail.name) {
-      this.menuDeleteModalTitle = 'Are you sure you want to delete "' + this.menuDetail.name + '"?';
+      this.menuDeleteModalTitle =
+        'Are you sure you want to delete "' + this.menuDetail.name + '"?';
     }
     this.isMenuDeleteModalOpen = true;
   }
@@ -470,7 +539,8 @@ export class MenuDetailViewComponent {
 
   openMealDeleteModal(item: MealInMenuDto): void {
     if (item.name) {
-      this.mealDeleteModalTitle = 'Are you sure you want to delete "' + item.name + '"?';
+      this.mealDeleteModalTitle =
+        'Are you sure you want to delete "' + item.name + '"?';
     }
     this.isMealDeleteModalOpen = true;
     this.clickedMeal = item;
@@ -482,7 +552,8 @@ export class MenuDetailViewComponent {
 
   openSnapshotDeleteModal(item: SnapshotInMenuDto): void {
     if (item.name) {
-      this.snapshotDeleteModalTitle = 'Are you sure you want to delete "' + item.name + '"?';
+      this.snapshotDeleteModalTitle =
+        'Are you sure you want to delete "' + item.name + '"?';
     }
     this.isSnapshotDeleteModalOpen = true;
     this.clickedSnapshot = item;
@@ -494,7 +565,8 @@ export class MenuDetailViewComponent {
 
   openMenuCloseModal(): void {
     if (this.menuDetail.name) {
-      this.menuCloseModalTitle = 'Are you sure you want to close "' + this.menuDetail.name + '"?';
+      this.menuCloseModalTitle =
+        'Are you sure you want to close "' + this.menuDetail.name + '"?';
     }
     this.isMenuCloseModalOpen = true;
   }
@@ -502,8 +574,8 @@ export class MenuDetailViewComponent {
   handleMenuCloseModalSubmit(): void {
     this.menusApiService.closeMenuById(this.menuId).subscribe({
       next: (data) => {
-        this.router.navigate(['/menus']);
-        this.toastrService.success('Menu closed.');
+        this.router.navigate(["/menus"]);
+        this.toastrService.success("Menu closed.");
       },
       error: (err) => {
         this.errorService.printErrorResponse(err);
@@ -512,16 +584,16 @@ export class MenuDetailViewComponent {
   }
 
   browseRecipes(): void {
-    this.router.navigate(['/recipes']);
+    this.router.navigate(["/recipes"]);
   }
 
   formatStringInput(stringInput: string | undefined): string {
-    if (!stringInput) return 'Unknown Status';
+    if (!stringInput) return "Unknown Status";
 
     return stringInput
       .toLowerCase()
-      .replace(/_/g, ' ')
-      .replace(/\band\b/g, '&')
+      .replace(/_/g, " ")
+      .replace(/\band\b/g, "&")
       .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize the first letter of each word
   }
 
@@ -529,9 +601,15 @@ export class MenuDetailViewComponent {
     if (this.tokenService.isAdmin()) {
       return true;
     }
-    const perm = this.tokenService.getPermissionForOrganization(this.menuDetail.organization.id);
-    return [OrganizationRoleEnum.Admin, OrganizationRoleEnum.Owner, OrganizationRoleEnum.Planner]
+    const perm = this.tokenService.getPermissionForOrganization(
+      this.menuDetail.organization.id,
+    );
+    return [
+      OrganizationRoleEnum.Admin,
+      OrganizationRoleEnum.Owner,
+      OrganizationRoleEnum.Planner,
+    ]
       .map((v) => v.toString().toUpperCase())
-      .includes(perm ?? '');
+      .includes(perm ?? "");
   }
 }

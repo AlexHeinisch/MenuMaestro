@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 import { Router, RouterModule } from "@angular/router";
 import { AuthApiService, LoginRequestDto } from "../../../../generated";
@@ -23,6 +23,7 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
     RouterModule,
     LoadingSpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./login-page.html",
 })
 export class LoginComponent {
@@ -82,7 +83,7 @@ export class LoginComponent {
       error: (error) => {
         this.isLoading = false;
         this.error = true;
-        if (typeof error.error === "object") {
+        if (error.error && typeof error.error === "object") {
           this.errorMessage = error.error.error;
           this.errorService.printErrorResponse(error);
         } else {

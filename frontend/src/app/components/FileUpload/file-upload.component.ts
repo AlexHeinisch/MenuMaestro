@@ -1,14 +1,20 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ButtonVariant, SimpleButtonComponent } from '../Button/SimpleButton';
-import { CommonModule } from '@angular/common';
-import { ErrorService } from '../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import {ImagesApiService, ImageUploadResponseDto} from "../../../generated";
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from "@angular/core";
+import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
+import { CommonModule } from "@angular/common";
+import { ErrorService } from "../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { ImagesApiService, ImageUploadResponseDto } from "../../../generated";
 
 @Component({
-    selector: 'app-file-upload',
-    imports: [SimpleButtonComponent, CommonModule],
-    templateUrl: './file-upload.component.html'
+  selector: "app-file-upload",
+  imports: [SimpleButtonComponent, CommonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./file-upload.component.html",
 })
 export class FileUploadComponent {
   protected readonly ButtonVariant = ButtonVariant;
@@ -16,7 +22,7 @@ export class FileUploadComponent {
   constructor(
     private imagesApi: ImagesApiService,
     private errorService: ErrorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   @Output()
@@ -49,15 +55,17 @@ export class FileUploadComponent {
     this.file = event.target.files[0];
 
     if (this.file !== null) {
-      this.imagesApi.uploadImage(this.file, 'response').subscribe({
+      this.imagesApi.uploadImage(this.file, "response").subscribe({
         next: (response) => {
-          this.toastr.success('Image uploaded.');
+          this.toastr.success("Image uploaded.");
           this.fileUploaded.emit(response.body!);
         },
         error: (err) => {
           this.file = null;
           if (err?.status === 413) {
-            this.toastr.error('The image was rejected by the server as it is above the size limit.');
+            this.toastr.error(
+              "The image was rejected by the server as it is above the size limit.",
+            );
           } else {
             this.errorService.printErrorResponse(err);
           }
@@ -67,20 +75,20 @@ export class FileUploadComponent {
   }
 
   onFileRemoved(): void {
-    this.toastr.success('Image removed.');
+    this.toastr.success("Image removed.");
     this.file = null;
     this.fileRemoved.emit(true);
     this.isDragOver = false;
   }
 
   formatBytes(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
 
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+    return (bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i];
   }
 }

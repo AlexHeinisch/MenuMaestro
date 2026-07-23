@@ -1,4 +1,10 @@
-import { Component, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import {
+  Component,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import {
   ButtonVariant,
   SimpleButtonComponent,
@@ -48,6 +54,7 @@ import {
     SimpleModalComponent,
     MarkdownEditorComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./recipe-create.component.html",
 })
 export class CreateRecipeComponent {

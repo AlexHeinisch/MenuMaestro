@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
 import { SearchInputComponent } from "../../../components/Input/SearchInput";
@@ -41,6 +46,7 @@ import { CreateMenuModalContentComponent } from "../../menu/menu-overview/compon
     SimpleCardComponent,
     PaginationControlsComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./organization-members.component.html",
 })
 export class OrganizationMembers implements OnInit {

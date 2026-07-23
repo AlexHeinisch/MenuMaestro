@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
@@ -45,6 +45,7 @@ import { MarkdownViewerComponent } from "../../../components/Markdown/MarkdownVi
     SimpleCardComponent,
     OrganizationMembers,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./organization-detail.component.html",
 })
 export class OrganizationDetailview {

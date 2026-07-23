@@ -1,10 +1,17 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
 
 @Component({
   selector: "simple-modal",
   imports: [SimpleButtonComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (show) {
       <div
