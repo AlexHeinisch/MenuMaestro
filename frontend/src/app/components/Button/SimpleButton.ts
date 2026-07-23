@@ -1,5 +1,4 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 
 export enum ButtonVariant {
@@ -24,12 +23,12 @@ const variantStyles = {
 };
 
 @Component({
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   selector: "simple-button",
   template: `
     <button
       [attr.type]="type"
-      [ngClass]="buttonClasses"
+      [class]="buttonClasses"
       [disabled]="disabled"
       (click)="handleClick($event)"
       [attr.aria-label]="ariaLabel"

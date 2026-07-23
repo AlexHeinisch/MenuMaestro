@@ -8,7 +8,6 @@ import {
   InputType,
 } from "../../../components/Input/InputField";
 import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {
   InfoMessageComponent,
@@ -62,7 +61,6 @@ import {
     SimpleModalComponent,
     ComplexModalComponent,
     FormsModule,
-    CommonModule,
     RouterLink,
     MarkdownViewerComponent,
   ],

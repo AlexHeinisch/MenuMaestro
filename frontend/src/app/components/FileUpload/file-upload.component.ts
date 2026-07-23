@@ -6,14 +6,13 @@ import {
   inject,
 } from "@angular/core";
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
-import { CommonModule } from "@angular/common";
 import { ErrorService } from "../../globals/error.service";
 import { ToastrService } from "ngx-toastr";
 import { ImagesApiService, ImageUploadResponseDto } from "../../../generated";
 
 @Component({
   selector: "app-file-upload",
-  imports: [SimpleButtonComponent, CommonModule],
+  imports: [SimpleButtonComponent],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./file-upload.component.html",
 })

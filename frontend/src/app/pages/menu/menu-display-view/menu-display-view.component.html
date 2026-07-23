@@ -75,7 +75,7 @@
           @for (item of combinedMealsAndSnapshots; track item; let i = $index) {
             <div
               id="menu-item-{{ i }}"
-              [ngClass]="{
+              [class]="{
                 'flex flex-col rounded-sm justify-between py-3 items-center min-h-[50px] text-sm': true,
                 'flex-row! hover:bg-white border border-gray-300 px-4 shadow-sm bg-gray-50':
                   !isSnapshot(item),

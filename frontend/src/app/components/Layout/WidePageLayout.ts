@@ -1,11 +1,9 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
-import { CommonModule } from "@angular/common";
 
 @Component({
-  imports: [CommonModule],
   selector: "wide-page-layout",
   template: `
-    <div [ngClass]="containerClasses">
+    <div [class]="containerClasses">
       <ng-content></ng-content>
     </div>
   `,

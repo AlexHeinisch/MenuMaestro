@@ -6,7 +6,6 @@ import {
   ChangeDetectionStrategy,
   inject,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { ControlContainer, FormsModule, NgForm } from "@angular/forms";
 import { StringFormattingService } from "../../service/string-formatting.service";
 
@@ -22,7 +21,7 @@ export enum InputType {
 }
 
 @Component({
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   selector: "input-field",
   template: `
     <div [class]="marginBottom">
@@ -43,7 +42,7 @@ export enum InputType {
               [attr.placeholder]="placeholder"
               [required]="required"
               [disabled]="disabled"
-              [ngClass]="inputClassesWFullDefault"
+              [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
               autocomplete="off"
@@ -58,7 +57,7 @@ export enum InputType {
                 [attr.aria-label]="ariaLabel"
                 [attr.placeholder]="placeholder"
                 [required]="required"
-                [ngClass]="inputClassesWFullDefault"
+                [class]="inputClassesWFullDefault"
                 class="rounded-r-none"
                 [disabled]="disabled"
                 [(ngModel)]="value"
@@ -71,7 +70,7 @@ export enum InputType {
               >
                 <i
                   class="fa"
-                  [ngClass]="{
+                  [class]="{
                     'fa-eye-slash': !passwordHidden,
                     'fa-eye': passwordHidden,
                   }"
@@ -88,7 +87,7 @@ export enum InputType {
               [attr.placeholder]="placeholder"
               [required]="required"
               [disabled]="disabled"
-              [ngClass]="inputClassesWFullDefault"
+              [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
               [attr.min]="1"
@@ -103,7 +102,7 @@ export enum InputType {
               [attr.placeholder]="placeholder"
               [required]="required"
               [disabled]="disabled"
-              [ngClass]="inputClassesWFullDefault"
+              [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onEmailChange($event)"
               [pattern]="emailPattern"
@@ -116,7 +115,7 @@ export enum InputType {
               [attr.aria-label]="ariaLabel"
               [required]="required"
               [disabled]="disabled"
-              [ngClass]="inputClassesWFullDefault"
+              [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
             >
@@ -135,7 +134,7 @@ export enum InputType {
               [attr.aria-label]="ariaLabel"
               [attr.placeholder]="placeholder"
               [disabled]="disabled"
-              [ngClass]="inputClassesWFullDefault"
+              [class]="inputClassesWFullDefault"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
             />
@@ -148,7 +147,7 @@ export enum InputType {
               [attr.placeholder]="placeholder"
               [required]="required"
               [disabled]="disabled"
-              [ngClass]="inputClassesWFullDefault"
+              [class]="inputClassesWFullDefault"
               [rows]="rows"
               [(ngModel)]="value"
               (ngModelChange)="onValueChange($event)"
@@ -163,7 +162,7 @@ export enum InputType {
                 [attr.aria-label]="ariaLabel"
                 [attr.placeholder]="placeholder"
                 [disabled]="disabled"
-                [ngClass]="inputClasses"
+                [class]="inputClasses"
                 [ngModel]="value"
                 [checked]="value"
                 (change)="onCheckboxChange($event)"
@@ -173,7 +172,7 @@ export enum InputType {
                 <label
                   [attr.for]="id"
                   class="text-sm text-neutral-700"
-                  [ngClass]="value ? labelStyling : ''"
+                  [class]="value ? labelStyling : ''"
                 >
                   {{ label }}
                 </label>

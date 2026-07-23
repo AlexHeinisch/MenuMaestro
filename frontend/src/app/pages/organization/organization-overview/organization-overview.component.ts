@@ -12,7 +12,6 @@ import {
 } from "../../../components/Button/SimpleButton";
 import { SearchInputComponent } from "../../../components/Input/SearchInput";
 import { SimpleCardComponent } from "../../../components/Card/Card";
-import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import {
   InputFieldComponent,
@@ -40,7 +39,6 @@ import {
     SimpleButtonComponent,
     SearchInputComponent,
     SimpleCardComponent,
-    CommonModule,
     RouterModule,
     InputFieldComponent,
     FormsModule,

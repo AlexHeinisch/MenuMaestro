@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import {
   Component,
   OnInit,
@@ -35,7 +34,6 @@ import {
   selector: "app-detail-meal",
   imports: [
     RouterModule,
-    CommonModule,
     PageLayoutComponent,
     SimpleButtonComponent,
     FormsModule,

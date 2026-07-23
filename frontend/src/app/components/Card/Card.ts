@@ -1,12 +1,10 @@
-import { CommonModule } from "@angular/common";
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
-  imports: [CommonModule],
   selector: "simple-card",
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    <div [ngClass]="cardClasses">
+    <div [class]="cardClasses">
       <h2 class="mb-2 text-sm font-medium">{{ title }}</h2>
       <ng-content></ng-content>
     </div>

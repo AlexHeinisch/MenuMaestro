@@ -81,7 +81,7 @@
               <div
                 cdkDrag
                 id="menu-item-{{ i }}"
-                [ngClass]="{
+                [class]="{
                   'flex flex-col rounded-sm justify-between py-3 items-center hover:cursor-pointer min-h-[50px] cursor-move text-sm': true,
                   'flex-row! border hover:bg-gray-50 border-gray-300 px-4 shadow-sm bg-white':
                     !isSnapshot(item),
@@ -117,7 +117,7 @@
                       ) {
                         <span
                           class="block md:hidden w-3 h-3 rounded-full"
-                          [ngClass]="{
+                          [class]="{
                             'bg-gray-200': item.status === MealStatus.Done,
                             'bg-green-100':
                               item.status === MealStatus.AllIngredientsPresent,
@@ -136,7 +136,7 @@
                       ) {
                         <span
                           class="hidden md:inline text-sm px-3 py-1 rounded-full font-medium"
-                          [ngClass]="{
+                          [class]="{
                             'bg-gray-200': item.status === MealStatus.Done,
                             'bg-green-100':
                               item.status === MealStatus.AllIngredientsPresent,
@@ -213,7 +213,7 @@
                 @if (isSnapshot(item)) {
                   <div
                     class="w-full flex items-center pt-2 pb-8"
-                    [ngClass]="{
+                    [class]="{
                       'cursor-pointer': isAtLeastPlanner,
                       'cursor-default': !isAtLeastPlanner,
                     }"
@@ -288,7 +288,7 @@
                       <!-- Top arrow -->
                       <span
                         class="icon-[lets-icons--expand-up]"
-                        [ngClass]="{
+                        [class]="{
                           'bg-primary': isAtLeastPlanner,
                           'bg-white': !isAtLeastPlanner,
                         }"
@@ -299,7 +299,7 @@
                       @if (i < combinedMealsAndSnapshots.length - 1) {
                         <span
                           class="icon-[lets-icons--expand-down]"
-                          [ngClass]="{
+                          [class]="{
                             'bg-primary': isAtLeastPlanner,
                             'bg-white': !isAtLeastPlanner,
                           }"

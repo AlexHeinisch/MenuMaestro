@@ -5,7 +5,6 @@ import {
   ChangeDetectionStrategy,
   inject,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { TokenService } from "../../security/token.service";
 import { AccountButtonComponent } from "../../pages/account/account-button/account-button.component";
@@ -14,7 +13,6 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
 @Component({
   selector: "header",
   imports: [
-    CommonModule,
     RouterModule,
     LoginLogoutButtonComponent,
     AccountButtonComponent,
@@ -39,14 +37,14 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
               <div class="flex space-x-4">
                 <a
                   routerLink="/recipes"
-                  [ngClass]="{ 'bg-primary-700': isActive('/recipes') }"
+                  [class]="{ 'bg-primary-700': isActive('/recipes') }"
                   class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-primary-700 hover:text-white"
                   >Recipes</a
                 >
                 @if (tokenService.isAuthenticated()) {
                   <a
                     routerLink="/menus"
-                    [ngClass]="{ 'bg-primary-700': isActive('/menus') }"
+                    [class]="{ 'bg-primary-700': isActive('/menus') }"
                     class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-primary-700 hover:text-white"
                     >Menus</a
                   >
@@ -54,7 +52,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
                 @if (tokenService.isAuthenticated()) {
                   <a
                     routerLink="/shopping-lists"
-                    [ngClass]="{
+                    [class]="{
                       'bg-primary-700': isActive('/shopping-lists'),
                     }"
                     class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-primary-700 hover:text-white"
@@ -64,7 +62,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
                 @if (tokenService.isAuthenticated()) {
                   <a
                     routerLink="/organizations"
-                    [ngClass]="{ 'bg-primary-700': isActive('/organizations') }"
+                    [class]="{ 'bg-primary-700': isActive('/organizations') }"
                     class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-primary-700 hover:text-white"
                     >Organizations</a
                   >
@@ -72,7 +70,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
                 @if (tokenService.isAdmin()) {
                   <a
                     routerLink="/ingredients"
-                    [ngClass]="{ 'bg-primary-700': isActive('/ingredients') }"
+                    [class]="{ 'bg-primary-700': isActive('/ingredients') }"
                     class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-primary-700 hover:text-white"
                     >Ingredients</a
                   >
@@ -143,7 +141,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
           >
             <a
               routerLink="/recipes"
-              [ngClass]="{ 'bg-primary-700': isActive('/recipes') }"
+              [class]="{ 'bg-primary-700': isActive('/recipes') }"
               class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-primary-700 hover:text-white"
               (click)="closeMobileMenu()"
               >Recipes</a
@@ -151,7 +149,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
             @if (tokenService.isAuthenticated()) {
               <a
                 routerLink="/menus"
-                [ngClass]="{ 'bg-primary-700': isActive('/menus') }"
+                [class]="{ 'bg-primary-700': isActive('/menus') }"
                 class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-primary-700 hover:text-white"
                 (click)="closeMobileMenu()"
                 >Menus</a
@@ -160,7 +158,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
             @if (tokenService.isAuthenticated()) {
               <a
                 routerLink="/shopping-lists"
-                [ngClass]="{ 'bg-primary-700': isActive('/shopping-lists') }"
+                [class]="{ 'bg-primary-700': isActive('/shopping-lists') }"
                 class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-primary-700 hover:text-white"
                 (click)="closeMobileMenu()"
                 >Shopping Lists</a
@@ -169,7 +167,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
             @if (tokenService.isAuthenticated()) {
               <a
                 routerLink="/organizations"
-                [ngClass]="{ 'bg-primary-700': isActive('/organizations') }"
+                [class]="{ 'bg-primary-700': isActive('/organizations') }"
                 class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-primary-700 hover:text-white"
                 (click)="closeMobileMenu()"
                 >Organizations</a
@@ -178,7 +176,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
             @if (tokenService.isAdmin()) {
               <a
                 routerLink="/ingredients"
-                [ngClass]="{ 'bg-primary-700': isActive('/ingredients') }"
+                [class]="{ 'bg-primary-700': isActive('/ingredients') }"
                 class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-primary-700 hover:text-white"
                 (click)="closeMobileMenu()"
                 >Ingredients</a
@@ -187,7 +185,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
             @if (tokenService.isAuthenticated()) {
               <a
                 routerLink="/account"
-                [ngClass]="{ 'bg-primary-700': isActive('/account') }"
+                [class]="{ 'bg-primary-700': isActive('/account') }"
                 class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-primary-700 hover:text-white"
                 (click)="closeMobileMenu()"
                 >Account</a

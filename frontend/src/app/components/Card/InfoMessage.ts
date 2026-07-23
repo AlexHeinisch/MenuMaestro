@@ -5,7 +5,6 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
 
 export enum InfoMessageType {
   success = "success",
@@ -14,11 +13,10 @@ export enum InfoMessageType {
 }
 
 @Component({
-  imports: [CommonModule],
   selector: "info-message",
   template: `
     <div
-      [ngClass]="messageClasses"
+      [class]="messageClasses"
       (click)="onClose.emit()"
       (keydown)="onKeyDown($event)"
       class="my-2 p-1 text-center border-2 rounded-xl cursor-pointer"

@@ -5,7 +5,6 @@ import {
   inject,
 } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { CommonModule } from "@angular/common";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import { SearchInputComponent } from "../../../components/Input/SearchInput";
 import {
@@ -54,7 +53,6 @@ type IngredientMap = {
   selector: "app-detail-shopping-list",
   imports: [
     RouterModule,
-    CommonModule,
     PageLayoutComponent,
     SimpleButtonComponent,
     FormsModule,
