@@ -1,7 +1,7 @@
 <page-layout>
   <h1 class="mb-8 text-3xl">Ingredient Requests</h1>
   @if (!isLoadingIngredientRequests) {
-    <div class="bg-white w-full overflow-x-auto shadow rounded-lg border">
+    <div class="bg-white w-full overflow-x-auto shadow-sm rounded-lg border">
       <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
         <table class="min-w-full table-auto">
           <thead>
@@ -146,7 +146,7 @@
   </simple-modal>
 
   <ng-template #selectedIngredientDetails>
-    <div class="p-4 bg-gray-50 rounded-lg shadow border">
+    <div class="p-4 bg-gray-50 rounded-lg shadow-sm border">
       <h3 class="text-lg font-semibold text-gray-800">
         Ingredient "{{ selectedIngredient.name }}"
       </h3>

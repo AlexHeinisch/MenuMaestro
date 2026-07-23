@@ -15,7 +15,7 @@
 @if (
   !isLoadingMembers && this.memberList && this.memberList.numberOfElements > 0
 ) {
-  <div class="bg-white w-full overflow-x-auto shadow rounded-lg border">
+  <div class="bg-white w-full overflow-x-auto shadow-sm rounded-lg border">
     <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
       @if (!tokenService.isAdminOrOwner(organizationId)) {
         <table class="min-w-full table-auto">

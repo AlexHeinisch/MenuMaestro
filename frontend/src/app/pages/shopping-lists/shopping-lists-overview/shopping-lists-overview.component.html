@@ -8,7 +8,7 @@
       class="flex flex-col lg:flex-row space-y-4 lg:space-x-2 items-left lg:items-end"
     >
       <!-- Shopping List Name Search -->
-      <div class="lg:flex-grow">
+      <div class="lg:grow">
         <search-input
           [options]="shoppingListSearchSuggestions"
           (selectedOption)="onShoppingListSearch($event)"
@@ -20,7 +20,7 @@
       </div>
 
       <!-- Menu Name Search -->
-      <div class="lg:flex-grow">
+      <div class="lg:grow">
         <search-input
           [options]="menuSearchSuggestions"
           (selectedOption)="onMenuSelected($event)"

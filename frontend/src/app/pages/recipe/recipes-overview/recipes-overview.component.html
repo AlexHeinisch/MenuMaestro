@@ -186,7 +186,7 @@
                             type="checkbox"
                             [checked]="option.checked"
                             (change)="onFilterChange(i, j)"
-                            class="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-primary checked:border-slate-800"
+                            class="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow-sm hover:shadow-md border border-slate-300 checked:bg-primary checked:border-slate-800"
                           />
                           <span
                             class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -435,7 +435,7 @@
                             type="checkbox"
                             [checked]="option.checked"
                             (change)="onFilterChange(i, j)"
-                            class="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-primary checked:border-slate-800"
+                            class="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow-sm hover:shadow-md border border-slate-300 checked:bg-primary checked:border-slate-800"
                           />
                           <span
                             class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -474,7 +474,7 @@
         <!-- Product grid -->
         <div class="lg:col-span-3">
           <!-- bg-[#f2f3ef] -->
-          <div class="p-4 xl:border-l-[1px] border-slate-300">
+          <div class="p-4 xl:border-l border-slate-300">
             <!-- Recipes Grid -->
             @if (
               (recipeList?.length === 0 && !isLoading) ||

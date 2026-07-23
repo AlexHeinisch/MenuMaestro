@@ -51,7 +51,7 @@ export const SEARCH_DEBOUNCE_MS = 300;
         (keydown)="onKeyDown($event)"
         (focus)="onFocus()"
         (blur)="onBlur()"
-        class="w-full outline-none border-0 text-gray-600 pl-5 text-[1rem] focus:border-0"
+        class="w-full outline-hidden border-0 text-gray-600 pl-5 text-[1rem] focus:border-0"
         autocomplete="off"
       />
 

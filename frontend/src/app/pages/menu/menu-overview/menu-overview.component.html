@@ -8,7 +8,7 @@
       class="flex flex-col lg:flex-row space-y-4 lg:space-x-2 items-left lg:items-end"
     >
       <!-- Search -->
-      <div class="lg:flex-grow">
+      <div class="lg:grow">
         <search-input
           [options]="menuSearchSuggestions"
           (selectedOption)="onMenuSearch($event)"
@@ -20,7 +20,7 @@
       </div>
 
       <!-- Organization -->
-      <div class="lg:flex-grow">
+      <div class="lg:grow">
         <search-input
           [placeholder]="'e.g. FC Umhausen'"
           [handleSearch]="searchOrganization.bind(this)"

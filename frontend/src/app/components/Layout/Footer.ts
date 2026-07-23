@@ -7,7 +7,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
   template: `
     <footer class="m-4 rounded-lg bg-white">
       <div
-        class="mx-auto w-full max-w-screen-xl p-4 flex flex-row justify-around items-center"
+        class="mx-auto w-full max-w-(--breakpoint-xl) p-4 flex flex-row justify-around items-center"
       >
         <span class="text-sm text-primary-700 sm:text-center">
           © 2025 MenuMaestro

@@ -23,7 +23,7 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
     <nav class="bg-primary-800">
       <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-shrink-0 items-end h-full">
+          <div class="flex shrink-0 items-end h-full">
             <img
               class="hover:cursor-pointer h-14 w-auto block"
               src="logo.png"

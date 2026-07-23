@@ -240,7 +240,7 @@ export class InputFieldComponent {
   get inputClasses(): string {
     const heightClass = this.type === InputType.textarea ? "" : " h-[42px]";
     const baseClasses =
-      "border border-neutral-200 p-2 text-[1rem] focus:border-primary focus:outline-none rounded-md" +
+      "border border-neutral-200 p-2 text-[1rem] focus:border-primary focus:outline-hidden rounded-md" +
       heightClass;
     const neutralClasses = "border-neutral-200";
 

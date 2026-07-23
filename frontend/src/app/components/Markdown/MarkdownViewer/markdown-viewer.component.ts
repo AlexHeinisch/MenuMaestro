@@ -173,7 +173,7 @@ import { MarkdownModule } from "ngx-markdown";
       .warning-icon {
         width: 1.25rem;
         height: 1.25rem;
-        flex-shrink: 0;
+        shrink: 0;
         color: #f59e0b;
       }
     `,

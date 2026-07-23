@@ -4,7 +4,7 @@
       type="text"
       [(ngModel)]="newListName"
       placeholder="New list name"
-      class="border border-gray-300 rounded px-2 py-1 text-sm"
+      class="border border-gray-300 rounded-sm px-2 py-1 text-sm"
     />
     <simple-button (click)="addNewList()" [variant]="ButtonVariant.primary">
       <span class="icon-[material-symbols--add] mr-1"></span> Add List
@@ -47,7 +47,7 @@
           @for (item of list.items; track item) {
             <div
               cdkDrag
-              class="flex justify-between items-center px-4 py-2 border border-gray-300 rounded min-h-[50px] bg-white cursor-move text-sm shadow"
+              class="flex justify-between items-center px-4 py-2 border border-gray-300 rounded-sm min-h-[50px] bg-white cursor-move text-sm shadow-sm"
             >
               <span>{{ item.name }}</span>
               <div class="flex space-x-2">
@@ -81,7 +81,7 @@
                 type="text"
                 [(ngModel)]="newShoppingListItem"
                 placeholder="Shopping List Name"
-                class="border border-gray-300 rounded px-2 py-1 text-sm"
+                class="border border-gray-300 rounded-sm px-2 py-1 text-sm"
               />
               <simple-button
                 (click)="generateShoppingList(list)"

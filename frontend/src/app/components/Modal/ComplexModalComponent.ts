@@ -15,7 +15,7 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
   template: `
     @if (show) {
       <div
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-10 p-4"
+        class="fixed inset-0 bg-black/50 backdrop-blur-xs flex justify-center items-center z-10 p-4"
       >
         <div
           class="bg-white flex min-h-fit flex-col w-full max-w-[700px] justify-between rounded-lg p-6 relative"
@@ -37,7 +37,7 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
               d="M6 18 18 6M6 6l12 12"
             />
           </svg>
-          <h2 class="text-xl break-words">{{ title }}</h2>
+          <h2 class="text-xl wrap-break-word">{{ title }}</h2>
           <div class="mb-5 mt-5">
             <ng-content></ng-content>
           </div>

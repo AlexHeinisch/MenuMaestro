@@ -15,12 +15,12 @@ import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
   template: `
     @if (show) {
       <div
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-10 p-4"
+        class="fixed inset-0 bg-black/50 backdrop-blur-xs flex justify-center items-center z-10 p-4"
       >
         <div
           class="bg-white flex min-h-fit flex-col w-full max-w-[600px] justify-between rounded-lg p-6 relative"
         >
-          <h2 class="text-xl break-words">{{ title }}</h2>
+          <h2 class="text-xl wrap-break-word">{{ title }}</h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

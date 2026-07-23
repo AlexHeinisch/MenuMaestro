@@ -82,8 +82,8 @@
                 cdkDrag
                 id="menu-item-{{ i }}"
                 [ngClass]="{
-                  'flex flex-col rounded justify-between py-3 items-center hover:cursor-pointer min-h-[50px] cursor-move text-sm': true,
-                  '!flex-row border hover:bg-gray-50 border-gray-300 px-4 shadow bg-white':
+                  'flex flex-col rounded-sm justify-between py-3 items-center hover:cursor-pointer min-h-[50px] cursor-move text-sm': true,
+                  'flex-row! border hover:bg-gray-50 border-gray-300 px-4 shadow-sm bg-white':
                     !isSnapshot(item),
                 }"
               >
@@ -187,7 +187,7 @@
                         <simple-button
                           [variant]="ButtonVariant.borderOnly"
                           [type]="'submit'"
-                          [className]="'border-0 !px-0 pt-1 pb-0'"
+                          [className]="'border-0 px-0! pt-1 pb-0'"
                           (click)="openMealGroupModal(item.position)"
                         >
                           @if (
@@ -220,7 +220,7 @@
                   >
                     <!-- Center-aligned bar with name on the top-left -->
                     <div
-                      class="flex items-center flex-grow flex-col relative text-base"
+                      class="flex items-center grow flex-col relative text-base"
                     >
                       <!-- Name on the top-left, positioned higher -->
                       <div
@@ -314,7 +314,7 @@
                     <div class="w-full flex items-center pt-5 pb-5">
                       <!-- Center-aligned bar with name on the top-left -->
                       <div
-                        class="flex justify-center items-center flex-grow text-base flex-col relative mb-6"
+                        class="flex justify-center items-center grow text-base flex-col relative mb-6"
                       >
                         <!-- Name on the top-left, positioned higher -->
                         <div
@@ -370,14 +370,14 @@
       @if (combinedMealsAndSnapshots.length === 0) {
         <div>
           <div
-            class="flex items-items justify-center max-[1140px]:flex-col gap-y-6 gap-x-3 max-w-screen-lg mx-auto px-4 mt-4"
+            class="flex items-items justify-center max-[1140px]:flex-col gap-y-6 gap-x-3 max-w-(--breakpoint-lg) mx-auto px-4 mt-4"
           >
             <div
               class="overflow-hidden min-w-[250px] pr-[35px] cursor-pointer"
               (click)="browseRecipes()"
             >
               <div
-                class="bg-primary h-[70px] py-2.5 px-6 rounded-md relative after:bg-primary after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm"
+                class="bg-primary h-[70px] py-2.5 px-6 rounded-md relative after:bg-primary after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-46 after:rounded-xs"
               >
                 <div class="relative z-10">
                   <h4 class="text-sm font-semibold text-white">
@@ -391,7 +391,7 @@
             </div>
             <div class="overflow-hidden min-w-[250px] pr-[35px]">
               <div
-                class="bg-gray-300 h-[70px] py-2.5 px-6 rounded-md relative after:bg-gray-300 after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm"
+                class="bg-gray-300 h-[70px] py-2.5 px-6 rounded-md relative after:bg-gray-300 after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-46 after:rounded-xs"
               >
                 <div class="relative z-10">
                   <h4 class="text-sm font-semibold text-gray-500">
@@ -405,7 +405,7 @@
             </div>
             <div class="overflow-hidden min-w-[250px] pr-[35px]">
               <div
-                class="bg-gray-300 h-[70px] py-2.5 px-6 rounded-md relative after:bg-gray-300 after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm"
+                class="bg-gray-300 h-[70px] py-2.5 px-6 rounded-md relative after:bg-gray-300 after:absolute after:h-[80px] after:w-[60px] after:top-0 after:-right-4 after:rotate-46 after:rounded-xs"
               >
                 <div class="relative z-10">
                   <h4 class="text-sm font-semibold text-gray-500">
@@ -584,7 +584,7 @@
           }}
         </p>
       }
-      <div class="overflow-auto flex-grow">
+      <div class="overflow-auto grow">
         @if (
           shoppingListIngredientsPreview &&
           shoppingListIngredientsPreview.length !== 0

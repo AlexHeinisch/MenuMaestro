@@ -159,7 +159,7 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
               </button>
               @if (showEmojiPicker) {
                 <div
-                  class="absolute left-0 mt-2 w-96 bg-white border border-gray-300 rounded shadow-lg p-3 text-sm z-20"
+                  class="absolute left-0 mt-2 w-96 bg-white border border-gray-300 rounded-sm shadow-lg p-3 text-sm z-20"
                   style="max-height: 400px; overflow-y: auto;"
                 >
                   <div class="mb-3">
@@ -168,7 +168,7 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
                       [(ngModel)]="emojiSearchTerm"
                       (ngModelChange)="onEmojiSearchChange()"
                       placeholder="Search emojis by name or keyword..."
-                      class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500 text-sm"
                     />
                   </div>
                   @for (category of filteredEmojiCategories; track category) {
@@ -211,7 +211,7 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
               </button>
               @if (showTooltip) {
                 <div
-                  class="absolute right-0 mt-2 w-80 bg-white border border-gray-300 rounded shadow-lg p-3 text-xs z-10"
+                  class="absolute right-0 mt-2 w-80 bg-white border border-gray-300 rounded-sm shadow-lg p-3 text-xs z-10"
                 >
                   <div class="font-semibold mb-2">
                     Markdown Formatting Guide
@@ -244,7 +244,7 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
             [placeholder]="placeholder"
             [rows]="rows"
             [maxlength]="maxLength"
-            class="w-full p-3 border border-gray-300 border-t-0 rounded-b focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+            class="w-full p-3 border border-gray-300 border-t-0 rounded-b focus:outline-hidden focus:ring-2 focus:ring-blue-500 font-mono text-sm"
           ></textarea>
           <div class="mt-2 text-xs text-gray-500 flex justify-end">
             @if (maxLength) {
@@ -256,7 +256,7 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
 
       @if (activeTab === "preview") {
         <div
-          class="preview-tab min-h-[100px] p-3 border border-gray-300 rounded bg-gray-50"
+          class="preview-tab min-h-[100px] p-3 border border-gray-300 rounded-sm bg-gray-50"
         >
           <app-markdown-viewer
             [content]="value || 'Nothing to preview'"
@@ -268,6 +268,8 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
   changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
+      @reference "tailwindcss";
+
       .markdown-editor-container {
         @apply w-full;
       }
