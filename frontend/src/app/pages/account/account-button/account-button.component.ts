@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { TokenService } from "../../../security/token.service";
 
@@ -9,7 +9,7 @@ import { TokenService } from "../../../security/token.service";
   imports: [RouterModule],
 })
 export class AccountButtonComponent {
-  constructor(protected tokenService: TokenService) {}
+  protected tokenService = inject(TokenService);
 
   getUsernameFirstLetter(): string {
     const username = this.tokenService.getUsername();

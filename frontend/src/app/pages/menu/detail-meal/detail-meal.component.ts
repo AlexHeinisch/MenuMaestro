@@ -1,5 +1,10 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
 import { RouterModule } from "@angular/router";
@@ -45,6 +50,14 @@ import {
   templateUrl: "./detail-meal.component.html",
 })
 export class DetailMealComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private mealsApiService = inject(MealsApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+  private toastrService = inject(ToastrService);
+  protected tokenService = inject(TokenService);
+
   MealStatus = MealStatus;
   ButtonVariant = ButtonVariant;
   InputType = InputType;
@@ -64,16 +77,6 @@ export class DetailMealComponent implements OnInit {
   mealEditDto: MealEditDto = { name: "", numberOfPeople: 1 };
   isCloseMealModalOpen: boolean = false;
   closeMealModalOpenIsDone: boolean = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private mealsApiService: MealsApiService,
-    private ingredientComputationService: IngredientComputationService,
-    private router: Router,
-    private errorService: ErrorService,
-    private toastrService: ToastrService,
-    protected tokenService: TokenService,
-  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

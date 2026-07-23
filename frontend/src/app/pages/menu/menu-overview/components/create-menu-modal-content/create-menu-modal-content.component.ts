@@ -4,6 +4,7 @@ import {
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
@@ -43,6 +44,12 @@ import {
   templateUrl: "./create-menu-modal-content.component.html",
 })
 export class CreateMenuModalContentComponent implements OnChanges {
+  private menuApiService = inject(MenusApiService);
+  private organizationsApiService = inject(OrganizationsApiService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+
   InputType = InputType;
   ButtonVariant = ButtonVariant;
 
@@ -62,13 +69,7 @@ export class CreateMenuModalContentComponent implements OnChanges {
 
   @Input() organizations: OrganizationSummaryDto[] = [];
 
-  constructor(
-    private menuApiService: MenusApiService,
-    private organizationsApiService: OrganizationsApiService,
-    private toastr: ToastrService,
-    private router: Router,
-    private errorService: ErrorService,
-  ) {
+  constructor() {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { openCreateModal?: boolean };
 

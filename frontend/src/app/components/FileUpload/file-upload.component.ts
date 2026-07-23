@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
 import { CommonModule } from "@angular/common";
@@ -17,13 +18,11 @@ import { ImagesApiService, ImageUploadResponseDto } from "../../../generated";
   templateUrl: "./file-upload.component.html",
 })
 export class FileUploadComponent {
-  protected readonly ButtonVariant = ButtonVariant;
+  private imagesApi = inject(ImagesApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
 
-  constructor(
-    private imagesApi: ImagesApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-  ) {}
+  protected readonly ButtonVariant = ButtonVariant;
 
   @Output()
   fileUploaded = new EventEmitter<ImageUploadResponseDto>();

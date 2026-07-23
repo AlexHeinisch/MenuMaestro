@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
@@ -63,6 +68,16 @@ type IngredientMap = {
   templateUrl: "./detail-shopping-list.component.html",
 })
 export class DetailShoppingListComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private shoppingListApiService = inject(ShoppingListApiService);
+  private tokenService = inject(TokenService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private stringFormattingService = inject(StringFormattingService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
+  private globals = inject(Globals);
+
   anonymousUserName: string = "anonymousUser";
 
   ShoppingListStatus = ShoppingListStatus;
@@ -91,18 +106,6 @@ export class DetailShoppingListComponent implements OnInit {
   closeShoppingModalText: string = "";
 
   stompClient: Client | undefined = undefined;
-
-  constructor(
-    private route: ActivatedRoute,
-    private shoppingListApiService: ShoppingListApiService,
-    private tokenService: TokenService,
-    private ingredientComputationService: IngredientComputationService,
-    private stringFormattingService: StringFormattingService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    private router: Router,
-    private globals: Globals,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {

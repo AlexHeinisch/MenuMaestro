@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
@@ -45,6 +46,13 @@ import {
   ],
 })
 export class AddMealToMenuModalComponent implements OnInit {
+  private menusApiService = inject(MenusApiService);
+  private organizationsApiService = inject(OrganizationsApiService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
+  protected tokenService = inject(TokenService);
+
   @ViewChild("searchInput") searchInput!: SearchInputComponent;
   @Input() recipeId: number | undefined | null;
 
@@ -63,15 +71,6 @@ export class AddMealToMenuModalComponent implements OnInit {
   organizationOptionsNames: string[] = [];
   selectedOrganizationName: string | null = null;
   selectedOrganizationId: number | null = null;
-
-  constructor(
-    private menusApiService: MenusApiService,
-    private organizationsApiService: OrganizationsApiService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    private router: Router,
-    protected tokenService: TokenService,
-  ) {}
 
   ngOnInit(): void {
     if (this.tokenService.isAuthenticated()) {

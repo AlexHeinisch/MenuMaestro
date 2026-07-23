@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 
 import { Router, RouterModule, ActivatedRoute } from "@angular/router";
 import { AccountsApiService } from "../../../../generated";
@@ -26,6 +26,11 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
   templateUrl: "./reset-password-page.html",
 })
 export class ResetPasswordComponent {
+  private accountsApiService = inject(AccountsApiService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private errorService = inject(ErrorService);
+
   InputType = InputType;
   username: string = "";
   password: string = "";
@@ -41,13 +46,6 @@ export class ResetPasswordComponent {
   errorMessage = "";
 
   isLoading = false;
-
-  constructor(
-    private accountsApiService: AccountsApiService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private errorService: ErrorService,
-  ) {}
 
   ngOnInit() {
     // Get token from query parameters

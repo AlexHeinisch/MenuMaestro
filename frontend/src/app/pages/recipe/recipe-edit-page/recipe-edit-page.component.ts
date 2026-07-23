@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { EditRecipeComponent } from "../recipe-edit/recipe-edit.component";
 import { ActivatedRoute } from "@angular/router";
 
@@ -17,13 +22,11 @@ import {
   templateUrl: "./recipe-edit-page.component.html",
 })
 export class RecipeEditPageComponent implements OnInit {
-  recipeId: number | undefined;
+  private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private recipesApiService = inject(RecipesApiService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    private recipesApiService: RecipesApiService,
-  ) {}
+  recipeId: number | undefined;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

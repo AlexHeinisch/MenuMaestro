@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
@@ -37,6 +38,11 @@ import { MarkdownEditorComponent } from "../../../../../components/Markdown/Mark
   templateUrl: "./organization-create.component.html",
 })
 export class CreateOrganizationModalContentComponent {
+  private organizationsApiService = inject(OrganizationsApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+  private tokenService = inject(TokenService);
+
   @Output() organizationCreated = new EventEmitter<void>();
   InputType = InputType;
   ButtonVariant = ButtonVariant;
@@ -47,13 +53,6 @@ export class CreateOrganizationModalContentComponent {
   };
 
   isCreateOrganizationModalOpen: boolean = false;
-
-  constructor(
-    private organizationsApiService: OrganizationsApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-    private tokenService: TokenService,
-  ) {}
 
   onSubmit(): void {
     this.organizationsApiService

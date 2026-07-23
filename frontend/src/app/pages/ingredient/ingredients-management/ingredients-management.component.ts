@@ -3,6 +3,7 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
@@ -48,6 +49,12 @@ import {
   templateUrl: "./ingredients-management.component.html",
 })
 export class IngredientsManagementComponent implements OnInit {
+  private ingredientsApiService = inject(IngredientsApiService);
+  private toastr = inject(ToastrService);
+  private tokenService = inject(TokenService);
+  private errorService = inject(ErrorService);
+  private stringFormattingService = inject(StringFormattingService);
+
   @ViewChild("replacementSearchInput")
   replacementSearchInput!: SearchInputComponent;
   @ViewChild("ownIngredientSearchInput")
@@ -82,14 +89,6 @@ export class IngredientsManagementComponent implements OnInit {
 
   currentPage = 1;
   pageSize = 5;
-
-  constructor(
-    private ingredientsApiService: IngredientsApiService,
-    private toastr: ToastrService,
-    private tokenService: TokenService,
-    private errorService: ErrorService,
-    private stringFormattingService: StringFormattingService,
-  ) {}
 
   ngOnInit(): void {
     this.fetchIngredientRequests();

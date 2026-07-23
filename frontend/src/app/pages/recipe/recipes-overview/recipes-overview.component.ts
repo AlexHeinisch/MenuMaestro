@@ -60,6 +60,8 @@ interface Filter {
   templateUrl: "./recipes-overview.component.html",
 })
 export class RecipesOverviewComponent implements OnInit {
+  private errorService = inject(ErrorService);
+
   // Button variant
   ButtonVariant = ButtonVariant;
   InputType = InputType;
@@ -103,8 +105,6 @@ export class RecipesOverviewComponent implements OnInit {
   ];
   cookingAppliances: CookingApplianceDto[] = [];
   recipeCookingApplianceSearchDtos: number[] = [];
-
-  constructor(private errorService: ErrorService) {}
 
   ngOnInit(): void {
     // Construct cooking appliances filter

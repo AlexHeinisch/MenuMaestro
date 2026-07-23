@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import {
   ButtonVariant,
   SimpleButtonComponent,
@@ -70,6 +70,17 @@ import {
   templateUrl: "./menu-detail-view.component.html",
 })
 export class MenuDetailViewComponent {
+  private menusApiService = inject(MenusApiService);
+  private mealsApiService = inject(MealsApiService);
+  private shoppingListsApiService = inject(ShoppingListApiService);
+  ingredientComputationService = inject(IngredientComputationService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private breakpointObserver = inject(BreakpointObserver);
+  private errorService = inject(ErrorService);
+  private toastrService = inject(ToastrService);
+  protected tokenService = inject(TokenService);
+
   InputType = InputType;
   ButtonVariant = ButtonVariant;
   InfoMessageType = InfoMessageType;
@@ -117,19 +128,6 @@ export class MenuDetailViewComponent {
   closeMealModalDone: boolean = false;
 
   isAtLeastPlanner: boolean = false;
-
-  constructor(
-    private menusApiService: MenusApiService,
-    private mealsApiService: MealsApiService,
-    private shoppingListsApiService: ShoppingListApiService,
-    public ingredientComputationService: IngredientComputationService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver,
-    private errorService: ErrorService,
-    private toastrService: ToastrService,
-    protected tokenService: TokenService,
-  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

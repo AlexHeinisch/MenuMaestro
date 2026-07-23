@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TokenService } from "../../../../security/token.service";
 
@@ -9,10 +9,8 @@ import { TokenService } from "../../../../security/token.service";
   imports: [RouterModule],
 })
 export class LoginLogoutButtonComponent {
-  constructor(
-    private router: Router,
-    private tokenService: TokenService,
-  ) {}
+  private router = inject(Router);
+  private tokenService = inject(TokenService);
 
   onLogin(): void {
     this.router.navigate(["/login"]);

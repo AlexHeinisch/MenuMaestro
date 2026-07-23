@@ -3,6 +3,7 @@ import {
   Input,
   OnInit,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
@@ -50,6 +51,13 @@ import { CreateMenuModalContentComponent } from "../../menu/menu-overview/compon
   templateUrl: "./organization-members.component.html",
 })
 export class OrganizationMembers implements OnInit {
+  private organizationApiService = inject(OrganizationsApiService);
+  private accountsApiService = inject(AccountsApiService);
+  protected tokenService = inject(TokenService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  private route = inject(ActivatedRoute);
+
   @Input() organization: OrganizationSummaryDto | undefined;
   organizationId!: number;
 
@@ -75,15 +83,6 @@ export class OrganizationMembers implements OnInit {
   oldRole: OrganizationRoleEnum | undefined;
 
   isLoadingMembers: boolean = true;
-
-  constructor(
-    private organizationApiService: OrganizationsApiService,
-    private accountsApiService: AccountsApiService,
-    protected tokenService: TokenService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    private route: ActivatedRoute,
-  ) {}
 
   ngOnInit() {
     this.organizationId = Number(this.route.snapshot.paramMap.get("id"));

@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ControlContainer, FormsModule, NgForm } from "@angular/forms";
@@ -209,6 +210,8 @@ export enum InputType {
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class InputFieldComponent {
+  private stringFormattingService = inject(StringFormattingService);
+
   @Input() type: InputType = InputType.text;
   @Input() label?: string;
   @Input() placeholder?: string;
@@ -234,8 +237,6 @@ export class InputFieldComponent {
   isEmailInvalid: boolean = false;
   emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // email validation pattern
   passwordHidden = true;
-
-  constructor(private stringFormattingService: StringFormattingService) {}
 
   get inputClasses(): string {
     const heightClass = this.type === InputType.textarea ? "" : " h-[42px]";

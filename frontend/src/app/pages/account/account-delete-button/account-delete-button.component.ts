@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TokenService } from "../../../security/token.service";
 import {
@@ -28,15 +28,14 @@ import { AccountsApiService } from "../../../../generated";
   ],
 })
 export class AccountDeleteButtonComponent {
+  protected tokenService = inject(TokenService);
+  private accountService = inject(AccountsApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
-  constructor(
-    protected tokenService: TokenService,
-    private accountService: AccountsApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-    private router: Router,
-  ) {}
 
   confirmDelete = "";
   formIsValid = false;

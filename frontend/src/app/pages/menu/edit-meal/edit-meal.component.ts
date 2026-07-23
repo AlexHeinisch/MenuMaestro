@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { map, Observable, tap } from "rxjs";
 import { EditRecipeComponent } from "../../recipe/recipe-edit/recipe-edit.component";
@@ -20,16 +25,16 @@ import {
   templateUrl: "./edit-meal.component.html",
 })
 export class EditMealComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private mealsApiService = inject(MealsApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+
   menuId: number | undefined;
   mealId: number | undefined;
   meal: MealEditDto | undefined;
 
-  constructor(
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    private mealsApiService: MealsApiService,
-    private ingredientComputationService: IngredientComputationService,
-  ) {
+  constructor() {
     console.log("constructor");
   }
 

@@ -8,6 +8,7 @@ import {
   Input,
   Output,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import {
   ButtonVariant,
@@ -71,6 +72,15 @@ import {
   templateUrl: "./recipe-edit.component.html",
 })
 export class EditRecipeComponent implements OnInit {
+  private recipesApiService = inject(RecipesApiService);
+  private ingredientsApiService = inject(IngredientsApiService);
+  private cookingAppServiceApi = inject(CookingAppliancesApiService);
+  private tokenService = inject(TokenService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+
   @ViewChild("requestIngredientModalComponent")
   requestIngredientModalComponent!: RequestIngredientModalComponent;
   @ViewChildren("ingredientSearchInput")
@@ -125,17 +135,6 @@ export class EditRecipeComponent implements OnInit {
     () => null!;
   @Input() title: string = "Edit Recipe";
   @Input() hideVisibilityNameAndServings: boolean = false;
-
-  constructor(
-    private recipesApiService: RecipesApiService,
-    private ingredientsApiService: IngredientsApiService,
-    private cookingAppServiceApi: CookingAppliancesApiService,
-    private tokenService: TokenService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

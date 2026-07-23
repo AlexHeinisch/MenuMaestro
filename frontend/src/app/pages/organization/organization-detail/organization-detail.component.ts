@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
@@ -49,6 +49,13 @@ import { MarkdownViewerComponent } from "../../../components/Markdown/MarkdownVi
   templateUrl: "./organization-detail.component.html",
 })
 export class OrganizationDetailview {
+  private route = inject(ActivatedRoute);
+  private organizationApiService = inject(OrganizationsApiService);
+  protected tokenService = inject(TokenService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+
   organization: OrganizationSummaryDto | undefined;
   isLoading: boolean = true;
   isEditModalOpen: boolean = false;
@@ -59,15 +66,6 @@ export class OrganizationDetailview {
   // Deleting Organizations
   isDeleteOrganizationModalOpen: boolean = false;
   organizationDeleteModalTitle: string = "";
-
-  constructor(
-    private route: ActivatedRoute,
-    private organizationApiService: OrganizationsApiService,
-    protected tokenService: TokenService,
-    private toastr: ToastrService,
-    private router: Router,
-    private errorService: ErrorService,
-  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get("id");

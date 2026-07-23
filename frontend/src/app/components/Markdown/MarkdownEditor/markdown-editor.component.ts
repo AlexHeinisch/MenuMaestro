@@ -7,6 +7,7 @@ import {
   ViewChild,
   ElementRef,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 
 import {
@@ -19,7 +20,6 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
 
 @Component({
   selector: "app-markdown-editor",
-  standalone: true,
   imports: [FormsModule, MarkdownViewerComponent],
   providers: [
     {
@@ -323,6 +323,8 @@ import { EmojiService, EmojiCategory } from "../../../service/emoji.service";
   ],
 })
 export class MarkdownEditorComponent implements ControlValueAccessor {
+  private emojiService = inject(EmojiService);
+
   @Input() placeholder: string = "Enter markdown text...";
   @Input() rows: number = 8;
   @Input() maxLength: number = 4096;
@@ -340,7 +342,7 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor(private emojiService: EmojiService) {
+  constructor() {
     this.filteredEmojiCategories = this.emojiService.getEmojiCategories();
   }
 

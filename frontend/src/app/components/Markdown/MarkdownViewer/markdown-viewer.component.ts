@@ -4,7 +4,6 @@ import { MarkdownModule } from "ngx-markdown";
 
 @Component({
   selector: "app-markdown-viewer",
-  standalone: true,
   imports: [MarkdownModule],
   template: `
     <div class="markdown-content">

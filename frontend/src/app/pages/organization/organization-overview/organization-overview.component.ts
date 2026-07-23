@@ -1,4 +1,9 @@
-import { Component, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
 import {
@@ -47,6 +52,11 @@ import {
   templateUrl: "./organization-overview.component.html",
 })
 export class OrganizationOverview {
+  private organizationApiService = inject(OrganizationsApiService);
+  private toastr = inject(ToastrService);
+  private tokenService = inject(TokenService);
+  private errorService = inject(ErrorService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -59,13 +69,6 @@ export class OrganizationOverview {
   currentPage = 1;
   pageSize = 5;
   currentPageInvitations = 1;
-
-  constructor(
-    private organizationApiService: OrganizationsApiService,
-    private toastr: ToastrService,
-    private tokenService: TokenService,
-    private errorService: ErrorService,
-  ) {}
 
   ngOnInit(): void {
     this.fetchOrganizations();

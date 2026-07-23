@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import {
@@ -53,6 +54,10 @@ import { CreateMenuModalContentComponent } from "./components/create-menu-modal-
   templateUrl: "./menu-overview.component.html",
 })
 export class MenuOverviewComponent implements OnInit {
+  private menusApiService = inject(MenusApiService);
+  private organizationsApiService = inject(OrganizationsApiService);
+  private errorService = inject(ErrorService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -76,12 +81,6 @@ export class MenuOverviewComponent implements OnInit {
   // Menu Status Drop Down
   menuStatusOptions: string[] = Object.values(MenuStatus);
   selectedMenuStatus: MenuStatus = MenuStatus.Serving;
-
-  constructor(
-    private menusApiService: MenusApiService,
-    private organizationsApiService: OrganizationsApiService,
-    private errorService: ErrorService,
-  ) {}
 
   ngOnInit(): void {
     this.fetchMenus();

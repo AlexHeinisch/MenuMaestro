@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 
 import { Router, RouterModule } from "@angular/router";
 import { AccountsApiService } from "../../../../generated";
@@ -26,6 +26,10 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
   templateUrl: "./forgot-password-page.html",
 })
 export class ForgotPasswordComponent {
+  private accountsApiService = inject(AccountsApiService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+
   InputType = InputType;
   username: string = "";
 
@@ -38,12 +42,6 @@ export class ForgotPasswordComponent {
   errorMessage = "";
 
   isLoading = false;
-
-  constructor(
-    private accountsApiService: AccountsApiService,
-    private router: Router,
-    private errorService: ErrorService,
-  ) {}
 
   /**
    * Form validation will start after the method is called, additionally a password reset request will be sent

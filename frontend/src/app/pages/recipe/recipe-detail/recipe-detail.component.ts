@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SearchInputComponent } from "../../../components/Input/SearchInput";
 import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
@@ -42,6 +47,15 @@ import {
   templateUrl: "./recipe-detail.component.html",
 })
 export class RecipeDetailComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private recipesApiService = inject(RecipesApiService);
+  private menusApiService = inject(MenusApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private router = inject(Router);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  protected tokenService = inject(TokenService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
   recipeId: number | null = null;
@@ -53,17 +67,6 @@ export class RecipeDetailComponent implements OnInit {
   isAddModalOpen: boolean = false;
   isDeleteModalOpen: boolean = false;
   deleteModalTitle: string = "";
-
-  constructor(
-    private route: ActivatedRoute,
-    private recipesApiService: RecipesApiService,
-    private menusApiService: MenusApiService,
-    private ingredientComputationService: IngredientComputationService,
-    private router: Router,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    protected tokenService: TokenService,
-  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

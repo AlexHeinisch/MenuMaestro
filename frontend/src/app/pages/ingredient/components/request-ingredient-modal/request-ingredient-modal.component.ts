@@ -4,6 +4,7 @@ import {
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
@@ -31,18 +32,16 @@ import { TokenService } from "../../../../security/token.service";
   templateUrl: "./request-ingredient-modal.component.html",
 })
 export class RequestIngredientModalComponent implements OnChanges {
+  private ingredientsApiService = inject(IngredientsApiService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  private tokenService = inject(TokenService);
+
   @Input() ingredientName: string = "";
 
   InputType = InputType;
 
   newIngredient: CreateIngredientDto = {} as CreateIngredientDto;
-
-  constructor(
-    private ingredientsApiService: IngredientsApiService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    private tokenService: TokenService,
-  ) {}
 
   measurementUnits = Object.values(IngredientUnitDto);
   categories = Object.values(IngredientCategory);

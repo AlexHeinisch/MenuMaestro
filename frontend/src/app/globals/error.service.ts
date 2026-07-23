@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Injectable, inject } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ErrorService {
-  constructor(private toastr: ToastrService) {}
+  private toastr = inject(ToastrService);
 
   printErrorResponse(err: any) {
     console.error(err); // Always log the error for debugging
@@ -13,20 +13,29 @@ export class ErrorService {
     if (err.error) {
       if (!err.status || err.status === 0) {
         // Handle unreachable server case
-        this.toastr.error('The server is not reachable!', 'Error');
+        this.toastr.error("The server is not reachable!", "Error");
       } else if (err.error.message) {
         // Handle specific error messages
-        const hasDetails = Array.isArray(err.error.details) && err.error.details.length > 0;
-        const detailsText = hasDetails ? `\nDetails: ${err.error.details.join(', ')}!` : '';
+        const hasDetails =
+          Array.isArray(err.error.details) && err.error.details.length > 0;
+        const detailsText = hasDetails
+          ? `\nDetails: ${err.error.details.join(", ")}!`
+          : "";
         const errorMessage = `${err.error.message}${detailsText}`;
-        this.toastr.error(errorMessage, 'Error');
+        this.toastr.error(errorMessage, "Error");
       } else {
         // Handle unexpected error structure
-        this.toastr.error('An unknown error occurred. Please try again.', 'Error');
+        this.toastr.error(
+          "An unknown error occurred. Please try again.",
+          "Error",
+        );
       }
     } else {
       // Handle errors without the `error` object
-      this.toastr.error('An unknown error occurred. Please try again.', 'Error');
+      this.toastr.error(
+        "An unknown error occurred. Please try again.",
+        "Error",
+      );
     }
   }
 }

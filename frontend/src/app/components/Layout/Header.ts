@@ -3,6 +3,7 @@ import {
   HostListener,
   OnInit,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
@@ -202,14 +203,12 @@ import { LoginLogoutButtonComponent } from "../../pages/auth/login/components/lo
   `,
 })
 export class HeaderComponent implements OnInit {
+  private router = inject(Router);
+  tokenService = inject(TokenService);
+
   isMobileMenuOpen = false;
   isUserMenuOpen = false;
   currentRoute: string = "";
-
-  constructor(
-    private router: Router,
-    public tokenService: TokenService,
-  ) {}
 
   ngOnInit() {
     // Update current route on route change

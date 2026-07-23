@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 import { FormsModule } from "@angular/forms";
@@ -31,6 +31,9 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
   templateUrl: "./account-overview.html",
 })
 export class AccountOverview {
+  private accountApiService = inject(AccountsApiService);
+  private errorService = inject(ErrorService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -46,11 +49,6 @@ export class AccountOverview {
   };
 
   isLoading: boolean = true;
-
-  constructor(
-    private accountApiService: AccountsApiService,
-    private errorService: ErrorService,
-  ) {}
 
   ngOnInit(): void {
     this.getAccountInfo();

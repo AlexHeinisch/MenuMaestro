@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 
 import { Router, RouterModule } from "@angular/router";
 import { AuthApiService, LoginRequestDto } from "../../../../generated";
@@ -27,6 +27,11 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
   templateUrl: "./login-page.html",
 })
 export class LoginComponent {
+  private authApiService = inject(AuthApiService);
+  private tokenService = inject(TokenService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+
   InputType = InputType;
   isLoggedIn: boolean = false;
   loginRequestDto: LoginRequestDto = {
@@ -41,13 +46,6 @@ export class LoginComponent {
   errorMessage = "";
 
   isLoading = false;
-
-  constructor(
-    private authApiService: AuthApiService,
-    private tokenService: TokenService,
-    private router: Router,
-    private errorService: ErrorService,
-  ) {}
 
   /**
    * Form validation will start after the method is called, additionally an AuthRequest will be sent

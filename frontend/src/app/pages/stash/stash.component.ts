@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { PageLayoutComponent } from "../../components/Layout/PageLayout";
 import { LoadingSpinnerComponent } from "../../components/LoadingSpinner/LoadingSpinner";
 
@@ -44,6 +49,14 @@ import {
   templateUrl: "./stash.component.html",
 })
 export class StashComponent implements OnInit {
+  private stashApiService = inject(StashApiService);
+  private ingredientsApiService = inject(IngredientsApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  protected tokenService = inject(TokenService);
+
   measurementUnits = Object.values(IngredientUnitDto);
 
   stashId: number = -1;
@@ -69,16 +82,6 @@ export class StashComponent implements OnInit {
   moveStashSearchTerm: string = "";
   stashSearchOptions: [number, string][] = [];
   moveToStashId: number | null = null;
-
-  constructor(
-    private stashApiService: StashApiService,
-    private ingredientsApiService: IngredientsApiService,
-    private ingredientComputationService: IngredientComputationService,
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    protected tokenService: TokenService,
-  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

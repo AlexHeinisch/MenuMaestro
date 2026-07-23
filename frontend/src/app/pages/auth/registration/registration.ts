@@ -1,4 +1,9 @@
-import { Component, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
 import { FormsModule, NgForm } from "@angular/forms";
@@ -33,6 +38,11 @@ import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/Load
   templateUrl: "./registration.html",
 })
 export class AccountRegistration {
+  router = inject(Router);
+  private accountApiService = inject(AccountsApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -48,13 +58,6 @@ export class AccountRegistration {
 
   isLoading = false;
   registrationSuccess = false;
-
-  constructor(
-    public router: Router,
-    private accountApiService: AccountsApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-  ) {}
 
   createAccount() {
     this.isLoading = true;

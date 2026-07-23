@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
 import { FormsModule, NgForm } from "@angular/forms";
@@ -35,6 +35,12 @@ import {
   templateUrl: "./change-password.component.html",
 })
 export class ChangePasswordComponent {
+  private accountApiService = inject(AccountsApiService);
+  private errorService = inject(ErrorService);
+  private tokenService = inject(TokenService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -56,14 +62,6 @@ export class ChangePasswordComponent {
   confirmNewPassword = ""; // this is only used in the frontend to compare the new passwords
   isConfirmActionOpen: boolean = false;
   submitted = false;
-
-  constructor(
-    private accountApiService: AccountsApiService,
-    private errorService: ErrorService,
-    private tokenService: TokenService,
-    private toastr: ToastrService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.getAccountInfo();

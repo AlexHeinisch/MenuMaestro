@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import {
@@ -45,6 +45,12 @@ import {
   templateUrl: "./shopping-lists-overview.component.html",
 })
 export class ShoppingListsOverviewComponent {
+  private router = inject(Router);
+  private shoppingListApiService = inject(ShoppingListApiService);
+  private menusApiService = inject(MenusApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
   ShoppingListStatus = ShoppingListStatus;
@@ -68,14 +74,6 @@ export class ShoppingListsOverviewComponent {
   // Pagination
   currentPage: number = 0;
   pageSize: number = 10;
-
-  constructor(
-    private router: Router,
-    private shoppingListApiService: ShoppingListApiService,
-    private menusApiService: MenusApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-  ) {}
 
   ngOnInit(): void {
     this.fetchShoppingLists();

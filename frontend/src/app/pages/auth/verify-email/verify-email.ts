@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 
 import { HttpErrorResponse } from "@angular/common/http";
@@ -22,18 +27,16 @@ import { AccountsApiService } from "../../../../generated";
   templateUrl: "./verify-email.html",
 })
 export class VerifyEmailComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  router = inject(Router);
+  private accountsApiService = inject(AccountsApiService);
+
   ButtonVariant = ButtonVariant;
   isLoading = true;
   verificationSuccess = false;
   verificationError = false;
   errorMessage = "";
   accountUsername = "";
-
-  constructor(
-    private route: ActivatedRoute,
-    public router: Router,
-    private accountsApiService: AccountsApiService,
-  ) {}
 
   ngOnInit() {
     const token = this.route.snapshot.queryParamMap.get("token");

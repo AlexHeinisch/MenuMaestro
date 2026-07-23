@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
 import { FormsModule, NgForm } from "@angular/forms";
@@ -35,6 +35,12 @@ import {
   templateUrl: "./account-edit.component.html",
 })
 export class AccountEditComponent {
+  private accountApiService = inject(AccountsApiService);
+  private tokenService = inject(TokenService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -57,14 +63,6 @@ export class AccountEditComponent {
 
   isConfirmActionOpen: boolean = false;
   submitted = false;
-
-  constructor(
-    private accountApiService: AccountsApiService,
-    private tokenService: TokenService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.getAccountInfo();

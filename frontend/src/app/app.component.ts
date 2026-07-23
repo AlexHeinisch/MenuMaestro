@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { FooterComponent } from "./components/Layout/Footer";
 import { HeaderComponent } from "./components/Layout/Header";
@@ -13,10 +18,8 @@ import { AnalyticsService } from "./service/analytics.service";
   styleUrl: "./app.component.css",
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private tokenService: TokenService,
-    private analyticsService: AnalyticsService,
-  ) {}
+  private tokenService = inject(TokenService);
+  private analyticsService = inject(AnalyticsService);
 
   ngOnInit(): void {
     this.tokenService.tryRefreshRoles();

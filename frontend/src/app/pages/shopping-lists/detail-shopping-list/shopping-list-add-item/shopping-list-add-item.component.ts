@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import { PageLayoutComponent } from "../../../../components/Layout/PageLayout";
 import {
@@ -43,6 +44,11 @@ import {
   templateUrl: "./shopping-list-add-item.component.html",
 })
 export class ShoppingListAddItemComponent {
+  private ingredientsApiService = inject(IngredientsApiService);
+  private shoppingListApiService = inject(ShoppingListApiService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -62,13 +68,6 @@ export class ShoppingListAddItemComponent {
   @Input() shoppingListId: number = 1;
   @Input() shareToken: string | undefined = undefined;
   @Output() closeView = new EventEmitter<ShoppingListDto | null>();
-
-  constructor(
-    private ingredientsApiService: IngredientsApiService,
-    private shoppingListApiService: ShoppingListApiService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-  ) {}
 
   handleClick(): void {
     this.closeView.emit(null);

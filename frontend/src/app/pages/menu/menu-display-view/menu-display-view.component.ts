@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import {
   InfoMessageComponent,
   InfoMessageType,
@@ -61,6 +61,17 @@ import { TokenService } from "../../../security/token.service";
   templateUrl: "./menu-display-view.component.html",
 })
 export class MenuDisplayViewComponent {
+  private menusApiService = inject(MenusApiService);
+  private mealsApiService = inject(MealsApiService);
+  private shoppingListsApiService = inject(ShoppingListApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private breakpointObserver = inject(BreakpointObserver);
+  private errorService = inject(ErrorService);
+  private toastrService = inject(ToastrService);
+  private stringFormattingService = inject(StringFormattingService);
+  private tokenService = inject(TokenService);
+
   InputType = InputType;
   ButtonVariant = ButtonVariant;
   InfoMessageType = InfoMessageType;
@@ -76,19 +87,6 @@ export class MenuDisplayViewComponent {
   maxFullDescriptionLength: number = 95;
   menuDeleteModalTitle: string = "";
   isMenuDeleteModalOpen: boolean = false;
-
-  constructor(
-    private menusApiService: MenusApiService,
-    private mealsApiService: MealsApiService,
-    private shoppingListsApiService: ShoppingListApiService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver,
-    private errorService: ErrorService,
-    private toastrService: ToastrService,
-    private stringFormattingService: StringFormattingService,
-    private tokenService: TokenService,
-  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

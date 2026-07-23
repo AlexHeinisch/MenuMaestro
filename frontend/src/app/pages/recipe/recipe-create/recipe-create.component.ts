@@ -4,6 +4,7 @@ import {
   ViewChild,
   ViewChildren,
   ChangeDetectionStrategy,
+  inject,
 } from "@angular/core";
 import {
   ButtonVariant,
@@ -58,6 +59,14 @@ import {
   templateUrl: "./recipe-create.component.html",
 })
 export class CreateRecipeComponent {
+  private recipesApiService = inject(RecipesApiService);
+  private ingredientsApiService = inject(IngredientsApiService);
+  private cookingAppServiceApi = inject(CookingAppliancesApiService);
+  private tokenService = inject(TokenService);
+  private router = inject(Router);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+
   @ViewChild("requestIngredientModalComponent")
   requestIngredientModalComponent!: RequestIngredientModalComponent;
   @ViewChildren("ingredientSearchInput")
@@ -99,16 +108,6 @@ export class CreateRecipeComponent {
   requestedIngredientModalTitle: string = "New Ingredient: ";
   selectedIndexForRequest: number = -1;
   newIngredientBtnText: string = "Request";
-
-  constructor(
-    private recipesApiService: RecipesApiService,
-    private ingredientsApiService: IngredientsApiService,
-    private cookingAppServiceApi: CookingAppliancesApiService,
-    private tokenService: TokenService,
-    private router: Router,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-  ) {}
 
   createRecipe() {
     const loggedInUser = this.tokenService.getUsername();
