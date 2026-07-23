@@ -1,14 +1,13 @@
 import {
   Component,
   Input,
-  Output,
-  EventEmitter,
   forwardRef,
-  ViewChild,
   ElementRef,
   ChangeDetectionStrategy,
   inject,
   input,
+  output,
+  viewChild,
 } from "@angular/core";
 
 import {
@@ -329,9 +328,10 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
   readonly placeholder = input<string>("Enter markdown text...");
   readonly rows = input<number>(8);
   @Input() maxLength: number = 4096;
-  @Output() valueChange = new EventEmitter<string>();
+  readonly valueChange = output<string>();
 
-  @ViewChild("textarea") textarea!: ElementRef<HTMLTextAreaElement>;
+  readonly textarea =
+    viewChild.required<ElementRef<HTMLTextAreaElement>>("textarea");
 
   value: string = "";
   activeTab: "edit" | "preview" = "edit";
@@ -366,7 +366,7 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
   }
 
   applyFormat(format: string): void {
-    const textareaEl = this.textarea.nativeElement;
+    const textareaEl = this.textarea().nativeElement;
     const start = textareaEl.selectionStart;
     const end = textareaEl.selectionEnd;
     const selectedText = this.value.substring(start, end);
@@ -431,7 +431,7 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
   }
 
   insertEmoji(emoji: string): void {
-    const textareaEl = this.textarea.nativeElement;
+    const textareaEl = this.textarea().nativeElement;
     const start = textareaEl.selectionStart;
     const end = textareaEl.selectionEnd;
     const beforeText = this.value.substring(0, start);

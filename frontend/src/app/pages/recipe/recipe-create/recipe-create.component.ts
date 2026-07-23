@@ -1,10 +1,9 @@
 import {
   Component,
-  QueryList,
-  ViewChild,
-  ViewChildren,
   ChangeDetectionStrategy,
   inject,
+  viewChild,
+  viewChildren,
 } from "@angular/core";
 import {
   ButtonVariant,
@@ -67,10 +66,13 @@ export class CreateRecipeComponent {
   private toastr = inject(ToastrService);
   private errorService = inject(ErrorService);
 
-  @ViewChild("requestIngredientModalComponent")
-  requestIngredientModalComponent!: RequestIngredientModalComponent;
-  @ViewChildren("ingredientSearchInput")
-  searchInputs!: QueryList<SearchInputComponent>;
+  readonly requestIngredientModalComponent =
+    viewChild.required<RequestIngredientModalComponent>(
+      "requestIngredientModalComponent",
+    );
+  readonly searchInputs = viewChildren<SearchInputComponent>(
+    "ingredientSearchInput",
+  );
 
   InputType = InputType;
   ButtonVariant = ButtonVariant;
@@ -280,25 +282,27 @@ export class CreateRecipeComponent {
   }
 
   handleRequestedIngredientModalSubmit(): void {
-    this.requestIngredientModalComponent.suggestIngredient().subscribe({
-      next: (ingredient) => {
-        this.ingredientsList[this.selectedIndexForRequest].unit =
-          ingredient.defaultUnit;
-        this.ingredientsList[this.selectedIndexForRequest].id = ingredient.id;
-        this.ingredientsList[this.selectedIndexForRequest].amount = 1;
-        this.ingredientsList[this.selectedIndexForRequest].name =
-          this.requestedIngredientName;
-      },
-      error: (err) => {
-        this.ingredientsList[this.selectedIndexForRequest].name = "";
-        this.searchInputs.toArray()[this.selectedIndexForRequest].resetSearch();
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.requestIngredientModalComponent()
+      .suggestIngredient()
+      .subscribe({
+        next: (ingredient) => {
+          this.ingredientsList[this.selectedIndexForRequest].unit =
+            ingredient.defaultUnit;
+          this.ingredientsList[this.selectedIndexForRequest].id = ingredient.id;
+          this.ingredientsList[this.selectedIndexForRequest].amount = 1;
+          this.ingredientsList[this.selectedIndexForRequest].name =
+            this.requestedIngredientName;
+        },
+        error: (err) => {
+          this.ingredientsList[this.selectedIndexForRequest].name = "";
+          this.searchInputs()[this.selectedIndexForRequest].resetSearch();
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   handleRequestedIngredientModalCancel(): void {
-    this.searchInputs.toArray()[this.selectedIndexForRequest].resetSearch();
+    this.searchInputs()[this.selectedIndexForRequest].resetSearch();
   }
 
   onCancel() {

@@ -1,10 +1,9 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  Output,
   ChangeDetectionStrategy,
   input,
+  output,
 } from "@angular/core";
 
 import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
@@ -72,9 +71,9 @@ export class SimpleModalComponent {
   readonly submitBtnTitle = input.required<string>();
   readonly isSubmitEnabled = input<boolean>(true);
 
-  @Output() setShow = new EventEmitter<boolean>();
-  @Output() onCancel = new EventEmitter<void>();
-  @Output() onSubmit = new EventEmitter<void>();
+  readonly setShow = output<boolean>();
+  readonly onCancel = output<void>();
+  readonly onSubmit = output<void>();
 
   handleCancel() {
     this.onCancel.emit();

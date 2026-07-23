@@ -1,10 +1,9 @@
 import {
   Component,
-  EventEmitter,
-  Output,
   ChangeDetectionStrategy,
   inject,
   input,
+  output,
 } from "@angular/core";
 import { PageLayoutComponent } from "../../../../components/Layout/PageLayout";
 import {
@@ -67,7 +66,7 @@ export class ShoppingListAddItemComponent {
 
   readonly shoppingListId = input<number>(1);
   readonly shareToken = input<string>();
-  @Output() closeView = new EventEmitter<ShoppingListDto | null>();
+  readonly closeView = output<ShoppingListDto | null>();
 
   handleClick(): void {
     this.closeView.emit(null);

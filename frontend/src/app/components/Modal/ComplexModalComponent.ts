@@ -1,10 +1,9 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  Output,
   ChangeDetectionStrategy,
   input,
+  output,
 } from "@angular/core";
 
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
@@ -85,10 +84,10 @@ export class ComplexModalComponent {
   @Input() thirdBtnTitle?: string; // Input for the third button title
   readonly secondBtnVariant = input<ButtonVariant>(ButtonVariant.secondary);
 
-  @Output() setShow = new EventEmitter<boolean>();
-  @Output() onCancel = new EventEmitter<void>();
-  @Output() onSubmit = new EventEmitter<void>();
-  @Output() onThirdAction = new EventEmitter<void>();
+  readonly setShow = output<boolean>();
+  readonly onCancel = output<void>();
+  readonly onSubmit = output<void>();
+  readonly onThirdAction = output<void>();
 
   ButtonVariant = ButtonVariant;
 

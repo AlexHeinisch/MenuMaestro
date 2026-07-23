@@ -1,9 +1,8 @@
 import {
   Component,
-  EventEmitter,
-  Output,
   ChangeDetectionStrategy,
   inject,
+  output,
 } from "@angular/core";
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
 import { ErrorService } from "../../globals/error.service";
@@ -23,10 +22,8 @@ export class FileUploadComponent {
 
   protected readonly ButtonVariant = ButtonVariant;
 
-  @Output()
-  fileUploaded = new EventEmitter<ImageUploadResponseDto>();
-  @Output()
-  fileRemoved = new EventEmitter<boolean>();
+  readonly fileUploaded = output<ImageUploadResponseDto>();
+  readonly fileRemoved = output<boolean>();
 
   file: File | null = null;
 

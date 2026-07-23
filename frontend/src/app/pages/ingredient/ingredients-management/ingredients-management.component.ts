@@ -1,9 +1,9 @@
 import {
   Component,
   OnInit,
-  ViewChild,
   ChangeDetectionStrategy,
   inject,
+  viewChild,
 } from "@angular/core";
 import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
@@ -55,12 +55,16 @@ export class IngredientsManagementComponent implements OnInit {
   private errorService = inject(ErrorService);
   private stringFormattingService = inject(StringFormattingService);
 
-  @ViewChild("replacementSearchInput")
-  replacementSearchInput!: SearchInputComponent;
-  @ViewChild("ownIngredientSearchInput")
-  ownIngredientSearchInput!: SearchInputComponent;
-  @ViewChild("requestIngredientModalComponent")
-  requestIngredientModalComponent!: RequestIngredientModalComponent;
+  readonly replacementSearchInput = viewChild.required<SearchInputComponent>(
+    "replacementSearchInput",
+  );
+  readonly ownIngredientSearchInput = viewChild.required<SearchInputComponent>(
+    "ownIngredientSearchInput",
+  );
+  readonly requestIngredientModalComponent =
+    viewChild.required<RequestIngredientModalComponent>(
+      "requestIngredientModalComponent",
+    );
 
   ButtonVariant = ButtonVariant;
   InputType = InputType;
@@ -159,17 +163,17 @@ export class IngredientsManagementComponent implements OnInit {
           console.log(ingredient);
           this.fetchIngredientRequests();
           this.toastr.success("Ingredient replaced.");
-          this.replacementSearchInput.resetSearch();
+          this.replacementSearchInput().resetSearch();
         },
         error: (err) => {
           this.errorService.printErrorResponse(err);
-          this.replacementSearchInput.resetSearch();
+          this.replacementSearchInput().resetSearch();
         },
       });
   }
 
   handleReplaceIngredientModalCancel(): void {
-    this.replacementSearchInput.resetSearch();
+    this.replacementSearchInput().resetSearch();
   }
 
   handleRejectIngredientModalSubmit(): void {
@@ -254,7 +258,7 @@ export class IngredientsManagementComponent implements OnInit {
       this.toastr.error(
         "There already exists an ingredient named: " + selected + ".",
       );
-      this.ownIngredientSearchInput.resetSearch();
+      this.ownIngredientSearchInput().resetSearch();
     }
   }
 
@@ -266,19 +270,21 @@ export class IngredientsManagementComponent implements OnInit {
   }
 
   handleRequestedIngredientModalSubmit(): void {
-    this.requestIngredientModalComponent.suggestIngredient().subscribe({
-      next: (ingredient) => {
-        this.toastr.success("Ingredient created.");
-        this.ownIngredientSearchInput.resetSearch();
-      },
-      error: (err) => {
-        this.ownIngredientSearchInput.resetSearch();
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.requestIngredientModalComponent()
+      .suggestIngredient()
+      .subscribe({
+        next: (ingredient) => {
+          this.toastr.success("Ingredient created.");
+          this.ownIngredientSearchInput().resetSearch();
+        },
+        error: (err) => {
+          this.ownIngredientSearchInput().resetSearch();
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   handleRequestedIngredientModalCancel(): void {
-    this.ownIngredientSearchInput.resetSearch();
+    this.ownIngredientSearchInput().resetSearch();
   }
 }

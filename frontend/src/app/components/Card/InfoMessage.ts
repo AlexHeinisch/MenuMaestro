@@ -1,9 +1,8 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
+  output,
 } from "@angular/core";
 
 export enum InfoMessageType {
@@ -31,7 +30,7 @@ export enum InfoMessageType {
 export class InfoMessageComponent {
   readonly message = input.required<string>();
   readonly type = input.required<InfoMessageType>();
-  @Output() onClose = new EventEmitter<void>();
+  readonly onClose = output<void>();
 
   onKeyDown(event: KeyboardEvent): void {
     if (event.key === "Enter" || event.key === " ") {

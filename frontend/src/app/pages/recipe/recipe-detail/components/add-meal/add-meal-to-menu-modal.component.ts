@@ -3,10 +3,10 @@ import {
   EventEmitter,
   OnInit,
   Output,
-  ViewChild,
   ChangeDetectionStrategy,
   inject,
   input,
+  viewChild,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 
@@ -53,7 +53,8 @@ export class AddMealToMenuModalComponent implements OnInit {
   private router = inject(Router);
   protected tokenService = inject(TokenService);
 
-  @ViewChild("searchInput") searchInput!: SearchInputComponent;
+  readonly searchInput =
+    viewChild.required<SearchInputComponent>("searchInput");
   readonly recipeId = input<number | null>();
 
   ButtonVariant = ButtonVariant;

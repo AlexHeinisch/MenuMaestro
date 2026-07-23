@@ -1,9 +1,8 @@
 import {
   Component,
   Input,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
+  output,
 } from "@angular/core";
 
 import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
@@ -58,7 +57,7 @@ import { ButtonVariant, SimpleButtonComponent } from "../Button/SimpleButton";
 export class PaginationControlsComponent {
   @Input() data: any;
   @Input() currentPage: number = 1;
-  @Output() pageChange = new EventEmitter<number>();
+  readonly pageChange = output<number>();
 
   ButtonVariant = ButtonVariant;
 

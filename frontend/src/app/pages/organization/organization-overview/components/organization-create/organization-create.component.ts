@@ -1,9 +1,8 @@
 import {
   Component,
-  EventEmitter,
-  Output,
   ChangeDetectionStrategy,
   inject,
+  output,
 } from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
@@ -43,7 +42,7 @@ export class CreateOrganizationModalContentComponent {
   private toastr = inject(ToastrService);
   private tokenService = inject(TokenService);
 
-  @Output() organizationCreated = new EventEmitter<void>();
+  readonly organizationCreated = output<void>();
   InputType = InputType;
   ButtonVariant = ButtonVariant;
 

@@ -1,11 +1,10 @@
 import {
   Component,
   Input,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   inject,
   input,
+  output,
 } from "@angular/core";
 import { ControlContainer, FormsModule, NgForm } from "@angular/forms";
 import { StringFormattingService } from "../../service/string-formatting.service";
@@ -218,7 +217,7 @@ export class InputFieldComponent {
   readonly required = input<boolean>(false);
   @Input() value: any = null;
   readonly possibleCheckedBy = input<string | null>(null);
-  @Output() valueChange = new EventEmitter<any>();
+  readonly valueChange = output<any>();
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string>();
   readonly className = input<string>();

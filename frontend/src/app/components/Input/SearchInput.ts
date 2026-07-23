@@ -1,11 +1,10 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  Output,
   SimpleChanges,
   ChangeDetectionStrategy,
   input,
+  output,
 } from "@angular/core";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
@@ -125,8 +124,8 @@ export class SearchInputComponent {
   @Input() supportsAddCustom: boolean = false;
 
   readonly filterLocally = input<boolean>(false);
-  @Output() selectedOption = new EventEmitter<any>();
-  @Output() selectedAddCustom = new EventEmitter<any>();
+  readonly selectedOption = output<any>();
+  readonly selectedAddCustom = output<any>();
 
   filteredOptions: any[] = [];
   isFocused: boolean = false;
