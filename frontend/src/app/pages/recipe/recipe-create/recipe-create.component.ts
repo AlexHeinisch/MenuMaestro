@@ -1,18 +1,24 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { FormsModule, NgForm } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { Router } from '@angular/router';
-import { FileUploadComponent } from '../../../components/FileUpload/file-upload.component';
-import { TokenService } from '../../../security/token.service';
-import { ToastrService } from 'ngx-toastr';
-import { ErrorService } from '../../../globals/error.service';
-import { RequestIngredientModalComponent } from '../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { MarkdownEditorComponent } from '../../../components/Markdown/MarkdownEditor/markdown-editor.component';
+import { Component, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import { FormsModule, NgForm } from "@angular/forms";
+
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { Router } from "@angular/router";
+import { FileUploadComponent } from "../../../components/FileUpload/file-upload.component";
+import { TokenService } from "../../../security/token.service";
+import { ToastrService } from "ngx-toastr";
+import { ErrorService } from "../../../globals/error.service";
+import { RequestIngredientModalComponent } from "../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { MarkdownEditorComponent } from "../../../components/Markdown/MarkdownEditor/markdown-editor.component";
 import {
   CookingApplianceDto,
   CookingApplianceListPaginatedDto,
@@ -26,46 +32,51 @@ import {
   IngredientUseCreateEditDto,
   RecipeCreateEditDto,
   RecipesApiService,
-  RecipeVisibility
+  RecipeVisibility,
 } from "../../../../generated";
 
 @Component({
-    selector: 'app-recipe-create',
-    imports: [
-        SimpleButtonComponent,
-        InputFieldComponent,
-        SearchInputComponent,
-        PageLayoutComponent,
-        FormsModule,
-        CommonModule,
-        FileUploadComponent,
-        RequestIngredientModalComponent,
-        SimpleModalComponent,
-        MarkdownEditorComponent,
-    ],
-    templateUrl: './recipe-create.component.html'
+  selector: "app-recipe-create",
+  imports: [
+    SimpleButtonComponent,
+    InputFieldComponent,
+    SearchInputComponent,
+    PageLayoutComponent,
+    FormsModule,
+    FileUploadComponent,
+    RequestIngredientModalComponent,
+    SimpleModalComponent,
+    MarkdownEditorComponent,
+  ],
+  templateUrl: "./recipe-create.component.html",
 })
 export class CreateRecipeComponent {
-  @ViewChild('requestIngredientModalComponent') requestIngredientModalComponent!: RequestIngredientModalComponent;
-  @ViewChildren('ingredientSearchInput') searchInputs!: QueryList<SearchInputComponent>;
+  @ViewChild("requestIngredientModalComponent")
+  requestIngredientModalComponent!: RequestIngredientModalComponent;
+  @ViewChildren("ingredientSearchInput")
+  searchInputs!: QueryList<SearchInputComponent>;
 
   InputType = InputType;
   ButtonVariant = ButtonVariant;
 
   recipeCreate: RecipeCreateEditDto = {
-    name: '',
+    name: "",
     servings: 1,
     ingredients: [],
     cookingAppliances: [],
-    description: '',
-    author: '',
+    description: "",
+    author: "",
     visibility: RecipeVisibility.Public,
   };
 
-  cookingAppList: { name: string; amount: number | null; id: number | null }[] = [];
-  ingredientsList: { name: string; amount: number | null; unit: IngredientUnitDto | null; id: number | null }[] = [
-    { name: '', amount: null, unit: null, id: null },
-  ];
+  cookingAppList: { name: string; amount: number | null; id: number | null }[] =
+    [];
+  ingredientsList: {
+    name: string;
+    amount: number | null;
+    unit: IngredientUnitDto | null;
+    id: number | null;
+  }[] = [{ name: "", amount: null, unit: null, id: null }];
 
   measurementUnits = Object.values(IngredientUnitDto);
   visibilityTypes = Object.values(RecipeVisibility);
@@ -77,10 +88,10 @@ export class CreateRecipeComponent {
   ingredientsOptionsNames: string[] = [];
 
   isRequestIngredientModalOpen: boolean = false;
-  requestedIngredientName: string = '';
-  requestedIngredientModalTitle: string = 'New Ingredient: ';
+  requestedIngredientName: string = "";
+  requestedIngredientModalTitle: string = "New Ingredient: ";
   selectedIndexForRequest: number = -1;
-  newIngredientBtnText: string = 'Request';
+  newIngredientBtnText: string = "Request";
 
   constructor(
     private recipesApiService: RecipesApiService,
@@ -89,7 +100,7 @@ export class CreateRecipeComponent {
     private tokenService: TokenService,
     private router: Router,
     private toastr: ToastrService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
   ) {}
 
   createRecipe() {
@@ -102,7 +113,7 @@ export class CreateRecipeComponent {
     this.recipesApiService.createRecipe(this.recipeCreate).subscribe({
       next: (response) => {
         this.router.navigate([`/recipes/${response.id}`]);
-        this.toastr.success('Recipe created.');
+        this.toastr.success("Recipe created.");
       },
       error: (error) => {
         this.errorService.printErrorResponse(error);
@@ -111,7 +122,7 @@ export class CreateRecipeComponent {
   }
 
   addCookingApp() {
-    this.cookingAppList.push({ name: '', amount: null, id: null });
+    this.cookingAppList.push({ name: "", amount: null, id: null });
   }
 
   removeCookingApp(index: number) {
@@ -119,7 +130,7 @@ export class CreateRecipeComponent {
   }
 
   addIngredient() {
-    this.ingredientsList.push({ name: '', amount: null, unit: null, id: null });
+    this.ingredientsList.push({ name: "", amount: null, unit: null, id: null });
   }
 
   removeIngredient(index: number) {
@@ -127,24 +138,30 @@ export class CreateRecipeComponent {
   }
 
   searchIngredient(searchTerm: string) {
-    this.ingredientsApiService.searchIngredients(0, 5, undefined, searchTerm).subscribe({
-      next: (response: IngredientListPaginatedDto) => {
-        if (response.content) {
-          this.ingredientsOptions = response.content;
-          this.ingredientsOptionsNames = this.ingredientsOptions.map((ingredient) => ingredient.name!);
-        } else {
-          this.ingredientsOptions = [];
-          this.ingredientsOptionsNames = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.ingredientsApiService
+      .searchIngredients(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: IngredientListPaginatedDto) => {
+          if (response.content) {
+            this.ingredientsOptions = response.content;
+            this.ingredientsOptionsNames = this.ingredientsOptions.map(
+              (ingredient) => ingredient.name!,
+            );
+          } else {
+            this.ingredientsOptions = [];
+            this.ingredientsOptionsNames = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onIngredientSelected(selected: string, index: number) {
-    const selectedIngredient = this.ingredientsOptions.find((ingredient) => ingredient.name === selected);
+    const selectedIngredient = this.ingredientsOptions.find(
+      (ingredient) => ingredient.name === selected,
+    );
 
     if (selectedIngredient) {
       if (selectedIngredient.defaultUnit) {
@@ -161,29 +178,35 @@ export class CreateRecipeComponent {
       this.ingredientsList[index].unit = null;
       this.ingredientsList[index].id = null;
       this.ingredientsList[index].amount = null;
-      this.ingredientsList[index].name = '';
+      this.ingredientsList[index].name = "";
     }
   }
 
   searchCookingApp(searchTerm: string) {
-    this.cookingAppServiceApi.getCookingAppliances(0, 5, undefined, searchTerm).subscribe({
-      next: (response: CookingApplianceListPaginatedDto) => {
-        if (response.content) {
-          this.cookingAppOptions = response.content;
-          this.cookingAppOptionsNames = this.cookingAppOptions.map((cookingApp) => cookingApp.name!);
-        } else {
-          this.cookingAppOptions = [];
-          this.cookingAppOptionsNames = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.cookingAppServiceApi
+      .getCookingAppliances(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: CookingApplianceListPaginatedDto) => {
+          if (response.content) {
+            this.cookingAppOptions = response.content;
+            this.cookingAppOptionsNames = this.cookingAppOptions.map(
+              (cookingApp) => cookingApp.name!,
+            );
+          } else {
+            this.cookingAppOptions = [];
+            this.cookingAppOptionsNames = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onCookingAppSelected(selected: string, index: number) {
-    const selectedCookingApp = this.cookingAppOptions.find((cookingApp) => cookingApp.name === selected);
+    const selectedCookingApp = this.cookingAppOptions.find(
+      (cookingApp) => cookingApp.name === selected,
+    );
 
     if (selectedCookingApp) {
       if (selectedCookingApp.name != null) {
@@ -196,7 +219,7 @@ export class CreateRecipeComponent {
     } else {
       this.cookingAppList[index].id = null;
       this.cookingAppList[index].amount = null;
-      this.cookingAppList[index].name = '';
+      this.cookingAppList[index].name = "";
     }
   }
 
@@ -211,7 +234,12 @@ export class CreateRecipeComponent {
   onSubmit(form: NgForm) {
     if (form.valid) {
       this.recipeCreate.ingredients = this.ingredientsList
-        .filter((ingredient) => ingredient.name || ingredient.amount !== null || ingredient.unit !== null)
+        .filter(
+          (ingredient) =>
+            ingredient.name ||
+            ingredient.amount !== null ||
+            ingredient.unit !== null,
+        )
         .map((ingredient) => {
           return {
             id: ingredient.id,
@@ -230,16 +258,17 @@ export class CreateRecipeComponent {
         });
       this.createRecipe();
     } else {
-      console.error('Form is invalid');
+      console.error("Form is invalid");
     }
   }
 
   onRequestIngredientSelected(selected: string, index: number) {
     this.isRequestIngredientModalOpen = true;
     this.requestedIngredientName = selected;
-    this.requestedIngredientModalTitle = 'New Ingredient: ' + '"' + this.requestedIngredientName + '"';
+    this.requestedIngredientModalTitle =
+      "New Ingredient: " + '"' + this.requestedIngredientName + '"';
     if (this.tokenService.isAdmin()) {
-      this.newIngredientBtnText = 'Create';
+      this.newIngredientBtnText = "Create";
     }
     this.selectedIndexForRequest = index;
   }
@@ -247,13 +276,15 @@ export class CreateRecipeComponent {
   handleRequestedIngredientModalSubmit(): void {
     this.requestIngredientModalComponent.suggestIngredient().subscribe({
       next: (ingredient) => {
-        this.ingredientsList[this.selectedIndexForRequest].unit = ingredient.defaultUnit;
+        this.ingredientsList[this.selectedIndexForRequest].unit =
+          ingredient.defaultUnit;
         this.ingredientsList[this.selectedIndexForRequest].id = ingredient.id;
         this.ingredientsList[this.selectedIndexForRequest].amount = 1;
-        this.ingredientsList[this.selectedIndexForRequest].name = this.requestedIngredientName;
+        this.ingredientsList[this.selectedIndexForRequest].name =
+          this.requestedIngredientName;
       },
       error: (err) => {
-        this.ingredientsList[this.selectedIndexForRequest].name = '';
+        this.ingredientsList[this.selectedIndexForRequest].name = "";
         this.searchInputs.toArray()[this.selectedIndexForRequest].resetSearch();
         this.errorService.printErrorResponse(err);
       },
@@ -265,6 +296,6 @@ export class CreateRecipeComponent {
   }
 
   onCancel() {
-    this.router.navigate(['/recipes']);
+    this.router.navigate(["/recipes"]);
   }
 }

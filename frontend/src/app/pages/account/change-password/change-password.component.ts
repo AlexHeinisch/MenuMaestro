@@ -1,38 +1,47 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { ErrorService } from '../../../globals/error.service';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { TokenService } from '../../../security/token.service';
-import { ToastrService } from 'ngx-toastr';
-import {AccountEditRequestDto, AccountInfoDto, AccountsApiService} from "../../../../generated";
+import { Component } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+
+import { FormsModule, NgForm } from "@angular/forms";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { ErrorService } from "../../../globals/error.service";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { TokenService } from "../../../security/token.service";
+import { ToastrService } from "ngx-toastr";
+import {
+  AccountEditRequestDto,
+  AccountInfoDto,
+  AccountsApiService,
+} from "../../../../generated";
 
 @Component({
-    selector: 'app-change-password',
-    imports: [
-        PageLayoutComponent,
-        SimpleButtonComponent,
-        CommonModule,
-        RouterModule,
-        InputFieldComponent,
-        FormsModule,
-        SimpleModalComponent,
-    ],
-    templateUrl: './change-password.component.html'
+  selector: "app-change-password",
+  imports: [
+    PageLayoutComponent,
+    SimpleButtonComponent,
+    RouterModule,
+    InputFieldComponent,
+    FormsModule,
+    SimpleModalComponent,
+  ],
+  templateUrl: "./change-password.component.html",
 })
 export class ChangePasswordComponent {
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
   accountInfo: AccountInfoDto = {
-    username: '',
-    email: '',
-    firstName: '',
-    lastName: '',
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
     isGlobalAdmin: false,
   };
 
@@ -43,7 +52,7 @@ export class ChangePasswordComponent {
     newPassword: undefined,
     oldPassword: undefined,
   };
-  confirmNewPassword = ''; // this is only used in the frontend to compare the new passwords
+  confirmNewPassword = ""; // this is only used in the frontend to compare the new passwords
   isConfirmActionOpen: boolean = false;
   submitted = false;
 
@@ -52,7 +61,7 @@ export class ChangePasswordComponent {
     private errorService: ErrorService,
     private tokenService: TokenService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -79,24 +88,30 @@ export class ChangePasswordComponent {
       this.accountEditRequestDto.oldPassword &&
       this.accountEditRequestDto.newPassword !== this.confirmNewPassword
     ) {
-      this.toastr.error('New password and confirm password do not match.');
+      this.toastr.error("New password and confirm password do not match.");
       return;
     }
 
-    this.accountApiService.editAccount(this.tokenService.getUsername()!, this.accountEditRequestDto).subscribe({
-      next: () => {
-        this.router.navigate(['/account']);
-        this.toastr.success('Password changed.');
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.accountApiService
+      .editAccount(this.tokenService.getUsername()!, this.accountEditRequestDto)
+      .subscribe({
+        next: () => {
+          this.router.navigate(["/account"]);
+          this.toastr.success("Password changed.");
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onSubmit(form: NgForm) {
     this.submitted = true;
-    if (form.invalid || !this.accountEditRequestDto.newPassword || this.accountEditRequestDto.newPassword.length < 6) {
+    if (
+      form.invalid ||
+      !this.accountEditRequestDto.newPassword ||
+      this.accountEditRequestDto.newPassword.length < 6
+    ) {
       Object.keys(form.controls).forEach((field) => {
         const control = form.controls[field];
         control.markAsTouched({ onlySelf: true });

@@ -7,7 +7,7 @@ import { AuthInterceptor } from './security/auth-interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import {BASE_PATH} from "../generated";
-import { provideMarkdown, MARKED_OPTIONS } from 'ngx-markdown';
+import { provideMarkdown, MARKED_OPTIONS, SANITIZE } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
       tapToDismiss: true,
     }),
     provideMarkdown({
-      sanitize: SecurityContext.HTML, // Sanitize HTML for defense in depth (backend also validates)
+      sanitize: { provide: SANITIZE, useValue: SecurityContext.HTML }, // Sanitize HTML for defense in depth (backend also validates)
     }),
     {
       provide: MARKED_OPTIONS,

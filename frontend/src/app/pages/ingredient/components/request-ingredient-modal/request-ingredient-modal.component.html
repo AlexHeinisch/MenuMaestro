@@ -20,7 +20,10 @@
   ></input-field>
 </form>
 
-<p class="italic" *ngIf="!isAdmin()">
-  You can use the ingredient immediately. If the admin accepts your request, the ingredient will become available to
-  everyone. Otherwise it might get removed or replaced by the admin.
-</p>
+@if (!isAdmin()) {
+  <p class="italic">
+    You can use the ingredient immediately. If the admin accepts your request,
+    the ingredient will become available to everyone. Otherwise it might get
+    removed or replaced by the admin.
+  </p>
+}

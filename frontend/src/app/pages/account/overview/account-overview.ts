@@ -1,41 +1,46 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { AccountInfoDto, AccountsApiService } from '../../../../generated';
-import { ErrorService } from '../../../globals/error.service';
-import { AccountDeleteButtonComponent } from '../account-delete-button/account-delete-button.component';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
+
+import { FormsModule } from "@angular/forms";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { AccountInfoDto, AccountsApiService } from "../../../../generated";
+import { ErrorService } from "../../../globals/error.service";
+import { AccountDeleteButtonComponent } from "../account-delete-button/account-delete-button.component";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
 
 @Component({
-    selector: 'app-account-overview',
-    imports: [
-        PageLayoutComponent,
-        SimpleButtonComponent,
-        CommonModule,
-        RouterModule,
-        InputFieldComponent,
-        FormsModule,
-        AccountDeleteButtonComponent,
-        LoadingSpinnerComponent,
-    ],
-    templateUrl: './account-overview.html'
+  selector: "app-account-overview",
+  imports: [
+    PageLayoutComponent,
+    SimpleButtonComponent,
+    RouterModule,
+    InputFieldComponent,
+    FormsModule,
+    AccountDeleteButtonComponent,
+    LoadingSpinnerComponent,
+  ],
+  templateUrl: "./account-overview.html",
 })
 export class AccountOverview {
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
-  password: string = '';
-  confirmPassword: string = '';
+  password: string = "";
+  confirmPassword: string = "";
 
   accountInfo: AccountInfoDto = {
-    username: '',
-    email: '',
-    firstName: '',
-    lastName: '',
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
     isGlobalAdmin: false,
   };
 
@@ -43,7 +48,7 @@ export class AccountOverview {
 
   constructor(
     private accountApiService: AccountsApiService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
   ) {}
 
   ngOnInit(): void {

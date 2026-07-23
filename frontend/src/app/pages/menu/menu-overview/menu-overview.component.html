@@ -4,7 +4,9 @@
   <!-- Search | Filters -->
   <div class="items-end mt-4 mb-4">
     <!-- Search & Filters -->
-    <form class="flex flex-col lg:flex-row space-y-4 lg:space-x-2 items-left lg:items-end">
+    <form
+      class="flex flex-col lg:flex-row space-y-4 lg:space-x-2 items-left lg:items-end"
+    >
       <!-- Search -->
       <div class="lg:flex-grow">
         <search-input
@@ -28,7 +30,9 @@
         ></search-input>
       </div>
 
-      <div class="flex flex-row items-end justify-between lg:justify-end space-x-2">
+      <div
+        class="flex flex-row items-end justify-between lg:justify-end space-x-2"
+      >
         <!-- Menu Status -->
         <input-field
           [label]="'Status'"
@@ -46,36 +50,44 @@
     </form>
   </div>
 
-  <div *ngIf="!isLoading && this.menus?.content?.length != 0">
-    <!-- Menu Cards -->
-    <div class="border-t border-b border-gray-200 p-2 lg:p-4">
-      <div
-        *ngFor="let menu of menus?.content"
-        class="mb-4 rounded-md hover:shadow-[rgba(0,0,0,0.1)_0px_0px_7px_7px] hover:ease-in-out duration-200 hover:cursor-pointer"
-        [routerLink]="menu.status === MenuStatus.Closed ? ['/menus/' + menu.id + '/closed'] : ['/menus', menu.id]"
-      >
-        <simple-card [title]="menu.name" class="rounded-md text-sm">
-          <div class="flex flex-row justify-between">
-            <p>Organization: {{ menu.organization.name || 'N/A' }}</p>
-
-            <div class="justify-end -mt-8">
-              <img *ngIf="menu.name === 'Jahresherbstfest'; else defaultIcon" src="check.png" alt="Done" class="w-8" />
-              <ng-template #defaultIcon>
-                <img src="serving-dish.png" alt="Default" class="w-8" *ngIf="menu.status === MenuStatus.Serving" />
-              </ng-template>
-            </div>
+  @if (!isLoading && this.menus?.content?.length != 0) {
+    <div>
+      <!-- Menu Cards -->
+      <div class="border-t border-b border-gray-200 p-2 lg:p-4">
+        @for (menu of menus?.content; track menu) {
+          <div
+            class="mb-4 rounded-md hover:shadow-[rgba(0,0,0,0.1)_0px_0px_7px_7px] hover:ease-in-out duration-200 hover:cursor-pointer"
+            [routerLink]="
+              menu.status === MenuStatus.Closed
+                ? ['/menus/' + menu.id + '/closed']
+                : ['/menus', menu.id]
+            "
+          >
+            <simple-card [title]="menu.name" class="rounded-md text-sm">
+              <div class="flex flex-row justify-between">
+                <p>Organization: {{ menu.organization.name || "N/A" }}</p>
+                <div class="justify-end -mt-8">
+                  @if (menu.name === "Jahresherbstfest") {
+                    <img src="check.png" alt="Done" class="w-8" />
+                  } @else {
+                    @if (menu.status === MenuStatus.Serving) {
+                      <img src="serving-dish.png" alt="Default" class="w-8" />
+                    }
+                  }
+                </div>
+              </div>
+            </simple-card>
           </div>
-        </simple-card>
+        }
       </div>
     </div>
-  </div>
+  }
 
-  <div
-    *ngIf="(!menus || this.menus?.content?.length == 0) && !isLoading"
-    class="text-center text-xl text-gray-600 col-span-full my-8"
-  >
-    <p>No menus found.</p>
-  </div>
+  @if ((!menus || this.menus?.content?.length == 0) && !isLoading) {
+    <div class="text-center text-xl text-gray-600 col-span-full my-8">
+      <p>No menus found.</p>
+    </div>
+  }
   <loading-spinner [isLoading]="isLoading"></loading-spinner>
 
   <pagination-controls

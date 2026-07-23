@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { EditRecipeComponent } from '../recipe-edit/recipe-edit.component';
-import { ActivatedRoute } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { Observable, tap } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import {RecipeCreateEditDto, RecipeDto, RecipesApiService} from "../../../../generated";
+import { Component, OnInit } from "@angular/core";
+import { EditRecipeComponent } from "../recipe-edit/recipe-edit.component";
+import { ActivatedRoute } from "@angular/router";
+
+import { Observable, tap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import {
+  RecipeCreateEditDto,
+  RecipeDto,
+  RecipesApiService,
+} from "../../../../generated";
 
 @Component({
-    selector: 'app-recipe-edit-page',
-    imports: [EditRecipeComponent, NgIf],
-    templateUrl: './recipe-edit-page.component.html'
+  selector: "app-recipe-edit-page",
+  imports: [EditRecipeComponent],
+  templateUrl: "./recipe-edit-page.component.html",
 })
 export class RecipeEditPageComponent implements OnInit {
   recipeId: number | undefined;
@@ -17,12 +21,12 @@ export class RecipeEditPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private recipesApiService: RecipesApiService
+    private recipesApiService: RecipesApiService,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.recipeId = +params['id'];
+      this.recipeId = +params["id"];
     });
   }
 
@@ -37,6 +41,6 @@ export class RecipeEditPageComponent implements OnInit {
   editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<any> {
     return this.recipesApiService
       .editRecipeById(this.recipeId!, recipeEdit)
-      .pipe(tap((next) => this.toastr.success('Recipe updated.')));
+      .pipe(tap((next) => this.toastr.success("Recipe updated.")));
   }
 }

@@ -1,17 +1,27 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-export const SHORTCUT_SEARCH_INPUT_RESET = 'Escape';
+import { FormsModule } from "@angular/forms";
+
+export const SHORTCUT_SEARCH_INPUT_RESET = "Escape";
 export const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
-    selector: 'search-input',
-    imports: [CommonModule, FormsModule],
-    template: `
-    <label *ngIf="label" [attr.for]="id" class="block mb-2 text-base text-primary">{{ label }}</label>
+  selector: "search-input",
+  imports: [FormsModule],
+  template: `
+    @if (label) {
+      <label [attr.for]="id" class="block mb-2 text-base text-primary">{{
+        label
+      }}</label>
+    }
 
     <div
       class="flex flex-row px-4 py-2 rounded-lg border overflow-visible bg-white font-[sans-serif] focus-within:border-primary focus:border-0 relative"
@@ -45,55 +55,70 @@ export const SEARCH_DEBOUNCE_MS = 300;
 
       <!-- Cross Icon -->
       <div class="flex items-center w-6">
-        <svg
-          *ngIf="shouldShowResetIcon"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-5 cursor-pointer"
-          (click)="resetSearch()"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
+        @if (shouldShowResetIcon) {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5 cursor-pointer"
+            (click)="resetSearch()"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+        }
       </div>
 
       <!-- Autocomplete Dropdown -->
-      <ul
-        *ngIf="isFocused && (filteredOptions.length > 0 || (supportsAddCustom && searchTerm !== '' && !hasExactMatch))"
-        class="absolute bg-white border border-gray-300 rounded-lg mt-7 z-10 overflow-hidden shadow-xl  left-0 right-0 "
-      >
-        <li
-          *ngFor="let option of filteredOptions"
-          (mousedown)="onOptionSelected(option)"
-          (keydown.enter)="onOptionSelected(option)"
-          (keydown.space)="onOptionSelected(option)"
-          tabindex="0"
-          class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm w-full"
+      @if (
+        isFocused &&
+        (filteredOptions.length > 0 ||
+          (supportsAddCustom && searchTerm !== "" && !hasExactMatch))
+      ) {
+        <ul
+          class="absolute bg-white border border-gray-300 rounded-lg mt-7 z-10 overflow-hidden shadow-xl  left-0 right-0 "
         >
-          {{ getOptionLabel(option) }}
-        </li>
-        <li
-          *ngIf="supportsAddCustom && !hasExactMatch && searchTerm"
-          (mousedown)="addCustomOption(searchTerm)"
-          (keydown.enter)="addCustomOption(searchTerm)"
-          (keydown.space)="addCustomOption(searchTerm)"
-          class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm w-full flex items-center"
-        >
-          <span class="icon-[material-symbols--add] mr-1 -ml-1 text-primary"></span> Add "{{ searchTerm }}"
-        </li>
-      </ul>
+          @for (option of filteredOptions; track option) {
+            <li
+              (mousedown)="onOptionSelected(option)"
+              (keydown.enter)="onOptionSelected(option)"
+              (keydown.space)="onOptionSelected(option)"
+              tabindex="0"
+              class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm w-full"
+            >
+              {{ getOptionLabel(option) }}
+            </li>
+          }
+          @if (supportsAddCustom && !hasExactMatch && searchTerm) {
+            <li
+              (mousedown)="addCustomOption(searchTerm)"
+              (keydown.enter)="addCustomOption(searchTerm)"
+              (keydown.space)="addCustomOption(searchTerm)"
+              class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm w-full flex items-center"
+            >
+              <span
+                class="icon-[material-symbols--add] mr-1 -ml-1 text-primary"
+              ></span>
+              Add "{{ searchTerm }}"
+            </li>
+          }
+        </ul>
+      }
     </div>
-  `
+  `,
 })
 export class SearchInputComponent {
-  @Input() placeholder: string = 'Search';
+  @Input() placeholder: string = "Search";
   @Input() handleSearch: (searchTerm: string) => void = () => {};
   @Input() options: string[] | [number, string][] = [];
   @Input() label?: string;
-  @Input() id: string = '';
-  @Input() searchTerm: string = '';
+  @Input() id: string = "";
+  @Input() searchTerm: string = "";
   @Input() supportsAddCustom: boolean = false;
 
   @Input() filterLocally: boolean = false;
@@ -113,16 +138,18 @@ export class SearchInputComponent {
   }
 
   constructor() {
-    this.searchSubject.pipe(debounceTime(this.debounceTime), distinctUntilChanged()).subscribe((searchTerm) => {
-      this.filterOptions(searchTerm);
-      if (this.handleSearch) {
-        this.handleSearch(searchTerm);
-      }
-    });
+    this.searchSubject
+      .pipe(debounceTime(this.debounceTime), distinctUntilChanged())
+      .subscribe((searchTerm) => {
+        this.filterOptions(searchTerm);
+        if (this.handleSearch) {
+          this.handleSearch(searchTerm);
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['options'] || changes['searchTerm']) {
+    if (changes["options"] || changes["searchTerm"]) {
       this.filterOptions(this.searchTerm);
     }
   }
@@ -140,10 +167,10 @@ export class SearchInputComponent {
   }
 
   resetSearch(): void {
-    this.searchTerm = '';
+    this.searchTerm = "";
     this.filteredOptions = [];
-    this.searchSubject.next('');
-    this.selectedOption.emit('');
+    this.searchSubject.next("");
+    this.selectedOption.emit("");
   }
 
   onOptionSelected(option: string | [number, string]): void {
@@ -161,14 +188,20 @@ export class SearchInputComponent {
     if (!this.filterLocally) {
       this.filteredOptions = this.options;
       this.hasExactMatch = this.options.some(
-        (option) => this.getOptionLabel(option).toLowerCase() === searchTerm.toLowerCase()
+        (option) =>
+          this.getOptionLabel(option).toLowerCase() ===
+          searchTerm.toLowerCase(),
       );
     } else if (searchTerm) {
       this.filteredOptions = this.options.filter((option) =>
-        this.getOptionLabel(option).toLowerCase().includes(searchTerm.toLowerCase())
+        this.getOptionLabel(option)
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()),
       ) as string[] | [number, string][];
       this.hasExactMatch = this.options.some(
-        (option) => this.getOptionLabel(option).toLowerCase() === searchTerm.toLowerCase()
+        (option) =>
+          this.getOptionLabel(option).toLowerCase() ===
+          searchTerm.toLowerCase(),
       );
     } else {
       this.filteredOptions = [];

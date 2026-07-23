@@ -1,42 +1,55 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModalComponent';
-import { InputFieldComponent, InputType } from '../../../../../components/Input/InputField';
-import { FormsModule } from '@angular/forms';
-import { ButtonVariant, SimpleButtonComponent } from '../../../../../components/Button/SimpleButton';
-import { ToastrService } from 'ngx-toastr';
-import { SearchInputComponent } from '../../../../../components/Input/SearchInput';
-import { ErrorService } from '../../../../../globals/error.service';
-import { TokenService } from '../../../../../security/token.service';
 import {
-  MenusApiService, MenuSummaryListPaginatedDto,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+
+import { SimpleModalComponent } from "../../../../../components/Modal/SimpleModalComponent";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../../../components/Input/InputField";
+import { FormsModule } from "@angular/forms";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../../../components/Button/SimpleButton";
+import { ToastrService } from "ngx-toastr";
+import { SearchInputComponent } from "../../../../../components/Input/SearchInput";
+import { ErrorService } from "../../../../../globals/error.service";
+import { TokenService } from "../../../../../security/token.service";
+import {
+  MenusApiService,
+  MenuSummaryListPaginatedDto,
   OrganizationsApiService,
   OrganizationSummaryDto,
-  OrganizationSummaryListPaginatedDto
+  OrganizationSummaryListPaginatedDto,
 } from "../../../../../../generated";
 
 @Component({
-    selector: 'app-add-meal-to-menu-modal',
-    templateUrl: './add-meal-to-menu-modal.component.html',
-    imports: [
-        RouterModule,
-        CommonModule,
-        FormsModule,
-        SimpleModalComponent,
-        InputFieldComponent,
-        SimpleButtonComponent,
-        SearchInputComponent,
-    ]
+  selector: "app-add-meal-to-menu-modal",
+  templateUrl: "./add-meal-to-menu-modal.component.html",
+  imports: [
+    RouterModule,
+    FormsModule,
+    SimpleModalComponent,
+    InputFieldComponent,
+    SimpleButtonComponent,
+    SearchInputComponent,
+  ],
 })
 export class AddMealToMenuModalComponent implements OnInit {
-  @ViewChild('searchInput') searchInput!: SearchInputComponent;
+  @ViewChild("searchInput") searchInput!: SearchInputComponent;
   @Input() recipeId: number | undefined | null;
 
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
-  modalTitle: string = 'Add this recipe to an organizations menu';
+  modalTitle: string = "Add this recipe to an organizations menu";
   isModalOpen: boolean = false;
 
   menuNames: string[] = [];
@@ -55,16 +68,22 @@ export class AddMealToMenuModalComponent implements OnInit {
     private toastr: ToastrService,
     private errorService: ErrorService,
     private router: Router,
-    protected tokenService: TokenService
+    protected tokenService: TokenService,
   ) {}
 
   ngOnInit(): void {
     if (this.tokenService.isAuthenticated()) {
       // Load previously selected organization and menu from localStorage
-      const storedOrganizationName = localStorage.getItem('addMealToMenuSelectedOrganizationName');
-      const storedOrganizationId = localStorage.getItem('addMealToMenuSelectedOrganizationId');
-      const storedMenuName = localStorage.getItem('addMealToMenuSelectedMenuName');
-      const storedMenuMap = localStorage.getItem('addMealToMenuMenuMap');
+      const storedOrganizationName = localStorage.getItem(
+        "addMealToMenuSelectedOrganizationName",
+      );
+      const storedOrganizationId = localStorage.getItem(
+        "addMealToMenuSelectedOrganizationId",
+      );
+      const storedMenuName = localStorage.getItem(
+        "addMealToMenuSelectedMenuName",
+      );
+      const storedMenuMap = localStorage.getItem("addMealToMenuMenuMap");
 
       if (storedOrganizationName && storedOrganizationId) {
         this.selectedOrganizationName = storedOrganizationName;
@@ -83,7 +102,7 @@ export class AddMealToMenuModalComponent implements OnInit {
           }
         }
       }
-      this.searchOrganization('');
+      this.searchOrganization("");
     }
   }
 
@@ -96,61 +115,76 @@ export class AddMealToMenuModalComponent implements OnInit {
       next: (response: OrganizationSummaryListPaginatedDto) => {
         if (response.content) {
           this.organizationOptions = response.content;
-          this.organizationOptionsNames = this.organizationOptions.map((org) => org.name!);
+          this.organizationOptionsNames = this.organizationOptions.map(
+            (org) => org.name!,
+          );
         } else {
           this.organizationOptions = [];
           this.organizationOptionsNames = [];
         }
       },
       error: (error) => {
-        this.toastr.error('Error fetching organizations.');
+        this.toastr.error("Error fetching organizations.");
       },
     });
   }
 
   onOrganizationSelected(selected: string): void {
-    const selectedOrganization = this.organizationOptions.find((org) => org.name === selected);
+    const selectedOrganization = this.organizationOptions.find(
+      (org) => org.name === selected,
+    );
 
     if (selectedOrganization) {
       this.selectedOrganizationName = selectedOrganization.name;
-      localStorage.setItem('addMealToMenuSelectedOrganizationName', selectedOrganization.name);
+      localStorage.setItem(
+        "addMealToMenuSelectedOrganizationName",
+        selectedOrganization.name,
+      );
       this.selectedOrganizationId = selectedOrganization.id;
-      localStorage.setItem('addMealToMenuSelectedOrganizationId', selectedOrganization.id.toString());
+      localStorage.setItem(
+        "addMealToMenuSelectedOrganizationId",
+        selectedOrganization.id.toString(),
+      );
       this.fetchMenus(selectedOrganization.id);
     }
 
-    if (selected === '' || selected === undefined) {
+    if (selected === "" || selected === undefined) {
       this.organizationOptions = [];
-      this.selectedOrganizationName = '';
-      localStorage.removeItem('addMealToMenuSelectedOrganizationName');
-      localStorage.removeItem('addMealToMenuSelectedOrganizationId');
+      this.selectedOrganizationName = "";
+      localStorage.removeItem("addMealToMenuSelectedOrganizationName");
+      localStorage.removeItem("addMealToMenuSelectedOrganizationId");
     }
   }
 
   fetchMenus(orgId: number): void {
-    this.menusApiService.getMenus(undefined, undefined, undefined, '', orgId).subscribe({
-      next: (menus: MenuSummaryListPaginatedDto) => {
-        this.menuNames = menus.content.map((menu) => menu.name);
-        this.menuMap = menus.content.reduce(
-          (map, menu) => {
-            map[menu.name] = menu.id;
-            return map;
-          },
-          {} as Record<string, number>
-        );
-        // Save the menuMap to localStorage
-        localStorage.setItem('addMealToMenuMenuMap', JSON.stringify(this.menuMap));
-        if (this.menuNames.length === 0) {
-          this.menuNames = ['No menus found'];
-        } else {
-          this.onMenuSelected(this.menuNames[0]);
-        }
-      },
-      error: (err) => {
-        this.menuNames = ['Error loading menus'];
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.menusApiService
+      .getMenus(undefined, undefined, undefined, "", orgId)
+      .subscribe({
+        next: (menus: MenuSummaryListPaginatedDto) => {
+          this.menuNames = menus.content.map((menu) => menu.name);
+          this.menuMap = menus.content.reduce(
+            (map, menu) => {
+              map[menu.name] = menu.id;
+              return map;
+            },
+            {} as Record<string, number>,
+          );
+          // Save the menuMap to localStorage
+          localStorage.setItem(
+            "addMealToMenuMenuMap",
+            JSON.stringify(this.menuMap),
+          );
+          if (this.menuNames.length === 0) {
+            this.menuNames = ["No menus found"];
+          } else {
+            this.onMenuSelected(this.menuNames[0]);
+          }
+        },
+        error: (err) => {
+          this.menuNames = ["Error loading menus"];
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   onMenuSelected(selectedName: string): void {
@@ -158,9 +192,12 @@ export class AddMealToMenuModalComponent implements OnInit {
     this.selectedMenuId = this.menuMap[selectedName];
 
     if (this.selectedMenuName) {
-      localStorage.setItem('addMealToMenuSelectedMenuName', this.selectedMenuName);
+      localStorage.setItem(
+        "addMealToMenuSelectedMenuName",
+        this.selectedMenuName,
+      );
     } else {
-      localStorage.removeItem('addMealToMenuSelectedMenuName');
+      localStorage.removeItem("addMealToMenuSelectedMenuName");
     }
   }
 
@@ -169,21 +206,23 @@ export class AddMealToMenuModalComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    this.menusApiService.addMealToMenu(this.selectedMenuId!, { recipeId: this.recipeId! }).subscribe({
-      next: () => {
-        this.toastr.success('Meal added to menu.');
-        this.isModalOpen = false;
-        this.router.navigate(['/recipes']);
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.menusApiService
+      .addMealToMenu(this.selectedMenuId!, { recipeId: this.recipeId! })
+      .subscribe({
+        next: () => {
+          this.toastr.success("Meal added to menu.");
+          this.isModalOpen = false;
+          this.router.navigate(["/recipes"]);
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   handleCancel(): void {}
 
   navigateToMenus(): void {
-    this.router.navigate(['/menus'], { state: { openCreateModal: true } });
+    this.router.navigate(["/menus"], { state: { openCreateModal: true } });
   }
 }
