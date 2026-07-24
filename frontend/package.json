@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^22.0.8",
     "@angular/platform-browser-dynamic": "^22.0.8",
     "@angular/router": "^22.0.8",
+    "@angular/service-worker": "^22.0.8",
     "@iconify-json/dashicons": "^1.2.0",
     "@iconify-json/fluent-mdl2": "^1.2.1",
     "@iconify-json/gg": "^1.2.1",

@@ -126,6 +126,10 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB
+  mvc:
+    contentnegotiation:
+      media-types:
+        webmanifest: application/manifest+json
 
 logging:
   level:
