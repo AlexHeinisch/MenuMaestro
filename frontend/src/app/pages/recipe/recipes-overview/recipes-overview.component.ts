@@ -1,20 +1,34 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { WidePageLayoutComponent } from '../../../components/Layout/WidePageLayout';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { ErrorService } from '../../../globals/error.service';
-import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
+import { WidePageLayoutComponent } from "../../../components/Layout/WidePageLayout";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { PaginationControlsComponent } from "../../../components/Pagination/PaginationControls";
 import {
   CookingApplianceDto,
-  CookingAppliancesApiService, IngredientDto, IngredientsApiService,
+  CookingAppliancesApiService,
+  IngredientDto,
+  IngredientsApiService,
   RecipeDto,
   RecipeListPaginatedDto,
-  RecipesApiService, RecipeVisibility
+  RecipesApiService,
+  RecipeVisibility,
 } from "../../../../generated";
 
 // Define the types for filter options and filters
@@ -32,21 +46,24 @@ interface Filter {
 }
 
 @Component({
-    imports: [
-        RouterModule,
-        CommonModule,
-        WidePageLayoutComponent,
-        SearchInputComponent,
-        SimpleButtonComponent,
-        FormsModule,
-        InputFieldComponent,
-        LoadingSpinnerComponent,
-        PaginationControlsComponent,
-    ],
-    selector: 'app-recipes-overview',
-    templateUrl: './recipes-overview.component.html'
+  imports: [
+    RouterModule,
+    WidePageLayoutComponent,
+    SearchInputComponent,
+    SimpleButtonComponent,
+    FormsModule,
+    InputFieldComponent,
+    LoadingSpinnerComponent,
+    PaginationControlsComponent,
+  ],
+  selector: "app-recipes-overview",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./recipes-overview.component.html",
 })
 export class RecipesOverviewComponent implements OnInit {
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+
   // Button variant
   ButtonVariant = ButtonVariant;
   InputType = InputType;
@@ -58,13 +75,15 @@ export class RecipesOverviewComponent implements OnInit {
   recipeListPaginated: RecipeListPaginatedDto | undefined = undefined;
   isLoading: boolean = true;
   recipeService: RecipesApiService = inject(RecipesApiService);
-  cookingAppliancesService: CookingAppliancesApiService = inject(CookingAppliancesApiService);
+  cookingAppliancesService: CookingAppliancesApiService = inject(
+    CookingAppliancesApiService,
+  );
   ingredientsService: IngredientsApiService = inject(IngredientsApiService);
-  searchTerm: string = '';
-  authorSearchTerm: string = '';
-  descriptionSearchTerm: string = '';
+  searchTerm: string = "";
+  authorSearchTerm: string = "";
+  descriptionSearchTerm: string = "";
 
-  ingredientSearchTerm: string = '';
+  ingredientSearchTerm: string = "";
   ingredientsOptions: IngredientDto[] = [];
   ingredientsSelected: IngredientDto[] = [];
 
@@ -80,8 +99,8 @@ export class RecipesOverviewComponent implements OnInit {
 
   filters: Filter[] = [
     {
-      id: 'cooking-appliance',
-      name: 'Cooking Appliances',
+      id: "cooking-appliance",
+      name: "Cooking Appliances",
       isExpanded: false,
       options: [],
     },
@@ -89,33 +108,33 @@ export class RecipesOverviewComponent implements OnInit {
   cookingAppliances: CookingApplianceDto[] = [];
   recipeCookingApplianceSearchDtos: number[] = [];
 
-  constructor(private errorService: ErrorService) {}
-
   ngOnInit(): void {
     // Construct cooking appliances filter
-    this.cookingAppliancesService.getCookingAppliances(undefined, undefined, undefined, '').subscribe({
-      next: (response) => {
-        this.cookingAppliances = response.content || [];
-        // Dynamically add cooking appliances options from the fetched appliances
-        this.filters = this.filters.map((filter) => {
-          if (filter.id === 'cooking-appliance') {
-            filter.options = this.cookingAppliances.map((appliance) => {
-              const name = appliance.name || 'Unknown Cooking Appliance'; // Use fallback value for undefined name
-              return {
-                value: name.toLowerCase().replace(/\s+/g, '-'),
-                label: name,
-                checked: false,
-              };
-            });
-          }
-          return filter;
-        });
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.cookingAppliancesService
+      .getCookingAppliances(undefined, undefined, undefined, "")
+      .subscribe({
+        next: (response) => {
+          this.cookingAppliances = response.content || [];
+          // Dynamically add cooking appliances options from the fetched appliances
+          this.filters = this.filters.map((filter) => {
+            if (filter.id === "cooking-appliance") {
+              filter.options = this.cookingAppliances.map((appliance) => {
+                const name = appliance.name || "Unknown Cooking Appliance"; // Use fallback value for undefined name
+                return {
+                  value: name.toLowerCase().replace(/\s+/g, "-"),
+                  label: name,
+                  checked: false,
+                };
+              });
+            }
+            return filter;
+          });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorService.printErrorResponse(err);
+        },
+      });
 
     this.fetchRecipes();
   }
@@ -125,12 +144,13 @@ export class RecipesOverviewComponent implements OnInit {
     // Filter out the checked cooking appliances options
     const checkedCookingAppliances =
       this.filters
-        .find((filter) => filter.id === 'cooking-appliance')
+        .find((filter) => filter.id === "cooking-appliance")
         ?.options.filter((option) => option.checked)
         .map((option) => {
           // Find the cooking appliance id from your list of appliances
           const appliance = this.cookingAppliances.find((appliance) => {
-            const applianceName = appliance?.name?.toLowerCase().replace(/\s+/g, '-') ?? '';
+            const applianceName =
+              appliance?.name?.toLowerCase().replace(/\s+/g, "-") ?? "";
             return applianceName === option.value;
           });
           return appliance
@@ -143,8 +163,12 @@ export class RecipesOverviewComponent implements OnInit {
         .filter((option) => option !== null) || []; // Remove null values (in case an appliance wasn't found)
 
     // Generate the cooking appliance search dto from the checked filters
-    const ingredientIds = this.ingredientsSelected.map((ingredient) => ingredient.id).filter((id) => id !== undefined);
-    this.recipeCookingApplianceSearchDtos = checkedCookingAppliances.map((item) => item.id);
+    const ingredientIds = this.ingredientsSelected
+      .map((ingredient) => ingredient.id)
+      .filter((id) => id !== undefined);
+    this.recipeCookingApplianceSearchDtos = checkedCookingAppliances.map(
+      (item) => item.id,
+    );
 
     this.recipeService
       .getRecipes(
@@ -155,7 +179,7 @@ export class RecipesOverviewComponent implements OnInit {
         this.authorSearchTerm,
         ingredientIds,
         this.recipeCookingApplianceSearchDtos,
-        this.selectedVisibility
+        this.selectedVisibility,
       )
       .subscribe({
         next: (response) => {
@@ -186,53 +210,57 @@ export class RecipesOverviewComponent implements OnInit {
     this.fetchRecipes();
   }
 
-  onDescriptionSearch(searchTerm: any): void {
+  onDescriptionSearch(searchTerm: string): void {
     this.descriptionSearchTerm = searchTerm;
     this.fetchRecipes();
   }
 
-  onAuthorSearch(searchTerm: any): void {
+  onAuthorSearch(searchTerm: string): void {
     this.authorSearchTerm = searchTerm;
     this.fetchRecipes();
   }
 
-  onIngredientSearch(searchTerm: any): void {
+  onIngredientSearch(searchTerm: string): void {
     this.ingredientSearchTerm = searchTerm;
     // Limit suggestions to 5
-    this.ingredientsService.searchIngredients(0, 5, undefined, searchTerm).subscribe({
-      next: (response) => {
-        this.ingredientsOptions = response.content || [];
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.ingredientsService
+      .searchIngredients(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response) => {
+          this.ingredientsOptions = response.content || [];
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   onIngredientSearchSelect(selectedIngredient: string): void {
     const ingredient: IngredientDto | undefined = this.ingredientsOptions.find(
-      (ingredient) => ingredient.name === selectedIngredient
+      (ingredient) => ingredient.name === selectedIngredient,
     );
     if (ingredient !== undefined) {
       // Check if the ingredient is already in the list
-      const exists = this.ingredientsSelected.some((existingIngredient) => existingIngredient.id === ingredient.id);
+      const exists = this.ingredientsSelected.some(
+        (existingIngredient) => existingIngredient.id === ingredient.id,
+      );
 
       if (!exists) {
         this.ingredientsSelected.push(ingredient);
       } else {
-        this.errorService.printErrorResponse('Ingredient already exists in the selection');
+        this.toastr.error("Ingredient already exists in the selection");
       }
     } else {
-      this.errorService.printErrorResponse('Ingredient is undefined and cannot be added');
+      this.toastr.error("Ingredient is undefined and cannot be added");
     }
     this.ingredientsOptions = [];
-    this.ingredientSearchTerm = '';
+    this.ingredientSearchTerm = "";
     this.fetchRecipes();
   }
 
-  removeIngredient(ingredient: any): void {
-    this.ingredientsSelected.splice(ingredient, 1);
+  removeIngredient(index: number): void {
+    this.ingredientsSelected.splice(index, 1);
     this.fetchRecipes();
   }
 
@@ -244,7 +272,8 @@ export class RecipesOverviewComponent implements OnInit {
 
   onFilterChange(filterIndex: number, optionIndex: number): void {
     // Toggle the 'checked' state of the filter option
-    this.filters[filterIndex].options[optionIndex].checked = !this.filters[filterIndex].options[optionIndex].checked;
+    this.filters[filterIndex].options[optionIndex].checked =
+      !this.filters[filterIndex].options[optionIndex].checked;
     this.fetchRecipes();
   }
 
@@ -253,11 +282,11 @@ export class RecipesOverviewComponent implements OnInit {
     // Scroll to the top
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // Optional: makes the scroll smooth
+      behavior: "smooth", // Optional: makes the scroll smooth
     });
   }
 
   onImageError(event: Event): void {
-    (event.target as HTMLImageElement).src = 'default-recipe.png';
+    (event.target as HTMLImageElement).src = "default-recipe.png";
   }
 }

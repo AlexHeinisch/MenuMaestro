@@ -1,11 +1,17 @@
 <page-layout>
-  <form #form="ngForm" (ngSubmit)="onSubmit(form)" (keydown.enter)="onSubmit(form)">
+  <form
+    #form="ngForm"
+    (ngSubmit)="onSubmit(form)"
+    (keydown.enter)="onSubmit(form)"
+  >
     <h1 class="mb-8 text-3xl">Edit Account</h1>
     <div>
-      <div class="bg-white overflow-hidden shadow rounded-lg border">
+      <div class="bg-white overflow-hidden shadow-sm rounded-lg border">
         <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
           <dl class="sm:divide-y sm:divide-gray-200">
-            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 items-center">
+            <div
+              class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 items-center"
+            >
               <dt class="text-sm font-medium text-gray-500">First name</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <input-field
@@ -17,13 +23,17 @@
                   [required]="true"
                 ></input-field>
                 <div>
-                  <div *ngIf="submitted && !accountEditRequestDto.firstName" class="text-xs text-red-600 -mt-3 -mb-1">
-                    <p>Your first name can't be empty!</p>
-                  </div>
+                  @if (submitted && !accountEditRequestDto.firstName) {
+                    <div class="text-xs text-red-600 -mt-3 -mb-1">
+                      <p>Your first name can't be empty!</p>
+                    </div>
+                  }
                 </div>
               </dd>
             </div>
-            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 items-center">
+            <div
+              class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 items-center"
+            >
               <dt class="text-sm font-medium text-gray-500">Last name</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <input-field
@@ -35,13 +45,17 @@
                   [required]="true"
                 ></input-field>
                 <div>
-                  <div *ngIf="submitted && !accountEditRequestDto.lastName" class="text-xs text-red-600 -mt-3 -mb-1">
-                    <p>Your last name can't be empty!</p>
-                  </div>
+                  @if (submitted && !accountEditRequestDto.lastName) {
+                    <div class="text-xs text-red-600 -mt-3 -mb-1">
+                      <p>Your last name can't be empty!</p>
+                    </div>
+                  }
                 </div>
               </dd>
             </div>
-            <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 items-center">
+            <div
+              class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 items-center"
+            >
               <dt class="text-sm font-medium text-gray-500">Email</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <input-field
@@ -53,9 +67,11 @@
                   [required]="true"
                 ></input-field>
                 <div>
-                  <div *ngIf="submitted && !accountEditRequestDto.email" class="text-xs text-red-600 -mt-3 -mb-1">
-                    <p>Your email can't be empty!</p>
-                  </div>
+                  @if (submitted && !accountEditRequestDto.email) {
+                    <div class="text-xs text-red-600 -mt-3 -mb-1">
+                      <p>Your email can't be empty!</p>
+                    </div>
+                  }
                 </div>
               </dd>
             </div>
@@ -75,8 +91,14 @@
         </div>
       </div>
       <div class="flex justify-end mt-4 space-x-2">
-        <simple-button [variant]="ButtonVariant.borderOnly" [routerLink]="['/account']">Cancel</simple-button>
-        <simple-button [variant]="ButtonVariant.primary" [type]="'submit'">Save</simple-button>
+        <simple-button
+          [variant]="ButtonVariant.borderOnly"
+          [routerLink]="['/account']"
+          >Cancel</simple-button
+        >
+        <simple-button [variant]="ButtonVariant.primary" [type]="'submit'"
+          >Save</simple-button
+        >
       </div>
     </div>
   </form>
@@ -91,9 +113,16 @@
   (onSubmit)="handleConfirmModalSubmit()"
 >
   <div>
-    <p>To make sure that it is you changing account data, please re-enter your current password.</p>
+    <p>
+      To make sure that it is you changing account data, please re-enter your
+      current password.
+    </p>
     <br />
-    <form #form="ngForm" (ngSubmit)="handleConfirmModalSubmit()" (keydown.enter)="handleConfirmModalSubmit()">
+    <form
+      #form="ngForm"
+      (ngSubmit)="handleConfirmModalSubmit()"
+      (keydown.enter)="handleConfirmModalSubmit()"
+    >
       <input-field
         [label]="'Your Password'"
         name="confirmOldPassword"

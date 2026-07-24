@@ -1,21 +1,40 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, EventEmitter, Input, Output } from '@angular/core';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { FormsModule, NgForm } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { InfoMessageComponent, InfoMessageType } from '../../../components/Card/InfoMessage';
-import { FileUploadComponent } from '../../../components/FileUpload/file-upload.component';
-import { TokenService } from '../../../security/token.service';
-import { ErrorService } from '../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { RequestIngredientModalComponent } from '../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component';
-import { MarkdownEditorComponent } from '../../../components/Markdown/MarkdownEditor/markdown-editor.component';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+  inject,
+  input,
+  viewChild,
+  viewChildren,
+} from "@angular/core";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import { FormsModule, NgForm } from "@angular/forms";
+
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { ActivatedRoute, Router } from "@angular/router";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import {
+  InfoMessageComponent,
+  InfoMessageType,
+} from "../../../components/Card/InfoMessage";
+import { FileUploadComponent } from "../../../components/FileUpload/file-upload.component";
+import { TokenService } from "../../../security/token.service";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { RequestIngredientModalComponent } from "../../ingredient/components/request-ingredient-modal/request-ingredient-modal.component";
+import { MarkdownEditorComponent } from "../../../components/Markdown/MarkdownEditor/markdown-editor.component";
+import { Observable } from "rxjs";
 import {
   CookingApplianceDto,
   CookingApplianceListPaginatedDto,
@@ -30,30 +49,44 @@ import {
   RecipeCreateEditDto,
   RecipeDto,
   RecipesApiService,
-  RecipeVisibility
+  RecipeVisibility,
 } from "../../../../generated";
 
 @Component({
-    selector: 'app-recipe-edit',
-    imports: [
-        SimpleButtonComponent,
-        InputFieldComponent,
-        SearchInputComponent,
-        PageLayoutComponent,
-        LoadingSpinnerComponent,
-        InfoMessageComponent,
-        FormsModule,
-        CommonModule,
-        FileUploadComponent,
-        RequestIngredientModalComponent,
-        SimpleModalComponent,
-        MarkdownEditorComponent,
-    ],
-    templateUrl: './recipe-edit.component.html'
+  selector: "app-recipe-edit",
+  imports: [
+    SimpleButtonComponent,
+    InputFieldComponent,
+    SearchInputComponent,
+    PageLayoutComponent,
+    LoadingSpinnerComponent,
+    InfoMessageComponent,
+    FormsModule,
+    FileUploadComponent,
+    RequestIngredientModalComponent,
+    SimpleModalComponent,
+    MarkdownEditorComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./recipe-edit.component.html",
 })
 export class EditRecipeComponent implements OnInit {
-  @ViewChild('requestIngredientModalComponent') requestIngredientModalComponent!: RequestIngredientModalComponent;
-  @ViewChildren('ingredientSearchInput') searchInputs!: QueryList<SearchInputComponent>;
+  private recipesApiService = inject(RecipesApiService);
+  private ingredientsApiService = inject(IngredientsApiService);
+  private cookingAppServiceApi = inject(CookingAppliancesApiService);
+  private tokenService = inject(TokenService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+
+  readonly requestIngredientModalComponent =
+    viewChild.required<RequestIngredientModalComponent>(
+      "requestIngredientModalComponent",
+    );
+  readonly searchInputs = viewChildren<SearchInputComponent>(
+    "ingredientSearchInput",
+  );
 
   InputType = InputType;
   ButtonVariant = ButtonVariant;
@@ -61,19 +94,23 @@ export class EditRecipeComponent implements OnInit {
 
   recipeId!: number;
   recipeEdit: RecipeCreateEditDto = {
-    name: '',
+    name: "",
     servings: 1,
     ingredients: [],
     cookingAppliances: [],
-    description: '',
-    author: '',
+    description: "",
+    author: "",
     visibility: RecipeVisibility.Public,
   };
 
-  cookingAppList: { name: string; amount: number | null; id: number | null }[] = [{ name: '', amount: null, id: null }];
-  ingredientsList: { name: string; amount: number | null; unit: IngredientUnitDto | null; id: number | null }[] = [
-    { name: '', amount: null, unit: null, id: null },
-  ];
+  cookingAppList: { name: string; amount: number | null; id: number | null }[] =
+    [{ name: "", amount: null, id: null }];
+  ingredientsList: {
+    name: string;
+    amount: number | null;
+    unit: IngredientUnitDto | null;
+    id: number | null;
+  }[] = [{ name: "", amount: null, unit: null, id: null }];
 
   measurementUnits = Object.values(IngredientUnitDto);
   visibilityTypes = Object.values(RecipeVisibility);
@@ -85,41 +122,34 @@ export class EditRecipeComponent implements OnInit {
   ingredientsOptionsNames: string[] = [];
 
   isRequestIngredientModalOpen: boolean = false;
-  requestedIngredientName: string = '';
-  requestedIngredientModalTitle: string = 'New Ingredient: ';
+  requestedIngredientName: string = "";
+  requestedIngredientModalTitle: string = "New Ingredient: ";
   selectedIndexForRequest: number = -1;
 
   loadingRecipe: boolean = true;
-  errorNoRecipeFound: string = '';
+  errorNoRecipeFound: string = "";
 
   initialImageLink: string | undefined = undefined;
 
-  @Input() fetchRecipeValueHandler: () => Observable<RecipeDto> = () => null!;
-  @Input() redirectPath: string = '';
-  @Input() editRecipeHandler: (recipe: RecipeCreateEditDto) => Observable<any> = () => null!;
-  @Input() title: string = 'Edit Recipe';
-  @Input() hideVisibilityNameAndServings: boolean = false;
-
-  constructor(
-    private recipesApiService: RecipesApiService,
-    private ingredientsApiService: IngredientsApiService,
-    private cookingAppServiceApi: CookingAppliancesApiService,
-    private tokenService: TokenService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private errorService: ErrorService,
-    private toastr: ToastrService
-  ) {}
+  readonly fetchRecipeValueHandler = input<() => Observable<RecipeDto>>(
+    () => null!,
+  );
+  readonly redirectPath = input<string>("");
+  readonly editRecipeHandler = input<
+    (recipe: RecipeCreateEditDto) => Observable<unknown>
+  >(() => null!);
+  readonly title = input<string>("Edit Recipe");
+  readonly hideVisibilityNameAndServings = input<boolean>(false);
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.recipeId = +params['id'];
+      this.recipeId = +params["id"];
       this.fetchRecipe();
     });
   }
 
   fetchRecipe(): void {
-    this.fetchRecipeValueHandler().subscribe({
+    this.fetchRecipeValueHandler()().subscribe({
       next: (recipe) => {
         this.loadingRecipe = false;
         this.recipeEdit = {
@@ -139,7 +169,12 @@ export class EditRecipeComponent implements OnInit {
           amount: ing.amount,
           unit: ing.unit,
           id: ing.id,
-        })) as { name: string; amount: number | null; unit: IngredientUnitDto | null; id: number | null }[];
+        })) as {
+          name: string;
+          amount: number | null;
+          unit: IngredientUnitDto | null;
+          id: number | null;
+        }[];
 
         this.cookingAppList = recipe.cookingAppliances?.map((ca) => ({
           name: ca.name,
@@ -148,7 +183,7 @@ export class EditRecipeComponent implements OnInit {
         })) as { name: string; amount: number | null; id: number | null }[];
       },
       error: (err) => {
-        this.errorNoRecipeFound = 'No recipe with the given id exists.';
+        this.errorNoRecipeFound = "No recipe with the given id exists.";
         this.loadingRecipe = false;
         this.errorService.printErrorResponse(err);
       },
@@ -175,9 +210,9 @@ export class EditRecipeComponent implements OnInit {
     } else {
       this.router.navigate([`/login`]);
     }
-    this.editRecipeHandler(this.recipeEdit).subscribe({
+    this.editRecipeHandler()(this.recipeEdit).subscribe({
       next: (response) => {
-        this.router.navigate([this.redirectPath]);
+        this.router.navigate([this.redirectPath()]);
       },
       error: (error) => {
         this.errorService.printErrorResponse(error);
@@ -186,7 +221,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   addCookingApp() {
-    this.cookingAppList.push({ name: '', amount: null, id: null });
+    this.cookingAppList.push({ name: "", amount: null, id: null });
   }
 
   removeCookingApp(index: number) {
@@ -194,7 +229,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   addIngredient() {
-    this.ingredientsList.push({ name: '', amount: null, unit: null, id: null });
+    this.ingredientsList.push({ name: "", amount: null, unit: null, id: null });
   }
 
   removeIngredient(index: number) {
@@ -202,24 +237,30 @@ export class EditRecipeComponent implements OnInit {
   }
 
   searchIngredient(searchTerm: string) {
-    this.ingredientsApiService.searchIngredients(0, 5, undefined, searchTerm).subscribe({
-      next: (response: IngredientListPaginatedDto) => {
-        if (response.content) {
-          this.ingredientsOptions = response.content;
-          this.ingredientsOptionsNames = this.ingredientsOptions.map((ingredient) => ingredient.name!);
-        } else {
-          this.ingredientsOptions = [];
-          this.ingredientsOptionsNames = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.ingredientsApiService
+      .searchIngredients(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: IngredientListPaginatedDto) => {
+          if (response.content) {
+            this.ingredientsOptions = response.content;
+            this.ingredientsOptionsNames = this.ingredientsOptions.map(
+              (ingredient) => ingredient.name!,
+            );
+          } else {
+            this.ingredientsOptions = [];
+            this.ingredientsOptionsNames = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onIngredientSelected(selected: string, index: number) {
-    const selectedIngredient = this.ingredientsOptions?.find((ingredient) => ingredient.name === selected);
+    const selectedIngredient = this.ingredientsOptions?.find(
+      (ingredient) => ingredient.name === selected,
+    );
 
     if (selectedIngredient) {
       if (selectedIngredient.defaultUnit) {
@@ -236,29 +277,35 @@ export class EditRecipeComponent implements OnInit {
       this.ingredientsList[index].unit = null;
       this.ingredientsList[index].id = null;
       this.ingredientsList[index].amount = null;
-      this.ingredientsList[index].name = '';
+      this.ingredientsList[index].name = "";
     }
   }
 
   searchCookingApp(searchTerm: string) {
-    this.cookingAppServiceApi.getCookingAppliances(0, 5, undefined, searchTerm).subscribe({
-      next: (response: CookingApplianceListPaginatedDto) => {
-        if (response.content) {
-          this.cookingAppOptions = response.content;
-          this.cookingAppOptionsNames = this.cookingAppOptions.map((cookingApp) => cookingApp.name!);
-        } else {
-          this.cookingAppOptions = [];
-          this.cookingAppOptionsNames = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.cookingAppServiceApi
+      .getCookingAppliances(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: CookingApplianceListPaginatedDto) => {
+          if (response.content) {
+            this.cookingAppOptions = response.content;
+            this.cookingAppOptionsNames = this.cookingAppOptions.map(
+              (cookingApp) => cookingApp.name!,
+            );
+          } else {
+            this.cookingAppOptions = [];
+            this.cookingAppOptionsNames = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onCookingAppSelected(selected: string, index: number) {
-    const selectedCookingApp = this.cookingAppOptions.find((cookingApp) => cookingApp.name === selected);
+    const selectedCookingApp = this.cookingAppOptions.find(
+      (cookingApp) => cookingApp.name === selected,
+    );
 
     if (selectedCookingApp) {
       if (selectedCookingApp.name != null) {
@@ -271,14 +318,19 @@ export class EditRecipeComponent implements OnInit {
     } else {
       this.cookingAppList[index].id = null;
       this.cookingAppList[index].amount = null;
-      this.cookingAppList[index].name = '';
+      this.cookingAppList[index].name = "";
     }
   }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
       this.recipeEdit.ingredients = this.ingredientsList
-        .filter((ingredient) => ingredient.name || ingredient.amount !== null || ingredient.unit !== null)
+        .filter(
+          (ingredient) =>
+            ingredient.name ||
+            ingredient.amount !== null ||
+            ingredient.unit !== null,
+        )
         .map((ingredient) => {
           return {
             id: ingredient.id,
@@ -297,38 +349,43 @@ export class EditRecipeComponent implements OnInit {
         });
       this.editRecipe();
     } else {
-      this.errorService.printErrorResponse('Form is invalid');
+      this.toastr.error("Form is invalid");
     }
   }
 
   cancelClicked() {
-    this.router.navigate([this.redirectPath]);
+    this.router.navigate([this.redirectPath()]);
   }
 
   onRequestIngredientSelected(selected: string, index: number) {
     this.isRequestIngredientModalOpen = true;
     this.requestedIngredientName = selected;
-    this.requestedIngredientModalTitle = 'New Ingredient: ' + '"' + this.requestedIngredientName + '"';
+    this.requestedIngredientModalTitle =
+      "New Ingredient: " + '"' + this.requestedIngredientName + '"';
     this.selectedIndexForRequest = index;
   }
 
   handleRequestedIngredientModalSubmit(): void {
-    this.requestIngredientModalComponent.suggestIngredient().subscribe({
-      next: (ingredient) => {
-        this.ingredientsList[this.selectedIndexForRequest].unit = ingredient.defaultUnit;
-        this.ingredientsList[this.selectedIndexForRequest].id = ingredient.id;
-        this.ingredientsList[this.selectedIndexForRequest].amount = 1;
-        this.ingredientsList[this.selectedIndexForRequest].name = this.requestedIngredientName;
-      },
-      error: (err) => {
-        this.ingredientsList[this.selectedIndexForRequest].name = '';
-        this.searchInputs.toArray()[this.selectedIndexForRequest].resetSearch();
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.requestIngredientModalComponent()
+      .suggestIngredient()
+      .subscribe({
+        next: (ingredient) => {
+          this.ingredientsList[this.selectedIndexForRequest].unit =
+            ingredient.defaultUnit;
+          this.ingredientsList[this.selectedIndexForRequest].id = ingredient.id;
+          this.ingredientsList[this.selectedIndexForRequest].amount = 1;
+          this.ingredientsList[this.selectedIndexForRequest].name =
+            this.requestedIngredientName;
+        },
+        error: (err) => {
+          this.ingredientsList[this.selectedIndexForRequest].name = "";
+          this.searchInputs()[this.selectedIndexForRequest].resetSearch();
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   handleRequestedIngredientModalCancel(): void {
-    this.searchInputs.toArray()[this.selectedIndexForRequest].resetSearch();
+    this.searchInputs()[this.selectedIndexForRequest].resetSearch();
   }
 }

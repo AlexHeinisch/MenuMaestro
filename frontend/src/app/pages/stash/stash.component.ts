@@ -1,48 +1,72 @@
-import { Component, OnInit } from '@angular/core';
-import { PageLayoutComponent } from '../../components/Layout/PageLayout';
-import { LoadingSpinnerComponent } from '../../components/LoadingSpinner/LoadingSpinner';
-import { NgForOf, NgIf } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { ButtonVariant, SimpleButtonComponent } from '../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../components/Input/InputField';
-import { FormsModule } from '@angular/forms';
-import { SimpleModalComponent } from '../../components/Modal/SimpleModalComponent';
-import { SearchInputComponent } from '../../components/Input/SearchInput';
-import { ToastrService } from 'ngx-toastr';
-import { ErrorService } from '../../globals/error.service';
-import { IngredientComputationService } from '../../service/ingredient-computation.service';
-import { TokenService } from '../../security/token.service';
 import {
-  IngredientDto, IngredientListPaginatedDto, IngredientsApiService,
-  IngredientUnitDto, IngredientUseCreateEditDto,
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { PageLayoutComponent } from "../../components/Layout/PageLayout";
+import { LoadingSpinnerComponent } from "../../components/LoadingSpinner/LoadingSpinner";
+import { HttpErrorResponse } from "@angular/common/http";
+
+import { ActivatedRoute } from "@angular/router";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../components/Input/InputField";
+import { FormsModule } from "@angular/forms";
+import { SimpleModalComponent } from "../../components/Modal/SimpleModalComponent";
+import { SearchInputComponent } from "../../components/Input/SearchInput";
+import { ToastrService } from "ngx-toastr";
+import { ErrorService } from "../../globals/error.service";
+import { IngredientComputationService } from "../../service/ingredient-computation.service";
+import { TokenService } from "../../security/token.service";
+import {
+  IngredientDto,
+  IngredientListPaginatedDto,
+  IngredientsApiService,
+  IngredientUnitDto,
+  IngredientUseCreateEditDto,
   IngredientUseDto,
   StashApiService,
-  StashResponseDto
+  StashResponseDto,
 } from "../../../generated";
 
 @Component({
-    selector: 'app-stash',
-    imports: [
-        PageLayoutComponent,
-        LoadingSpinnerComponent,
-        NgIf,
-        NgForOf,
-        SimpleButtonComponent,
-        InputFieldComponent,
-        FormsModule,
-        SimpleModalComponent,
-        SearchInputComponent,
-    ],
-    templateUrl: './stash.component.html'
+  selector: "app-stash",
+  imports: [
+    PageLayoutComponent,
+    LoadingSpinnerComponent,
+    SimpleButtonComponent,
+    InputFieldComponent,
+    FormsModule,
+    SimpleModalComponent,
+    SearchInputComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./stash.component.html",
 })
 export class StashComponent implements OnInit {
+  private stashApiService = inject(StashApiService);
+  private ingredientsApiService = inject(IngredientsApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  protected tokenService = inject(TokenService);
+
   measurementUnits = Object.values(IngredientUnitDto);
 
   stashId: number = -1;
   loadingError: boolean = false;
 
   stash: StashResponseDto | undefined;
-  checkableEntries: { checked: boolean; ingredient: IngredientUseDto }[] | undefined;
+  checkableEntries:
+    | { checked: boolean; ingredient: IngredientUseDto }[]
+    | undefined;
   editStashOriginalEntry: IngredientUseDto | null = null;
   editStashEntry: IngredientUseDto | null = null;
 
@@ -56,23 +80,13 @@ export class StashComponent implements OnInit {
 
   deleteModalIngredient: IngredientUseDto | null = null;
 
-  moveStashSearchTerm: string = '';
+  moveStashSearchTerm: string = "";
   stashSearchOptions: [number, string][] = [];
   moveToStashId: number | null = null;
 
-  constructor(
-    private stashApiService: StashApiService,
-    private ingredientsApiService: IngredientsApiService,
-    private ingredientComputationService: IngredientComputationService,
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    protected tokenService: TokenService
-  ) {}
-
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.stashId = +params['id'];
+      this.stashId = +params["id"];
     });
     this.loadStash();
   }
@@ -84,7 +98,9 @@ export class StashComponent implements OnInit {
         this.checkableEntries = stashData.ingredients.map((ingredient) => {
           return { checked: false, ingredient: ingredient };
         });
-        this.checkableEntries.sort((a, b) => a.ingredient.name.localeCompare(b.ingredient.name));
+        this.checkableEntries.sort((a, b) =>
+          a.ingredient.name.localeCompare(b.ingredient.name),
+        );
         if (onFinished !== null) {
           onFinished();
         }
@@ -96,7 +112,7 @@ export class StashComponent implements OnInit {
     });
   }
 
-  onEditModalShow(event: any): void {
+  onEditModalShow(event: boolean): void {
     if (!event) {
       this.editStashOriginalEntry = null;
       this.editStashEntry = null;
@@ -114,7 +130,7 @@ export class StashComponent implements OnInit {
     this.ingredientsOptions = [];
     this.ingredientsOptionsNames = [];
     this.ingredientToAddSelected = false;
-    this.moveStashSearchTerm = '';
+    this.moveStashSearchTerm = "";
     this.stashSearchOptions = [];
     this.moveToStashId = null;
     this.deleteModalIngredient = null;
@@ -130,23 +146,37 @@ export class StashComponent implements OnInit {
     const entryUpdate = this.editStashEntry!;
     if (this.editStashEntry!.amount === 0) {
       this.stashApiService
-        .updateStashIngredients(this.stashId, [this.editStashEntry!], this.getStashEtag(), 'response')
+        .updateStashIngredients(
+          this.stashId,
+          [this.editStashEntry!],
+          this.getStashEtag(),
+          "response",
+        )
         .subscribe({
           next: (response) => {
-            this.stash!.versionNumber = response.headers.get('ETag')!;
+            this.stash!.versionNumber = response.headers.get("ETag")!;
             this.checkableEntries = this.checkableEntries!.filter(
-              (i) => i.ingredient.id !== entryToUpdate.id || i.ingredient.unit !== entryToUpdate.unit
+              (i) =>
+                i.ingredient.id !== entryToUpdate.id ||
+                i.ingredient.unit !== entryToUpdate.unit,
             );
           },
           error: (err) => this.handleStashUpdateError(err),
         });
-    } else if (this.editStashOriginalEntry!.unit === this.editStashEntry!.unit) {
+    } else if (
+      this.editStashOriginalEntry!.unit === this.editStashEntry!.unit
+    ) {
       // send single update
       this.stashApiService
-        .updateStashIngredients(this.stashId, [this.editStashEntry!], this.getStashEtag(), 'response')
+        .updateStashIngredients(
+          this.stashId,
+          [this.editStashEntry!],
+          this.getStashEtag(),
+          "response",
+        )
         .subscribe({
           next: (response) => {
-            this.stash!.versionNumber = response.headers.get('ETag')!;
+            this.stash!.versionNumber = response.headers.get("ETag")!;
             Object.assign(entryToUpdate, entryUpdate);
           },
           error: (err) => this.handleStashUpdateError(err),
@@ -158,7 +188,9 @@ export class StashComponent implements OnInit {
         amount: 0,
       };
       const stashEntryWithSameIngredientAndUnit = this.checkableEntries!.filter(
-        (entry) => entry.ingredient.id === entryToUpdate.id && entry.ingredient.unit === entryUpdate.unit
+        (entry) =>
+          entry.ingredient.id === entryToUpdate.id &&
+          entry.ingredient.unit === entryUpdate.unit,
       );
       if (stashEntryWithSameIngredientAndUnit.length > 0) {
         // need to sum amounts
@@ -166,14 +198,21 @@ export class StashComponent implements OnInit {
         this.editStashEntry!.amount += other.ingredient.amount;
         // remove the other entry
         this.checkableEntries = this.checkableEntries!.filter(
-          (i) => i.ingredient.id !== entryUpdate.id || i.ingredient.unit !== entryUpdate.unit
+          (i) =>
+            i.ingredient.id !== entryUpdate.id ||
+            i.ingredient.unit !== entryUpdate.unit,
         );
       }
       this.stashApiService
-        .updateStashIngredients(this.stashId, [this.editStashEntry!, oldEntryRemove], this.getStashEtag(), 'response')
+        .updateStashIngredients(
+          this.stashId,
+          [this.editStashEntry!, oldEntryRemove],
+          this.getStashEtag(),
+          "response",
+        )
         .subscribe({
           next: (response) => {
-            this.stash!.versionNumber = response.headers.get('ETag')!;
+            this.stash!.versionNumber = response.headers.get("ETag")!;
             Object.assign(entryToUpdate, entryUpdate);
           },
           error: (err) => this.handleStashUpdateError(err),
@@ -182,12 +221,12 @@ export class StashComponent implements OnInit {
     this.onEditModalShow(false);
   }
 
-  setShowAddIngredientModal(event: any): void {
+  setShowAddIngredientModal(event: boolean): void {
     if (!event) {
       this.ingredientToAdd = null;
     } else {
       this.ingredientToAdd = {
-        name: '',
+        name: "",
         unit: IngredientUnitDto.Grams,
         amount: 1,
         id: -1,
@@ -200,38 +239,47 @@ export class StashComponent implements OnInit {
   }
 
   get selectionNotEmpty(): boolean {
-    return this.checkableEntries !== undefined && this.checkableEntries.some((e) => e.checked);
+    return (
+      this.checkableEntries !== undefined &&
+      this.checkableEntries.some((e) => e.checked)
+    );
   }
 
   formatStringInput(stringInput: string | undefined): string {
-    if (!stringInput) return 'Unknown Status';
+    if (!stringInput) return "Unknown Status";
 
     return stringInput
       .toLowerCase()
-      .replace(/_/g, ' ')
-      .replace(/\band\b/g, '&')
+      .replace(/_/g, " ")
+      .replace(/\band\b/g, "&")
       .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize the first letter of each word
   }
 
   searchIngredient(searchTerm: string) {
-    this.ingredientsApiService.searchIngredients(0, 5, undefined, searchTerm).subscribe({
-      next: (response: IngredientListPaginatedDto) => {
-        if (response.content) {
-          this.ingredientsOptions = response.content;
-          this.ingredientsOptionsNames = this.ingredientsOptions.map((ingredient) => ingredient.name!);
-        } else {
-          this.ingredientsOptions = [];
-          this.ingredientsOptionsNames = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.ingredientsApiService
+      .searchIngredients(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: IngredientListPaginatedDto) => {
+          if (response.content) {
+            this.ingredientsOptions = response.content;
+            this.ingredientsOptionsNames = this.ingredientsOptions.map(
+              (ingredient) => ingredient.name!,
+            );
+          } else {
+            this.ingredientsOptions = [];
+            this.ingredientsOptionsNames = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onIngredientSelectedToAdd(selected: string) {
-    const selectedIngredient = this.ingredientsOptions.find((ingredient) => ingredient.name === selected);
+    const selectedIngredient = this.ingredientsOptions.find(
+      (ingredient) => ingredient.name === selected,
+    );
     if (selectedIngredient) {
       this.ingredientToAdd = {
         id: selectedIngredient.id,
@@ -243,7 +291,7 @@ export class StashComponent implements OnInit {
     } else {
       this.ingredientToAdd!.unit = null as unknown as IngredientUnitDto;
       this.ingredientToAdd!.id = -1;
-      this.ingredientToAdd!.name = '';
+      this.ingredientToAdd!.name = "";
       this.ingredientToAddSelected = false;
     }
   }
@@ -252,7 +300,9 @@ export class StashComponent implements OnInit {
     if (this.ingredientToAddSelected) {
       const ingredientToAdd = this.ingredientToAdd!;
       const stashEntryWithSameIngredientAndUnit = this.checkableEntries!.filter(
-        (entry) => entry.ingredient.id === ingredientToAdd.id && entry.ingredient.unit === ingredientToAdd.unit
+        (entry) =>
+          entry.ingredient.id === ingredientToAdd.id &&
+          entry.ingredient.unit === ingredientToAdd.unit,
       );
       if (stashEntryWithSameIngredientAndUnit.length > 0) {
         // need to sum amounts
@@ -261,13 +311,23 @@ export class StashComponent implements OnInit {
         other.ingredient.amount = ingredientToAdd.amount;
       }
       this.stashApiService
-        .updateStashIngredients(this.stashId, [ingredientToAdd], this.getStashEtag(), 'response')
+        .updateStashIngredients(
+          this.stashId,
+          [ingredientToAdd],
+          this.getStashEtag(),
+          "response",
+        )
         .subscribe({
           next: (response) => {
-            this.stash!.versionNumber = response.headers.get('ETag')!;
+            this.stash!.versionNumber = response.headers.get("ETag")!;
             if (stashEntryWithSameIngredientAndUnit.length === 0) {
-              this.checkableEntries!.push({ checked: this.selectAll, ingredient: ingredientToAdd });
-              this.checkableEntries!.sort((a, b) => a.ingredient.name.localeCompare(b.ingredient.name));
+              this.checkableEntries!.push({
+                checked: this.selectAll,
+                ingredient: ingredientToAdd,
+              });
+              this.checkableEntries!.sort((a, b) =>
+                a.ingredient.name.localeCompare(b.ingredient.name),
+              );
             }
           },
           error: (err) => this.handleStashUpdateError(err),
@@ -294,11 +354,14 @@ export class StashComponent implements OnInit {
     return this.checkableEntries?.filter((e) => e.checked).length || 0;
   }
 
-  handleStashUpdateError(error: any) {
+  handleStashUpdateError(error: HttpErrorResponse) {
     // if-match: precondition failed
     if (error.status === 412) {
       this.loadStash(() =>
-        this.toastr.error('Stash was changed by someone else. Please review the changes and try again', 'Error')
+        this.toastr.error(
+          "Stash was changed by someone else. Please review the changes and try again",
+          "Error",
+        ),
       );
     } else {
       this.errorService.printErrorResponse(error);
@@ -310,14 +373,16 @@ export class StashComponent implements OnInit {
     if (!searchTerm) {
       this.moveToStashId = null;
     }
-    this.stashApiService.searchStashes(this.moveStashSearchTerm, 0, 15).subscribe({
-      next: (response) => {
-        this.stashSearchOptions = response.map((s) => [s.id, s.name]);
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.stashApiService
+      .searchStashes(this.moveStashSearchTerm, 0, 15)
+      .subscribe({
+        next: (response) => {
+          this.stashSearchOptions = response.map((s) => [s.id, s.name]);
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onStashSelectedForMoving(selectedStashId: number) {
@@ -327,29 +392,44 @@ export class StashComponent implements OnInit {
   onMoveIngredientsSubmit() {
     const otherStashId = this.moveToStashId!;
     this.moveToStashId = null;
-    this.moveStashSearchTerm = '';
+    this.moveStashSearchTerm = "";
     this.moveToStashId = null;
-    const entriesToMove = this.checkableEntries!.filter((e) => e.checked).map((entry) => entry.ingredient);
-    this.stashApiService.moveStashIngredients(this.stashId, otherStashId, entriesToMove).subscribe({
-      next: (response) => {
-        this.loadStash();
-        this.toastr.success('The selected ingredients were moved to the selected stash.');
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    const entriesToMove = this.checkableEntries!.filter((e) => e.checked).map(
+      (entry) => entry.ingredient,
+    );
+    this.stashApiService
+      .moveStashIngredients(this.stashId, otherStashId, entriesToMove)
+      .subscribe({
+        next: (response) => {
+          this.loadStash();
+          this.toastr.success(
+            "The selected ingredients were moved to the selected stash.",
+          );
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   onBulkDeleteSelected() {
-    const entriesToDelete = this.checkableEntries!.filter((e) => e.checked).map((entry) => entry.ingredient);
+    const entriesToDelete = this.checkableEntries!.filter((e) => e.checked).map(
+      (entry) => entry.ingredient,
+    );
     entriesToDelete.forEach((entry) => (entry.amount = 0));
     this.stashApiService
-      .updateStashIngredients(this.stashId, entriesToDelete, this.getStashEtag(), 'response')
+      .updateStashIngredients(
+        this.stashId,
+        entriesToDelete,
+        this.getStashEtag(),
+        "response",
+      )
       .subscribe({
         next: (response) => {
-          this.stash!.versionNumber = response.headers.get('ETag')!;
-          this.checkableEntries! = this.checkableEntries!.filter((e) => !e.checked);
+          this.stash!.versionNumber = response.headers.get("ETag")!;
+          this.checkableEntries! = this.checkableEntries!.filter(
+            (e) => !e.checked,
+          );
         },
         error: (err) => this.handleStashUpdateError(err),
       });
@@ -365,17 +445,22 @@ export class StashComponent implements OnInit {
   }
 
   prepareAmountAndUnit(amount: number, unit: IngredientUnitDto): string {
-    return this.ingredientComputationService.roundAmountForDisplayString(amount, unit);
+    return this.ingredientComputationService.roundAmountForDisplayString(
+      amount,
+      unit,
+    );
   }
 
   hasEditPermission(): boolean {
     if (this.tokenService.isAuthenticated() && this.stash !== undefined) {
-      let orgPermission = this.tokenService.getPermissionForOrganization(this.stash.correspondingOrganizationId);
+      let orgPermission = this.tokenService.getPermissionForOrganization(
+        this.stash.correspondingOrganizationId,
+      );
       return (
         this.tokenService.isAdmin() ||
-        orgPermission === 'ADMIN' ||
-        orgPermission === 'PLANNER' ||
-        orgPermission === 'OWNER'
+        orgPermission === "ADMIN" ||
+        orgPermission === "PLANNER" ||
+        orgPermission === "OWNER"
       );
     } else {
       return false;

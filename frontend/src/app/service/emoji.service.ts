@@ -235,7 +235,7 @@ export class EmojiService {
         { emoji: '💔', name: 'broken heart', keywords: ['heart', 'broken', 'sad', 'heartbreak'], category: 'Symbols' },
         { emoji: '✅', name: 'check mark button', keywords: ['check', 'yes', 'done', 'correct'], category: 'Symbols' },
         { emoji: '❌', name: 'cross mark', keywords: ['x', 'cross', 'no', 'wrong', 'cancel'], category: 'Symbols' },
-        { emoji: '⭕', name: 'hollow red circle', keywords: ['circle', 'o', 'ring'], category: 'Symbols' },
+        { emoji: '⭕', name: 'hollow red circle', keywords: ['circle', 'o', 'ring-3'], category: 'Symbols' },
         { emoji: '❗', name: 'exclamation mark', keywords: ['exclamation', 'warning', 'important'], category: 'Symbols' },
         { emoji: '❓', name: 'question mark', keywords: ['question', 'help', 'confused'], category: 'Symbols' },
         { emoji: '⚠️', name: 'warning', keywords: ['warning', 'caution', 'alert'], category: 'Symbols' },

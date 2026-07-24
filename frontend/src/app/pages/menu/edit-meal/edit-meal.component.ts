@@ -1,35 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
-import { EditRecipeComponent } from '../../recipe/recipe-edit/recipe-edit.component';
-import { NgIf } from '@angular/common';
-import { IngredientComputationService } from '../../../service/ingredient-computation.service';
-import { ToastrService } from 'ngx-toastr';
-import {IngredientUnitDto, MealEditDto, MealsApiService, RecipeCreateEditDto, RecipeDto} from "../../../../generated";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { map, Observable, tap } from "rxjs";
+import { EditRecipeComponent } from "../../recipe/recipe-edit/recipe-edit.component";
+
+import { IngredientComputationService } from "../../../service/ingredient-computation.service";
+import { ToastrService } from "ngx-toastr";
+import {
+  IngredientUnitDto,
+  MealEditDto,
+  MealsApiService,
+  RecipeCreateEditDto,
+  RecipeDto,
+} from "../../../../generated";
 
 @Component({
-    selector: 'app-edit-meal-component',
-    imports: [EditRecipeComponent, NgIf],
-    templateUrl: './edit-meal.component.html'
+  selector: "app-edit-meal-component",
+  imports: [EditRecipeComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./edit-meal.component.html",
 })
 export class EditMealComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private mealsApiService = inject(MealsApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+
   menuId: number | undefined;
   mealId: number | undefined;
   meal: MealEditDto | undefined;
 
-  constructor(
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    private mealsApiService: MealsApiService,
-    private ingredientComputationService: IngredientComputationService
-  ) {
-    console.log('constructor');
+  constructor() {
+    console.log("constructor");
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.menuId = +params['menuId'];
-      this.mealId = +params['mealId'];
+      this.menuId = +params["menuId"];
+      this.mealId = +params["mealId"];
     });
   }
 
@@ -45,7 +57,11 @@ export class EditMealComponent implements OnInit {
         meal.recipe.ingredients.forEach((i) => {
           i.amount = i.amount * scalingFactor;
 
-          const [roundedAmount, newUnit] = this.ingredientComputationService.roundAmountForDisplay(i.amount, i.unit);
+          const [roundedAmount, newUnit] =
+            this.ingredientComputationService.roundAmountForDisplay(
+              i.amount,
+              i.unit,
+            );
 
           i.amount = roundedAmount;
           i.unit = newUnit as IngredientUnitDto;
@@ -53,17 +69,17 @@ export class EditMealComponent implements OnInit {
         meal.recipe.servings = meal.numberOfPeople;
         this.meal = meal;
         return meal.recipe as RecipeDto;
-      })
+      }),
     );
   }
 
-  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<any> {
+  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<unknown> {
     const meal = this.meal!;
     meal.recipe = recipeEdit;
     meal.name = recipeEdit.name;
     meal.numberOfPeople = recipeEdit.servings;
     return this.mealsApiService
       .editMealById(this.mealId!, meal)
-      .pipe(tap((success) => this.toastr.success('Meal content edited.')));
+      .pipe(tap((success) => this.toastr.success("Meal content edited.")));
   }
 }

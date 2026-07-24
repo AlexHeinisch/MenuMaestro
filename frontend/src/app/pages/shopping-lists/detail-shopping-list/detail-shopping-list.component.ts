@@ -1,29 +1,48 @@
-import {Component, OnInit} from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { TokenService } from '../../../security/token.service';
-import { IngredientComputationService } from '../../../service/ingredient-computation.service';
-import { ShoppingListAddItemComponent } from './shopping-list-add-item/shopping-list-add-item.component';
-import { ToastrService } from 'ngx-toastr';
-import { QRCodeComponent } from 'angularx-qrcode';
-import { ErrorService } from '../../../globals/error.service';
-import { StringFormattingService } from '../../../service/string-formatting.service';
-import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client/dist/sockjs';
-import { ShoppingListUpdateMessage, ShoppingListUpdateType } from '../../../websocket/shopping-list-update.message';
-import { Globals } from '../../../globals/globals';
 import {
-  IngredientCategory, IngredientUnitDto, OrganizationRoleEnum,
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import { FormsModule } from "@angular/forms";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { TokenService } from "../../../security/token.service";
+import { IngredientComputationService } from "../../../service/ingredient-computation.service";
+import { ShoppingListAddItemComponent } from "./shopping-list-add-item/shopping-list-add-item.component";
+import { ToastrService } from "ngx-toastr";
+import { QRCodeComponent } from "angularx-qrcode";
+import { ErrorService } from "../../../globals/error.service";
+import { StringFormattingService } from "../../../service/string-formatting.service";
+import { Client } from "@stomp/stompjs";
+import SockJS from "sockjs-client/dist/sockjs";
+import {
+  ShoppingListUpdateMessage,
+  ShoppingListUpdateType,
+} from "../../../websocket/shopping-list-update.message";
+import { Globals } from "../../../globals/globals";
+import {
+  IngredientCategory,
+  IngredientUnitDto,
+  OrganizationRoleEnum,
   ShoppingListApiService,
-  ShoppingListDto, ShoppingListEditDto,
-  ShoppingListIngredientDto, ShoppingListIngredientEditDto, ShoppingListStatus, ShoppingListTokenDto
+  ShoppingListDto,
+  ShoppingListEditDto,
+  ShoppingListIngredientDto,
+  ShoppingListIngredientEditDto,
+  ShoppingListStatus,
+  ShoppingListTokenDto,
 } from "../../../../generated";
 
 type IngredientMap = {
@@ -31,23 +50,33 @@ type IngredientMap = {
 };
 
 @Component({
-    selector: 'app-detail-shopping-list',
-    imports: [
-        RouterModule,
-        CommonModule,
-        PageLayoutComponent,
-        SimpleButtonComponent,
-        FormsModule,
-        LoadingSpinnerComponent,
-        InputFieldComponent,
-        SimpleModalComponent,
-        ShoppingListAddItemComponent,
-        QRCodeComponent,
-    ],
-    templateUrl: './detail-shopping-list.component.html'
+  selector: "app-detail-shopping-list",
+  imports: [
+    RouterModule,
+    PageLayoutComponent,
+    SimpleButtonComponent,
+    FormsModule,
+    LoadingSpinnerComponent,
+    InputFieldComponent,
+    SimpleModalComponent,
+    ShoppingListAddItemComponent,
+    QRCodeComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./detail-shopping-list.component.html",
 })
 export class DetailShoppingListComponent implements OnInit {
-  anonymousUserName: string = 'anonymousUser';
+  private route = inject(ActivatedRoute);
+  private shoppingListApiService = inject(ShoppingListApiService);
+  private tokenService = inject(TokenService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private stringFormattingService = inject(StringFormattingService);
+  private toastr = inject(ToastrService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
+  private globals = inject(Globals);
+
+  anonymousUserName: string = "anonymousUser";
 
   ShoppingListStatus = ShoppingListStatus;
   InputType = InputType;
@@ -72,63 +101,65 @@ export class DetailShoppingListComponent implements OnInit {
   errorMessage: string | undefined = undefined;
 
   isCloseShoppingListModalOpen: boolean = false;
-  closeShoppingModalText: string = '';
+  closeShoppingModalText: string = "";
 
   stompClient: Client | undefined = undefined;
 
-  constructor(
-    private route: ActivatedRoute,
-    private shoppingListApiService: ShoppingListApiService,
-    private tokenService: TokenService,
-    private ingredientComputationService: IngredientComputationService,
-    private stringFormattingService: StringFormattingService,
-    private toastr: ToastrService,
-    private errorService: ErrorService,
-    private router: Router,
-    private globals: Globals
-  ) {}
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.shareToken = params['token'];
+      this.shareToken = params["token"];
       if (this.shareToken && this.tokenService.isAuthenticated()) {
-        this.toastr.info("You don't need an access token since you are already logged in!");
+        this.toastr.info(
+          "You don't need an access token since you are already logged in!",
+        );
         this.shareToken = undefined;
       }
       if (!this.shareToken && !this.tokenService.isAuthenticated()) {
-        this.router.navigate(['/login']);
+        this.router.navigate(["/login"]);
       }
 
       this.route.params.subscribe((params) => {
-        this.shoppingListId = +params['id'];
+        this.shoppingListId = +params["id"];
         this.fetchShoppingList(this.shoppingListId);
       });
 
       this.stompClient = new Client({
-        brokerURL: this.globals.backendUri + 'ws',
-        connectHeaders: { 'X-Authorization': (this.shareToken ?? this.tokenService.getToken()).toString() },
+        brokerURL: this.globals.backendUri + "ws",
+        connectHeaders: {
+          "X-Authorization": (
+            this.shareToken ?? this.tokenService.getToken()
+          ).toString(),
+        },
         debug: function (str) {},
         reconnectDelay: 5000,
         webSocketFactory: () => {
-          return new SockJS(this.globals.backendUri + 'ws');
+          return new SockJS(this.globals.backendUri + "ws");
         },
         onConnect: () => {
           if (this.stompClient == undefined) {
             return; // can never happen
           }
           this.stompClient.subscribe(
-            '/shopping-lists/' + this.shoppingListId,
+            "/shopping-lists/" + this.shoppingListId,
             (msg) => {
               this.onShoppingListUpdateReceived(JSON.parse(msg.body));
             },
-            { 'X-Authorization': (this.shareToken ?? this.tokenService.getToken()).toString() }
+            {
+              "X-Authorization": (
+                this.shareToken ?? this.tokenService.getToken()
+              ).toString(),
+            },
           );
         },
         onStompError: (frame) => {
-          this.handleWebSocketError('WebSocket connection error: Unable to connect to shopping list updates');
+          this.handleWebSocketError(
+            "WebSocket connection error: Unable to connect to shopping list updates",
+          );
         },
         onWebSocketError: (event) => {
-          this.handleWebSocketError('WebSocket connection error: Unable to connect to shopping list updates');
+          this.handleWebSocketError(
+            "WebSocket connection error: Unable to connect to shopping list updates",
+          );
         },
       });
       this.stompClient.activate();
@@ -142,12 +173,16 @@ export class DetailShoppingListComponent implements OnInit {
   handleWebSocketError(message: string): void {
     this.toastr.error(message);
     if (this.shareToken) {
-      this.toastr.error('Your share token is invalid or has expired. Redirecting to home page...');
+      this.toastr.error(
+        "Your share token is invalid or has expired. Redirecting to home page...",
+      );
       setTimeout(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(["/"]);
       }, 3000);
     } else {
-      this.toastr.error('Unable to establish live updates connection. Please refresh the page.');
+      this.toastr.error(
+        "Unable to establish live updates connection. Please refresh the page.",
+      );
     }
   }
 
@@ -157,7 +192,9 @@ export class DetailShoppingListComponent implements OnInit {
         this.fetchShoppingList(this.shoppingListId);
         break;
       case ShoppingListUpdateType.MODIFY:
-        const itemUpdate = this.shoppingListDto.ingredients.find((item) => item.id == msg!.shoppingListItemId);
+        const itemUpdate = this.shoppingListDto.ingredients.find(
+          (item) => item.id == msg!.shoppingListItemId,
+        );
         itemUpdate!.checkedBy = msg.checkedBy!;
         itemUpdate!.isChecked = msg.isChecked!;
         itemUpdate!.ingredient.amount = msg.amount!;
@@ -165,25 +202,27 @@ export class DetailShoppingListComponent implements OnInit {
         this.getGroupedListOfIngredients();
         break;
       case ShoppingListUpdateType.CLOSED:
-        this.toastr.info('Shopping list has been closed!');
-        this.router.navigate(['']);
+        this.toastr.info("Shopping list has been closed!");
+        this.router.navigate([""]);
         break;
     }
   }
 
   fetchShoppingList(shoppingListId: number): void {
-    this.shoppingListApiService.getShoppingListById(shoppingListId, this.shareToken).subscribe({
-      next: (shoppingListDto: ShoppingListDto) => {
-        this.loadingShoppingList = false;
-        this.shoppingListDto = shoppingListDto;
-        this.getGroupedListOfIngredients();
-      },
-      error: (err) => {
-        this.loadingShoppingList = false;
-        this.errorService.printErrorResponse(err);
-        this.errorMessage = err.error.message;
-      },
-    });
+    this.shoppingListApiService
+      .getShoppingListById(shoppingListId, this.shareToken)
+      .subscribe({
+        next: (shoppingListDto: ShoppingListDto) => {
+          this.loadingShoppingList = false;
+          this.shoppingListDto = shoppingListDto;
+          this.getGroupedListOfIngredients();
+        },
+        error: (err) => {
+          this.loadingShoppingList = false;
+          this.errorService.printErrorResponse(err);
+          this.errorMessage = err.error.message;
+        },
+      });
   }
 
   getCategories(map: IngredientMap): IngredientCategory[] {
@@ -195,32 +234,43 @@ export class DetailShoppingListComponent implements OnInit {
   }
 
   getGroupedListOfIngredients(): void {
-    this.groupedIngredientsOfShoppingList = this.shoppingListDto.ingredients.reduce<IngredientMap>(
-      (acc, ingredient) => {
-        const category = ingredient.category;
+    this.groupedIngredientsOfShoppingList =
+      this.shoppingListDto.ingredients.reduce<IngredientMap>(
+        (acc, ingredient) => {
+          const category = ingredient.category;
 
-        if (!acc[category]) {
-          acc[category] = [];
-        }
+          if (!acc[category]) {
+            acc[category] = [];
+          }
 
-        (acc[category] as ShoppingListIngredientDto[]).push(ingredient);
+          (acc[category] as ShoppingListIngredientDto[]).push(ingredient);
 
-        return acc;
+          return acc;
+        },
+        {} as IngredientMap,
+      );
+
+    Object.values(this.groupedIngredientsOfShoppingList).forEach(
+      (ingredients) => {
+        (ingredients as ShoppingListIngredientDto[]).sort((a, b) =>
+          a.ingredient.name.localeCompare(b.ingredient.name),
+        );
       },
-      {} as IngredientMap
     );
-
-    Object.values(this.groupedIngredientsOfShoppingList).forEach((ingredients) => {
-      (ingredients as ShoppingListIngredientDto[]).sort((a, b) => a.ingredient.name.localeCompare(b.ingredient.name));
-    });
   }
 
   prepareAmountForDisplay(amount: number, unit: IngredientUnitDto): string {
-    return this.ingredientComputationService.roundAmountForDisplayString(amount, unit);
+    return this.ingredientComputationService.roundAmountForDisplayString(
+      amount,
+      unit,
+    );
   }
 
   formatStringInput(stringInput: string | undefined): string {
-    return this.stringFormattingService.formatStringInput(stringInput, this.errorMessage);
+    return this.stringFormattingService.formatStringInput(
+      stringInput,
+      this.errorMessage,
+    );
   }
 
   openLegendModal(): void {
@@ -233,24 +283,30 @@ export class DetailShoppingListComponent implements OnInit {
       return;
     }
     this.loadingShareToken = true;
-    this.shoppingListApiService.createShoppingListToken(this.shoppingListId).subscribe({
-      next: (data) => {
-        this.token = data;
-        this.loadingShareToken = false;
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-        this.loadingShareToken = false;
-      },
-    });
+    this.shoppingListApiService
+      .createShoppingListToken(this.shoppingListId)
+      .subscribe({
+        next: (data) => {
+          this.token = data;
+          this.loadingShareToken = false;
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+          this.loadingShareToken = false;
+        },
+      });
   }
 
   getLoggedInUserName(): string | null {
     return this.tokenService.getUsername();
   }
 
-  onValueChangeOfCheckbox(clickedShoppingListIngredient: ShoppingListIngredientDto): void {
-    const allChecked = this.shoppingListDto.ingredients.every((ingredient) => ingredient.isChecked);
+  onValueChangeOfCheckbox(
+    clickedShoppingListIngredient: ShoppingListIngredientDto,
+  ): void {
+    const allChecked = this.shoppingListDto.ingredients.every(
+      (ingredient) => ingredient.isChecked,
+    );
     if (allChecked && this.shareToken == undefined) {
       this.openCloseShoppingListModal();
     } else {
@@ -265,7 +321,11 @@ export class DetailShoppingListComponent implements OnInit {
       ingredients: [shoppingListIngredientEditDto],
     };
     this.shoppingListApiService
-      .editShoppingList(this.shoppingListDto.id, shoppingListEditDto, this.shareToken)
+      .editShoppingList(
+        this.shoppingListDto.id,
+        shoppingListEditDto,
+        this.shareToken,
+      )
       .subscribe({
         next: (data) => {
           this.shoppingListDto = data;
@@ -297,7 +357,9 @@ export class DetailShoppingListComponent implements OnInit {
     if (this.tokenService.isAdmin()) {
       return true;
     }
-    const perm = this.tokenService.getPermissionForOrganization(this.shoppingListDto.organizationId);
+    const perm = this.tokenService.getPermissionForOrganization(
+      this.shoppingListDto.organizationId,
+    );
     return [
       OrganizationRoleEnum.Shopper,
       OrganizationRoleEnum.Admin,
@@ -305,13 +367,13 @@ export class DetailShoppingListComponent implements OnInit {
       OrganizationRoleEnum.Planner,
     ]
       .map((v) => v.toString().toUpperCase())
-      .includes(perm ?? '');
+      .includes(perm ?? "");
   }
 
   getShareTokenWithLink() {
     const url = new URL(location.href); // Create a URL object
-    url.search = ''; // Clear all query parameters
-    url.searchParams.set('token', this.token?.token || ''); // Set the new token parameter
+    url.search = ""; // Clear all query parameters
+    url.searchParams.set("token", this.token?.token || ""); // Set the new token parameter
     return url.toString(); // Return the updated URL as a string
   }
   openCloseShoppingListModal(): void {
@@ -322,18 +384,20 @@ export class DetailShoppingListComponent implements OnInit {
   }
 
   closethisShoppingList(): void {
-    this.shoppingListApiService.closeShoppingList(this.shoppingListId).subscribe({
-      next: (closeShoppingList) => {
-        this.shoppingListDto = closeShoppingList.shoppingListDto;
-        this.isCloseShoppingListModalOpen = false;
-        this.toastr.success(
-          'Shopping list closed. You got redirected to your stash where you can make updates if needed.'
-        );
-        this.router.navigate([`/stashes/${closeShoppingList.stashId}`]);
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.shoppingListApiService
+      .closeShoppingList(this.shoppingListId)
+      .subscribe({
+        next: (closeShoppingList) => {
+          this.shoppingListDto = closeShoppingList.shoppingListDto;
+          this.isCloseShoppingListModalOpen = false;
+          this.toastr.success(
+            "Shopping list closed. You got redirected to your stash where you can make updates if needed.",
+          );
+          this.router.navigate([`/stashes/${closeShoppingList.stashId}`]);
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 }

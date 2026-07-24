@@ -1,82 +1,83 @@
-import { Component } from '@angular/core';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { SimpleCardComponent } from '../../../components/Card/Card';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import { SimpleCardComponent } from "../../../components/Card/Card";
+
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { FormsModule } from "@angular/forms";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
 import {
   OrganizationEditDto,
   OrganizationRoleEnum,
   OrganizationsApiService,
-  OrganizationSummaryDto
-} from '../../../../generated';
-import { ButtonVariant } from '../../../components/Button/SimpleButton';
-import { OrganizationMembers } from '../organization-members/organization-members.component';
-import { TokenService } from '../../../security/token.service';
-import { ErrorService } from '../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { CreateMenuModalContentComponent } from '../../menu/menu-overview/components/create-menu-modal-content/create-menu-modal-content.component';
-import { MarkdownEditorComponent } from '../../../components/Markdown/MarkdownEditor/markdown-editor.component';
-import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
+  OrganizationSummaryDto,
+} from "../../../../generated";
+import { ButtonVariant } from "../../../components/Button/SimpleButton";
+import { OrganizationMembers } from "../organization-members/organization-members.component";
+import { TokenService } from "../../../security/token.service";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { CreateMenuModalContentComponent } from "../../menu/menu-overview/components/create-menu-modal-content/create-menu-modal-content.component";
+import { MarkdownEditorComponent } from "../../../components/Markdown/MarkdownEditor/markdown-editor.component";
+import { MarkdownViewerComponent } from "../../../components/Markdown/MarkdownViewer/markdown-viewer.component";
 
 @Component({
-    selector: 'app-organization-detail',
-    imports: [
-        PageLayoutComponent,
-        CreateMenuModalContentComponent,
-        SimpleModalComponent,
-        SimpleButtonComponent,
-        SearchInputComponent,
-        SimpleCardComponent,
-        CommonModule,
-        RouterModule,
-        MarkdownEditorComponent,
-        MarkdownViewerComponent,
-        InputFieldComponent,
-        FormsModule,
-        LoadingSpinnerComponent,
-        SimpleCardComponent,
-        OrganizationMembers,
-    ],
-    templateUrl: './organization-detail.component.html'
+  selector: "app-organization-detail",
+  imports: [
+    PageLayoutComponent,
+    CreateMenuModalContentComponent,
+    SimpleModalComponent,
+    SimpleButtonComponent,
+    SearchInputComponent,
+    SimpleCardComponent,
+    RouterModule,
+    MarkdownEditorComponent,
+    MarkdownViewerComponent,
+    InputFieldComponent,
+    FormsModule,
+    LoadingSpinnerComponent,
+    SimpleCardComponent,
+    OrganizationMembers,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./organization-detail.component.html",
 })
 export class OrganizationDetailview {
+  private route = inject(ActivatedRoute);
+  private organizationApiService = inject(OrganizationsApiService);
+  protected tokenService = inject(TokenService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+
   organization: OrganizationSummaryDto | undefined;
   isLoading: boolean = true;
   isEditModalOpen: boolean = false;
-  orgEditDto: OrganizationEditDto = { name: '', description: '' };
+  orgEditDto: OrganizationEditDto = { name: "", description: "" };
   inputType = InputType;
   ButtonVariant = ButtonVariant;
 
   // Deleting Organizations
   isDeleteOrganizationModalOpen: boolean = false;
-  organizationDeleteModalTitle: string = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    private organizationApiService: OrganizationsApiService,
-    protected tokenService: TokenService,
-    private toastr: ToastrService,
-    private router: Router,
-    private errorService: ErrorService
-  ) {}
+  organizationDeleteModalTitle: string = "";
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get("id");
     if (id) {
       const numericId = Number(id); // Convert the string id to a number
       if (!isNaN(numericId)) {
         this.fetchOrganizationById(numericId); // Pass the numeric id
       } else {
-        console.error('Invalid organization ID:', id);
+        console.error("Invalid organization ID:", id);
       }
     } else {
-      console.error('Organization ID is missing from the route');
+      console.error("Organization ID is missing from the route");
     }
   }
 
@@ -87,7 +88,8 @@ export class OrganizationDetailview {
     return (
       this.tokenService.isAdmin() ||
       [OrganizationRoleEnum.Owner.toString().toUpperCase()].includes(
-        this.tokenService.getPermissionForOrganization(this.organization.id) ?? ''
+        this.tokenService.getPermissionForOrganization(this.organization.id) ??
+          "",
       )
     );
   }
@@ -97,24 +99,27 @@ export class OrganizationDetailview {
   }
 
   deleteOrganization(): void {
-    this.organizationApiService.deleteOrganization(this.organization?.id!).subscribe({
-      next: () => {
-        this.toastr.success('Organization deleted.');
-        setTimeout(() => {
-          // Use setTimeout to allow modal closing animation to complete
-          this.router.navigate(['/organizations']);
-        }, 100);
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.organizationApiService
+      .deleteOrganization(this.organization?.id!)
+      .subscribe({
+        next: () => {
+          this.toastr.success("Organization deleted.");
+          setTimeout(() => {
+            // Use setTimeout to allow modal closing animation to complete
+            this.router.navigate(["/organizations"]);
+          }, 100);
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   // Open the delete confirmation modal and stop the routerLink event propagation
   openDeleteModal(): void {
     this.isDeleteOrganizationModalOpen = true;
-    this.organizationDeleteModalTitle = 'Are you sure you want to delete "' + this.organization!.name + '"?';
+    this.organizationDeleteModalTitle =
+      'Are you sure you want to delete "' + this.organization!.name + '"?';
   }
 
   fetchOrganizationById(id: number): void {
@@ -133,30 +138,36 @@ export class OrganizationDetailview {
   }
 
   onEdit() {
-    if (this.organization !== null && this.orgEditDto !== null && this.organization?.id) {
-      this.organizationApiService.editOrganization(this.organization.id, this.orgEditDto).subscribe({
-        next: (response) => {
-          this.organization = response;
-          this.orgEditDto = { name: '', description: '' };
-          this.isEditModalOpen = false;
-          this.toastr.success('Organization updated.');
-        },
-        error: (err) => {
-          this.errorService.printErrorResponse(err);
-        },
-      });
+    if (
+      this.organization !== null &&
+      this.orgEditDto !== null &&
+      this.organization?.id
+    ) {
+      this.organizationApiService
+        .editOrganization(this.organization.id, this.orgEditDto)
+        .subscribe({
+          next: (response) => {
+            this.organization = response;
+            this.orgEditDto = { name: "", description: "" };
+            this.isEditModalOpen = false;
+            this.toastr.success("Organization updated.");
+          },
+          error: (err) => {
+            this.errorService.printErrorResponse(err);
+          },
+        });
     }
   }
   openEditModal(): void {
-    this.orgEditDto.name = this.organization?.name ?? '';
-    this.orgEditDto.description = this.organization?.description ?? '';
+    this.orgEditDto.name = this.organization?.name ?? "";
+    this.orgEditDto.description = this.organization?.description ?? "";
     this.isEditModalOpen = true;
   }
 
   handleEditModalCancel(): void {
     this.isEditModalOpen = false;
-    this.orgEditDto.name = this.organization?.name ?? '';
-    this.orgEditDto.description = this.organization?.description ?? '';
+    this.orgEditDto.name = this.organization?.name ?? "";
+    this.orgEditDto.description = this.organization?.description ?? "";
   }
 
   handleEditModalSubmit(): void {

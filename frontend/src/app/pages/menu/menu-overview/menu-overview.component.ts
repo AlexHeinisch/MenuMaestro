@@ -1,45 +1,63 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
 import {
   MenusApiService,
   MenuStatus,
-  MenuSummaryListPaginatedDto, OrganizationsApiService,
+  MenuSummaryListPaginatedDto,
+  OrganizationsApiService,
   OrganizationSummaryDto,
   OrganizationSummaryListPaginatedDto,
-} from '../../../../generated';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { RouterModule } from '@angular/router';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { SimpleCardComponent } from '../../../components/Card/Card';
-import { CommonModule } from '@angular/common';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { ErrorService } from '../../../globals/error.service';
-import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
-import { CreateMenuModalContentComponent } from './components/create-menu-modal-content/create-menu-modal-content.component';
+} from "../../../../generated";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import { RouterModule } from "@angular/router";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import { SimpleCardComponent } from "../../../components/Card/Card";
+
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { FormsModule } from "@angular/forms";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { ErrorService } from "../../../globals/error.service";
+import { PaginationControlsComponent } from "../../../components/Pagination/PaginationControls";
+import { CreateMenuModalContentComponent } from "./components/create-menu-modal-content/create-menu-modal-content.component";
 
 @Component({
-    selector: 'app-menu-overview',
-    imports: [
-        PageLayoutComponent,
-        CreateMenuModalContentComponent,
-        SimpleModalComponent,
-        SimpleButtonComponent,
-        SearchInputComponent,
-        SimpleCardComponent,
-        CommonModule,
-        RouterModule,
-        InputFieldComponent,
-        FormsModule,
-        LoadingSpinnerComponent,
-        PaginationControlsComponent,
-        CreateMenuModalContentComponent,
-    ],
-    templateUrl: './menu-overview.component.html'
+  selector: "app-menu-overview",
+  imports: [
+    PageLayoutComponent,
+    CreateMenuModalContentComponent,
+    SimpleModalComponent,
+    SimpleButtonComponent,
+    SearchInputComponent,
+    SimpleCardComponent,
+    RouterModule,
+    InputFieldComponent,
+    FormsModule,
+    LoadingSpinnerComponent,
+    PaginationControlsComponent,
+    CreateMenuModalContentComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./menu-overview.component.html",
 })
 export class MenuOverviewComponent implements OnInit {
+  private menusApiService = inject(MenusApiService);
+  private organizationsApiService = inject(OrganizationsApiService);
+  private errorService = inject(ErrorService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
@@ -50,10 +68,10 @@ export class MenuOverviewComponent implements OnInit {
 
   currentPage = 1;
   pageSize = 10;
-  sort = ['asc'];
+  sort = ["asc"];
 
   // Menu Search
-  menuSearchTerm: string = '';
+  menuSearchTerm: string = "";
   menuSearchSuggestions: string[] = [];
 
   // Organization Search
@@ -64,30 +82,31 @@ export class MenuOverviewComponent implements OnInit {
   menuStatusOptions: string[] = Object.values(MenuStatus);
   selectedMenuStatus: MenuStatus = MenuStatus.Serving;
 
-  constructor(
-    private menusApiService: MenusApiService,
-    private organizationsApiService: OrganizationsApiService,
-    private errorService: ErrorService
-  ) {}
-
   ngOnInit(): void {
     this.fetchMenus();
-    this.fetchMenuForSearchSuggestion('');
-    this.searchOrganization('');
+    this.fetchMenuForSearchSuggestion("");
+    this.searchOrganization("");
   }
 
   fetchMenus(
     requestedPage: number = 1,
     pageSize: number = this.pageSize,
-    menuSearchTerm: string = '',
+    menuSearchTerm: string = "",
     selectedMenuStatus: MenuStatus = MenuStatus.Serving,
     organizationId: number | undefined = undefined,
-    sort: string[] = ['asc']
+    sort: string[] = ["asc"],
   ): void {
     this.currentPage = requestedPage;
     this.isLoading = true;
     this.menusApiService
-      .getMenus(this.currentPage - 1, pageSize, sort, menuSearchTerm, organizationId, selectedMenuStatus)
+      .getMenus(
+        this.currentPage - 1,
+        pageSize,
+        sort,
+        menuSearchTerm,
+        organizationId,
+        selectedMenuStatus,
+      )
       .subscribe({
         next: (menu) => {
           this.menus = menu;
@@ -101,23 +120,34 @@ export class MenuOverviewComponent implements OnInit {
   }
 
   fetchMenuForSearchSuggestion(searchTerm: string): void {
-    this.menusApiService.getMenus(0, 5, ['asc'], searchTerm, this.selectedOrganizationId, MenuStatus.All).subscribe({
-      next: (menu) => {
-        this.menuSearchSuggestions = (menu.content || [])
-          .map((item) => item?.name)
-          .filter((name): name is string => name !== undefined);
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.menusApiService
+      .getMenus(
+        0,
+        5,
+        ["asc"],
+        searchTerm,
+        this.selectedOrganizationId,
+        MenuStatus.All,
+      )
+      .subscribe({
+        next: (menu) => {
+          this.menuSearchSuggestions = (menu.content || [])
+            .map((item) => item?.name)
+            .filter((name): name is string => name !== undefined);
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   searchOrganization(searchTerm: string) {
     this.organizationsApiService.getOrganizations(0, 5, searchTerm).subscribe({
       next: (response: OrganizationSummaryListPaginatedDto) => {
         this.organizations = response.content;
-        this.organizationSearchNames = this.organizations.map((org) => org.name!);
+        this.organizationSearchNames = this.organizations.map(
+          (org) => org.name!,
+        );
       },
       error: (error) => {
         this.errorService.printErrorResponse(error);
@@ -126,7 +156,9 @@ export class MenuOverviewComponent implements OnInit {
   }
 
   onOrganizationSelected(selected: string) {
-    const selectedOrganization = this.organizations.find((org) => org.name === selected);
+    const selectedOrganization = this.organizations.find(
+      (org) => org.name === selected,
+    );
     if (selectedOrganization) {
       this.selectedOrganizationId = selectedOrganization.id;
     } else {
@@ -138,7 +170,7 @@ export class MenuOverviewComponent implements OnInit {
       this.menuSearchTerm,
       this.selectedMenuStatus,
       this.selectedOrganizationId,
-      this.sort
+      this.sort,
     );
   }
 
@@ -151,7 +183,7 @@ export class MenuOverviewComponent implements OnInit {
       this.menuSearchTerm,
       this.selectedMenuStatus,
       this.selectedOrganizationId,
-      this.sort
+      this.sort,
     );
   }
 
@@ -162,11 +194,11 @@ export class MenuOverviewComponent implements OnInit {
       this.menuSearchTerm,
       this.selectedMenuStatus,
       this.selectedOrganizationId,
-      this.sort
+      this.sort,
     );
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }
 
@@ -177,7 +209,7 @@ export class MenuOverviewComponent implements OnInit {
       this.menuSearchTerm,
       this.selectedMenuStatus,
       this.selectedOrganizationId,
-      this.sort
+      this.sort,
     );
   }
 

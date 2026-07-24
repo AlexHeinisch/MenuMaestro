@@ -1,44 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { AccountsApiService } from '../../../../generated';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+
+import { HttpErrorResponse } from "@angular/common/http";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { AccountsApiService } from "../../../../generated";
 
 @Component({
-  selector: 'app-verify-email',
+  selector: "app-verify-email",
   imports: [
     PageLayoutComponent,
     SimpleButtonComponent,
-    CommonModule,
     RouterModule,
     LoadingSpinnerComponent,
   ],
-  templateUrl: './verify-email.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./verify-email.html",
 })
 export class VerifyEmailComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  router = inject(Router);
+  private accountsApiService = inject(AccountsApiService);
+
   ButtonVariant = ButtonVariant;
   isLoading = true;
   verificationSuccess = false;
   verificationError = false;
-  errorMessage = '';
-  accountUsername = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    public router: Router,
-    private accountsApiService: AccountsApiService
-  ) {}
+  errorMessage = "";
+  accountUsername = "";
 
   ngOnInit() {
-    const token = this.route.snapshot.queryParamMap.get('token');
+    const token = this.route.snapshot.queryParamMap.get("token");
 
     if (!token) {
       this.isLoading = false;
       this.verificationError = true;
-      this.errorMessage = 'No verification token provided.';
+      this.errorMessage = "No verification token provided.";
       return;
     }
 
@@ -50,20 +56,21 @@ export class VerifyEmailComponent implements OnInit {
       next: (response) => {
         this.isLoading = false;
         this.verificationSuccess = true;
-        this.accountUsername = response.username || '';
+        this.accountUsername = response.username || "";
       },
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
         this.verificationError = true;
 
         if (error.status === 404) {
-          this.errorMessage = 'Invalid or expired verification token.';
+          this.errorMessage = "Invalid or expired verification token.";
         } else if (error.status === 403) {
-          this.errorMessage = 'Verification token has expired.';
+          this.errorMessage = "Verification token has expired.";
         } else if (error.status === 409) {
-          this.errorMessage = error.error?.message || 'Account already exists.';
+          this.errorMessage = error.error?.message || "Account already exists.";
         } else {
-          this.errorMessage = 'An error occurred during verification. Please try again.';
+          this.errorMessage =
+            "An error occurred during verification. Please try again.";
         }
       },
     });

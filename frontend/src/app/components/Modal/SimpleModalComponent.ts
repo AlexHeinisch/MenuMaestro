@@ -1,57 +1,79 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SimpleButtonComponent, ButtonVariant } from '../Button/SimpleButton';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  input,
+  output,
+} from "@angular/core";
+
+import { SimpleButtonComponent, ButtonVariant } from "../Button/SimpleButton";
 
 @Component({
-    selector: 'simple-modal',
-    imports: [CommonModule, SimpleButtonComponent],
-    template: `
-    <div *ngIf="show" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-10 p-4">
-      <div class="bg-white flex min-h-fit flex-col w-full max-w-[600px] justify-between rounded-lg p-6 relative">
-        <h2 class="text-xl break-words">{{ title }}</h2>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 cursor-pointer absolute top-4 right-4"
-          (click)="handleCancel()"
+  selector: "simple-modal",
+  imports: [SimpleButtonComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    @if (show()) {
+      <div
+        class="fixed inset-0 bg-black/50 backdrop-blur-xs flex justify-center items-center z-10 p-4"
+      >
+        <div
+          class="bg-white flex min-h-fit flex-col w-full max-w-[600px] justify-between rounded-lg p-6 relative"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-        <div class="mb-5 mt-5">
-          <ng-content></ng-content>
-        </div>
-        <div class="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
-          <simple-button
-            *ngIf="cancelBtnTitle"
+          <h2 class="text-xl wrap-break-word">{{ title() }}</h2>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6 cursor-pointer absolute top-4 right-4"
             (click)="handleCancel()"
-            [variant]="ButtonVariant.borderOnly"
-            className="w-full sm:w-32"
           >
-            {{ cancelBtnTitle }}
-          </simple-button>
-          <simple-button (click)="handleSubmit()" [disabled]="!isSubmitEnabled" className="w-full sm:w-32">
-            {{ submitBtnTitle }}
-          </simple-button>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+          <div class="mb-5 mt-5">
+            <ng-content></ng-content>
+          </div>
+          <div class="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
+            @if (cancelBtnTitle) {
+              <simple-button
+                (click)="handleCancel()"
+                [variant]="ButtonVariant.borderOnly"
+                className="w-full sm:w-32"
+              >
+                {{ cancelBtnTitle }}
+              </simple-button>
+            }
+            <simple-button
+              (click)="handleSubmit()"
+              [disabled]="!isSubmitEnabled()"
+              className="w-full sm:w-32"
+            >
+              {{ submitBtnTitle() }}
+            </simple-button>
+          </div>
         </div>
       </div>
-    </div>
-  `
+    }
+  `,
 })
 export class SimpleModalComponent {
   ButtonVariant = ButtonVariant;
 
-  @Input() title!: string;
-  @Input() show!: boolean;
+  readonly title = input.required<string>();
+  readonly show = input.required<boolean>();
   @Input() cancelBtnTitle?: string;
-  @Input() submitBtnTitle!: string;
-  @Input() isSubmitEnabled: boolean = true;
+  readonly submitBtnTitle = input.required<string>();
+  readonly isSubmitEnabled = input<boolean>(true);
 
-  @Output() setShow = new EventEmitter<boolean>();
-  @Output() onCancel = new EventEmitter<void>();
-  @Output() onSubmit = new EventEmitter<void>();
+  readonly setShow = output<boolean>();
+  readonly onCancel = output<void>();
+  readonly onSubmit = output<void>();
 
   handleCancel() {
     this.onCancel.emit();

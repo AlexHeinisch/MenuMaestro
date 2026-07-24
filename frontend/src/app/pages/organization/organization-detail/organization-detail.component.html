@@ -1,38 +1,63 @@
 <page-layout>
   <div class="flex flex-col h-screen">
-    <div class="flex flex-row items-center justify-between mb-8" *ngIf="organization && !isLoading">
-      <h1 class="text-3xl">{{ organization.name }}</h1>
-      <div class="space-x-2">
-        <a class="inline-block" [routerLink]="'/stashes/' + organization.stashId">
-          <simple-button [variant]="ButtonVariant.primary"> View Stash </simple-button>
-        </a>
-        <simple-button *ngIf="isAdminOrOwner()" (click)="openEditModal()" [variant]="ButtonVariant.borderOnly">
-          <span>Edit</span>
-        </simple-button>
+    @if (organization && !isLoading) {
+      <div class="flex flex-row items-center justify-between mb-8">
+        <h1 class="text-3xl">{{ organization.name }}</h1>
+        <div class="space-x-2">
+          <a
+            class="inline-block"
+            [routerLink]="'/stashes/' + organization.stashId"
+          >
+            <simple-button [variant]="ButtonVariant.primary">
+              View Stash
+            </simple-button>
+          </a>
+          @if (isAdminOrOwner()) {
+            <simple-button
+              (click)="openEditModal()"
+              [variant]="ButtonVariant.borderOnly"
+            >
+              <span>Edit</span>
+            </simple-button>
+          }
+        </div>
       </div>
-    </div>
+    }
     <!-- Loading State -->
-    <div *ngIf="!organization && !isLoading" class="text-center text-xl text-gray-600 col-span-full my-8">
-      <p class="text-red-600">Failed to load organization details.</p>
-    </div>
+    @if (!organization && !isLoading) {
+      <div class="text-center text-xl text-gray-600 col-span-full my-8">
+        <p class="text-red-600">Failed to load organization details.</p>
+      </div>
+    }
     <loading-spinner [isLoading]="isLoading"></loading-spinner>
 
-    <div class="mb-8" *ngIf="organization">
-      <app-markdown-viewer *ngIf="organization.description" [content]="organization.description"></app-markdown-viewer>
-      <p *ngIf="!organization.description" class="text-gray-500 italic">No description available</p>
-    </div>
+    @if (organization) {
+      <div class="mb-8">
+        @if (organization.description) {
+          <app-markdown-viewer
+            [content]="organization.description"
+          ></app-markdown-viewer>
+        }
+        @if (!organization.description) {
+          <p class="text-gray-500 italic">No description available</p>
+        }
+      </div>
+    }
     <div class="mt-16">
-      <app-organization-members [organization]="organization"></app-organization-members>
+      <app-organization-members
+        [organization]="organization"
+      ></app-organization-members>
     </div>
     <div class="flex justify-end items-end mt-5">
-      <simple-button
-        *ngIf="organization && !isLoading && isAdminOrOwner()"
-        (click)="openDeleteModal()"
-        [variant]="ButtonVariant.danger2"
-        [hidden]="!isOrganizationOwner()"
-      >
-        <span>Delete Organization</span>
-      </simple-button>
+      @if (organization && !isLoading && isAdminOrOwner()) {
+        <simple-button
+          (click)="openDeleteModal()"
+          [variant]="ButtonVariant.danger2"
+          [hidden]="!isOrganizationOwner()"
+        >
+          <span>Delete Organization</span>
+        </simple-button>
+      }
     </div>
   </div>
 
@@ -59,11 +84,15 @@
           [className]="'w-full'"
         ></input-field>
         <div>
-          <label class="block text-sm font-medium mb-2 text-gray-700">Description</label>
+          <label class="block text-sm font-medium mb-2 text-gray-700"
+            >Description</label
+          >
           <app-markdown-editor
             [(ngModel)]="orgEditDto.description"
             name="orgEditDescription"
-            [placeholder]="'Enter organization description in markdown format...'"
+            [placeholder]="
+              'Enter organization description in markdown format...'
+            "
             [maxLength]="4096"
             [rows]="8"
           ></app-markdown-editor>
@@ -81,11 +110,13 @@
     (setShow)="isDeleteOrganizationModalOpen = $event"
     (onSubmit)="handleDeleteOrganizationModalSubmit()"
   >
-    <p>This organization will be deleted immediately. You can't undo this action.</p>
+    <p>
+      This organization will be deleted immediately. You can't undo this action.
+    </p>
     <br />
     <p>
-      All members will be kicked from the organization and all menus linked to this organization will be deleted as
-      well.
+      All members will be kicked from the organization and all menus linked to
+      this organization will be deleted as well.
     </p>
   </simple-modal>
 </page-layout>

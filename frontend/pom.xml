@@ -18,7 +18,7 @@
         <artifactId>frontend-maven-plugin</artifactId>
         <version>${frontend-maven.version}</version>
         <configuration>
-          <nodeVersion>v22.14.0</nodeVersion>
+          <nodeVersion>v22.22.3</nodeVersion>
         </configuration>
         <executions>
           <execution>
@@ -70,7 +70,7 @@
               <output>${project.basedir}/src/generated/</output>
               <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
               <configOptions>
-                <ngVersion>18.2</ngVersion>
+                <ngVersion>22</ngVersion>
                 <fileNaming>kebab-case</fileNaming>
                 <stringEnums>true</stringEnums>
                 <serviceSuffix>ApiService</serviceSuffix>

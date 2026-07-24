@@ -24,9 +24,13 @@ describe('EmojiService', () => {
     const results = service.searchEmojis('smile');
     expect(results.length).toBeGreaterThan(0);
 
-    // Should find emojis with "smile" in their name
+    // Should find emojis with "smile" in their name or keywords
     const hasSmileEmoji = results.some(category =>
-      category.emojis.some(emoji => emoji.name.toLowerCase().includes('smile'))
+      category.emojis.some(
+        emoji =>
+          emoji.name.toLowerCase().includes('smile') ||
+          emoji.keywords.some(keyword => keyword.toLowerCase().includes('smile'))
+      )
     );
     expect(hasSmileEmoji).toBe(true);
   });

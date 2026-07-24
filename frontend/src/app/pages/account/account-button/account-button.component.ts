@@ -1,18 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TokenService } from '../../../security/token.service';
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { TokenService } from "../../../security/token.service";
 
 @Component({
-    selector: 'account-button',
-    templateUrl: './account-button.component.html',
-    imports: [CommonModule, RouterModule]
+  selector: "account-button",
+  templateUrl: "./account-button.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [RouterModule],
 })
 export class AccountButtonComponent {
-  constructor(protected tokenService: TokenService) {}
+  protected tokenService = inject(TokenService);
 
   getUsernameFirstLetter(): string {
     const username = this.tokenService.getUsername();
-    return username ? username.charAt(0).toUpperCase() : '';
+    return username ? username.charAt(0).toUpperCase() : "";
   }
 }

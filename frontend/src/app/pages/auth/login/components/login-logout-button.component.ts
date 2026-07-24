@@ -1,26 +1,24 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { TokenService } from '../../../../security/token.service';
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+import { TokenService } from "../../../../security/token.service";
 
 @Component({
-    selector: 'login-logout-button',
-    templateUrl: './login-logout-button.component.html',
-    imports: [CommonModule, RouterModule]
+  selector: "login-logout-button",
+  templateUrl: "./login-logout-button.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [RouterModule],
 })
 export class LoginLogoutButtonComponent {
-  constructor(
-    private router: Router,
-    private tokenService: TokenService
-  ) {}
+  private router = inject(Router);
+  private tokenService = inject(TokenService);
 
   onLogin(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
   }
 
   onLogout(): void {
     this.tokenService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(["/"]);
   }
 
   isAuthenticated(): boolean {

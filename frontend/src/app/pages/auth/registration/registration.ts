@@ -1,51 +1,63 @@
-import { Component, ViewChild } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ButtonVariant, SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { AccountCreateRequestDto, AccountsApiService } from '../../../../generated';
-import { ErrorService } from '../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
+import {
+  Component,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+
+import { FormsModule, NgForm } from "@angular/forms";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import {
+  AccountCreateRequestDto,
+  AccountsApiService,
+} from "../../../../generated";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
 
 @Component({
-    selector: 'app-account-registration',
-    imports: [
-        PageLayoutComponent,
-        SimpleButtonComponent,
-        CommonModule,
-        RouterModule,
-        InputFieldComponent,
-        FormsModule,
-        LoadingSpinnerComponent,
-    ],
-    templateUrl: './registration.html'
+  selector: "app-account-registration",
+  imports: [
+    PageLayoutComponent,
+    SimpleButtonComponent,
+    RouterModule,
+    InputFieldComponent,
+    FormsModule,
+    LoadingSpinnerComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./registration.html",
 })
 export class AccountRegistration {
+  router = inject(Router);
+  private accountApiService = inject(AccountsApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
-  confirmPassword: string = '';
+  confirmPassword: string = "";
 
   accountCreate: AccountCreateRequestDto = {
-    username: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    password: '',
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
   };
 
   isLoading = false;
   registrationSuccess = false;
-
-  constructor(
-    public router: Router,
-    private accountApiService: AccountsApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService
-  ) {}
 
   createAccount() {
     this.isLoading = true;
@@ -54,8 +66,8 @@ export class AccountRegistration {
         this.isLoading = false;
         this.registrationSuccess = true;
         this.toastr.success(
-          'Please check your email to verify your account.',
-          'Registration Successful!'
+          "Please check your email to verify your account.",
+          "Registration Successful!",
         );
       },
       error: (error) => {
@@ -66,7 +78,11 @@ export class AccountRegistration {
   }
 
   onSubmit(form: NgForm) {
-    if (form.invalid || !this.accountCreate.password || this.accountCreate.password.length < 6) {
+    if (
+      form.invalid ||
+      !this.accountCreate.password ||
+      this.accountCreate.password.length < 6
+    ) {
       Object.keys(form.controls).forEach((field) => {
         const control = form.controls[field];
         control.markAsTouched({ onlySelf: true });
@@ -76,7 +92,7 @@ export class AccountRegistration {
 
     // Passwords do not match check
     if (this.accountCreate.password !== this.confirmPassword) {
-      console.error('Passwords do not match.');
+      console.error("Passwords do not match.");
       return;
     }
 

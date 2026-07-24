@@ -1,20 +1,19 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, input } from "@angular/core";
 
 @Component({
-    imports: [CommonModule],
-    selector: 'wide-page-layout',
-    template: `
-    <div [ngClass]="containerClasses">
+  selector: "wide-page-layout",
+  template: `
+    <div [class]="containerClasses">
       <ng-content></ng-content>
     </div>
   `,
-    styles: []
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styles: [],
 })
 export class WidePageLayoutComponent {
-  @Input() styleNames?: string;
+  readonly styleNames = input<string>();
 
   get containerClasses(): string {
-    return `mx-auto px-4 py-8 sm:w-[75%] md:w-[80%] lg:w-[70%] xl:w-[65%] text-neutral-700 ${this.styleNames || ''}`;
+    return `mx-auto px-4 py-8 sm:w-[75%] md:w-[80%] lg:w-[70%] xl:w-[65%] text-neutral-700 ${this.styleNames() || ""}`;
   }
 }

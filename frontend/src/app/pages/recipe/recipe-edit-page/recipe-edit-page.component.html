@@ -1,6 +1,7 @@
-<app-recipe-edit
-  *ngIf="recipeId !== undefined"
-  [editRecipeHandler]="editRecipeHandler"
-  [fetchRecipeValueHandler]="fetchRecipeValueHandler"
-  [redirectPath]="redirectPath"
-></app-recipe-edit>
+@if (recipeId !== undefined) {
+  <app-recipe-edit
+    [editRecipeHandler]="editRecipeHandler"
+    [fetchRecipeValueHandler]="fetchRecipeValueHandler"
+    [redirectPath]="redirectPath"
+  ></app-recipe-edit>
+}

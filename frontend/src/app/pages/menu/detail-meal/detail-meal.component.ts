@@ -1,74 +1,84 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { ButtonVariant } from '../../../components/Button/SimpleButton';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { IngredientComputationService } from '../../../service/ingredient-computation.service';
-import { ErrorService } from '../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { ComplexModalComponent } from '../../../components/Modal/ComplexModalComponent';
-import { TokenService } from '../../../security/token.service';
-import { MarkdownViewerComponent } from '../../../components/Markdown/MarkdownViewer/markdown-viewer.component';
-import {IngredientUnitDto, MealDto, MealEditDto, MealsApiService, MealStatus} from "../../../../generated";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
+import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { ButtonVariant } from "../../../components/Button/SimpleButton";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { IngredientComputationService } from "../../../service/ingredient-computation.service";
+import { ErrorService } from "../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { ComplexModalComponent } from "../../../components/Modal/ComplexModalComponent";
+import { TokenService } from "../../../security/token.service";
+import { MarkdownViewerComponent } from "../../../components/Markdown/MarkdownViewer/markdown-viewer.component";
+import {
+  IngredientUnitDto,
+  MealDto,
+  MealEditDto,
+  MealsApiService,
+  MealStatus,
+} from "../../../../generated";
 
 @Component({
-    selector: 'app-detail-meal',
-    imports: [
-        RouterModule,
-        CommonModule,
-        PageLayoutComponent,
-        SimpleButtonComponent,
-        FormsModule,
-        LoadingSpinnerComponent,
-        SimpleButtonComponent,
-        SimpleModalComponent,
-        ComplexModalComponent,
-        InputFieldComponent,
-        MarkdownViewerComponent,
-    ],
-    templateUrl: './detail-meal.component.html'
+  selector: "app-detail-meal",
+  imports: [
+    RouterModule,
+    PageLayoutComponent,
+    SimpleButtonComponent,
+    FormsModule,
+    LoadingSpinnerComponent,
+    SimpleButtonComponent,
+    SimpleModalComponent,
+    ComplexModalComponent,
+    InputFieldComponent,
+    MarkdownViewerComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./detail-meal.component.html",
 })
 export class DetailMealComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private mealsApiService = inject(MealsApiService);
+  private ingredientComputationService = inject(IngredientComputationService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+  private toastrService = inject(ToastrService);
+  protected tokenService = inject(TokenService);
+
   MealStatus = MealStatus;
   ButtonVariant = ButtonVariant;
   InputType = InputType;
 
   mealId: number | null = null;
   menuId: number | null = null;
-  meal: any = null;
   loadingMeal: boolean = true;
 
   mealDto: MealDto | undefined;
 
-  deleteModalTitle: string = '';
+  deleteModalTitle: string = "";
   isDeleteModalOpen: boolean = false;
   isEditModalOpen: boolean = false;
   isEditModalEditName: boolean = true;
 
-  mealEditDto: MealEditDto = { name: '', numberOfPeople: 1 };
+  mealEditDto: MealEditDto = { name: "", numberOfPeople: 1 };
   isCloseMealModalOpen: boolean = false;
   closeMealModalOpenIsDone: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private mealsApiService: MealsApiService,
-    private ingredientComputationService: IngredientComputationService,
-    private router: Router,
-    private errorService: ErrorService,
-    private toastrService: ToastrService,
-    protected tokenService: TokenService
-  ) {}
-
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.menuId = +params['menuId'];
-      this.mealId = +params['mealId'];
+      this.menuId = +params["menuId"];
+      this.mealId = +params["mealId"];
       this.fetchMeal(this.mealId);
     });
   }
@@ -95,24 +105,34 @@ export class DetailMealComponent implements OnInit {
     }
   }
 
-  calculateAmount(ingredientAmountInRecipe: number, unit: IngredientUnitDto): string {
+  calculateAmount(
+    ingredientAmountInRecipe: number,
+    unit: IngredientUnitDto,
+  ): string {
     const mealNumberOfPeople = this.mealDto?.numberOfPeople;
     const recipeNumberOfPeople = this.mealDto?.recipe?.servings;
 
     if (mealNumberOfPeople && recipeNumberOfPeople) {
-      const result = ingredientAmountInRecipe * (mealNumberOfPeople / recipeNumberOfPeople);
-      return this.ingredientComputationService.roundAmountForDisplayString(result, unit);
+      const result =
+        ingredientAmountInRecipe * (mealNumberOfPeople / recipeNumberOfPeople);
+      return this.ingredientComputationService.roundAmountForDisplayString(
+        result,
+        unit,
+      );
     }
 
-    return ingredientAmountInRecipe + this.ingredientComputationService.formatUnitDisplay(unit);
+    return (
+      ingredientAmountInRecipe +
+      this.ingredientComputationService.formatUnitDisplay(unit)
+    );
   }
 
   formatStatus(status: string | undefined): string {
-    if (!status) return 'Unknown Status';
+    if (!status) return "Unknown Status";
 
     return status
       .toLowerCase()
-      .replace(/_/g, ' ')
+      .replace(/_/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize the first letter of each word
   }
   closeMealModal(done: boolean) {
@@ -121,39 +141,47 @@ export class DetailMealComponent implements OnInit {
   }
   onMark(removeFromstash: boolean) {
     if (this.mealId !== null) {
-      this.mealsApiService.markCompleted(this.mealId, this.closeMealModalOpenIsDone, removeFromstash).subscribe({
-        next: () => {
-          if (this.closeMealModalOpenIsDone) {
-            this.toastrService.success(
-              'Meal marked as done. \n This meal will be skipped for shopping lists and stash calculations.'
-            );
-            this.router.navigate([`/menus/${this.menuId}`]);
-          } else {
-            this.toastrService.success(
-              'Meal marked as not done. \n This meal will be included in shopping lists and stash calculations.'
-            );
-            this.fetchMeal(this.mealId!);
-          }
-        },
-        error: (err) => {
-          this.errorService.printErrorResponse(err);
-        },
-      });
+      this.mealsApiService
+        .markCompleted(
+          this.mealId,
+          this.closeMealModalOpenIsDone,
+          removeFromstash,
+        )
+        .subscribe({
+          next: () => {
+            if (this.closeMealModalOpenIsDone) {
+              this.toastrService.success(
+                "Meal marked as done. \n This meal will be skipped for shopping lists and stash calculations.",
+              );
+              this.router.navigate([`/menus/${this.menuId}`]);
+            } else {
+              this.toastrService.success(
+                "Meal marked as not done. \n This meal will be included in shopping lists and stash calculations.",
+              );
+              this.fetchMeal(this.mealId!);
+            }
+          },
+          error: (err) => {
+            this.errorService.printErrorResponse(err);
+          },
+        });
     }
   }
 
   onEdit(successMessage: string) {
     if (this.mealId !== null) {
-      this.mealsApiService.editMealById(this.mealId, this.mealEditDto).subscribe({
-        next: (response) => {
-          this.mealDto = response;
-          this.setDefaultNumberOfPeopleAndDefaultMealEditDtoValues();
-          this.toastrService.success(successMessage);
-        },
-        error: (err) => {
-          this.errorService.printErrorResponse(err);
-        },
-      });
+      this.mealsApiService
+        .editMealById(this.mealId, this.mealEditDto)
+        .subscribe({
+          next: (response) => {
+            this.mealDto = response;
+            this.setDefaultNumberOfPeopleAndDefaultMealEditDtoValues();
+            this.toastrService.success(successMessage);
+          },
+          error: (err) => {
+            this.errorService.printErrorResponse(err);
+          },
+        });
     }
   }
 
@@ -162,7 +190,7 @@ export class DetailMealComponent implements OnInit {
       this.mealsApiService.deleteMealById(this.mealId).subscribe({
         next: () => {
           this.router.navigate([`/menus/${this.menuId}`]);
-          this.toastrService.success('Meal deleted.');
+          this.toastrService.success("Meal deleted.");
         },
         error: (err) => {
           this.errorService.printErrorResponse(err);
@@ -173,7 +201,8 @@ export class DetailMealComponent implements OnInit {
 
   openDeleteModal(): void {
     if (this.mealDto?.name) {
-      this.deleteModalTitle = 'Are you sure you want to delete "' + this.mealDto.name + '"?';
+      this.deleteModalTitle =
+        'Are you sure you want to delete "' + this.mealDto.name + '"?';
     }
     this.isDeleteModalOpen = true;
   }
@@ -192,6 +221,8 @@ export class DetailMealComponent implements OnInit {
   }
 
   handleEditModalSubmit(): void {
-    this.onEdit(this.isEditModalEditName ? 'Meal name updated.' : 'Meal scaled.');
+    this.onEdit(
+      this.isEditModalEditName ? "Meal name updated." : "Meal scaled.",
+    );
   }
 }

@@ -1,30 +1,37 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { AccountsApiService } from '../../../../generated';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { FormsModule } from '@angular/forms';
-import { SimpleButtonComponent } from '../../../components/Button/SimpleButton';
-import { InputFieldComponent, InputType } from '../../../components/Input/InputField';
-import { ErrorService } from '../../../globals/error.service';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+
+import { Router, RouterModule } from "@angular/router";
+import { AccountsApiService } from "../../../../generated";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { FormsModule } from "@angular/forms";
+import { SimpleButtonComponent } from "../../../components/Button/SimpleButton";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../components/Input/InputField";
+import { ErrorService } from "../../../globals/error.service";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
 
 @Component({
-    selector: 'app-forgot-password',
-    imports: [
-        CommonModule,
-        PageLayoutComponent,
-        FormsModule,
-        SimpleButtonComponent,
-        InputFieldComponent,
-        RouterModule,
-        LoadingSpinnerComponent,
-    ],
-    templateUrl: './forgot-password-page.html'
+  selector: "app-forgot-password",
+  imports: [
+    PageLayoutComponent,
+    FormsModule,
+    SimpleButtonComponent,
+    InputFieldComponent,
+    RouterModule,
+    LoadingSpinnerComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./forgot-password-page.html",
 })
 export class ForgotPasswordComponent {
+  private accountsApiService = inject(AccountsApiService);
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+
   InputType = InputType;
-  username: string = '';
+  username: string = "";
 
   // After first submission attempt, form validation will start
   submitted = false;
@@ -32,15 +39,9 @@ export class ForgotPasswordComponent {
   success = false;
   // Error flag
   error = false;
-  errorMessage = '';
+  errorMessage = "";
 
   isLoading = false;
-
-  constructor(
-    private accountsApiService: AccountsApiService,
-    private router: Router,
-    private errorService: ErrorService
-  ) {}
 
   /**
    * Form validation will start after the method is called, additionally a password reset request will be sent
@@ -54,7 +55,7 @@ export class ForgotPasswordComponent {
     if (this.username && this.username.trim().length > 0) {
       this.initiatePasswordReset(this.username);
     } else {
-      console.error('Invalid input');
+      console.error("Invalid input");
     }
   }
 
@@ -77,7 +78,7 @@ export class ForgotPasswordComponent {
         // (don't want to leak information about whether username exists)
         this.success = true;
         this.error = false;
-        console.error('Password reset request error:', error);
+        console.error("Password reset request error:", error);
         this.errorService.printErrorResponse(error);
       },
     });

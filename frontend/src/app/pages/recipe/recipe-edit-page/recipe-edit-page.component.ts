@@ -1,28 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { EditRecipeComponent } from '../recipe-edit/recipe-edit.component';
-import { ActivatedRoute } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { Observable, tap } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import {RecipeCreateEditDto, RecipeDto, RecipesApiService} from "../../../../generated";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
+import { EditRecipeComponent } from "../recipe-edit/recipe-edit.component";
+import { ActivatedRoute } from "@angular/router";
+
+import { Observable, tap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import {
+  RecipeCreateEditDto,
+  RecipeDto,
+  RecipesApiService,
+} from "../../../../generated";
 
 @Component({
-    selector: 'app-recipe-edit-page',
-    imports: [EditRecipeComponent, NgIf],
-    templateUrl: './recipe-edit-page.component.html'
+  selector: "app-recipe-edit-page",
+  imports: [EditRecipeComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./recipe-edit-page.component.html",
 })
 export class RecipeEditPageComponent implements OnInit {
-  recipeId: number | undefined;
+  private route = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private recipesApiService = inject(RecipesApiService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    private recipesApiService: RecipesApiService
-  ) {}
+  recipeId: number | undefined;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.recipeId = +params['id'];
+      this.recipeId = +params["id"];
     });
   }
 
@@ -34,9 +42,9 @@ export class RecipeEditPageComponent implements OnInit {
     return this.recipesApiService.getRecipeById(this.recipeId!);
   }
 
-  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<any> {
+  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<unknown> {
     return this.recipesApiService
       .editRecipeById(this.recipeId!, recipeEdit)
-      .pipe(tap((next) => this.toastr.success('Recipe updated.')));
+      .pipe(tap((next) => this.toastr.success("Recipe updated.")));
   }
 }

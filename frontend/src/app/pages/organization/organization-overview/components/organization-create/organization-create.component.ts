@@ -1,55 +1,76 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { OrganizationCreateDto, OrganizationsApiService } from '../../../../../../generated';
-import { InputFieldComponent, InputType } from '../../../../../components/Input/InputField';
-import { ButtonVariant, SimpleButtonComponent } from '../../../../../components/Button/SimpleButton';
-import { ErrorService } from '../../../../../globals/error.service';
-import { ToastrService } from 'ngx-toastr';
-import { SimpleModalComponent } from '../../../../../components/Modal/SimpleModalComponent';
-import { TokenService } from '../../../../../security/token.service';
-import { MarkdownEditorComponent } from '../../../../../components/Markdown/MarkdownEditor/markdown-editor.component';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  output,
+} from "@angular/core";
+
+import { FormsModule } from "@angular/forms";
+import {
+  OrganizationCreateDto,
+  OrganizationsApiService,
+} from "../../../../../../generated";
+import {
+  InputFieldComponent,
+  InputType,
+} from "../../../../../components/Input/InputField";
+import {
+  ButtonVariant,
+  SimpleButtonComponent,
+} from "../../../../../components/Button/SimpleButton";
+import { ErrorService } from "../../../../../globals/error.service";
+import { ToastrService } from "ngx-toastr";
+import { SimpleModalComponent } from "../../../../../components/Modal/SimpleModalComponent";
+import { TokenService } from "../../../../../security/token.service";
+import { MarkdownEditorComponent } from "../../../../../components/Markdown/MarkdownEditor/markdown-editor.component";
 
 @Component({
-    selector: 'organization-create',
-    imports: [CommonModule, FormsModule, SimpleButtonComponent, InputFieldComponent, SimpleModalComponent, MarkdownEditorComponent],
-    templateUrl: './organization-create.component.html'
+  selector: "organization-create",
+  imports: [
+    FormsModule,
+    SimpleButtonComponent,
+    InputFieldComponent,
+    SimpleModalComponent,
+    MarkdownEditorComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./organization-create.component.html",
 })
 export class CreateOrganizationModalContentComponent {
-  @Output() organizationCreated = new EventEmitter<void>();
+  private organizationsApiService = inject(OrganizationsApiService);
+  private errorService = inject(ErrorService);
+  private toastr = inject(ToastrService);
+  private tokenService = inject(TokenService);
+
+  readonly organizationCreated = output<void>();
   InputType = InputType;
   ButtonVariant = ButtonVariant;
 
   organization: OrganizationCreateDto = {
-    name: '',
-    description: '',
+    name: "",
+    description: "",
   };
 
   isCreateOrganizationModalOpen: boolean = false;
 
-  constructor(
-    private organizationsApiService: OrganizationsApiService,
-    private errorService: ErrorService,
-    private toastr: ToastrService,
-    private tokenService: TokenService
-  ) {}
-
   onSubmit(): void {
-    this.organizationsApiService.createOrganization(this.organization).subscribe({
-      next: () => {
-        this.toastr.success('Organization created.');
-        this.tokenService.tryRefreshRoles();
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.organizationsApiService
+      .createOrganization(this.organization)
+      .subscribe({
+        next: () => {
+          this.toastr.success("Organization created.");
+          this.tokenService.tryRefreshRoles();
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   resetInputs(): void {
     this.organization = {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
     };
   }
 
@@ -71,6 +92,6 @@ export class CreateOrganizationModalContentComponent {
   }
 
   formIsValid(): boolean {
-    return this.organization.name?.trim() !== '';
+    return this.organization.name?.trim() !== "";
   }
 }

@@ -1,46 +1,70 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { PageLayoutComponent } from '../../../components/Layout/PageLayout';
-import { SimpleModalComponent } from '../../../components/Modal/SimpleModalComponent';
-import { SimpleButtonComponent, ButtonVariant } from '../../../components/Button/SimpleButton';
-import { SearchInputComponent } from '../../../components/Input/SearchInput';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { InputType } from '../../../components/Input/InputField';
-import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../../../components/LoadingSpinner/LoadingSpinner';
-import { PaginationControlsComponent } from '../../../components/Pagination/PaginationControls';
-import { ToastrService } from 'ngx-toastr';
-import { TokenService } from '../../../security/token.service';
-import { ErrorService } from '../../../globals/error.service';
-import { StringFormattingService } from '../../../service/string-formatting.service';
-import { RequestIngredientModalComponent } from '../components/request-ingredient-modal/request-ingredient-modal.component';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  inject,
+  viewChild,
+} from "@angular/core";
+import { PageLayoutComponent } from "../../../components/Layout/PageLayout";
+import { SimpleModalComponent } from "../../../components/Modal/SimpleModalComponent";
+import {
+  SimpleButtonComponent,
+  ButtonVariant,
+} from "../../../components/Button/SimpleButton";
+import { SearchInputComponent } from "../../../components/Input/SearchInput";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { InputType } from "../../../components/Input/InputField";
+import { FormsModule } from "@angular/forms";
+import { LoadingSpinnerComponent } from "../../../components/LoadingSpinner/LoadingSpinner";
+import { PaginationControlsComponent } from "../../../components/Pagination/PaginationControls";
+import { ToastrService } from "ngx-toastr";
+import { TokenService } from "../../../security/token.service";
+import { ErrorService } from "../../../globals/error.service";
+import { StringFormattingService } from "../../../service/string-formatting.service";
+import { RequestIngredientModalComponent } from "../components/request-ingredient-modal/request-ingredient-modal.component";
 import {
   IngredientDto,
-  IngredientDtoWithCategory, IngredientListPaginatedDto,
+  IngredientDtoWithCategory,
+  IngredientListPaginatedDto,
   IngredientsApiService,
-  IngredientWithCategoryListPaginatedDto
+  IngredientWithCategoryListPaginatedDto,
 } from "../../../../generated";
 
 @Component({
-    selector: 'app-ingredients-management',
-    imports: [
-        PageLayoutComponent,
-        SimpleModalComponent,
-        SimpleButtonComponent,
-        SearchInputComponent,
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        LoadingSpinnerComponent,
-        PaginationControlsComponent,
-        RequestIngredientModalComponent,
-    ],
-    templateUrl: './ingredients-management.component.html'
+  selector: "app-ingredients-management",
+  imports: [
+    PageLayoutComponent,
+    SimpleModalComponent,
+    SimpleButtonComponent,
+    SearchInputComponent,
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    LoadingSpinnerComponent,
+    PaginationControlsComponent,
+    RequestIngredientModalComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  templateUrl: "./ingredients-management.component.html",
 })
 export class IngredientsManagementComponent implements OnInit {
-  @ViewChild('replacementSearchInput') replacementSearchInput!: SearchInputComponent;
-  @ViewChild('ownIngredientSearchInput') ownIngredientSearchInput!: SearchInputComponent;
-  @ViewChild('requestIngredientModalComponent') requestIngredientModalComponent!: RequestIngredientModalComponent;
+  private ingredientsApiService = inject(IngredientsApiService);
+  private toastr = inject(ToastrService);
+  private tokenService = inject(TokenService);
+  private errorService = inject(ErrorService);
+  private stringFormattingService = inject(StringFormattingService);
+
+  readonly replacementSearchInput = viewChild.required<SearchInputComponent>(
+    "replacementSearchInput",
+  );
+  readonly ownIngredientSearchInput = viewChild.required<SearchInputComponent>(
+    "ownIngredientSearchInput",
+  );
+  readonly requestIngredientModalComponent =
+    viewChild.required<RequestIngredientModalComponent>(
+      "requestIngredientModalComponent",
+    );
 
   ButtonVariant = ButtonVariant;
   InputType = InputType;
@@ -52,7 +76,8 @@ export class IngredientsManagementComponent implements OnInit {
   isReplaceIngredientModalOpen: boolean = false;
   isRejectIngredientModalOpen: boolean = false;
 
-  selectedIngredient: IngredientDtoWithCategory = {} as IngredientDtoWithCategory;
+  selectedIngredient: IngredientDtoWithCategory =
+    {} as IngredientDtoWithCategory;
 
   ingredientsOptions: IngredientDto[] = [];
   ingredientsOptionsNames: string[] = [];
@@ -62,20 +87,12 @@ export class IngredientsManagementComponent implements OnInit {
   ingredientsOptionsNamesOwn: string[] = [];
 
   isRequestIngredientModalOpen: boolean = false;
-  requestedIngredientName: string = '';
-  requestedIngredientModalTitle: string = 'New Ingredient: ';
-  newIngredientBtnText: string = 'Create';
+  requestedIngredientName: string = "";
+  requestedIngredientModalTitle: string = "New Ingredient: ";
+  newIngredientBtnText: string = "Create";
 
   currentPage = 1;
   pageSize = 5;
-
-  constructor(
-    private ingredientsApiService: IngredientsApiService,
-    private toastr: ToastrService,
-    private tokenService: TokenService,
-    private errorService: ErrorService,
-    private stringFormattingService: StringFormattingService
-  ) {}
 
   ngOnInit(): void {
     this.fetchIngredientRequests();
@@ -83,24 +100,26 @@ export class IngredientsManagementComponent implements OnInit {
 
   fetchIngredientRequests(requestedPage: number = 1): void {
     this.currentPage = requestedPage;
-    this.ingredientsApiService.ingredientSuggestions(this.currentPage - 1, this.pageSize).subscribe({
-      next: (ingredientListPaginated) => {
-        console.log(ingredientListPaginated);
-        this.requestedIngredients = ingredientListPaginated;
-        this.isLoadingIngredientRequests = false;
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-        this.isLoadingIngredientRequests = false;
-      },
-    });
+    this.ingredientsApiService
+      .ingredientSuggestions(this.currentPage - 1, this.pageSize)
+      .subscribe({
+        next: (ingredientListPaginated) => {
+          console.log(ingredientListPaginated);
+          this.requestedIngredients = ingredientListPaginated;
+          this.isLoadingIngredientRequests = false;
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+          this.isLoadingIngredientRequests = false;
+        },
+      });
   }
 
   onPageChange(newPage: number): void {
     this.fetchIngredientRequests(newPage);
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }
 
@@ -120,50 +139,56 @@ export class IngredientsManagementComponent implements OnInit {
   }
 
   handleAcceptIngredientModalSubmit(): void {
-    this.ingredientsApiService.approveIngredient(this.selectedIngredient.id).subscribe({
-      next: (ingredient) => {
-        console.log(ingredient);
-        this.fetchIngredientRequests();
-        this.toastr.success('Ingredient accepted.');
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
-  }
-
-  handleReplaceIngredientModalSubmit(): void {
     this.ingredientsApiService
-      .replaceIngredient(this.selectedIngredient.id, { ingredientId: this.replacementIngredientId })
+      .approveIngredient(this.selectedIngredient.id)
       .subscribe({
         next: (ingredient) => {
           console.log(ingredient);
           this.fetchIngredientRequests();
-          this.toastr.success('Ingredient replaced.');
-          this.replacementSearchInput.resetSearch();
+          this.toastr.success("Ingredient accepted.");
         },
         error: (err) => {
           this.errorService.printErrorResponse(err);
-          this.replacementSearchInput.resetSearch();
+        },
+      });
+  }
+
+  handleReplaceIngredientModalSubmit(): void {
+    this.ingredientsApiService
+      .replaceIngredient(this.selectedIngredient.id, {
+        ingredientId: this.replacementIngredientId,
+      })
+      .subscribe({
+        next: (ingredient) => {
+          console.log(ingredient);
+          this.fetchIngredientRequests();
+          this.toastr.success("Ingredient replaced.");
+          this.replacementSearchInput().resetSearch();
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+          this.replacementSearchInput().resetSearch();
         },
       });
   }
 
   handleReplaceIngredientModalCancel(): void {
-    this.replacementSearchInput.resetSearch();
+    this.replacementSearchInput().resetSearch();
   }
 
   handleRejectIngredientModalSubmit(): void {
-    this.ingredientsApiService.deleteIngredient(this.selectedIngredient.id).subscribe({
-      next: (ingredient) => {
-        console.log(ingredient);
-        this.fetchIngredientRequests();
-        this.toastr.success('Ingredient rejected.');
-      },
-      error: (err) => {
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.ingredientsApiService
+      .deleteIngredient(this.selectedIngredient.id)
+      .subscribe({
+        next: (ingredient) => {
+          console.log(ingredient);
+          this.fetchIngredientRequests();
+          this.toastr.success("Ingredient rejected.");
+        },
+        error: (err) => {
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   formatString(input: string): string | undefined {
@@ -171,41 +196,51 @@ export class IngredientsManagementComponent implements OnInit {
   }
 
   searchIngredient(searchTerm: string) {
-    this.ingredientsApiService.searchIngredients(0, 5, undefined, searchTerm).subscribe({
-      next: (response: IngredientListPaginatedDto) => {
-        if (response.content) {
-          this.ingredientsOptions = response.content;
-          this.ingredientsOptionsNames = this.ingredientsOptions.map((ingredient) => ingredient.name);
-        } else {
-          this.ingredientsOptions = [];
-          this.ingredientsOptionsNames = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.ingredientsApiService
+      .searchIngredients(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: IngredientListPaginatedDto) => {
+          if (response.content) {
+            this.ingredientsOptions = response.content;
+            this.ingredientsOptionsNames = this.ingredientsOptions.map(
+              (ingredient) => ingredient.name,
+            );
+          } else {
+            this.ingredientsOptions = [];
+            this.ingredientsOptionsNames = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   searchIngredientOwn(searchTerm: string) {
-    this.ingredientsApiService.searchIngredients(0, 5, undefined, searchTerm).subscribe({
-      next: (response: IngredientListPaginatedDto) => {
-        if (response.content) {
-          this.ingredientsOptionsOwn = response.content;
-          this.ingredientsOptionsNamesOwn = this.ingredientsOptionsOwn.map((ingredient) => ingredient.name);
-        } else {
-          this.ingredientsOptionsOwn = [];
-          this.ingredientsOptionsNamesOwn = [];
-        }
-      },
-      error: (error) => {
-        this.errorService.printErrorResponse(error);
-      },
-    });
+    this.ingredientsApiService
+      .searchIngredients(0, 5, undefined, searchTerm)
+      .subscribe({
+        next: (response: IngredientListPaginatedDto) => {
+          if (response.content) {
+            this.ingredientsOptionsOwn = response.content;
+            this.ingredientsOptionsNamesOwn = this.ingredientsOptionsOwn.map(
+              (ingredient) => ingredient.name,
+            );
+          } else {
+            this.ingredientsOptionsOwn = [];
+            this.ingredientsOptionsNamesOwn = [];
+          }
+        },
+        error: (error) => {
+          this.errorService.printErrorResponse(error);
+        },
+      });
   }
 
   onIngredientSelected(selected: string) {
-    const selectedReplacementIngredient = this.ingredientsOptions.find((ingredient) => ingredient.name === selected);
+    const selectedReplacementIngredient = this.ingredientsOptions.find(
+      (ingredient) => ingredient.name === selected,
+    );
 
     if (selectedReplacementIngredient) {
       this.replacementIngredientId = selectedReplacementIngredient.id;
@@ -219,32 +254,37 @@ export class IngredientsManagementComponent implements OnInit {
   }
 
   onIngredientSelectedOwn(selected: string) {
-    if (selected !== '') {
-      this.toastr.error('There already exists an ingredient named: ' + selected + '.');
-      this.ownIngredientSearchInput.resetSearch();
+    if (selected !== "") {
+      this.toastr.error(
+        "There already exists an ingredient named: " + selected + ".",
+      );
+      this.ownIngredientSearchInput().resetSearch();
     }
   }
 
   onRequestIngredientSelected(selected: string) {
     this.isRequestIngredientModalOpen = true;
     this.requestedIngredientName = selected;
-    this.requestedIngredientModalTitle = 'New Ingredient: ' + '"' + this.requestedIngredientName + '"';
+    this.requestedIngredientModalTitle =
+      "New Ingredient: " + '"' + this.requestedIngredientName + '"';
   }
 
   handleRequestedIngredientModalSubmit(): void {
-    this.requestIngredientModalComponent.suggestIngredient().subscribe({
-      next: (ingredient) => {
-        this.toastr.success('Ingredient created.');
-        this.ownIngredientSearchInput.resetSearch();
-      },
-      error: (err) => {
-        this.ownIngredientSearchInput.resetSearch();
-        this.errorService.printErrorResponse(err);
-      },
-    });
+    this.requestIngredientModalComponent()
+      .suggestIngredient()
+      .subscribe({
+        next: (ingredient) => {
+          this.toastr.success("Ingredient created.");
+          this.ownIngredientSearchInput().resetSearch();
+        },
+        error: (err) => {
+          this.ownIngredientSearchInput().resetSearch();
+          this.errorService.printErrorResponse(err);
+        },
+      });
   }
 
   handleRequestedIngredientModalCancel(): void {
-    this.ownIngredientSearchInput.resetSearch();
+    this.ownIngredientSearchInput().resetSearch();
   }
 }
