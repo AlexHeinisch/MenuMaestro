@@ -1,0 +1,94 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: dev
+          POSTGRES_USER: db_user
+          POSTGRES_PASSWORD: u3iGTeLr
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U db_user -d dev"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.3"
+          cache: npm
+          cache-dependency-path: |
+            frontend/package-lock.json
+            e2e/package-lock.json
+
+      - name: Build application (includes Angular UI)
+        run: mvn clean package -DskipTests -DskipUnitTests -DskipIntegrationTests
+
+      - name: Start application
+        env:
+          # The mail health indicator (spring-boot-starter-mail is on the
+          # classpath) tries to reach the configured SMTP host and would
+          # otherwise keep /actuator/health DOWN forever in CI, where no real
+          # mail server is reachable.
+          MANAGEMENT_HEALTH_MAIL_ENABLED: "false"
+        run: |
+          nohup java -jar application/target/application-*.jar > app.log 2>&1 &
+          echo $! > app.pid
+
+      - name: Wait for application to become ready
+        run: |
+          curl --retry 30 --retry-delay 2 --retry-connrefused -sf http://localhost:8080/actuator/health
+
+      - name: Install Playwright
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        working-directory: e2e
+        env:
+          E2E_BASE_URL: http://localhost:8080/ui
+        run: npx playwright test
+
+      - name: Stop application
+        if: always()
+        run: kill "$(cat app.pid)" || true
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
+          retention-days: 14
+
+      - name: Upload application log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-log
+          path: app.log
+          retention-days: 14

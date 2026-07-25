@@ -16,6 +16,7 @@
     <div class="grid grid-cols-1 gap-4 rounded-lg">
       <input-field
         name="menu-name"
+        [id]="'menu-name'"
         [label]="'Name'"
         [type]="InputType.text"
         [(value)]="menu.name"
@@ -38,6 +39,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input-field
           name="menu-n-people"
+          [id]="'menu-n-people'"
           [label]="'Number of Participants'"
           [type]="InputType.number"
           [(value)]="menu.numberOfPeople"

@@ -25,3 +25,11 @@ mvn clean install -DskipUnitTests
 mvn clean install -DskipIntegrationTests
 mvn clean install -DskipTests
 ```
+
+## End-to-End Tests
+
+A Playwright suite covering the core user journeys (login, recipes, menus, meals,
+shopping lists) lives in [`e2e/`](e2e/README.md), run against the full stack (Postgres +
+backend + built Angular UI). See [`e2e/README.md`](e2e/README.md) for setup and how to
+run it locally; CI runs it on every push to `main` via
+[`.github/workflows/e2e.yml`](.github/workflows/e2e.yml).

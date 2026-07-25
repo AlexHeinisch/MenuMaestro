@@ -38,13 +38,15 @@ export class RecipeEditPageComponent implements OnInit {
     return `/recipes/${this.recipeId}`;
   }
 
-  fetchRecipeValueHandler(): Observable<RecipeDto> {
+  // Arrow functions: these are passed to <app-recipe-edit> as bare function
+  // references and invoked there, which would otherwise lose `this` binding.
+  fetchRecipeValueHandler = (): Observable<RecipeDto> => {
     return this.recipesApiService.getRecipeById(this.recipeId!);
-  }
+  };
 
-  editRecipeHandler(recipeEdit: RecipeCreateEditDto): Observable<unknown> {
+  editRecipeHandler = (recipeEdit: RecipeCreateEditDto): Observable<unknown> => {
     return this.recipesApiService
       .editRecipeById(this.recipeId!, recipeEdit)
       .pipe(tap((next) => this.toastr.success("Recipe updated.")));
-  }
+  };
 }

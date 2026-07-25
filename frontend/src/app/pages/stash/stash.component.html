@@ -106,12 +106,14 @@
                         class="px-6 py-4 whitespace-nowrap text-right flex justify-end space-x-2"
                       >
                         <simple-button
+                          [ariaLabel]="'Edit Stash Entry'"
                           (click)="openEditModal(entry.ingredient)"
                           [variant]="ButtonVariant.borderOnly"
                         >
                           <span class="icon-[material-symbols--edit]"></span>
                         </simple-button>
                         <simple-button
+                          [ariaLabel]="'Delete Stash Entry'"
                           (click)="deleteModalIngredient = entry.ingredient"
                           [variant]="ButtonVariant.borderOnly"
                         >

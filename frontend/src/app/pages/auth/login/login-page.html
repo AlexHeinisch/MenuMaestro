@@ -12,6 +12,7 @@
         <div class="flex flex-col mb-4">
           <input-field
             name="username"
+            [id]="'username'"
             [label]="'Username'"
             class="col-span-2"
             [className]="'w-full col-span-2'"
@@ -30,6 +31,7 @@
         <div class="flex flex-col mb-6">
           <input-field
             name="password"
+            [id]="'password'"
             [label]="'Password'"
             class="col-span-2"
             [className]="'w-full col-span-2'"
@@ -49,6 +51,7 @@
           </div>
         </div>
         <simple-button
+          data-testid="login-submit"
           className="w-full py-3 mt-2 font-semibold text-white rounded-lg"
           (click)="loginUser()"
         >

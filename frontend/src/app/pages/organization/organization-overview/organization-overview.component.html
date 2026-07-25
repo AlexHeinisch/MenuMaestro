@@ -23,6 +23,7 @@
                     <div class="flex flex-row space-x-2">
                       <div>
                         <simple-button
+                          [ariaLabel]="'Decline Invitation'"
                           (click)="declineInvitation($event, invitation.id)"
                           [variant]="ButtonVariant.borderOnly"
                         >
@@ -31,6 +32,7 @@
                       </div>
                       <div>
                         <simple-button
+                          [ariaLabel]="'Accept Invitation'"
                           (click)="acceptInvitation($event, invitation.id)"
                           [variant]="ButtonVariant.borderOnly"
                         >
