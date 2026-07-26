@@ -8,6 +8,15 @@
         <!-- Left Column: Meal Name and Author -->
         <div class="space-y-4 flex flex-col justify-center pb-4">
           <div class="bg-white rounded-lg flex flex-col">
+            <!-- Return to Menu -->
+            <simple-button
+              [variant]="ButtonVariant.borderOnly"
+              [routerLink]="'/menus/' + menuId"
+              [className]="'mb-4 self-start'"
+            >
+              <span class="icon-[mdi--arrow-back] mr-2"></span>
+              <span>Return to Menu</span>
+            </simple-button>
             <!-- Meal Name -->
             <h1 class="text-3xl">{{ mealDto.name || "Unknown Meal" }}</h1>
             <!-- Author's Name -->
